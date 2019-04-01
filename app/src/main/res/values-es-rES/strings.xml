@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">NUT4Health</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -9,12 +10,13 @@
 
 
     <!--Login-->
-    <string name="login">LOGIN</string>
-    <string name="email">Email</string>
-    <string name="password">Password</string>
-    <string name="sign_in">SIGN IN</string>
-    <string name="new_user">New user?</string>
-    <string name="sign_up">Sign Up</string>
-    <string name="terms_and_conditions">Terms and Conditions</string>
-    <string name="i_forgot_my_password">I forgot my password</string>
+    <string name="login">ENTRAR</string>
+    <string name="email">Correo</string>
+    <string name="password">Contraseña</string>
+    <string name="sign_in">ENTRAR</string>
+    <string name="new_user">¿Nuevo usuario?</string>
+    <string name="sign_up">Crear cuenta</string>
+    <string name="terms_and_conditions">Términos y Condiciones</string>
+    <string name="i_forgot_my_password">He olvidado mi contraseña</string>
+
 </resources>
