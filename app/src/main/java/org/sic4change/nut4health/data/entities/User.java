@@ -2,8 +2,6 @@ package org.sic4change.nut4health.data.entities;
 
 public class User {
 
-    private String id;
-
     private String email;
 
     private  String username;
@@ -18,12 +16,19 @@ public class User {
 
     private String photo;
 
-    public User(String id) {
-        this.id = id;
+    public User() {
+        this("","","","","","","");
     }
 
-    public User(String id, String email, String username, String name, String surname, String country, String countryCode, String photo) {
-        this.id = id;
+    public User(String email, String username) {
+        this(email, username, "", "", "", "", "");
+    }
+
+    public User(String email, String username, String name, String surname, String country, String countryCode) {
+        this(email, username, name, surname, country, countryCode, "");
+    }
+
+    public User(String email, String username, String name, String surname, String country, String countryCode, String photo) {
         this.email = email;
         this.username = username;
         this.name = name;
@@ -31,14 +36,6 @@ public class User {
         this.country = country;
         this.countryCode = countryCode;
         this.photo = photo;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getEmail() {

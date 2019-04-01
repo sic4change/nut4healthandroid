@@ -9,6 +9,7 @@ import com.google.firebase.firestore.Query;
 
 import org.sic4change.nut4health.data.entities.User;
 
+import java.net.UnknownServiceException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -70,7 +71,6 @@ public class DataRepository {
                 if ((queryDocumentSnapshots != null) && (queryDocumentSnapshots.getDocuments() != null)
                         && (queryDocumentSnapshots.getDocuments().size() > 0)) {
                     User user = queryDocumentSnapshots.getDocuments().get(0).toObject(User.class);
-                    //TODO; fallo al deserializar
                     Log.d(TAG, "Get user: " + user.getEmail());
                 } else {
                     Log.d(TAG, "Get user: " + "empty");
