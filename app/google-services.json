@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "1055399108789",
+    "firebase_url": "https://nut4health-830cc.firebaseio.com",
+    "project_id": "nut4health-830cc",
+    "storage_bucket": "nut4health-830cc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1055399108789:android:b3a49fa995729241",
+        "android_client_info": {
+          "package_name": "org.sic4change.nut4health"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1055399108789-697ufvu0cidhnv0n253060g53ci424md.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBkRFv6x3N13JH3g2npAWbiqf649MJLeSY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
