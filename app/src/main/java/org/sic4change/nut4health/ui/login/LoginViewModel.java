@@ -24,4 +24,7 @@ public class LoginViewModel extends ViewModel {
         mRepository.login(email, password);
     }
 
+    public void resetPassword(String email) {
+        mRepository.resetPassword(email);
+    }
 }

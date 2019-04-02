@@ -18,6 +18,12 @@
     <string name="terms_and_conditions">Terms and Conditions</string>
     <string name="i_forgot_my_password">I forgot my password</string>
 
+    <!--Create Account-->
+    <string name="createAccount">CREATE ACCOUNT</string>
+    <string name="username">Username</string>
+    <string name="repeat_password">Repeat password</string>
+    <string name="sign_up_uppercase">SIGN UP</string>
+
     <!--Error user login/create account-->
     <string name="mandatory_field">Mandatory unfilled fields</string>
     <string name="invalid_email">Invalid email</string>

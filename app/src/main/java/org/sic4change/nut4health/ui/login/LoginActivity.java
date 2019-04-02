@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.arch.lifecycle.ViewModelProviders;
 import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.data.entities.User;
+import org.sic4change.nut4health.ui.create_account.CreateAccountActivity;
 import org.sic4change.nut4health.ui.main.MainActivity;
 import org.sic4change.nut4health.utils.Nut4HealthKeyboard;
 import org.sic4change.nut4health.utils.Nut4HealthVibrator;
@@ -128,6 +129,30 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    public void resetPassword(View view) {
+        if (!NotEmptyValidator.isValid(etEmail.getText())) {
+            Nut4HealthVibrator.vibrateError(getApplicationContext());
+            Nut4HealthSnackbar.showError(getApplicationContext(), findViewById(R.id.lyLogin), getResources().getString(R.string.mandatory_field));
+            if (!NotEmptyValidator.isValid(etEmail.getText())) {
+                etEmail.requestFocus();
+            } else {
+                etPassword.requestFocus();
+            }
+        } else {
+            if (EmailValidator.isValidEmail(etEmail.getText())) {
+                mLoginViewModel.resetPassword(etEmail.getText().toString());
+            } else {
+                Nut4HealthVibrator.vibrateError(getApplicationContext());
+                Nut4HealthSnackbar.showError(getApplicationContext(), findViewById(R.id.lyLogin), getResources().getString(R.string.invalid_email));
+            }
+        }
+    }
+
+    public void goToCreateAccount(View view) {
+        Intent intent = new Intent(this, CreateAccountActivity.class);
+        startActivity(intent);
     }
 
 }

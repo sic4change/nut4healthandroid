@@ -106,4 +106,13 @@ public class DataRepository {
         }
     }
 
+    /**
+     * Method to reset pasword with firebase
+     * @param email
+     */
+    public void resetPassword(String email) {
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        auth.sendPasswordResetEmail(email);
+    }
+
 }

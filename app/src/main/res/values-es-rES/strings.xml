@@ -19,6 +19,12 @@
     <string name="terms_and_conditions">Términos y Condiciones</string>
     <string name="i_forgot_my_password">He olvidado mi contraseña</string>
 
+    <!--Create Account-->
+    <string name="createAccount">CREAR CUENTA</string>
+    <string name="username">Nombre de usuario</string>
+    <string name="repeat_password">Repite contraseña</string>
+    <string name="sign_up_uppercase">Crear cuenta</string>
+
     <!--Error user login/create account-->
     <string name="mandatory_field">Debe rellenar los campos obligatorios</string>
     <string name="invalid_email">Correo no válido</string>
