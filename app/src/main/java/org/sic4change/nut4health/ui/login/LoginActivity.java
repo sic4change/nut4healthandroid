@@ -30,7 +30,10 @@ public class LoginActivity extends AppCompatActivity {
     private EditText etPassword;
     private Button btnLogin;
     private TextView tvResetPassword;
+    private TextView tvTermsAndConditions;
     private LinearLayout lyCreateAccount;
+    private TextView tvNewUser;
+    private TextView tvSignUp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +41,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         initView();
+        enableView();
         LoginViewModelFactory loginViewModelFactory = LoginViewModelFactory.createFactory(this);
         mLoginViewModel = ViewModelProviders.of(this, loginViewModelFactory).get(LoginViewModel.class);
         mLoginViewModel.getUser().observe(this, this::hasUser);
@@ -48,29 +52,50 @@ public class LoginActivity extends AppCompatActivity {
         etPassword = findViewById(R.id.etPassword);
         btnLogin = findViewById(R.id.btnLogin);
         tvResetPassword = findViewById(R.id.tvResetPassword);
+        tvTermsAndConditions = findViewById(R.id.tvTermsAndConditions);
         lyCreateAccount = findViewById(R.id.lyCreateAccount);
+        tvNewUser = findViewById(R.id.tvNewUser);
+        tvSignUp = findViewById(R.id.tvSignUp);
     }
 
     private void hasUser(User user) {
-        //if ((!etPassword.getText().toString().isEmpty()) && (!etEmail.getText().toString().isEmpty())) {
-            if (user != null) {
-                if (user.isEmptyUser()) {
-                    Nut4HealthVibrator.vibrateError(getApplicationContext());
-                    Nut4HealthSnackbar.showError(getApplicationContext(), findViewById(R.id.lyLogin), getResources().getString(R.string.incorrect_user_or_password));
-                } else {
-                    cleanFields();
-                    goToMainActivity();
-                }
-            } /*else if (user == null) {
+        if (user != null) {
+            if (user.isEmptyUser()) {
                 Nut4HealthVibrator.vibrateError(getApplicationContext());
                 Nut4HealthSnackbar.showError(getApplicationContext(), findViewById(R.id.lyLogin), getResources().getString(R.string.incorrect_user_or_password));
-            }*/
-        //}
+            } else {
+                cleanFields();
+                goToMainActivity();
+            }
+        }
+        enableView();
     }
 
     private void cleanFields() {
-        etPassword.setText("");
         etEmail.setText("");
+        etPassword.setText("");
+    }
+
+    private void enableView() {
+        etPassword.setEnabled(true);
+        etEmail.setEnabled(true);
+        btnLogin.setEnabled(true);
+        btnLogin.setClickable(true);
+        tvResetPassword.setEnabled(true);
+        tvTermsAndConditions.setEnabled(true);
+        tvNewUser.setEnabled(true);
+        tvSignUp.setEnabled(true);
+    }
+
+    private void disableView() {
+        etPassword.setEnabled(false);
+        etEmail.setEnabled(false);
+        btnLogin.setEnabled(false);
+        btnLogin.setClickable(false);
+        tvResetPassword.setEnabled(false);
+        tvTermsAndConditions.setEnabled(false);
+        tvNewUser.setEnabled(false);
+        tvSignUp.setEnabled(false);
     }
 
     public void login(View view) {
@@ -86,6 +111,7 @@ public class LoginActivity extends AppCompatActivity {
             if (EmailValidator.isValidEmail(etEmail.getText())) {
                 if (PasswordValidator.isValid(getApplicationContext(), etPassword.getText().toString(), etPassword.getText().toString())) {
                     mLoginViewModel.login(etEmail.getText().toString().trim(), etPassword.getText().toString().trim());
+                    disableView();
                 } else {
                     Nut4HealthVibrator.vibrateError(getApplicationContext());
                     Nut4HealthSnackbar.showError(getApplicationContext(), findViewById(R.id.lyLogin), PasswordValidator.getErrors().get(0));
