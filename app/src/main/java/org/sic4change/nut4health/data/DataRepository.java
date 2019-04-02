@@ -2,9 +2,14 @@ package org.sic4change.nut4health.data;
 
 import android.arch.lifecycle.LiveData;
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.util.Log;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
@@ -113,6 +118,47 @@ public class DataRepository {
     public void resetPassword(String email) {
         FirebaseAuth auth = FirebaseAuth.getInstance();
         auth.sendPasswordResetEmail(email);
+    }
+
+    public void createUser(String email, String username, String password) {
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(mIoExecutor, task -> {
+            try {
+                if ((task != null) && (task.getResult() != null) && (task.getResult().getUser() != null)) {
+                    Log.d(TAG, "Create user correct with firebase auth");
+                    User user = new User(email, username);
+                    FirebaseFirestore db = FirebaseFirestore.getInstance();
+                    CollectionReference userRef = db.collection(DataUserNames.TABLE_FIREBASE_NAME);
+                    Query query = userRef.whereEqualTo(DataUserNames.COL_USERNAME, username).limit(1);
+                    query.addSnapshotListener(mIoExecutor, (queryDocumentSnapshots, e) -> {
+                        try {
+                            if ((queryDocumentSnapshots != null) && (queryDocumentSnapshots.getDocuments() != null)
+                                    && (queryDocumentSnapshots.getDocuments().size() > 0)) {
+                                Log.d(TAG, "Error user exist in firebase with the same username");
+                                nut4HealtDao.deleteAllUser();
+                                nut4HealtDao.insert(User.emptyUser);
+                            } else {
+                                userRef.add(user).addOnCompleteListener(mIoExecutor, task1 -> {
+                                    nut4HealtDao.deleteEmptyUser();
+                                    nut4HealtDao.insert(user);
+                                });
+                            }
+                        } catch (Exception error) {
+                            userRef.add(user).addOnCompleteListener(mIoExecutor, task1 -> {
+                                nut4HealtDao.deleteEmptyUser();
+                                nut4HealtDao.insert(user);
+                            });
+                        }
+                    });
+                } else {
+                    Log.d(TAG, "Error user exist in firebase incorrect with same email");
+                }
+            } catch (Exception e) {
+                Log.d(TAG, "Error user exist in firebase with same email");
+                nut4HealtDao.deleteAllUser();
+                nut4HealtDao.insert(User.emptyUser);
+            }
+        });
     }
 
 }

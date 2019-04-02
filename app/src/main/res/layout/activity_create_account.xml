@@ -197,7 +197,8 @@
                 android:layout_marginEnd="@dimen/margin_medium"
                 android:layout_marginRight="@dimen/margin_medium"
                 android:layout_marginTop="@dimen/margin_medium"
-                android:layout_marginBottom="@dimen/margin_medium"/>
+                android:layout_marginBottom="@dimen/margin_medium"
+                android:onClick="createAccount"/>
 
 
         </android.support.constraint.ConstraintLayout>

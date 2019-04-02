@@ -31,6 +31,7 @@
     <string name="password_matches">Contraseña y la confirmación de contraseña deben coincidir</string>
     <string name="password_length">Contraseña debe tener al menos 8 caracteres</string>
     <string name="incorrect_user_or_password">Usuario o contraseña incorrecta</string>
+    <string name="user_exist">Ya existe ese usuario registrado</string>
 
     <string name="no_internet">Comprueba tu conexion a Internet</string>
 
