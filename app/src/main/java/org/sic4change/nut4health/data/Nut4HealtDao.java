@@ -1,0 +1,28 @@
+package org.sic4change.nut4health.data;
+
+import android.arch.lifecycle.LiveData;
+import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Insert;
+import android.arch.persistence.room.OnConflictStrategy;
+import android.arch.persistence.room.Query;
+
+import org.sic4change.nut4health.data.entities.User;
+
+@Dao
+public interface Nut4HealtDao {
+
+    /**
+     * Returns a current user.
+     *
+     */
+    @Query("SELECT * FROM user LIMIT 1")
+    LiveData<User> getUser();
+
+    /**
+     * Insert a user
+     * @param user
+     */
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    void insert(User... user);
+
+}

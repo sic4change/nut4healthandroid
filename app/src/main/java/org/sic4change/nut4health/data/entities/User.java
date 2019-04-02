@@ -1,19 +1,36 @@
 package org.sic4change.nut4health.data.entities;
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
+
+import org.sic4change.nut4health.data.names.DataUserNames;
+
+@Entity(tableName = "user")
 public class User {
 
+    @NonNull
+    @PrimaryKey
+    @ColumnInfo(name = DataUserNames.COL_EMAIL)
     private String email;
 
+    @ColumnInfo(name = DataUserNames.COL_USERNAME)
     private  String username;
 
+    @ColumnInfo(name = DataUserNames.COL_NAME)
     private String name;
 
+    @ColumnInfo(name = DataUserNames.COL_SURNAME)
     private String surname;
 
+    @ColumnInfo(name = DataUserNames.COL_COUNTRY)
     private String country;
 
+    @ColumnInfo(name = DataUserNames.COL_COUNTRYCODE)
     private String countryCode;
 
+    @ColumnInfo(name = DataUserNames.COL_PHOTO)
     private String photo;
 
     public User() {
@@ -38,11 +55,12 @@ public class User {
         this.photo = photo;
     }
 
+    @NonNull
     public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(@NonNull String email) {
         this.email = email;
     }
 

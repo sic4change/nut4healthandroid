@@ -3,9 +3,14 @@ package org.sic4change.nut4health.data.names;
 public final class DataUserNames {
 
     /**
-     * Table name users
+     * Table name users in Firebase
      */
-    public static final String TABLE_NAME = "users";
+    public static final String TABLE_FIREBASE_NAME = "users";
+
+    /**
+     * Table name user local
+     */
+    public static final String TABLE_NAME = "user";
 
     /**
      * Column name for User email

@@ -1,6 +1,7 @@
 package org.sic4change.nut4health.ui.login;
 
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.WindowManager;
@@ -10,6 +11,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.arch.lifecycle.ViewModelProviders;
 import org.sic4change.nut4health.R;
+import org.sic4change.nut4health.data.entities.User;
+import org.sic4change.nut4health.ui.main.MainActivity;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -31,6 +34,7 @@ public class LoginActivity extends AppCompatActivity {
         LoginViewModelFactory loginViewModelFactory = LoginViewModelFactory.createFactory(this);
         mLoginViewModel = ViewModelProviders.of(this, loginViewModelFactory).get(LoginViewModel.class);
         mLoginViewModel.isLogued().observe(this, this::hasLoggued);
+        mLoginViewModel.getUser().observe(this, this::hasUser);
     }
 
     private void initView() {
@@ -47,6 +51,20 @@ public class LoginActivity extends AppCompatActivity {
             //mostrar error
             return;
         }
+    }
+
+    private void hasUser(User user) {
+        if (user == null) {
+            //mostrar error
+            return;
+        }
+        goToMainActivity();
+    }
+
+    private void goToMainActivity() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
         finish();
     }
+
 }
