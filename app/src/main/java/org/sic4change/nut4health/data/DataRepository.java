@@ -8,6 +8,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
 import org.sic4change.nut4health.data.entities.User;
+import org.sic4change.nut4health.data.names.DataUserNames;
 
 import java.net.UnknownServiceException;
 import java.util.concurrent.ExecutorService;
@@ -64,8 +65,8 @@ public class DataRepository {
      */
     private void getUser(String email) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        CollectionReference userRef = db.collection("users");
-        Query query = userRef.whereEqualTo("email", email).limit(1);
+        CollectionReference userRef = db.collection(DataUserNames.TABLE_NAME);
+        Query query = userRef.whereEqualTo(DataUserNames.COL_EMAIL, email).limit(1);
         query.addSnapshotListener(mIoExecutor, (queryDocumentSnapshots, e) -> {
             try {
                 if ((queryDocumentSnapshots != null) && (queryDocumentSnapshots.getDocuments() != null)
