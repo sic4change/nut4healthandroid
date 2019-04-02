@@ -17,4 +17,13 @@
     <string name="sign_up">Sign Up</string>
     <string name="terms_and_conditions">Terms and Conditions</string>
     <string name="i_forgot_my_password">I forgot my password</string>
+
+    <!--Error user login/create account-->
+    <string name="mandatory_field">Mandatory unfilled fields</string>
+    <string name="invalid_email">Invalid email</string>
+    <string name="password_matches">Password and confirm password does not match!!</string>
+    <string name="password_length">Password length must have at least 8 character!!</string>
+    <string name="incorrect_user_or_password">User or password incorrect</string>
+
+    <string name="no_internet">Check your Internet connection</string>
 </resources>

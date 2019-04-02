@@ -33,8 +33,20 @@ public class User {
     @ColumnInfo(name = DataUserNames.COL_PHOTO)
     private String photo;
 
+    public static final String EMPTY_EMAIL = "empty@emtpy.com";
+
+    public static final User emptyUser = new User(EMPTY_EMAIL);
+
+    public boolean isEmptyUser() {
+        return getEmail().equals(EMPTY_EMAIL);
+    }
+
     public User() {
         this("","","","","","","");
+    }
+
+    public User(String email) {
+        this(email, "", "", "", "", "", "");
     }
 
     public User(String email, String username) {

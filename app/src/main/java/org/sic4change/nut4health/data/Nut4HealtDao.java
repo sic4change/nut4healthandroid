@@ -15,6 +15,13 @@ public interface Nut4HealtDao {
      * Returns a current user.
      *
      */
+    @Query("SELECT * FROM user WHERE email != 'empty@emtpy.com' LIMIT 1")
+    LiveData<User> getCurrentUser();
+
+    /**
+     * Returns a user (maybe user empty)
+     * @return
+     */
     @Query("SELECT * FROM user LIMIT 1")
     LiveData<User> getUser();
 
@@ -24,5 +31,17 @@ public interface Nut4HealtDao {
      */
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insert(User... user);
+
+    /**
+     * Delete all user
+     */
+    @Query("DELETE FROM user")
+    void deleteAllUser();
+
+    /**
+     * Delete all user
+     */
+    @Query("DELETE FROM user WHERE email == 'empty@emtpy.com'")
+    void deleteEmptyUser();
 
 }

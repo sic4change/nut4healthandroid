@@ -55,9 +55,13 @@ public class DataRepository {
                     getUser(email);
                     Log.d(TAG, "Login correct with firebase");
                 } else {
+                    nut4HealtDao.deleteAllUser();
+                    nut4HealtDao.insert(User.emptyUser);
                     Log.d(TAG, "Login incorrect with firebase");
                 }
             } catch (Exception e) {
+                nut4HealtDao.deleteAllUser();
+                nut4HealtDao.insert(User.emptyUser);
                 Log.d(TAG, "Login incorrect with firebase");
             }
         });
@@ -77,6 +81,7 @@ public class DataRepository {
                         && (queryDocumentSnapshots.getDocuments().size() > 0)) {
                     User user = queryDocumentSnapshots.getDocuments().get(0).toObject(User.class);
                     Log.d(TAG, "Get user from firebase: " + user.getEmail());
+                    nut4HealtDao.deleteEmptyUser();
                     nut4HealtDao.insert(user);
                     Log.d(TAG, "User inserted in local database : " + user.getEmail());
                 } else {
@@ -88,6 +93,10 @@ public class DataRepository {
         });
     }
 
+    /**
+     * Method to get user from local bd
+     * @return
+     */
     public LiveData<User> getUser() {
         try {
             return mIoExecutor.submit(() -> nut4HealtDao.getUser()).get();
