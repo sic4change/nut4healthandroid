@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.data.entities.User;
 import org.sic4change.nut4health.ui.login.LoginActivity;
+import org.sic4change.nut4health.ui.splash.SplashActivity;
 import org.sic4change.nut4health.utils.Nut4HealthVibrator;
 import org.sic4change.nut4health.utils.view.Nut4HealthSnackbar;
 
@@ -75,10 +76,16 @@ public class CreateAccountActivity extends AppCompatActivity {
                     Nut4HealthVibrator.vibrateError(getApplicationContext());
                     Nut4HealthSnackbar.showError(getApplicationContext(), findViewById(R.id.lyLogin), getResources().getString(R.string.user_exist));
                 } else {
-                    goToLoginActivity();
+                    goToSplashView();
                 }
             }
         }
 
+    }
+
+    private void goToSplashView() {
+        Intent intent = new Intent(this, SplashActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

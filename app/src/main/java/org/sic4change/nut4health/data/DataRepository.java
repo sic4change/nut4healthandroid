@@ -2,14 +2,10 @@ package org.sic4change.nut4health.data;
 
 import android.arch.lifecycle.LiveData;
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
@@ -61,12 +57,12 @@ public class DataRepository {
                     Log.d(TAG, "Login correct with firebase");
                 } else {
                     nut4HealtDao.deleteAllUser();
-                    nut4HealtDao.insert(User.emptyUser);
+                    nut4HealtDao.insert(User.userEmpty);
                     Log.d(TAG, "Login incorrect with firebase");
                 }
             } catch (Exception e) {
                 nut4HealtDao.deleteAllUser();
-                nut4HealtDao.insert(User.emptyUser);
+                nut4HealtDao.insert(User.userEmpty);
                 Log.d(TAG, "Login incorrect with firebase");
             }
         });
@@ -136,7 +132,7 @@ public class DataRepository {
                                     && (queryDocumentSnapshots.getDocuments().size() > 0)) {
                                 Log.d(TAG, "Error user exist in firebase with the same username");
                                 nut4HealtDao.deleteAllUser();
-                                nut4HealtDao.insert(User.emptyUser);
+                                nut4HealtDao.insert(User.userEmpty);
                             } else {
                                 userRef.add(user).addOnCompleteListener(mIoExecutor, task1 -> {
                                     nut4HealtDao.deleteEmptyUser();
@@ -156,7 +152,7 @@ public class DataRepository {
             } catch (Exception e) {
                 Log.d(TAG, "Error user exist in firebase with same email");
                 nut4HealtDao.deleteAllUser();
-                nut4HealtDao.insert(User.emptyUser);
+                nut4HealtDao.insert(User.userEmpty);
             }
         });
     }

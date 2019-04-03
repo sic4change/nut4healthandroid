@@ -33,31 +33,30 @@ public class User {
     @ColumnInfo(name = DataUserNames.COL_PHOTO)
     private String photo;
 
+    @ColumnInfo(name = DataUserNames.COL_EMPTY_USER)
+    private boolean emptyUser;
+
     public static final String EMPTY_EMAIL = "empty@emtpy.com";
 
-    public static final User emptyUser = new User(EMPTY_EMAIL);
-
-    public boolean isEmptyUser() {
-        return getEmail().equals(EMPTY_EMAIL);
-    }
+    public static final User userEmpty = new User(EMPTY_EMAIL);
 
     public User() {
-        this("","","","","","","");
+        this("","","","","","","", false);
     }
 
     public User(String email) {
-        this(email, "", "", "", "", "", "");
+        this(email, "", "", "", "", "", "", false);
     }
 
     public User(String email, String username) {
-        this(email, username, "", "", "", "", "");
+        this(email, username, "", "", "", "", "", false);
     }
 
-    public User(String email, String username, String name, String surname, String country, String countryCode) {
-        this(email, username, name, surname, country, countryCode, "");
+    public User(String email, String username, String name, String surname, String country, String countryCode, boolean emptyUser) {
+        this(email, username, name, surname, country, countryCode, "", emptyUser);
     }
 
-    public User(String email, String username, String name, String surname, String country, String countryCode, String photo) {
+    public User(String email, String username, String name, String surname, String country, String countryCode, String photo, boolean emptyUser) {
         this.email = email;
         this.username = username;
         this.name = name;
@@ -65,6 +64,7 @@ public class User {
         this.country = country;
         this.countryCode = countryCode;
         this.photo = photo;
+        this.emptyUser = emptyUser;
     }
 
     @NonNull
@@ -122,5 +122,13 @@ public class User {
 
     public void setPhoto(String photo) {
         this.photo = photo;
+    }
+
+    public boolean isEmptyUser() {
+        return emptyUser;
+    }
+
+    public void setEmptyUser(boolean emptyUser) {
+        this.emptyUser = emptyUser;
     }
 }

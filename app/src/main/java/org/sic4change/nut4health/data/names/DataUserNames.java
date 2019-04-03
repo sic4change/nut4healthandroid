@@ -13,12 +13,12 @@ public final class DataUserNames {
     public static final String TABLE_NAME = "user";
 
     /**
-     * Column name for User email
+     * Column email for User email
      */
     public static final String COL_EMAIL = "email";
 
     /**
-     * Column name for User username
+     * Column username for User username
      */
     public static final String COL_USERNAME = "username";
 
@@ -28,23 +28,28 @@ public final class DataUserNames {
     public static final String COL_NAME = "name";
 
     /**
-     * Column name for User surname
+     * Column surname for User surname
      */
     public static final String COL_SURNAME = "surname";
 
     /**
-     * Column name for User country
+     * Column country for User country
      */
     public static final String COL_COUNTRY = "country";
 
     /**
-     * Column name for User country code
+     * Column countryCode for User country code
      */
     public static final String COL_COUNTRYCODE = "countryCode";
 
     /**
-     * Column name for User photo
+     * Column photo for User photo
      */
     public static final String COL_PHOTO = "photo";
+
+    /**
+     * Column emptyUser for User photo
+     */
+    public static final String COL_EMPTY_USER = "emptyUser";
 
 }
