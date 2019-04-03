@@ -11,6 +11,8 @@ import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.ui.login.LoginActivity;
 import org.sic4change.nut4health.ui.main.MainActivity;
 
+import static maes.tech.intentanim.CustomIntent.customType;
+
 public class SplashActivity extends AppCompatActivity {
 
     private Activity activity;
@@ -52,6 +54,7 @@ public class SplashActivity extends AppCompatActivity {
             public void onFinish() {
                 Intent intent = new Intent(activity, MainActivity.class);
                 startActivity(intent);
+                customType(SplashActivity.this,"bottom-to-up");
                 finish();
             }
         }.start();
@@ -69,6 +72,7 @@ public class SplashActivity extends AppCompatActivity {
             public void onFinish() {
                 Intent intent = new Intent(activity, LoginActivity.class);
                 startActivity(intent);
+                customType(SplashActivity.this,"bottom-to-up");
                 finish();
             }
         }.start();

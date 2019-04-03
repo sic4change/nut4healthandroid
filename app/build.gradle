@@ -56,6 +56,9 @@ dependencies {
 
     //Circle imageview
     implementation 'de.hdodenhof:circleimageview:3.0.0'
+
+    //Animation between activities
+    implementation 'com.github.hajiyevelnur92:intentanimation:1.0'
 }
 
 apply plugin: 'com.google.gms.google-services'

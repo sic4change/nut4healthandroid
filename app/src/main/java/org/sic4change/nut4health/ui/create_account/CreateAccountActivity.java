@@ -23,6 +23,8 @@ import org.sic4change.nut4health.utils.validators.NotEmptyValidator;
 import org.sic4change.nut4health.utils.validators.PasswordValidator;
 import org.sic4change.nut4health.utils.view.Nut4HealthSnackbar;
 
+import static maes.tech.intentanim.CustomIntent.customType;
+
 public class CreateAccountActivity extends AppCompatActivity {
 
     private CreateAccountViewModel mCreateAccountViewModel;
@@ -72,6 +74,7 @@ public class CreateAccountActivity extends AppCompatActivity {
     private void goToLoginActivity() {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
+        customType(CreateAccountActivity.this,"right-to-left");
         finish();
     }
 
@@ -164,6 +167,7 @@ public class CreateAccountActivity extends AppCompatActivity {
     private void goToSplashView() {
         Intent intent = new Intent(this, SplashActivity.class);
         startActivity(intent);
+        customType(CreateAccountActivity.this,"fadein-to-fadeout");
         finish();
     }
 }

@@ -15,12 +15,15 @@ import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.data.entities.User;
 import org.sic4change.nut4health.ui.create_account.CreateAccountActivity;
 import org.sic4change.nut4health.ui.main.MainActivity;
+import org.sic4change.nut4health.ui.splash.SplashActivity;
 import org.sic4change.nut4health.utils.Nut4HealthKeyboard;
 import org.sic4change.nut4health.utils.Nut4HealthVibrator;
 import org.sic4change.nut4health.utils.validators.EmailValidator;
 import org.sic4change.nut4health.utils.validators.NotEmptyValidator;
 import org.sic4change.nut4health.utils.validators.PasswordValidator;
 import org.sic4change.nut4health.utils.view.Nut4HealthSnackbar;
+
+import static maes.tech.intentanim.CustomIntent.customType;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -125,6 +128,7 @@ public class LoginActivity extends AppCompatActivity {
     private void goToMainActivity() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+        customType(LoginActivity.this,"bottom-to-up");
         finish();
     }
 
@@ -150,6 +154,8 @@ public class LoginActivity extends AppCompatActivity {
     public void goToCreateAccount(View view) {
         Intent intent = new Intent(this, CreateAccountActivity.class);
         startActivity(intent);
+        customType(LoginActivity.this,"left-to-right");
+        finish();
     }
 
 }

@@ -37,4 +37,7 @@
 
     <string name="no_internet">Comprueba tu conexion a Internet</string>
 
+    <!--Main-->
+    <string name="close_question">Dale otra vez para cerrar</string>
+
 </resources>

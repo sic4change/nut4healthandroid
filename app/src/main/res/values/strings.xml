@@ -34,7 +34,8 @@
     <string name="user_exist">That registered user already exists</string>
     <string name="error_terms_and_conditios">You must agree to terms and conditions</string>
 
-
+    <!--Main-->
+    <string name="close_question">Click again to close</string>
 
 
 
