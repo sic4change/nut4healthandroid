@@ -59,6 +59,9 @@ dependencies {
 
     //Animation between activities
     implementation 'com.github.hajiyevelnur92:intentanimation:1.0'
+
+    //Error crash view
+    implementation 'cat.ereza:customactivityoncrash:2.2.0'
 }
 
 apply plugin: 'com.google.gms.google-services'

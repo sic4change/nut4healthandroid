@@ -37,7 +37,10 @@
     <!--Main-->
     <string name="close_question">Click again to close</string>
 
-
+    <!--Error View-->
+    <string name="error_general_one">An unexpected eror ocurred.</string>
+    <string name="error_general_two">Sorry for the inconvenience.</string>
+    <string name="error_general_three">Restarting App...</string>
 
     <string name="no_internet">Check your Internet connection</string>
 </resources>

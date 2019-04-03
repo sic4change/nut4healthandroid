@@ -35,9 +35,16 @@
     <string name="user_exist">Ya existe ese usuario registrado</string>
     <string name="error_terms_and_conditios">Debes aceptar los términos y condiciones</string>
 
-    <string name="no_internet">Comprueba tu conexion a Internet</string>
-
     <!--Main-->
     <string name="close_question">Dale otra vez para cerrar</string>
+
+    <!--Error View-->
+    <string name="error_general_one">Ha ocurrido un eror inesperado.</string>
+    <string name="error_general_two">Disculpa las molestias.</string>
+    <string name="error_general_three">Reiniciando la aplicación...</string>
+
+    <string name="no_internet">Comprueba tu conexion a Internet</string>
+
+
 
 </resources>
