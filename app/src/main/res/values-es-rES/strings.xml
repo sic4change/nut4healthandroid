@@ -24,6 +24,7 @@
     <string name="username">Nombre de usuario</string>
     <string name="repeat_password">Repite contraseña</string>
     <string name="sign_up_uppercase">Crear cuenta</string>
+    <string name="acept_terms_and_conditions">Acepto los términos y condiciones</string>
 
     <!--Error user login/create account-->
     <string name="mandatory_field">Debe rellenar los campos obligatorios</string>
@@ -32,6 +33,7 @@
     <string name="password_length">Contraseña debe tener al menos 8 caracteres</string>
     <string name="incorrect_user_or_password">Usuario o contraseña incorrecta</string>
     <string name="user_exist">Ya existe ese usuario registrado</string>
+    <string name="error_terms_and_conditios">Debes aceptar los términos y condiciones</string>
 
     <string name="no_internet">Comprueba tu conexion a Internet</string>
 

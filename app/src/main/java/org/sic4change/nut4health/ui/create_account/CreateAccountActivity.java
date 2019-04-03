@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -33,6 +34,7 @@ public class CreateAccountActivity extends AppCompatActivity {
     private EditText etRepeatPassword;
     private Button btnCreateAccount;
     private TextView tvTermsAndConditions;
+    private CheckBox cbTermsAndConditions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +62,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         etRepeatPassword = findViewById(R.id.etRepeatPassword);
         btnCreateAccount = findViewById(R.id.btnCreateAccount);
         tvTermsAndConditions = findViewById(R.id.tvTermsAndConditions);
+        cbTermsAndConditions = findViewById(R.id.cbTerms);
     }
 
     public void goToLoginView(View view) {
@@ -105,16 +108,15 @@ public class CreateAccountActivity extends AppCompatActivity {
                         etPassword.requestFocus();
                     }
                 } else {
-                    /*if (!rbTerms.isChecked()) {
+                    if (!cbTermsAndConditions.isChecked()) {
                         Nut4HealthVibrator.vibrateError(getApplicationContext());
                         Nut4HealthSnackbar.showError(getApplicationContext(), findViewById(R.id.lyCreateAccount), getResources().getString(R.string.error_terms_and_conditios));
                     } else {
                         Nut4HealthKeyboard.closeKeyboard(etEmail, getApplicationContext());
                         mCreateAccountViewModel.createUser(etEmail.getText().toString(), etUsername.getText().toString(), etRepeatPassword.getText().toString());
-                    }*/
-                    Nut4HealthKeyboard.closeKeyboard(etEmail, getApplicationContext());
-                    mCreateAccountViewModel.createUser(etEmail.getText().toString(), etUsername.getText().toString(), etRepeatPassword.getText().toString());
-                    disableView();
+                        disableView();
+                    }
+
                 }
             }
         }
@@ -143,6 +145,8 @@ public class CreateAccountActivity extends AppCompatActivity {
         btnCreateAccount.setEnabled(true);
         btnCreateAccount.setClickable(true);
         tvTermsAndConditions.setEnabled(true);
+        cbTermsAndConditions.setEnabled(true);
+        cbTermsAndConditions.setClickable(true);
     }
 
     private void disableView() {
@@ -153,6 +157,8 @@ public class CreateAccountActivity extends AppCompatActivity {
         btnCreateAccount.setEnabled(false);
         btnCreateAccount.setClickable(false);
         tvTermsAndConditions.setEnabled(false);
+        cbTermsAndConditions.setEnabled(false);
+        cbTermsAndConditions.setClickable(false);
     }
 
     private void goToSplashView() {

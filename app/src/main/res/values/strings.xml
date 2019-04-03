@@ -23,6 +23,7 @@
     <string name="username">Username</string>
     <string name="repeat_password">Repeat password</string>
     <string name="sign_up_uppercase">SIGN UP</string>
+    <string name="acept_terms_and_conditions">I accept the terms and conditions</string>
 
     <!--Error user login/create account-->
     <string name="mandatory_field">Mandatory unfilled fields</string>
@@ -31,6 +32,10 @@
     <string name="password_length">Password length must have at least 8 character!!</string>
     <string name="incorrect_user_or_password">User or password incorrect</string>
     <string name="user_exist">That registered user already exists</string>
+    <string name="error_terms_and_conditios">You must agree to terms and conditions</string>
+
+
+
 
 
     <string name="no_internet">Check your Internet connection</string>
