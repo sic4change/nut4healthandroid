@@ -27,7 +27,7 @@ public class SplashActivity extends AppCompatActivity {
         this.activity = this;
         SplashViewModelFactory splashViewModelFactory = SplashViewModelFactory.createFactory(this);
         mSplashViewModel = ViewModelProviders.of(this, splashViewModelFactory).get(SplashViewModel.class);
-        mSplashViewModel.getUser().observe(this, user -> {
+        mSplashViewModel.getCurrentUser().observe(this, user -> {
             if (user == null) {
                 goToLoginActivity();
             } else {

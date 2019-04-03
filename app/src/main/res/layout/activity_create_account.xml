@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/lyLogin"
+    android:id="@+id/lyCreateAccount"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.create_account.CreateAccountActivity">

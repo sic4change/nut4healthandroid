@@ -38,7 +38,7 @@ public class User {
 
     public static final String EMPTY_EMAIL = "empty@emtpy.com";
 
-    public static final User userEmpty = new User(EMPTY_EMAIL);
+    public static final User userEmpty = new User(EMPTY_EMAIL, "", "", "", "", "", true);
 
     public User() {
         this("","","","","","","", false);
@@ -131,4 +131,5 @@ public class User {
     public void setEmptyUser(boolean emptyUser) {
         this.emptyUser = emptyUser;
     }
+
 }

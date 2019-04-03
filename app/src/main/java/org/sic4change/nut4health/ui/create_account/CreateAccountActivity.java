@@ -9,12 +9,17 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.data.entities.User;
 import org.sic4change.nut4health.ui.login.LoginActivity;
 import org.sic4change.nut4health.ui.splash.SplashActivity;
+import org.sic4change.nut4health.utils.Nut4HealthKeyboard;
 import org.sic4change.nut4health.utils.Nut4HealthVibrator;
+import org.sic4change.nut4health.utils.validators.EmailValidator;
+import org.sic4change.nut4health.utils.validators.NotEmptyValidator;
+import org.sic4change.nut4health.utils.validators.PasswordValidator;
 import org.sic4change.nut4health.utils.view.Nut4HealthSnackbar;
 
 public class CreateAccountActivity extends AppCompatActivity {
@@ -27,6 +32,7 @@ public class CreateAccountActivity extends AppCompatActivity {
     private EditText etPassword;
     private EditText etRepeatPassword;
     private Button btnCreateAccount;
+    private TextView tvTermsAndConditions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +40,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_account);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         initView();
+        enableView();
         CreateAccountViewModelFactory createAccountViewModelFactory = CreateAccountViewModelFactory.createFactory(this);
         mCreateAccountViewModel = ViewModelProviders.of(this, createAccountViewModelFactory).get(CreateAccountViewModel.class);
         mCreateAccountViewModel.getUser().observe(this, this::hasUser);
@@ -52,6 +59,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         etPassword = findViewById(R.id.etPassword);
         etRepeatPassword = findViewById(R.id.etRepeatPassword);
         btnCreateAccount = findViewById(R.id.btnCreateAccount);
+        tvTermsAndConditions = findViewById(R.id.tvTermsAndConditions);
     }
 
     public void goToLoginView(View view) {
@@ -65,7 +73,51 @@ public class CreateAccountActivity extends AppCompatActivity {
     }
 
     public void createAccount(View view) {
-        mCreateAccountViewModel.createUser(etEmail.getText().toString(), etUsername.getText().toString(), etRepeatPassword.getText().toString());
+        if (!NotEmptyValidator.isValid(etEmail.getText()) || !NotEmptyValidator.isValid(etUsername.getText()) ||
+                !NotEmptyValidator.isValid(etPassword.getText()) || !NotEmptyValidator.isValid(etRepeatPassword.getText())) {
+            Nut4HealthVibrator.vibrateError(getApplicationContext());
+            Nut4HealthSnackbar.showError(getApplicationContext(), findViewById(R.id.lyCreateAccount), getResources().getString(R.string.mandatory_field));
+            if (!NotEmptyValidator.isValid(etEmail.getText())) {
+                etEmail.requestFocus();
+            } else if (!NotEmptyValidator.isValid(etUsername.getText())) {
+                etUsername.requestFocus();
+            } else if (!NotEmptyValidator.isValid(etPassword.getText())) {
+                etPassword.requestFocus();
+            } else if (!NotEmptyValidator.isValid(etRepeatPassword.getText())) {
+                etRepeatPassword.requestFocus();
+            }
+        } else {
+            if (!EmailValidator.isValidEmail(etEmail.getText())) {
+                Nut4HealthVibrator.vibrateError(getApplicationContext());
+                Nut4HealthSnackbar.showError(getApplicationContext(), findViewById(R.id.lyCreateAccount), getResources().getString(R.string.invalid_email));
+                if (!NotEmptyValidator.isValid(etEmail.getText())) {
+                    etEmail.requestFocus();
+                } else {
+                    etEmail.requestFocus();
+                }
+            } else {
+                if (!PasswordValidator.isValid(getApplicationContext(), etPassword.getText().toString(), etRepeatPassword.getText().toString())) {
+                    Nut4HealthVibrator.vibrateError(getApplicationContext());
+                    Nut4HealthSnackbar.showError(getApplicationContext(), findViewById(R.id.lyCreateAccount), PasswordValidator.getErrors().get(0));
+                    if (!NotEmptyValidator.isValid(etEmail.getText())) {
+                        etPassword.requestFocus();
+                    } else {
+                        etPassword.requestFocus();
+                    }
+                } else {
+                    /*if (!rbTerms.isChecked()) {
+                        Nut4HealthVibrator.vibrateError(getApplicationContext());
+                        Nut4HealthSnackbar.showError(getApplicationContext(), findViewById(R.id.lyCreateAccount), getResources().getString(R.string.error_terms_and_conditios));
+                    } else {
+                        Nut4HealthKeyboard.closeKeyboard(etEmail, getApplicationContext());
+                        mCreateAccountViewModel.createUser(etEmail.getText().toString(), etUsername.getText().toString(), etRepeatPassword.getText().toString());
+                    }*/
+                    Nut4HealthKeyboard.closeKeyboard(etEmail, getApplicationContext());
+                    mCreateAccountViewModel.createUser(etEmail.getText().toString(), etUsername.getText().toString(), etRepeatPassword.getText().toString());
+                    disableView();
+                }
+            }
+        }
     }
 
     private void hasUser(User user) {
@@ -74,13 +126,33 @@ public class CreateAccountActivity extends AppCompatActivity {
             if (user != null) {
                 if (user.isEmptyUser()) {
                     Nut4HealthVibrator.vibrateError(getApplicationContext());
-                    Nut4HealthSnackbar.showError(getApplicationContext(), findViewById(R.id.lyLogin), getResources().getString(R.string.user_exist));
+                    Nut4HealthSnackbar.showError(getApplicationContext(), findViewById(R.id.lyCreateAccount), getResources().getString(R.string.user_exist));
                 } else {
                     goToSplashView();
                 }
             }
+            enableView();
         }
+    }
 
+    private void enableView() {
+        etPassword.setEnabled(true);
+        etEmail.setEnabled(true);
+        etRepeatPassword.setEnabled(true);
+        etUsername.setEnabled(true);
+        btnCreateAccount.setEnabled(true);
+        btnCreateAccount.setClickable(true);
+        tvTermsAndConditions.setEnabled(true);
+    }
+
+    private void disableView() {
+        etPassword.setEnabled(false);
+        etEmail.setEnabled(false);
+        etRepeatPassword.setEnabled(false);
+        etUsername.setEnabled(false);
+        btnCreateAccount.setEnabled(false);
+        btnCreateAccount.setClickable(false);
+        tvTermsAndConditions.setEnabled(false);
     }
 
     private void goToSplashView() {

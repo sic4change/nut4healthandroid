@@ -60,21 +60,18 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void hasUser(User user) {
-        if (user != null) {
-            if (user.isEmptyUser()) {
-                Nut4HealthVibrator.vibrateError(getApplicationContext());
-                Nut4HealthSnackbar.showError(getApplicationContext(), findViewById(R.id.lyLogin), getResources().getString(R.string.incorrect_user_or_password));
-            } else {
-                cleanFields();
-                goToMainActivity();
+        if ((!etEmail.getText().toString().isEmpty()) &&
+                (!etPassword.getText().toString().isEmpty())) {
+            if (user != null) {
+                if (user.isEmptyUser()) {
+                    Nut4HealthVibrator.vibrateError(getApplicationContext());
+                    Nut4HealthSnackbar.showError(getApplicationContext(), findViewById(R.id.lyLogin), getResources().getString(R.string.incorrect_user_or_password));
+                } else {
+                    goToMainActivity();
+                }
             }
+            enableView();
         }
-        enableView();
-    }
-
-    private void cleanFields() {
-        etEmail.setText("");
-        etPassword.setText("");
     }
 
     private void enableView() {

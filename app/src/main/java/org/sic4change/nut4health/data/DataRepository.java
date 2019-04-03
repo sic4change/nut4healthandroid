@@ -3,10 +3,13 @@ package org.sic4change.nut4health.data;
 import android.arch.lifecycle.LiveData;
 import android.content.Context;
 import android.util.Log;
-
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
 
 import org.sic4change.nut4health.data.entities.User;
@@ -25,6 +28,8 @@ public class DataRepository {
     private Nut4HealtDao nut4HealtDao;
     private final ExecutorService mIoExecutor;
     private static volatile DataRepository sInstance = null;
+
+    private ListenerRegistration listenerRegistration;
 
     public static DataRepository getInstance(Context context) {
         if (sInstance == null) {
@@ -95,6 +100,19 @@ public class DataRepository {
     }
 
     /**
+     * Method to get current user from local bd
+     * @return
+     */
+    public LiveData<User> getCurrentUser() {
+        try {
+            return mIoExecutor.submit(() -> nut4HealtDao.getCurrentUser()).get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
      * Method to get user from local bd
      * @return
      */
@@ -126,13 +144,14 @@ public class DataRepository {
                     FirebaseFirestore db = FirebaseFirestore.getInstance();
                     CollectionReference userRef = db.collection(DataUserNames.TABLE_FIREBASE_NAME);
                     Query query = userRef.whereEqualTo(DataUserNames.COL_USERNAME, username).limit(1);
-                    query.addSnapshotListener(mIoExecutor, (queryDocumentSnapshots, e) -> {
+                    listenerRegistration = query.addSnapshotListener(mIoExecutor, (queryDocumentSnapshots, e) -> {
                         try {
                             if ((queryDocumentSnapshots != null) && (queryDocumentSnapshots.getDocuments() != null)
                                     && (queryDocumentSnapshots.getDocuments().size() > 0)) {
                                 Log.d(TAG, "Error user exist in firebase with the same username");
                                 nut4HealtDao.deleteAllUser();
                                 nut4HealtDao.insert(User.userEmpty);
+                                deleteAutenticatedUser(email, password);
                             } else {
                                 userRef.add(user).addOnCompleteListener(mIoExecutor, task1 -> {
                                     nut4HealtDao.deleteEmptyUser();
@@ -145,16 +164,30 @@ public class DataRepository {
                                 nut4HealtDao.insert(user);
                             });
                         }
+                        listenerRegistration.remove();
                     });
                 } else {
-                    Log.d(TAG, "Error user exist in firebase incorrect with same email");
+                    Log.d(TAG, "Error user exist in firebase with same email");
+                    nut4HealtDao.deleteAllUser();
+                    nut4HealtDao.insert(User.userEmpty);
                 }
             } catch (Exception e) {
-                Log.d(TAG, "Error user exist in firebase with same email");
+                Log.d(TAG, "Error create user in firebase: " + e.getMessage());
                 nut4HealtDao.deleteAllUser();
                 nut4HealtDao.insert(User.userEmpty);
             }
         });
+    }
+
+    public void deleteAutenticatedUser(String email, String password) {
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        AuthCredential credential = EmailAuthProvider.getCredential(email, password);
+        user.reauthenticate(credential)
+                .addOnCompleteListener(task -> user.delete().addOnCompleteListener(task1 -> {
+                    if (task1.isSuccessful()) {
+                        Log.d(TAG, "User account deleted.");
+                    }
+                }));
     }
 
 }

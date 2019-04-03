@@ -13,18 +13,11 @@ public class SplashViewModel extends ViewModel {
 
     public SplashViewModel(DataRepository repository) {
         this.mRepository = repository;
-        mUser = this.mRepository.getUser();
+        mUser = this.mRepository.getCurrentUser();
     }
 
-    public LiveData<User> getUser() {
+    public LiveData<User> getCurrentUser() {
         return mUser;
     }
 
-    public void login(String email, String password) {
-        mRepository.login(email, password);
-    }
-
-    public void resetPassword(String email) {
-        mRepository.resetPassword(email);
-    }
 }
