@@ -1,5 +1,6 @@
 package org.sic4change.nut4health.ui.main;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
@@ -10,14 +11,28 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+
 import org.sic4change.nut4health.R;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private boolean doubleBackToExitPressedOnce = false;
+
+    private NavigationView navigationView;
+    private LinearLayout lyHeader;
+    private TextView tvDrawerUsername;
+    private TextView tvDrawerEmail;
+    private CircleImageView ivUser;
+
+    private MainViewModel mMainViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,14 +47,33 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        initView();
+
+        MainViewModelFactory mainViewModelFactory = MainViewModelFactory.createFactory(this);
+        mMainViewModel = ViewModelProviders.of(this, mainViewModelFactory).get(MainViewModel.class);
+        mMainViewModel.getCurrentUser().observe(this, user -> {
+            if (user != null) {
+                tvDrawerEmail.setText(user.getEmail());
+                tvDrawerUsername.setText(user.getUsername());
+                Glide.with(getApplicationContext())
+                        .load(user.getPhoto())
+                        .into(ivUser);
+            }
+        });
+    }
+
+    private void initView() {
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        lyHeader = navigationView.getHeaderView(0).findViewById(R.id.lyHeader);
+        tvDrawerEmail = navigationView.getHeaderView(0).findViewById(R.id.tvDrawerEmail);
+        tvDrawerUsername = navigationView.getHeaderView(0).findViewById(R.id.tvDrawerUsername);
+        ivUser = navigationView.getHeaderView(0).findViewById(R.id.ivUser);
     }
 
     @Override
     public void onBackPressed() {
-        throw new RuntimeException("Boom!");
-        /*DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -56,34 +90,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     doubleBackToExitPressedOnce = false;
                 }
             }, 2000);
-        }*/
+        }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            // Handle the camera action
+
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
