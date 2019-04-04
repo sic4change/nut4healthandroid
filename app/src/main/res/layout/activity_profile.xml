@@ -34,7 +34,8 @@
     </LinearLayout>
 
 
-    <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/ivProfileUser"
         android:layout_width="80dp"
         android:layout_height="80dp"
@@ -46,7 +47,8 @@
         app:civ_border_color="@color/white"
         app:civ_border_width="0dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:onClick="changePhoto"/>
 
     <org.sic4change.nut4health.utils.view.Nut4HealthTextAwesome
         android:id="@+id/ivEditPhoto"
@@ -62,7 +64,8 @@
         android:gravity="center"
         android:textColor="@color/disabled_color"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        android:onClick="changePhoto"/>
 
     <ScrollView
         android:layout_width="match_parent"

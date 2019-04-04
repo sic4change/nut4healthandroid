@@ -20,5 +20,9 @@ public class ProfileViewModel extends ViewModel {
         return mUser;
     }
 
+    public void changePhoto(String email, String username, String urlPhoto) {
+        this.mRepository.changePhoto(email, username, urlPhoto);
+    }
+
 
 }

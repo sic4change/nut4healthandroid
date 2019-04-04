@@ -44,4 +44,10 @@ public interface Nut4HealtDao {
     @Query("DELETE FROM user WHERE email == 'empty@emtpy.com'")
     void deleteEmptyUser();
 
+    /**
+     * Update photo user
+     */
+    @Query("UPDATE user SET photo =:photo WHERE email=:email ")
+    void updatePhotoUser(String photo, String email);
+
 }

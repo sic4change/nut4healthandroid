@@ -2,7 +2,13 @@ package org.sic4change.nut4health.data;
 
 import android.arch.lifecycle.LiveData;
 import android.content.Context;
+import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.util.Log;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
@@ -11,14 +17,19 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import org.sic4change.nut4health.data.entities.User;
 import org.sic4change.nut4health.data.names.DataUserNames;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
 
 
 public class DataRepository {
@@ -29,7 +40,7 @@ public class DataRepository {
     private final ExecutorService mIoExecutor;
     private static volatile DataRepository sInstance = null;
 
-    private ListenerRegistration listenerRegistration;
+    private ListenerRegistration listenerQuery;
 
     public static DataRepository getInstance(Context context) {
         if (sInstance == null) {
@@ -144,7 +155,7 @@ public class DataRepository {
                     FirebaseFirestore db = FirebaseFirestore.getInstance();
                     CollectionReference userRef = db.collection(DataUserNames.TABLE_FIREBASE_NAME);
                     Query query = userRef.whereEqualTo(DataUserNames.COL_USERNAME, username).limit(1);
-                    listenerRegistration = query.addSnapshotListener(mIoExecutor, (queryDocumentSnapshots, e) -> {
+                    listenerQuery = query.addSnapshotListener(mIoExecutor, (queryDocumentSnapshots, e) -> {
                         try {
                             if ((queryDocumentSnapshots != null) && (queryDocumentSnapshots.getDocuments() != null)
                                     && (queryDocumentSnapshots.getDocuments().size() > 0)) {
@@ -164,7 +175,7 @@ public class DataRepository {
                                 nut4HealtDao.insert(user);
                             });
                         }
-                        listenerRegistration.remove();
+                        listenerQuery.remove();
                     });
                 } else {
                     Log.d(TAG, "Error user exist in firebase with same email");
@@ -188,6 +199,33 @@ public class DataRepository {
                         Log.d(TAG, "User account deleted.");
                     }
                 }));
+    }
+
+    public void changePhoto(String email, String username, String urlPhoto) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference userRef = db.collection(DataUserNames.TABLE_FIREBASE_NAME);
+        Query query = userRef.whereEqualTo(DataUserNames.COL_EMAIL, email).limit(1);
+        listenerQuery = query.addSnapshotListener(mIoExecutor, (queryDocumentSnapshots, e) -> {
+            try {
+                if ((queryDocumentSnapshots != null) && (queryDocumentSnapshots.getDocuments() != null)
+                        && (queryDocumentSnapshots.getDocuments().size() > 0)) {
+                    User user = queryDocumentSnapshots.getDocuments().get(0).toObject(User.class);
+                    FirebaseStorage storage = FirebaseStorage.getInstance();
+                    StorageReference storageRef = storage.getReference().child("avatars/" + username);
+                    storageRef.putFile(Uri.fromFile(new File(urlPhoto))).addOnSuccessListener(taskSnapshot -> storageRef.getDownloadUrl().addOnCompleteListener(mIoExecutor, task -> {
+                        user.setPhoto(task.getResult().toString());
+                        queryDocumentSnapshots.getDocuments().get(0).getReference().set(user);
+                        nut4HealtDao.updatePhotoUser(task.getResult().toString(), email);
+                        listenerQuery.remove();
+                    }));
+
+                } else {
+                    Log.d(TAG, "Get user from firebase: " + "empty");
+                }
+            } catch (Exception error) {
+                Log.d(TAG, "Get user: " + "empty");
+            }
+        });
     }
 
 }
