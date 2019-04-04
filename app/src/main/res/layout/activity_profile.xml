@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.profile.ProfileActivity">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_medium"
+        android:layout_marginLeft="@dimen/margin_medium"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="@+id/ivProfileUser"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/ivProfileUser">
+
+        <TextView
+            android:id="@+id/tvProfileUsername"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/nav_header_title"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/tvProfileEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/nav_header_subtitle" />
+
+    </LinearLayout>
+
+
+    <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/ivProfileUser"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="@dimen/margin_medium"
+        android:layout_marginEnd="@dimen/margin_medium"
+        android:layout_marginRight="@dimen/margin_medium"
+        android:contentDescription="@string/nav_header_desc"
+        android:paddingTop="@dimen/nav_header_vertical_spacing"
+        app:civ_border_color="@color/white"
+        app:civ_border_width="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <org.sic4change.nut4health.utils.view.Nut4HealthTextAwesome
+        android:id="@+id/ivEditPhoto"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:contentDescription="@string/nav_header_desc"
+        android:paddingTop="@dimen/nav_header_vertical_spacing"
+        android:text="@string/fa_camera"
+        android:textSize="40sp"
+        android:gravity="center"
+        android:textColor="@color/disabled_color"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/margin_card"
+        app:layout_constraintTop_toBottomOf="@+id/ivProfileUser"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <RelativeLayout
+                android:id="@+id/lyName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tvName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="@dimen/margin_medium"
+                    android:text="@string/edit_name"
+                    android:textSize="16sp" />
+
+                <org.sic4change.nut4health.utils.view.Nut4HealthTextAwesome
+                    android:id="@+id/ivEditName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/nav_header_desc"
+                    android:paddingTop="@dimen/nav_header_vertical_spacing"
+                    android:text="@string/fa_pencil"
+                    android:textSize="16sp"
+                    android:gravity="center"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:padding="@dimen/margin_medium"
+                    android:textColor="@color/colorPrimaryDark"/>
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="2dip"
+                android:background="@color/disabled_color"
+                android:layout_marginLeft="@dimen/margin_medium"
+                android:layout_marginRight="@dimen/margin_medium" />
+
+            <RelativeLayout
+                android:id="@+id/lySurname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tvSurname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="@dimen/margin_medium"
+                    android:text="@string/edit_surname"
+                    android:textSize="16sp" />
+
+                <org.sic4change.nut4health.utils.view.Nut4HealthTextAwesome
+                    android:id="@+id/ivEditSurname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/nav_header_desc"
+                    android:paddingTop="@dimen/nav_header_vertical_spacing"
+                    android:text="@string/fa_pencil"
+                    android:textSize="16sp"
+                    android:gravity="center"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:padding="@dimen/margin_medium"
+                    android:textColor="@color/colorPrimaryDark"/>
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="2dip"
+                android:background="@color/disabled_color"
+                android:layout_marginLeft="@dimen/margin_medium"
+                android:layout_marginRight="@dimen/margin_medium" />
+
+            <RelativeLayout
+                android:id="@+id/lyCountry"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tvCountry"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="@dimen/margin_medium"
+                    android:text="@string/edit_country"
+                    android:textSize="16sp" />
+
+                <org.sic4change.nut4health.utils.view.Nut4HealthTextAwesome
+                    android:id="@+id/ivEditCountry"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/nav_header_desc"
+                    android:paddingTop="@dimen/nav_header_vertical_spacing"
+                    android:text="@string/fa_pencil"
+                    android:textSize="16sp"
+                    android:gravity="center"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:padding="@dimen/margin_medium"
+                    android:textColor="@color/colorPrimaryDark"/>
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="2dip"
+                android:background="@color/disabled_color"
+                android:layout_marginLeft="@dimen/margin_medium"
+                android:layout_marginRight="@dimen/margin_medium" />
+
+            <RelativeLayout
+                android:id="@+id/lyLogout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tvLogout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="@dimen/margin_medium"
+                    android:text="@string/logout"
+                    android:textSize="16sp" />
+
+                <org.sic4change.nut4health.utils.view.Nut4HealthTextAwesome
+                    android:id="@+id/ivLogout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/nav_header_desc"
+                    android:paddingTop="@dimen/nav_header_vertical_spacing"
+                    android:text="@string/fa_sign_out"
+                    android:textSize="16sp"
+                    android:gravity="center"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:padding="@dimen/margin_medium"
+                    android:textColor="@color/colorPrimaryDark"/>
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="2dip"
+                android:background="@color/disabled_color"
+                android:layout_marginLeft="@dimen/margin_medium"
+                android:layout_marginRight="@dimen/margin_medium" />
+
+            <RelativeLayout
+                android:id="@+id/lyDeleteAccount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tvDeleteAccount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="@dimen/margin_medium"
+                    android:text="@string/delete_account"
+                    android:textSize="16sp" />
+
+                <org.sic4change.nut4health.utils.view.Nut4HealthTextAwesome
+                    android:id="@+id/ivDeleteAccount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/nav_header_desc"
+                    android:paddingTop="@dimen/nav_header_vertical_spacing"
+                    android:text="@string/fa_trash"
+                    android:textSize="16sp"
+                    android:gravity="center"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:padding="@dimen/margin_medium"
+                    android:textColor="@color/colorPrimaryDark"/>
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="2dip"
+                android:background="@color/disabled_color"
+                android:layout_marginLeft="@dimen/margin_medium"
+                android:layout_marginRight="@dimen/margin_medium" />
+
+            <RelativeLayout
+                android:id="@+id/lyTermsAndCoditions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tvTermsAndConditions"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="@dimen/margin_medium"
+                    android:text="@string/terms_and_conditions"
+                    android:textSize="16sp" />
+
+                <org.sic4change.nut4health.utils.view.Nut4HealthTextAwesome
+                    android:id="@+id/ivTermsAndConditions"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/nav_header_desc"
+                    android:paddingTop="@dimen/nav_header_vertical_spacing"
+                    android:text="@string/fa_file"
+                    android:textSize="16sp"
+                    android:gravity="center"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:padding="@dimen/margin_medium"
+                    android:textColor="@color/colorPrimaryDark"/>
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="2dip"
+                android:background="@color/disabled_color"
+                android:layout_marginLeft="@dimen/margin_medium"
+                android:layout_marginRight="@dimen/margin_medium" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+
+</android.support.constraint.ConstraintLayout>

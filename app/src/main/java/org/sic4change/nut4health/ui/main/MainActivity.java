@@ -1,6 +1,7 @@
 package org.sic4change.nut4health.ui.main;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -22,8 +23,11 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 
 import org.sic4change.nut4health.R;
+import org.sic4change.nut4health.ui.profile.ProfileActivity;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+
+import static maes.tech.intentanim.CustomIntent.customType;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, EmptyFragment.OnFragmentInteractionListener {
@@ -74,6 +78,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
         lyHeader = navigationView.getHeaderView(0).findViewById(R.id.lyHeader);
         lyHeader.setOnClickListener(v -> {
+            goToProfileActivity();
             /*Fragment fragment = new EmptyFragment();
             fragmentManager.beginTransaction()
                     .replace(R.id.lyMainContent, fragment)
@@ -150,5 +155,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onFragmentInteraction(Uri uri) {
 
+    }
+
+    public void goToProfileActivity() {
+        drawer.closeDrawer(GravityCompat.START);
+        Intent intent = new Intent(this, ProfileActivity.class);
+        startActivity(intent);
+        customType(MainActivity.this,"left-to-right");
+        finish();
     }
 }

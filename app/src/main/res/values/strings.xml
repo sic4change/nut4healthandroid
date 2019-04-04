@@ -42,7 +42,16 @@
     <string name="error_general_two">Sorry for the inconvenience.</string>
     <string name="error_general_three">Restarting App...</string>
 
-    <string name="no_internet">Check your Internet connection</string>
+    <!--Profile-->
+    <string name="profile">View and edit profile</string>
+    <string name="edit_name">Edit your name</string>
+    <string name="edit_surname">Edit your surname</string>
+    <string name="edit_country">Edit your country</string>
+    <string name="edit_password">Change your password</string>
+    <string name="logout">Logout</string>
+    <string name="delete_account">Delete account</string>
+
+    <string name="no_internet">Check your Internet Connection</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

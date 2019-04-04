@@ -43,6 +43,15 @@
     <string name="error_general_two">Disculpa las molestias.</string>
     <string name="error_general_three">Reiniciando la aplicación...</string>
 
+    <!--Profile-->
+    <string name="profile">Ver y editar perfil</string>
+    <string name="edit_name">Edita tu nombre</string>
+    <string name="edit_surname">Edita tus apellidos</string>
+    <string name="edit_country">Edita tu nacionalidad</string>
+    <string name="edit_password">Cambia tu contraseña</string>
+    <string name="logout">Cerrar sesión</string>
+    <string name="delete_account">Eliminar cuenta</string>
+
     <string name="no_internet">Comprueba tu conexion a Internet</string>
 
     <!-- TODO: Remove or change this placeholder text -->
