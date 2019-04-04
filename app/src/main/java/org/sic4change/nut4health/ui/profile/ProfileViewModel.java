@@ -24,5 +24,11 @@ public class ProfileViewModel extends ViewModel {
         this.mRepository.changePhoto(email, username, urlPhoto);
     }
 
+    public void updateName(String email, String name) {
+        this.mRepository.changeName(email, name);
+    }
 
+    public void updateSurname(String email, String surname) {
+        this.mRepository.changeSurname(email, surname);
+    }
 }

@@ -51,6 +51,8 @@
     <string name="edit_password">Cambia tu contraseña</string>
     <string name="logout">Cerrar sesión</string>
     <string name="delete_account">Eliminar cuenta</string>
+    <string name="ok">Aceptar</string>
+    <string name="cancel">Cancelar</string>
 
     <string name="no_internet">Comprueba tu conexion a Internet</string>
 

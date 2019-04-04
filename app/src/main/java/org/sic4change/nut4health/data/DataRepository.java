@@ -228,4 +228,48 @@ public class DataRepository {
         });
     }
 
+    public void changeName(String email, String name) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference userRef = db.collection(DataUserNames.TABLE_FIREBASE_NAME);
+        Query query = userRef.whereEqualTo(DataUserNames.COL_EMAIL, email).limit(1);
+        listenerQuery = query.addSnapshotListener(mIoExecutor, (queryDocumentSnapshots, e) -> {
+            try {
+                if ((queryDocumentSnapshots != null) && (queryDocumentSnapshots.getDocuments() != null)
+                        && (queryDocumentSnapshots.getDocuments().size() > 0)) {
+                    User user = queryDocumentSnapshots.getDocuments().get(0).toObject(User.class);
+                    user.setName(name);
+                    queryDocumentSnapshots.getDocuments().get(0).getReference().set(user);
+                    nut4HealtDao.updateNameUser(name, email);
+                    listenerQuery.remove();
+                } else {
+                    Log.d(TAG, "Get user from firebase: " + "empty");
+                }
+            } catch (Exception error) {
+                Log.d(TAG, "Get user: " + "empty");
+            }
+        });
+    }
+
+    public void changeSurname(String email, String surname) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference userRef = db.collection(DataUserNames.TABLE_FIREBASE_NAME);
+        Query query = userRef.whereEqualTo(DataUserNames.COL_EMAIL, email).limit(1);
+        listenerQuery = query.addSnapshotListener(mIoExecutor, (queryDocumentSnapshots, e) -> {
+            try {
+                if ((queryDocumentSnapshots != null) && (queryDocumentSnapshots.getDocuments() != null)
+                        && (queryDocumentSnapshots.getDocuments().size() > 0)) {
+                    User user = queryDocumentSnapshots.getDocuments().get(0).toObject(User.class);
+                    user.setSurname(surname);
+                    queryDocumentSnapshots.getDocuments().get(0).getReference().set(user);
+                    nut4HealtDao.updateSurnameUser(surname, email);
+                    listenerQuery.remove();
+                } else {
+                    Log.d(TAG, "Get user from firebase: " + "empty");
+                }
+            } catch (Exception error) {
+                Log.d(TAG, "Get user: " + "empty");
+            }
+        });
+    }
+
 }
