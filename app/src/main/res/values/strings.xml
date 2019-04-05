@@ -50,6 +50,8 @@
     <string name="edit_password">Change your password</string>
     <string name="logout">Logout</string>
     <string name="delete_account">Delete account</string>
+    <string name="ok">Ok</string>
+    <string name="cancel">Cancel</string>
 
     <string name="no_internet">Check your Internet Connection</string>
 
