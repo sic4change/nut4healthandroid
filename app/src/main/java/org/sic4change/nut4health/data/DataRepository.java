@@ -19,14 +19,11 @@ import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 
 import org.sic4change.nut4health.data.entities.User;
 import org.sic4change.nut4health.data.names.DataUserNames;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -145,6 +142,12 @@ public class DataRepository {
         auth.sendPasswordResetEmail(email);
     }
 
+    /**
+     * Method to create user
+     * @param email
+     * @param username
+     * @param password
+     */
     public void createUser(String email, String username, String password) {
         FirebaseAuth auth = FirebaseAuth.getInstance();
         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(mIoExecutor, task -> {
@@ -190,6 +193,11 @@ public class DataRepository {
         });
     }
 
+    /**
+     * MEthod to delete autenticated user
+     * @param email
+     * @param password
+     */
     public void deleteAutenticatedUser(String email, String password) {
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         AuthCredential credential = EmailAuthProvider.getCredential(email, password);
@@ -201,6 +209,12 @@ public class DataRepository {
                 }));
     }
 
+    /**
+     * Method to change user avatar
+     * @param email
+     * @param username
+     * @param urlPhoto
+     */
     public void changePhoto(String email, String username, String urlPhoto) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference userRef = db.collection(DataUserNames.TABLE_FIREBASE_NAME);
