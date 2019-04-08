@@ -79,21 +79,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         lyHeader = navigationView.getHeaderView(0).findViewById(R.id.lyHeader);
         lyHeader.setOnClickListener(v -> {
             goToProfileActivity();
-            /*Fragment fragment = new EmptyFragment();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.lyMainContent, fragment)
-                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                    .addToBackStack(null)
-                    .commit();
-            drawer.closeDrawer(GravityCompat.START);*/
-
-            //Ir a profile activity
-
-
         });
         tvDrawerEmail = navigationView.getHeaderView(0).findViewById(R.id.tvDrawerEmail);
         tvDrawerUsername = navigationView.getHeaderView(0).findViewById(R.id.tvDrawerUsername);
         ivUser = navigationView.getHeaderView(0).findViewById(R.id.ivUser);
+        this.navigationView.setCheckedItem(R.id.nav_ranking);
     }
 
     @Override
@@ -129,17 +119,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
         Fragment fragment = new EmptyFragment();
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_ranking) {
 
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_help) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_contracts) {
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_diagnostics) {
 
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_help) {
 
         }
 
