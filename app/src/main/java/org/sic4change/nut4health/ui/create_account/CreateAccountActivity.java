@@ -2,6 +2,7 @@ package org.sic4change.nut4health.ui.create_account;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -169,5 +170,12 @@ public class CreateAccountActivity extends AppCompatActivity {
         startActivity(intent);
         customType(CreateAccountActivity.this,"fadein-to-fadeout");
         finish();
+    }
+
+    public void showDialogTermsAndConditions(View view) {
+        String url = "https://www.sic4change.org/politica-de-privacidad";
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse(url));
+        startActivity(i);
     }
 }

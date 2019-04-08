@@ -4,8 +4,10 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,6 +21,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
+
 
 import org.sic4change.country_selector.CountryPicker;
 import org.sic4change.nut4health.R;
@@ -209,11 +212,18 @@ public class ProfileActivity extends AppCompatActivity {
         mProfileViewModel.logout();
     }
 
-    public void showDialogoToLogout(View view) {
+    public void showDialogToLogout(View view) {
         new AlertDialog.Builder(this)
                 .setTitle(R.string.logout_question)
                 .setPositiveButton(android.R.string.yes, (dialog, which) -> logout())
                 .setIcon(R.drawable.icon)
                 .show();
+    }
+
+    public void showDialogTermsAndConditions(View view) {
+        String url = "https://www.sic4change.org/politica-de-privacidad";
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse(url));
+        startActivity(i);
     }
 }

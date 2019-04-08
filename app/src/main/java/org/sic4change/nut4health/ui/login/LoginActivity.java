@@ -2,6 +2,7 @@ package org.sic4change.nut4health.ui.login;
 
 
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -156,6 +157,13 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
         customType(LoginActivity.this,"left-to-right");
         finish();
+    }
+
+    public void showDialogTermsAndConditions(View view) {
+        String url = "https://www.sic4change.org/politica-de-privacidad";
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse(url));
+        startActivity(i);
     }
 
 }

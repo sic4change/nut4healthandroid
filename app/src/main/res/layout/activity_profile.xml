@@ -243,7 +243,7 @@
                 android:id="@+id/lyLogout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:onClick="showDialogoToLogout">
+                android:onClick="showDialogToLogout">
 
                 <TextView
                     android:id="@+id/tvLogout"
@@ -317,7 +317,8 @@
             <RelativeLayout
                 android:id="@+id/lyTermsAndCoditions"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:onClick="showDialogTermsAndConditions">
 
                 <TextView
                     android:id="@+id/tvTermsAndConditions"
