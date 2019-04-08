@@ -31,4 +31,12 @@ public class ProfileViewModel extends ViewModel {
     public void updateSurname(String email, String surname) {
         this.mRepository.changeSurname(email, surname);
     }
+
+    public void updateCountry(String email, String country, String countryCode) {
+        this.mRepository.changeCountry(email, country, countryCode);
+    }
+
+    public void resetPassword(String email) {
+        mRepository.resetPassword(email);
+    }
 }

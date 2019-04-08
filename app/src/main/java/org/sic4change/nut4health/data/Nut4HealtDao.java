@@ -62,4 +62,16 @@ public interface Nut4HealtDao {
     @Query("UPDATE user SET surname =:surname WHERE email=:email ")
     void updateSurnameUser(String surname, String email);
 
+    /**
+     * Update country user
+     */
+    @Query("UPDATE user SET country =:country WHERE email=:email ")
+    void updateCountryUser(String country, String email);
+
+    /**
+     * Update country code user
+     */
+    @Query("UPDATE user SET countryCode =:countryCode WHERE email=:email ")
+    void updateCountryCodeUser(String countryCode, String email);
+
 }

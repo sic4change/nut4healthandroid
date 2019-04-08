@@ -1,11 +1,10 @@
 package org.sic4change.nut4health.ui.profile;
 
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.support.v4.app.NavUtils;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -20,9 +19,11 @@ import com.bumptech.glide.Glide;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
+import org.sic4change.country_selector.CountryPicker;
 import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.data.entities.User;
 import org.sic4change.nut4health.ui.main.MainActivity;
+import org.sic4change.nut4health.utils.view.Nut4HealthSnackbar;
 import org.sic4change.nut4health.utils.view.Nut4HealthTextAwesome;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -37,6 +38,7 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView tvEmail;
     private TextView tvName;
     private TextView tvSurname;
+    private TextView tvCountry;
     private CircleImageView ivUser;
     private Nut4HealthTextAwesome ivEditPhoto;
     private CircleImageView ivProfileUser;
@@ -76,6 +78,10 @@ public class ProfileActivity extends AppCompatActivity {
         if (user.getSurname() != null && !user.getSurname().isEmpty()) {
             tvSurname.setText(user.getSurname());
         }
+        if (user.getCountry() != null && !user.getCountry().isEmpty()
+            && user.getCountryCode() != null && !user.getCountryCode().isEmpty()) {
+            tvCountry.setText(user.getCountry() + ",(" +  user.getCountryCode() + ")");
+        }
     }
 
     private void initView() {
@@ -83,6 +89,7 @@ public class ProfileActivity extends AppCompatActivity {
         tvUsername = findViewById(R.id.tvProfileUsername);
         tvName = findViewById(R.id.tvName);
         tvSurname = findViewById(R.id.tvSurname);
+        tvCountry = findViewById(R.id.tvCountry);
         ivUser = findViewById(R.id.ivProfileUser);
         ivEditPhoto = findViewById(R.id.ivEditPhoto);
         ivProfileUser = findViewById(R.id.ivProfileUser);
@@ -168,5 +175,22 @@ public class ProfileActivity extends AppCompatActivity {
             mProfileViewModel.updateSurname(tvEmail.getText().toString(), input.getText().toString());
         });
         adb.show();
+    }
+
+    public void showDialogEditCountry(View view) {
+        CountryPicker picker = CountryPicker.getInstance("", (name, code) -> {
+            tvCountry.setText(name + ", (" + code + ")");
+            DialogFragment dialogFragment =
+                    (DialogFragment) getSupportFragmentManager().findFragmentByTag("CountryPicker");
+            mProfileViewModel.updateCountry(tvEmail.getText().toString(), name, code);
+            dialogFragment.dismiss();
+        });
+        picker.show(getSupportFragmentManager(), "CountryPicker");
+
+    }
+
+    public void showToastChangePassword(View view) {
+        mProfileViewModel.resetPassword(tvEmail.getText().toString());
+        Nut4HealthSnackbar.showError(getApplicationContext(), findViewById(R.id.lyProfile), getResources().getString(R.string.sent_instructions_to_change_password));
     }
 }

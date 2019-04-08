@@ -71,6 +71,10 @@ dependencies {
     //Image Cropper
     implementation 'com.theartofdev.edmodo:android-image-cropper:2.4.7'
 
+    //Country selector
+    implementation project(':country_selector')
+
+
 }
 
 apply plugin: 'com.google.gms.google-services'
