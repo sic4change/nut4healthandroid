@@ -6,9 +6,6 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
@@ -333,6 +330,35 @@ public class DataRepository {
         FirebaseAuth auth = FirebaseAuth.getInstance();
         auth.signOut();
         mIoExecutor.submit(() -> nut4HealtDao.deleteAllUser());
+    }
+
+    /**
+     * Method to remove account
+     * @param email
+     */
+    public void removeAccount(String email) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference userRef = db.collection(DataUserNames.TABLE_FIREBASE_NAME);
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        auth.getCurrentUser().delete();
+        Query query = userRef.whereEqualTo(DataUserNames.COL_EMAIL, email).limit(1);
+        listenerQuery = query.addSnapshotListener(mIoExecutor, (queryDocumentSnapshots, e) -> {
+            try {
+                if ((queryDocumentSnapshots != null) && (queryDocumentSnapshots.getDocuments() != null)
+                        && (queryDocumentSnapshots.getDocuments().size() > 0)) {
+                    User user = queryDocumentSnapshots.getDocuments().get(0).toObject(User.class);
+                    user.setEmail("anonymous" + queryDocumentSnapshots.getDocuments().get(0).getId() + "@anonymous.com");
+                    user.setUsername("anonymous" + queryDocumentSnapshots.getDocuments().get(0).getId());
+                    queryDocumentSnapshots.getDocuments().get(0).getReference().set(user);
+                    nut4HealtDao.deleteAllUser();
+                    listenerQuery.remove();
+                } else {
+                    Log.d(TAG, "Get user from firebase: " + "empty");
+                }
+            } catch (Exception error) {
+                Log.d(TAG, "Get user: " + "empty");
+            }
+        });
     }
 
 }

@@ -37,10 +37,14 @@ public class ProfileViewModel extends ViewModel {
     }
 
     public void resetPassword(String email) {
-        mRepository.resetPassword(email);
+        this.mRepository.resetPassword(email);
     }
 
     public void logout() {
-        mRepository.logout();
+        this.mRepository.logout();
+    }
+
+    public void removeAccount(String email) {
+        this.mRepository.removeAccount(email);
     }
 }

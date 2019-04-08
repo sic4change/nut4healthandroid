@@ -55,6 +55,8 @@
     <string name="search">Search...</string>
     <string name="sent_instructions_to_change_password">We have sent to your email instructions to change your password</string>
     <string name="logout_question">Are you sure you want to logout?</string>
+    <string name="delete_account_first_question">Are you sure you want to delete the account?</string>
+    <string name="delete_account_second_question">This removes all your data permanently, do you want to continue?</string>
 
     <string name="no_internet">Check your Internet Connection</string>
 

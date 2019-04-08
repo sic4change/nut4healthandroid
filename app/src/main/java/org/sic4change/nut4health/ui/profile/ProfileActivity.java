@@ -1,13 +1,10 @@
 package org.sic4change.nut4health.ui.profile;
 
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.net.Uri;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -215,7 +212,7 @@ public class ProfileActivity extends AppCompatActivity {
     public void showDialogToLogout(View view) {
         new AlertDialog.Builder(this)
                 .setTitle(R.string.logout_question)
-                .setPositiveButton(android.R.string.yes, (dialog, which) -> logout())
+                .setPositiveButton(R.string.ok, (dialog, which) -> logout())
                 .setIcon(R.drawable.icon)
                 .show();
     }
@@ -226,4 +223,25 @@ public class ProfileActivity extends AppCompatActivity {
         i.setData(Uri.parse(url));
         startActivity(i);
     }
+
+    public void showDialogRemoveAccount(View view) {
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.delete_account_first_question)
+                .setPositiveButton(R.string.ok, (dialog, which) -> showDialogRemoveAccountSecondQuestion())
+                .setIcon(R.drawable.icon)
+                .show();
+    }
+
+    private void showDialogRemoveAccountSecondQuestion() {
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.delete_account_second_question)
+                .setPositiveButton(R.string.ok, (dialog, which) -> removeAccount())
+                .setIcon(R.drawable.icon)
+                .show();
+    }
+
+    public void removeAccount() {
+        mProfileViewModel.removeAccount(tvEmail.getText().toString());
+    }
+
 }

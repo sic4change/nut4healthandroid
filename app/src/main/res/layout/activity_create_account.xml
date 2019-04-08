@@ -17,26 +17,6 @@
         app:layout_constraintBottom_toTopOf="@id/cardView"/>
 
 
-    <!--<de.hdodenhof.circleimageview.CircleImageView
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/ivIcon"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="@dimen/margin_card"
-        android:layout_marginLeft="@dimen/margin_card"
-        android:layout_marginEnd="@dimen/margin_card"
-        android:layout_marginRight="@dimen/margin_card"
-        android:layout_marginBottom="@dimen/margin_card"
-        android:layout_marginTop="@dimen/margin_card"
-        android:src="@drawable/icon"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/cardView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:civ_border_width="0dp"
-        app:civ_border_color="@color/white"/>-->
-
-
     <android.support.v7.widget.CardView
         android:id="@+id/cardView"
         android:layout_width="0dp"
@@ -213,7 +193,6 @@
                 android:layout_marginTop="@dimen/margin_medium"
                 android:layout_marginBottom="@dimen/margin_medium"
                 android:onClick="createAccount"/>
-
 
         </android.support.constraint.ConstraintLayout>
 
