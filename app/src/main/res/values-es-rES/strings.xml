@@ -55,6 +55,7 @@
     <string name="cancel">Cancelar</string>
     <string name="search">Buscar...</string>
     <string name="sent_instructions_to_change_password">Hemos enviado a tu correo las instrucciones para cambiar la contraseña</string>
+    <string name="logout_question">¿Estás seguro que quieres salir?</string>
 
     <string name="no_internet">Comprueba tu conexion a Internet</string>
 

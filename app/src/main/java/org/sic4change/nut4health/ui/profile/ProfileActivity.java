@@ -1,6 +1,7 @@
 package org.sic4change.nut4health.ui.profile;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -22,6 +23,7 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 import org.sic4change.country_selector.CountryPicker;
 import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.data.entities.User;
+import org.sic4change.nut4health.ui.login.LoginActivity;
 import org.sic4change.nut4health.ui.main.MainActivity;
 import org.sic4change.nut4health.utils.view.Nut4HealthSnackbar;
 import org.sic4change.nut4health.utils.view.Nut4HealthTextAwesome;
@@ -57,6 +59,8 @@ public class ProfileActivity extends AppCompatActivity {
         mProfileViewModel.getCurrentUser().observe(this, user -> {
             if (user != null) {
                 showProfileData(user);
+            } else {
+                goToLoginActivity();
             }
         });
     }
@@ -192,5 +196,24 @@ public class ProfileActivity extends AppCompatActivity {
     public void showToastChangePassword(View view) {
         mProfileViewModel.resetPassword(tvEmail.getText().toString());
         Nut4HealthSnackbar.showError(getApplicationContext(), findViewById(R.id.lyProfile), getResources().getString(R.string.sent_instructions_to_change_password));
+    }
+
+    private void goToLoginActivity() {
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+        customType(this,"right-to-left");
+        finish();
+    }
+
+    public void logout() {
+        mProfileViewModel.logout();
+    }
+
+    public void showDialogoToLogout(View view) {
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.logout_question)
+                .setPositiveButton(android.R.string.yes, (dialog, which) -> logout())
+                .setIcon(R.drawable.icon)
+                .show();
     }
 }

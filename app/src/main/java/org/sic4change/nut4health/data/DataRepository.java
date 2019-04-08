@@ -326,4 +326,13 @@ public class DataRepository {
         });
     }
 
+    /**
+     * Method to logout
+     */
+    public void logout() {
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        auth.signOut();
+        mIoExecutor.submit(() -> nut4HealtDao.deleteAllUser());
+    }
+
 }
