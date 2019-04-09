@@ -144,6 +144,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         } else {
             if (EmailValidator.isValidEmail(etEmail.getText())) {
+                Nut4HealthSnackbar.showError(getApplicationContext(), findViewById(R.id.lyLogin), getResources().getString(R.string.sent_instructions_to_change_password));
                 mLoginViewModel.resetPassword(etEmail.getText().toString());
             } else {
                 Nut4HealthVibrator.vibrateError(getApplicationContext());
