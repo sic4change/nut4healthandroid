@@ -35,11 +35,19 @@ public class PasswordValidator {
         boolean flag = true;
 
         if (!password.equals(passwordConfirmation)) {
-            errorList.add(context.getResources().getString(R.string.password_matches));
+            try {
+                errorList.add(context.getResources().getString(R.string.password_matches));
+            } catch (Exception e) {
+
+            }
             flag = false;
         }
         if (password.length() < 8) {
-            errorList.add(context.getResources().getString(R.string.password_length));
+            try {
+                errorList.add(context.getResources().getString(R.string.password_length));
+            } catch (Exception e) {
+
+            }
             flag = false;
         }
         /*if (!specialCharPatten.matcher(password).find()) {
