@@ -39,6 +39,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     private TextView tvUsername;
     private TextView tvEmail;
+    private TextView tvRole;
     private TextView tvName;
     private TextView tvSurname;
     private TextView tvCountry;
@@ -69,6 +70,7 @@ public class ProfileActivity extends AppCompatActivity {
     private void showProfileData(User user) {
         tvEmail.setText(user.getEmail());
         tvUsername.setText(user.getUsername());
+        tvRole.setText(user.getRole());
         if (user.getPhoto() != null && !user.getPhoto().isEmpty()) {
             Glide.with(getApplicationContext())
                     .load(user.getPhoto())
@@ -92,6 +94,7 @@ public class ProfileActivity extends AppCompatActivity {
     private void initView() {
         tvEmail = findViewById(R.id.tvProfileEmail);
         tvUsername = findViewById(R.id.tvProfileUsername);
+        tvRole = findViewById(R.id.tvRole);
         tvName = findViewById(R.id.tvName);
         tvSurname = findViewById(R.id.tvSurname);
         tvCountry = findViewById(R.id.tvCountry);

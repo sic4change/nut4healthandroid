@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private LinearLayout lyHeader;
     private TextView tvDrawerUsername;
     private TextView tvDrawerEmail;
+    private TextView tvDrawerRole;
     private CircleImageView ivUser;
 
     private MainViewModel mMainViewModel;
@@ -58,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             if (user != null) {
                 tvDrawerEmail.setText(user.getEmail());
                 tvDrawerUsername.setText(user.getUsername());
+                tvDrawerRole.setText(user.getRole());
                 Glide.with(getApplicationContext())
                         .load(user.getPhoto())
                         .into(ivUser);
@@ -82,6 +84,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
         tvDrawerEmail = navigationView.getHeaderView(0).findViewById(R.id.tvDrawerEmail);
         tvDrawerUsername = navigationView.getHeaderView(0).findViewById(R.id.tvDrawerUsername);
+        tvDrawerRole = navigationView.getHeaderView(0).findViewById(R.id.tvDrawerRole);
         ivUser = navigationView.getHeaderView(0).findViewById(R.id.ivUser);
         this.navigationView.setCheckedItem(R.id.nav_ranking);
     }
