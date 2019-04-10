@@ -22,9 +22,14 @@
     <!--Create Account-->
     <string name="createAccount">CREAR CUENTA</string>
     <string name="username">Nombre de usuario</string>
+    <string name="role">Rol</string>
     <string name="repeat_password">Repite contraseña</string>
     <string name="sign_up_uppercase">Crear cuenta</string>
     <string name="acept_terms_and_conditions">Acepto los términos y condiciones</string>
+    <string-array name="array_role">
+        <item>Screener</item>
+        <item>Facultativo</item>
+    </string-array>
 
     <!--Error user login/create account-->
     <string name="mandatory_field">Debe rellenar los campos obligatorios</string>

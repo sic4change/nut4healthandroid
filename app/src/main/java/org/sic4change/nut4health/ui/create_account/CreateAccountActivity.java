@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import org.sic4change.nut4health.R;
@@ -36,6 +37,7 @@ public class CreateAccountActivity extends AppCompatActivity {
     private EditText etUsername;
     private EditText etPassword;
     private EditText etRepeatPassword;
+    private Spinner spRole;
     private Button btnCreateAccount;
     private TextView tvTermsAndConditions;
     private CheckBox cbTermsAndConditions;
@@ -64,6 +66,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         etUsername = findViewById(R.id.etUsername);
         etPassword = findViewById(R.id.etPassword);
         etRepeatPassword = findViewById(R.id.etRepeatPassword);
+        spRole = findViewById(R.id.spRole);
         etRepeatPassword.setOnKeyListener((v, keyCode, event) -> {
             if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
                 createAccount();
@@ -125,7 +128,8 @@ public class CreateAccountActivity extends AppCompatActivity {
                         Nut4HealthSnackbar.showError(getApplicationContext(), findViewById(R.id.lyCreateAccount), getResources().getString(R.string.error_terms_and_conditios));
                     } else {
                         Nut4HealthKeyboard.closeKeyboard(etEmail, getApplicationContext());
-                        mCreateAccountViewModel.createUser(etEmail.getText().toString(), etUsername.getText().toString(), etRepeatPassword.getText().toString());
+                        mCreateAccountViewModel.createUser(etEmail.getText().toString(), etUsername.getText().toString(), etRepeatPassword.getText().toString(),
+                            spRole.getSelectedItem().toString());
                         disableView();
                     }
 

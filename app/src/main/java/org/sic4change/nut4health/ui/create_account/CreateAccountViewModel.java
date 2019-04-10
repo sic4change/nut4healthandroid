@@ -20,8 +20,8 @@ public class CreateAccountViewModel extends ViewModel {
         return mUser;
     }
 
-    public void createUser(String email, String username, String password) {
-        mRepository.createUser(email, username, password);
+    public void createUser(String email, String username, String password, String role) {
+        mRepository.createUser(email, username, password, role);
     }
 
 }

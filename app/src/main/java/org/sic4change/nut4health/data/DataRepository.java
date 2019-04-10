@@ -145,13 +145,13 @@ public class DataRepository {
      * @param username
      * @param password
      */
-    public void createUser(String email, String username, String password) {
+    public void createUser(String email, String username, String password, String role) {
         FirebaseAuth auth = FirebaseAuth.getInstance();
         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(mIoExecutor, task -> {
             try {
                 if ((task != null) && (task.getResult() != null) && (task.getResult().getUser() != null)) {
                     Log.d(TAG, "Create user correct with firebase auth");
-                    User user = new User(email, username);
+                    User user = new User(email, username, role);
                     FirebaseFirestore db = FirebaseFirestore.getInstance();
                     CollectionReference userRef = db.collection(DataUserNames.TABLE_FIREBASE_NAME);
                     Query query = userRef.whereEqualTo(DataUserNames.COL_USERNAME, username).limit(1);

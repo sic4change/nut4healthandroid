@@ -48,6 +48,11 @@ public final class DataUserNames {
     public static final String COL_PHOTO = "photo";
 
     /**
+     * Column photo for User role
+     */
+    public static final String COL_ROLE = "role";
+
+    /**
      * Column emptyUser for User photo
      */
     public static final String COL_EMPTY_USER = "emptyUser";

@@ -21,9 +21,14 @@
     <!--Create Account-->
     <string name="createAccount">CREATE ACCOUNT</string>
     <string name="username">Username</string>
+    <string name="role">Role</string>
     <string name="repeat_password">Repeat password</string>
     <string name="sign_up_uppercase">SIGN UP</string>
     <string name="acept_terms_and_conditions">I accept the terms and conditions</string>
+    <string-array name="array_role">
+        <item>Screener</item>
+        <item>Medical</item>
+    </string-array>
 
     <!--Error user login/create account-->
     <string name="mandatory_field">Mandatory unfilled fields</string>

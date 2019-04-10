@@ -33,30 +33,33 @@ public class User {
     @ColumnInfo(name = DataUserNames.COL_PHOTO)
     private String photo;
 
+    @ColumnInfo(name = DataUserNames.COL_ROLE)
+    private  String role;
+
     @ColumnInfo(name = DataUserNames.COL_EMPTY_USER)
     private boolean emptyUser;
 
     public static final String EMPTY_EMAIL = "empty@emtpy.com";
 
-    public static final User userEmpty = new User(EMPTY_EMAIL, "", "", "", "", "", true);
+    public static final User userEmpty = new User(EMPTY_EMAIL, "", "", "", "", "", "", true);
 
     public User() {
-        this("","","","","","","", false);
+        this("","","","","","","", "",false);
     }
 
     public User(String email) {
-        this(email, "", "", "", "", "", "", false);
+        this(email, "", "", "", "", "", "", "", false);
     }
 
-    public User(String email, String username) {
-        this(email, username, "", "", "", "", "", false);
+    public User(String email, String username, String role) {
+        this(email, username, "", "", "", "", "", role,false);
     }
 
-    public User(String email, String username, String name, String surname, String country, String countryCode, boolean emptyUser) {
-        this(email, username, name, surname, country, countryCode, "", emptyUser);
+    public User(String email, String username, String name, String surname, String country, String countryCode, String role, boolean emptyUser) {
+        this(email, username, name, surname, country, countryCode, "", role, emptyUser);
     }
 
-    public User(String email, String username, String name, String surname, String country, String countryCode, String photo, boolean emptyUser) {
+    public User(String email, String username, String name, String surname, String country, String countryCode, String photo, String role, boolean emptyUser) {
         this.email = email;
         this.username = username;
         this.name = name;
@@ -64,6 +67,7 @@ public class User {
         this.country = country;
         this.countryCode = countryCode;
         this.photo = photo;
+        this.role = role;
         this.emptyUser = emptyUser;
     }
 
@@ -122,6 +126,14 @@ public class User {
 
     public void setPhoto(String photo) {
         this.photo = photo;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public boolean isEmptyUser() {

@@ -14,29 +14,30 @@
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/scrollView"/>
+        app:layout_constraintBottom_toTopOf="@id/cardView"/>
 
-    <ScrollView
-        android:id="@+id/scrollView"
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardView"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        card_view:cardCornerRadius="3dp"
+        card_view:cardElevation="3dp"
         android:layout_marginStart="@dimen/margin_card"
         android:layout_marginLeft="@dimen/margin_card"
         android:layout_marginTop="@dimen/margin_card"
         android:layout_marginEnd="@dimen/margin_card"
         android:layout_marginRight="@dimen/margin_card"
         android:layout_marginBottom="@dimen/margin_card"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/tvTermsAndConditions"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/btnBack">
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/cardView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        card_view:cardCornerRadius="3dp"
-        card_view:cardElevation="3dp">
+        <ScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
@@ -112,6 +113,31 @@
                 app:layout_constraintTop_toBottomOf="@+id/tvUsername"/>
 
             <TextView
+                android:id="@+id/tvRole"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginLeft="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:text="@string/role"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/etUsername" />
+
+            <Spinner
+                android:id="@+id/spRole"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginLeft="@dimen/margin_medium"
+                android:layout_marginEnd="@dimen/margin_medium"
+                android:layout_marginRight="@dimen/margin_medium"
+                android:drawSelectorOnTop="true"
+                android:entries="@array/array_role"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvRole"/>
+
+            <TextView
                 android:id="@+id/tvPassword"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -120,7 +146,7 @@
                 android:layout_marginTop="@dimen/margin_medium"
                 android:text="@string/password"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/etUsername" />
+                app:layout_constraintTop_toBottomOf="@+id/spRole" />
 
             <EditText
                 android:id="@+id/etPassword"
@@ -200,10 +226,11 @@
 
         </android.support.constraint.ConstraintLayout>
 
+        </ScrollView>
+
 
     </android.support.v7.widget.CardView>
 
-    </ScrollView>
 
     <TextView
         android:id="@+id/tvTermsAndConditions"
