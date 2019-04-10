@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -61,6 +62,13 @@ public class LoginActivity extends AppCompatActivity {
         lyCreateAccount = findViewById(R.id.lyCreateAccount);
         tvNewUser = findViewById(R.id.tvNewUser);
         tvSignUp = findViewById(R.id.tvSignUp);
+        etPassword.setOnKeyListener((v, keyCode, event) -> {
+            if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                login();
+                return true;
+            }
+            return false;
+        });
     }
 
     private void hasUser(User user) {
@@ -100,7 +108,7 @@ public class LoginActivity extends AppCompatActivity {
         tvSignUp.setEnabled(false);
     }
 
-    public void login(View view) {
+    private void login() {
         if (!NotEmptyValidator.isValid(etEmail.getText()) || !NotEmptyValidator.isValid(etPassword.getText())) {
             Nut4HealthVibrator.vibrateError(getApplicationContext());
             Nut4HealthSnackbar.showError(getApplicationContext(), findViewById(R.id.lyLogin), getResources().getString(R.string.mandatory_field));
@@ -124,6 +132,10 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
         Nut4HealthKeyboard.closeKeyboard(etEmail, getApplicationContext());
+    }
+
+    public void login(View view) {
+        login();
     }
 
     private void goToMainActivity() {

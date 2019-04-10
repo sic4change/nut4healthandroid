@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -63,6 +64,13 @@ public class CreateAccountActivity extends AppCompatActivity {
         etUsername = findViewById(R.id.etUsername);
         etPassword = findViewById(R.id.etPassword);
         etRepeatPassword = findViewById(R.id.etRepeatPassword);
+        etRepeatPassword.setOnKeyListener((v, keyCode, event) -> {
+            if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                createAccount();
+                return true;
+            }
+            return false;
+        });
         btnCreateAccount = findViewById(R.id.btnCreateAccount);
         tvTermsAndConditions = findViewById(R.id.tvTermsAndConditions);
         cbTermsAndConditions = findViewById(R.id.cbTerms);
@@ -79,7 +87,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         finish();
     }
 
-    public void createAccount(View view) {
+    private void createAccount() {
         if (!NotEmptyValidator.isValid(etEmail.getText()) || !NotEmptyValidator.isValid(etUsername.getText()) ||
                 !NotEmptyValidator.isValid(etPassword.getText()) || !NotEmptyValidator.isValid(etRepeatPassword.getText())) {
             Nut4HealthVibrator.vibrateError(getApplicationContext());
@@ -124,6 +132,10 @@ public class CreateAccountActivity extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    public void createAccount(View view) {
+        createAccount();
     }
 
     private void hasUser(User user) {
