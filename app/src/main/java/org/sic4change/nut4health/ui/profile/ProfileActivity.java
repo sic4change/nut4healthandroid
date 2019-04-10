@@ -9,6 +9,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -155,13 +156,28 @@ public class ProfileActivity extends AppCompatActivity {
         lp.setMargins(10, 10, 10, 10);
         input.setLayoutParams(lp);
         input.setHint(getString(R.string.edit_name));
+        if (!tvName.getText().toString().equals(getString(R.string.edit_name))) {
+            input.setText(tvName.getText().toString());
+        }
         adb.setView(input);
         adb.setTitle(getString(R.string.edit_name));
         adb.setIcon(R.drawable.icon);
         adb.setPositiveButton(getString(R.string.ok), (dialog, which) -> {
-            mProfileViewModel.updateName(tvEmail.getText().toString(), input.getText().toString());
+            if (input.getText() != null && !input.getText().toString().isEmpty()) {
+                mProfileViewModel.updateName(tvEmail.getText().toString(), input.getText().toString());
+            }
         });
-        adb.show();
+        AlertDialog dialog = adb.show();
+        input.setOnKeyListener((v, keyCode, event) -> {
+            if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                if (input.getText() != null && !input.getText().toString().isEmpty()) {
+                    mProfileViewModel.updateName(tvEmail.getText().toString(), input.getText().toString());
+                }
+                dialog.dismiss();
+                return true;
+            }
+            return false;
+        });
     }
 
     public void showDialogEditSurname(View view) {
@@ -172,13 +188,28 @@ public class ProfileActivity extends AppCompatActivity {
         lp.setMargins(10, 10, 10, 10);
         input.setLayoutParams(lp);
         input.setHint(getString(R.string.edit_surname));
+        if (!tvSurname.getText().toString().equals(getString(R.string.edit_surname))) {
+            input.setText(tvSurname.getText().toString());
+        }
         adb.setView(input);
         adb.setTitle(getString(R.string.edit_surname));
         adb.setIcon(R.drawable.icon);
         adb.setPositiveButton(getString(R.string.ok), (dialog, which) -> {
-            mProfileViewModel.updateSurname(tvEmail.getText().toString(), input.getText().toString());
+            if (input.getText() != null && !input.getText().toString().isEmpty()) {
+                mProfileViewModel.updateSurname(tvEmail.getText().toString(), input.getText().toString());
+            }
         });
-        adb.show();
+        AlertDialog dialog = adb.show();
+        input.setOnKeyListener((v, keyCode, event) -> {
+            if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                if (input.getText() != null && !input.getText().toString().isEmpty()) {
+                    mProfileViewModel.updateSurname(tvEmail.getText().toString(), input.getText().toString());
+                }
+                dialog.dismiss();
+                return true;
+            }
+            return false;
+        });
     }
 
     public void showDialogEditCountry(View view) {
