@@ -25,7 +25,7 @@
     <string name="role">Rol</string>
     <string name="repeat_password">Repite contraseña</string>
     <string name="sign_up_uppercase">Crear cuenta</string>
-    <string name="acept_terms_and_conditions">Acepto los términos y condiciones</string>
+    <string name="acept_terms_and_conditions">Acepto los </string>
     <string-array name="array_role">
         <item>Screener</item>
         <item>Facultativo</item>
