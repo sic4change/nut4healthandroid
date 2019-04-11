@@ -11,7 +11,7 @@
         <item
             android:id="@+id/nav_contracts"
             android:icon="@drawable/ic_contract"
-            android:title="Contractos (TODO)" />
+            android:title="Contratos (TODO)" />
         <item
             android:id="@+id/nav_diagnostics"
             android:icon="@drawable/ic_diagnostics"

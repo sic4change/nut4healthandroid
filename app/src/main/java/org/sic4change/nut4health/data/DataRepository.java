@@ -117,6 +117,30 @@ public class DataRepository {
         }
     }
 
+    public void updateUser(String email) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference userRef = db.collection(DataUserNames.TABLE_FIREBASE_NAME);
+        Query query = userRef.whereEqualTo(DataUserNames.COL_EMAIL, email).limit(1);
+        query.addSnapshotListener(mIoExecutor, (queryDocumentSnapshots, e) -> {
+            try {
+                if ((queryDocumentSnapshots != null) && (queryDocumentSnapshots.getDocuments() != null)
+                        && (queryDocumentSnapshots.getDocuments().size() > 0)) {
+                    User user = queryDocumentSnapshots.getDocuments().get(0).toObject(User.class);
+                    Log.d(TAG, "Get user from firebase: " + user.getEmail());
+                    nut4HealtDao.updateNameUser(user.getName(), email);
+                    nut4HealtDao.updateSurnameUser(user.getSurname(), email);
+                    nut4HealtDao.updateCountryUser(user.getCountry(), email);
+                    nut4HealtDao.updateCountryCodeUser(user.getCountryCode(), email);
+                    Log.d(TAG, "User updated in local database : " + user.getEmail());
+                } else {
+                    Log.d(TAG, "Get user from firebase: " + "empty");
+                }
+            } catch (Exception error) {
+                Log.d(TAG, "Get user: " + "empty");
+            }
+        });
+    }
+
     /**
      * Method to get user from local bd
      * @return

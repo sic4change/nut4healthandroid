@@ -20,5 +20,9 @@ public class MainViewModel extends ViewModel {
         return mUser;
     }
 
+    public void updateUser(String email) {
+        this.mRepository.updateUser(email);
+    }
+
 
 }

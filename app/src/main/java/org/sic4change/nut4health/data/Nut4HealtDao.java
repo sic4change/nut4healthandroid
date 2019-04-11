@@ -74,4 +74,5 @@ public interface Nut4HealtDao {
     @Query("UPDATE user SET countryCode =:countryCode WHERE email=:email ")
     void updateCountryCodeUser(String countryCode, String email);
 
+
 }

@@ -53,6 +53,8 @@ public class ProfileActivity extends AppCompatActivity {
     public static final int IMAGE_COMPRESS_QUALITY = 100;
     public static final int IMAGE_ASPECT_RATIO_X_Y = 3;
 
+    private boolean created = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +66,10 @@ public class ProfileActivity extends AppCompatActivity {
         mProfileViewModel.getCurrentUser().observe(this, user -> {
             if (user != null) {
                 showProfileData(user);
+                if (!created) {
+                    mProfileViewModel.updateUser(user.getEmail());
+                    created = true;
+                }
             } else {
                 goToLoginActivity();
             }

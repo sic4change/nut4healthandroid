@@ -51,6 +51,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private MainViewModel mMainViewModel;
 
+    private boolean created = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +68,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Glide.with(getApplicationContext())
                         .load(user.getPhoto())
                         .into(ivUser);
+                if (!created) {
+                    mMainViewModel.updateUser(user.getEmail());
+                    created = true;
+                }
             }
         });
     }
