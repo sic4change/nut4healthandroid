@@ -15,7 +15,7 @@
         app:layout_constraintEnd_toEndOf="parent">
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/floatingActionButton"
+            android:id="@+id/btnCreateContract"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:clickable="true"

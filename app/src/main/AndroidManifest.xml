@@ -4,18 +4,17 @@
     package="org.sic4change.nut4health">
 
     <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission
         android:name="android.permission.CAMERA"
-        tools:node="replace"/>
+        tools:node="replace" />
 
     <uses-feature
         android:name="android.hardware.camera"
-        android:required="true"/>
+        android:required="true" />
 
     <application
         android:name=".App"
@@ -25,11 +24,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.profile.ProfileActivity"
+        <activity android:name=".ui.create_contract.CreateContractActivity"
+            android:label="@string/createContract"
+            android:parentActivityName=".ui.main.MainActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.profile.ProfileActivity"
             android:label="@string/profile"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".ui.main.MainActivity">
-        </activity>
+            android:parentActivityName=".ui.main.MainActivity"
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".ui.splash.SplashActivity"
             android:screenOrientation="portrait"
@@ -43,7 +46,7 @@
         <activity
             android:name=".ui.login.LoginActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.create_account.CreateAccountActivity"
             android:screenOrientation="portrait"
@@ -55,14 +58,15 @@
         <activity
             android:name=".ui.error.ErrorActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.profile.ProfileActivity"/>
+                android:value=".ui.profile.ProfileActivity" />
         </activity>
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="21e3c2716b100a791d9cdfd7acaad80f5c8a79d9" />

@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private boolean created = false;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +76,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             }
         });
+        Fragment fragment = null;
+        if (mMainViewModel.getSelection(getApplicationContext()) == 1) {
+            fragment = new EmptyFragment();
+        } else if (mMainViewModel.getSelection(getApplicationContext()) == 2) {
+            fragment = new ContractsFragment();
+        } else if (mMainViewModel.getSelection(getApplicationContext()) == 3) {
+            fragment = new EmptyFragment();
+        } else if (mMainViewModel.getSelection(getApplicationContext()) == 4) {
+            fragment = new EmptyFragment();
+        }   else if (mMainViewModel.getSelection(getApplicationContext()) == 5) {
+            fragment = new EmptyFragment();
+        }
+        fragmentManager.beginTransaction()
+                .replace(R.id.lyMainContent, fragment)
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 
     private void initView() {
@@ -117,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
             this.doubleBackToExitPressedOnce = true;
             Toast.makeText(this, R.string.close_question, Toast.LENGTH_SHORT).show();
-            new Handler().postDelayed(() -> doubleBackToExitPressedOnce = false, 2000);
+            new Handler().postDelayed(() -> doubleBackToExitPressedOnce = false, 3000);
         }
     }
 
@@ -139,14 +162,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
         Fragment fragment = null;
         if (id == R.id.nav_ranking) {
-            fragment = new EmptyFragment();
-        } else if (id == R.id.nav_paids) {
+            mMainViewModel.saveSelection(1);
             fragment = new EmptyFragment();
         } else if (id == R.id.nav_contracts) {
+            mMainViewModel.saveSelection(2);
             fragment = new ContractsFragment();
         } else if (id == R.id.nav_diagnostics) {
+            mMainViewModel.saveSelection(3);
             fragment = new EmptyFragment();
-        } else if (id == R.id.nav_help) {
+        } else if (id == R.id.nav_paids) {
+            mMainViewModel.saveSelection(4);
+            fragment = new EmptyFragment();
+        }   else if (id == R.id.nav_help) {
+            mMainViewModel.saveSelection(5);
             fragment = new EmptyFragment();
         }
         fragmentManager.beginTransaction()

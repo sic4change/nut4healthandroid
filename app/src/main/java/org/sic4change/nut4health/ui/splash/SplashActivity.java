@@ -39,10 +39,14 @@ public class SplashActivity extends AppCompatActivity {
         SplashViewModelFactory splashViewModelFactory = SplashViewModelFactory.createFactory(this);
         mSplashViewModel = ViewModelProviders.of(this, splashViewModelFactory).get(SplashViewModel.class);
         mSplashViewModel.getCurrentUser().observe(this, user -> {
-            if (user == null) {
-                goToLoginActivity();
-            } else {
-                goToMainActivity();
+            if (mSplashViewModel != null) {
+                mSplashViewModel.saveSelection(1);
+                mSplashViewModel = null;
+                if (user == null) {
+                    goToLoginActivity();
+                } else {
+                    goToMainActivity();
+                }
             }
         });
     }

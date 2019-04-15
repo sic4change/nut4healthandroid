@@ -15,6 +15,7 @@ import java.lang.reflect.InvocationTargetException;
 public class MainViewModelFactory implements ViewModelProvider.Factory {
 
     private final DataRepository mRepository;
+    private final Context mContext;
 
     public static MainViewModelFactory createFactory(Activity activity) {
         Context context = activity.getApplicationContext();
@@ -22,10 +23,11 @@ public class MainViewModelFactory implements ViewModelProvider.Factory {
             throw new IllegalStateException("Not yet attached to Application");
         }
 
-        return new MainViewModelFactory(DataRepository.getInstance(context));
+        return new MainViewModelFactory(context, DataRepository.getInstance(context));
     }
 
-    private MainViewModelFactory(DataRepository repository) {
+    private MainViewModelFactory(Context context, DataRepository repository) {
+        mContext = context;
         mRepository = repository;
     }
 
@@ -34,7 +36,7 @@ public class MainViewModelFactory implements ViewModelProvider.Factory {
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
         try {
-            return modelClass.getConstructor(DataRepository.class).newInstance(mRepository);
+            return modelClass.getConstructor(Context.class, DataRepository.class).newInstance(mContext, mRepository);
         } catch (InstantiationException | IllegalAccessException |
                 NoSuchMethodException | InvocationTargetException e) {
             throw new RuntimeException("Cannot create an instance of " + modelClass, e);
