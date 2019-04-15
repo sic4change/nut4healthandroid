@@ -158,7 +158,11 @@ public class CreateAccountActivity extends AppCompatActivity {
                     Nut4HealthVibrator.vibrateError(getApplicationContext());
                     Nut4HealthSnackbar.showError(getApplicationContext(), findViewById(R.id.lyCreateAccount), getResources().getString(R.string.user_exist));
                 } else {
-                    goToSplashView();
+                    if (mCreateAccountViewModel != null) {
+                        mCreateAccountViewModel = null;
+                        goToSplashView();
+                    }
+
                 }
             }
             enableView();

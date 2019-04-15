@@ -87,7 +87,10 @@ public class LoginActivity extends AppCompatActivity {
                     Nut4HealthVibrator.vibrateError(getApplicationContext());
                     Nut4HealthSnackbar.showError(getApplicationContext(), findViewById(R.id.lyLogin), getResources().getString(R.string.incorrect_user_or_password));
                 } else {
-                    goToMainActivity();
+                    if (mLoginViewModel != null) {
+                        mLoginViewModel = null;
+                        goToMainActivity();
+                    }
                 }
             }
             enableView();
