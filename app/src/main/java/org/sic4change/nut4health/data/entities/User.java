@@ -7,7 +7,7 @@ import android.support.annotation.NonNull;
 
 import org.sic4change.nut4health.data.names.DataUserNames;
 
-@Entity(tableName = "user")
+@Entity(tableName = DataUserNames.TABLE_NAME)
 public class User {
 
     @NonNull
