@@ -70,6 +70,13 @@
 
     <!--Create Contract-->
     <string name="createContract">Create contract</string>
+    <string name="next_step">Next</string>
+    <string name="back_step">Back</string>
+    <string name="complete_step">Complete</string>
+    <string name="first_step_title">Photo</string>
+    <string name="second_step_title">Child</string>
+    <string name="third_step_title">Send</string>
+    <string name="take_photo">Take photo</string>
 
     //Font awesome
     <string name="fa_adjust">&#xf042;</string>

@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.stepstone.stepper.StepperLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/stepperLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.create_contract.CreateContractActivity">
-
-</android.support.constraint.ConstraintLayout>
+    app:ms_backButtonText="@string/back_step"
+    app:ms_completeButtonText="@string/complete_step"
+    app:ms_nextButtonText="@string/next_step"
+    app:ms_stepperType="tabs" />

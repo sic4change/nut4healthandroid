@@ -71,6 +71,13 @@
 
     <!--Create Contract-->
     <string name="createContract">Crear contrato</string>
+    <string name="next_step">Siguiente</string>
+    <string name="back_step">Anterior</string>
+    <string name="complete_step">Finalizar</string>
+    <string name="first_step_title">Foto</string>
+    <string name="second_step_title">Información</string>
+    <string name="third_step_title">Enviar</string>
+    <string name="take_photo">Tomar foto</string>
 
     //Font awesome
     <string name="fa_adjust">&#xf042;</string>

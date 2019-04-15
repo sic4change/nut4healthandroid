@@ -93,6 +93,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .addToBackStack(null)
                 .commit();
+
+        this.navigationView.getMenu().getItem(mMainViewModel.getSelection(getApplicationContext())-1).setChecked(true);
     }
 
     @Override
