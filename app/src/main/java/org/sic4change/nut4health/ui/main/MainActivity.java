@@ -33,7 +33,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import static maes.tech.intentanim.CustomIntent.customType;
 
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, EmptyFragment.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
+        EmptyFragment.OnFragmentInteractionListener, ContractsFragment.OnFragmentInteractionListener {
 
     private boolean doubleBackToExitPressedOnce = false;
 
@@ -136,19 +137,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
-        Fragment fragment = new EmptyFragment();
+        Fragment fragment = null;
         if (id == R.id.nav_ranking) {
-
-        } else if (id == R.id.nav_help) {
-
+            fragment = new EmptyFragment();
+        } else if (id == R.id.nav_paids) {
+            fragment = new EmptyFragment();
         } else if (id == R.id.nav_contracts) {
-
+            fragment = new ContractsFragment();
         } else if (id == R.id.nav_diagnostics) {
-
+            fragment = new EmptyFragment();
         } else if (id == R.id.nav_help) {
-
+            fragment = new EmptyFragment();
         }
-
         fragmentManager.beginTransaction()
                 .replace(R.id.lyMainContent, fragment)
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)

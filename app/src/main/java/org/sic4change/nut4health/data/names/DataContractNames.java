@@ -88,9 +88,9 @@ public final class DataContractNames {
     public static final String COL_CHILD_ADDRESS = "child_address";
 
     /**
-     * Column state for contract
+     * Column status for contract
      */
-    public static final String COL_STATE = "state";
+    public static final String COL_STATUS = "status";
 
     /**
      * Column diagnosis for contract

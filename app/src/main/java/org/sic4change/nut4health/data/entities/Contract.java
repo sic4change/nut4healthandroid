@@ -9,6 +9,7 @@ import org.sic4change.nut4health.data.names.DataContractNames;
 
 @Entity(tableName = DataContractNames.TABLE_NAME)
 public class Contract {
+
     @NonNull
     @PrimaryKey
     @ColumnInfo(name = DataContractNames.COL_CONTRACT_ID)
@@ -60,8 +61,8 @@ public class Contract {
     @ColumnInfo(name = DataContractNames.COL_CHILD_ADDRESS)
     private String childAddress;
 
-    @ColumnInfo(name = DataContractNames.COL_STATE)
-    private String state;
+    @ColumnInfo(name = DataContractNames.COL_STATUS)
+    private String status;
 
     @ColumnInfo(name = DataContractNames.COL_DIAGNOSIS)
     private String diagnosis;
@@ -83,7 +84,7 @@ public class Contract {
     public Contract(@NonNull String id, @NonNull String photo, int latitude, int longitude,
                     @NonNull User screener, String childName, String childSurname, String childCountry,
                     String childCountryCode, String childProvince, String childMunicipality, String childCity,
-                    String childZone, String childAddress, String state, long date) {
+                    String childZone, String childAddress, String status, long date) {
         this.id = id;
         this.photo = photo;
         this.latitude = latitude;
@@ -98,14 +99,14 @@ public class Contract {
         this.childCity = childCity;
         this.childZone = childZone;
         this.childAddress = childAddress;
-        this.state = state;
+        this.status = status;
         this.date = date;
     }
 
     public Contract(@NonNull String id, @NonNull String photo, int latitude, int longitude, @NonNull User screener,
                     User medical, String childName, String childSurname, String childCountry, String childCountryCode,
                     String childProvince, String childMunicipality, String childCity, String childZone, String childAddress,
-                    String state, String diagnosis, long date) {
+                    String status, String diagnosis, long date) {
         this.id = id;
         this.photo = photo;
         this.latitude = latitude;
@@ -121,7 +122,7 @@ public class Contract {
         this.childCity = childCity;
         this.childZone = childZone;
         this.childAddress = childAddress;
-        this.state = state;
+        this.status = status;
         this.diagnosis = diagnosis;
         this.date = date;
     }
@@ -249,12 +250,12 @@ public class Contract {
         this.childAddress = childAddress;
     }
 
-    public String getState() {
-        return state;
+    public String getStatus() {
+        return status;
     }
 
-    public void setState(String state) {
-        this.state = state;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getDiagnosis() {
@@ -272,4 +273,9 @@ public class Contract {
     public void setDate(long date) {
         this.date = date;
     }
+
+    public enum Status {
+        INIT, DIAGNOSIS, NO_DIAGNOSIS, FINISHED, PAID
+    }
+
 }
