@@ -65,6 +65,8 @@ public class StepCreateContractFragment extends Fragment implements Step {
     private static final long VERIFICATION_DELAY_MILISECONDS = 5000;
     private static final long VERIFICATION_TICK_MILISECONDS  = 1000;
     private static final long EXIT_DELAY_MILISECONDS = 4000;
+    private static final int CAMERA_REQUEST_CODE = 102;
+    private static final int LOCATION_REQUEST_CODE = 101;
 
     public int getPosition() {
         return position;
@@ -112,7 +114,6 @@ public class StepCreateContractFragment extends Fragment implements Step {
                     }.start();
                 }
             }.start();
-
         });
         btnTakePhoto.setOnClickListener(v1 -> takePhoto());
         ivTakePhoto = v.findViewById(R.id.ivTakePhoto);
@@ -122,8 +123,10 @@ public class StepCreateContractFragment extends Fragment implements Step {
         etChildLocation = v.findViewById(R.id.etChildLocation);
         clView = v.findViewById(R.id.clView);
         if (ActivityCompat.checkSelfPermission(getActivity().getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(getActivity(), new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 101);
-        } else showMyPosition();
+            ActivityCompat.requestPermissions(getActivity(), new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, LOCATION_REQUEST_CODE);
+        } else {
+            showMyPosition();
+        }
         return v;
     }
 
@@ -171,9 +174,13 @@ public class StepCreateContractFragment extends Fragment implements Step {
     }
 
     private void takePhoto() {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
-            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        if (ActivityCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity(), new String[]{android.Manifest.permission.CAMERA}, CAMERA_REQUEST_CODE);
+        } else {
+            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+            }
         }
     }
 
@@ -210,7 +217,12 @@ public class StepCreateContractFragment extends Fragment implements Step {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            showMyPosition();
+            if (requestCode == LOCATION_REQUEST_CODE) {
+                showMyPosition();
+            } else {
+                takePhoto();
+            }
+
         }
     }
 
