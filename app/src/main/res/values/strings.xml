@@ -78,6 +78,11 @@
     <string name="third_step_title">Send</string>
     <string name="take_photo">Take photo</string>
     <string name="error_photo">You must take a picture</string>
+    <string name="error_child_data">You must enter child data</string>
+    <string name="child_data">CHILD INFORMATION</string>
+    <string name="name">Name</string>
+    <string name="surname">Surname</string>
+    <string name="location">Location</string>
 
     //Font awesome
     <string name="fa_adjust">&#xf042;</string>

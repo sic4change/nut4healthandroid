@@ -79,6 +79,11 @@
     <string name="third_step_title">Enviar</string>
     <string name="take_photo">Tomar foto</string>
     <string name="error_photo">Debes tomar una foto</string>
+    <string name="error_child_data">Debes introducir los datos del niño</string>
+    <string name="child_data">DATOS DEL MENOR</string>
+    <string name="name">Nombre</string>
+    <string name="surname">Apellidos</string>
+    <string name="location">Ubicación</string>
 
     //Font awesome
     <string name="fa_adjust">&#xf042;</string>
