@@ -27,7 +27,7 @@
         android:layout_marginRight="@dimen/margin_card"
         android:layout_marginBottom="@dimen/margin_card"
         android:layout_marginTop="@dimen/margin_card"
-        android:src="@drawable/icon"
+        android:src="@mipmap/icon"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/cardView"
         app:layout_constraintEnd_toEndOf="parent"

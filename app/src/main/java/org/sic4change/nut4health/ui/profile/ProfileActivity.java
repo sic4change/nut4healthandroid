@@ -179,7 +179,7 @@ public class ProfileActivity extends AppCompatActivity {
         }
         adb.setView(input);
         adb.setTitle(getString(R.string.edit_name));
-        adb.setIcon(R.drawable.icon);
+        adb.setIcon(R.mipmap.icon);
         adb.setPositiveButton(getString(R.string.ok), (dialog, which) -> {
             if (input.getText() != null && !input.getText().toString().isEmpty()) {
                 mProfileViewModel.updateName(tvEmail.getText().toString(), input.getText().toString());
@@ -211,7 +211,7 @@ public class ProfileActivity extends AppCompatActivity {
         }
         adb.setView(input);
         adb.setTitle(getString(R.string.edit_surname));
-        adb.setIcon(R.drawable.icon);
+        adb.setIcon(R.mipmap.icon);
         adb.setPositiveButton(getString(R.string.ok), (dialog, which) -> {
             if (input.getText() != null && !input.getText().toString().isEmpty()) {
                 mProfileViewModel.updateSurname(tvEmail.getText().toString(), input.getText().toString());
@@ -262,7 +262,7 @@ public class ProfileActivity extends AppCompatActivity {
         new AlertDialog.Builder(this)
                 .setTitle(R.string.logout_question)
                 .setPositiveButton(R.string.ok, (dialog, which) -> logout())
-                .setIcon(R.drawable.icon)
+                .setIcon(R.mipmap.icon)
                 .show();
     }
 
@@ -277,7 +277,7 @@ public class ProfileActivity extends AppCompatActivity {
         new AlertDialog.Builder(this)
                 .setTitle(R.string.delete_account_first_question)
                 .setPositiveButton(R.string.ok, (dialog, which) -> showDialogRemoveAccountSecondQuestion())
-                .setIcon(R.drawable.icon)
+                .setIcon(R.mipmap.icon)
                 .show();
     }
 
@@ -285,7 +285,7 @@ public class ProfileActivity extends AppCompatActivity {
         new AlertDialog.Builder(this)
                 .setTitle(R.string.delete_account_second_question)
                 .setPositiveButton(R.string.ok, (dialog, which) -> removeAccount())
-                .setIcon(R.drawable.icon)
+                .setIcon(R.mipmap.icon)
                 .show();
     }
 
