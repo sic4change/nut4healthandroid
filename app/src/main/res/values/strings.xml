@@ -77,6 +77,7 @@
     <string name="second_step_title">Child</string>
     <string name="third_step_title">Send</string>
     <string name="take_photo">Take photo</string>
+    <string name="error_photo">You must take a picture</string>
 
     //Font awesome
     <string name="fa_adjust">&#xf042;</string>

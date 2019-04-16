@@ -78,6 +78,7 @@
     <string name="second_step_title">Información</string>
     <string name="third_step_title">Enviar</string>
     <string name="take_photo">Tomar foto</string>
+    <string name="error_photo">Debes tomar una foto</string>
 
     //Font awesome
     <string name="fa_adjust">&#xf042;</string>

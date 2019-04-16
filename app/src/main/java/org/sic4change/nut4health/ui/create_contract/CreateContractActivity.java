@@ -65,11 +65,13 @@ public class CreateContractActivity extends AppCompatActivity implements Stepper
 
     @Override
     public void onError(VerificationError verificationError) {
-        Toast.makeText(this, "onError! -> " + verificationError.getErrorMessage(), Toast.LENGTH_SHORT).show();
+        mStepperLayout.updateErrorState(verificationError);
+        Toast.makeText(this, verificationError.getErrorMessage(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onStepSelected(int newStepPosition) {
+
 
     }
 
