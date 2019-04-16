@@ -174,18 +174,7 @@ public class StepCreateContractFragment extends Fragment implements Step {
     }
 
     private void takePhoto() {
-        if (ActivityCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(getActivity(), new String[]{android.Manifest.permission.CAMERA}, CAMERA_REQUEST_CODE);
-        } else {
-            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
-                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-            }
-        }
-    }
-
-    private void cropImage(Uri uri) {
-        CropImage.activity(uri)
+        CropImage.activity()
                 .setGuidelines(CropImageView.Guidelines.ON)
                 .setCropShape(CropImageView.CropShape.RECTANGLE)
                 .setOutputCompressFormat(Bitmap.CompressFormat.JPEG)
@@ -207,9 +196,6 @@ public class StepCreateContractFragment extends Fragment implements Step {
                 imageSelected = true;
 
             }
-        } else if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Uri selectedImage = data.getData();
-            cropImage(selectedImage);
         }
     }
 
@@ -222,7 +208,6 @@ public class StepCreateContractFragment extends Fragment implements Step {
             } else {
                 takePhoto();
             }
-
         }
     }
 
