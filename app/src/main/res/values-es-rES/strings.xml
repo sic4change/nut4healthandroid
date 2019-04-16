@@ -84,6 +84,7 @@
     <string name="name">Nombre</string>
     <string name="surname">Apellidos</string>
     <string name="location">Ubicación</string>
+    <string name="check_malnutrition">Comprobar desnutrición</string>
 
     //Font awesome
     <string name="fa_adjust">&#xf042;</string>

@@ -9,6 +9,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -28,15 +29,20 @@ import com.stepstone.stepper.VerificationError;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
+import org.sic4change.animation_check.AnimatedCircleLoadingView;
 import org.sic4change.nut4health.R;
+import org.sic4change.nut4health.ui.main.MainActivity;
+import org.sic4change.nut4health.ui.splash.SplashActivity;
 import org.sic4change.nut4health.utils.location.Nut4HealthSingleShotLocationProvider;
 
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 
 import static android.app.Activity.RESULT_OK;
+import static maes.tech.intentanim.CustomIntent.customType;
 
 public class StepCreateContractFragment extends Fragment implements Step {
 
@@ -49,10 +55,16 @@ public class StepCreateContractFragment extends Fragment implements Step {
     private EditText etChildName;
     private EditText etChildSurname;
     private EditText etChildLocation;
+    private Button btnCheckMalnutrition;
+    private AnimatedCircleLoadingView clView;
 
     public static final int REQUEST_IMAGE_CAPTURE = 99;
     public static final int IMAGE_COMPRESS_QUALITY = 100;
     public static final int IMAGE_ASPECT_RATIO_X_Y = 3;
+
+    private static final long VERIFICATION_DELAY_MILISECONDS = 5000;
+    private static final long VERIFICATION_TICK_MILISECONDS  = 1000;
+    private static final long EXIT_DELAY_MILISECONDS = 4000;
 
     public int getPosition() {
         return position;
@@ -66,12 +78,49 @@ public class StepCreateContractFragment extends Fragment implements Step {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.step_create_contract, container, false);
         btnTakePhoto = v.findViewById(R.id.btnTakePhoto);
+        btnCheckMalnutrition = v.findViewById(R.id.btnCheckMalnutrition);
+        btnCheckMalnutrition.setOnClickListener(v12 -> {
+            clView.setVisibility(View.VISIBLE);
+            btnCheckMalnutrition.setClickable(false);
+            btnCheckMalnutrition.setEnabled(false);
+            clView.startDeterminate();
+            //TODO: change por SAMPHOTO call
+            new CountDownTimer(VERIFICATION_DELAY_MILISECONDS, VERIFICATION_TICK_MILISECONDS) {
+
+                public void onTick(long millisUntilFinished) {
+
+                }
+
+                public void onFinish() {
+                    final int min = 1;
+                    final int max = 100;
+                    final int random = new Random().nextInt((max - min) + 1) + min;
+                    if (random > 50) {
+                        clView.stopFailure();
+                    } else {
+                        clView.stopOk();
+                    }
+                    new CountDownTimer(EXIT_DELAY_MILISECONDS, VERIFICATION_TICK_MILISECONDS) {
+
+                        public void onTick(long millisUntilFinished) {
+
+                        }
+
+                        public void onFinish() {
+                            goToMainActivity();
+                        }
+                    }.start();
+                }
+            }.start();
+
+        });
         btnTakePhoto.setOnClickListener(v1 -> takePhoto());
         ivTakePhoto = v.findViewById(R.id.ivTakePhoto);
         cvChild = v.findViewById(R.id.cvChild);
         etChildName = v.findViewById(R.id.etChildName);
         etChildSurname = v.findViewById(R.id.etChildSurname);
         etChildLocation = v.findViewById(R.id.etChildLocation);
+        clView = v.findViewById(R.id.clView);
         if (ActivityCompat.checkSelfPermission(getActivity().getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(getActivity(), new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 101);
         } else showMyPosition();
@@ -99,14 +148,20 @@ public class StepCreateContractFragment extends Fragment implements Step {
             btnTakePhoto.setVisibility(View.VISIBLE);
             ivTakePhoto.setVisibility(View.VISIBLE);
             cvChild.setVisibility(View.GONE);
+            btnCheckMalnutrition.setVisibility(View.GONE);
+            clView.setVisibility(View.GONE);
         } else if (getPosition() == 1) {
             btnTakePhoto.setVisibility(View.GONE);
             ivTakePhoto.setVisibility(View.GONE);
             cvChild.setVisibility(View.VISIBLE);
+            btnCheckMalnutrition.setVisibility(View.GONE);
+            clView.setVisibility(View.GONE);
         } else {
             btnTakePhoto.setVisibility(View.GONE);
             ivTakePhoto.setVisibility(View.GONE);
             cvChild.setVisibility(View.GONE);
+            btnCheckMalnutrition.setVisibility(View.VISIBLE);
+            clView.setVisibility(View.GONE);
         }
     }
 
@@ -162,7 +217,6 @@ public class StepCreateContractFragment extends Fragment implements Step {
     private void showMyPosition() {
         Nut4HealthSingleShotLocationProvider.requestSingleUpdate(getActivity().getApplicationContext(),
                 location -> {
-                    Log.d("Location", "my location is " + location.toString());
                     Geocoder geocoder;
                     List<Address> addresses;
                     geocoder = new Geocoder(getActivity().getApplicationContext(), Locale.getDefault());
@@ -176,6 +230,13 @@ public class StepCreateContractFragment extends Fragment implements Step {
                         e.printStackTrace();
                     }
                 });
+    }
+
+    private void goToMainActivity() {
+        Intent intent = new Intent(getActivity(), MainActivity.class);
+        startActivity(intent);
+        customType(getActivity(),"right-to-left");
+        getActivity().finish();
     }
 
 }
