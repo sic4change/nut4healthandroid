@@ -10,12 +10,10 @@ import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +30,6 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 import org.sic4change.animation_check.AnimatedCircleLoadingView;
 import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.ui.main.MainActivity;
-import org.sic4change.nut4health.ui.splash.SplashActivity;
 import org.sic4change.nut4health.utils.location.Nut4HealthSingleShotLocationProvider;
 
 
@@ -58,14 +55,12 @@ public class StepCreateContractFragment extends Fragment implements Step {
     private Button btnCheckMalnutrition;
     private AnimatedCircleLoadingView clView;
 
-    public static final int REQUEST_IMAGE_CAPTURE = 99;
     public static final int IMAGE_COMPRESS_QUALITY = 100;
     public static final int IMAGE_ASPECT_RATIO_X_Y = 3;
 
     private static final long VERIFICATION_DELAY_MILISECONDS = 5000;
     private static final long VERIFICATION_TICK_MILISECONDS  = 1000;
     private static final long EXIT_DELAY_MILISECONDS = 4000;
-    private static final int CAMERA_REQUEST_CODE = 102;
     private static final int LOCATION_REQUEST_CODE = 101;
 
     public int getPosition() {
@@ -136,7 +131,7 @@ public class StepCreateContractFragment extends Fragment implements Step {
             return new VerificationError(getString(R.string.error_photo));
         } else if (position == 1) {
             if ((etChildLocation.getText() == null) || (etChildLocation.getText().toString() == null) || (etChildLocation.getText().toString().isEmpty())
-                || (etChildName.getText() == null) || (etChildName.getText().toString() == null) && (etChildName.getText().toString().isEmpty())
+                || (etChildName.getText() == null) || (etChildName.getText().toString() == null) || (etChildName.getText().toString().isEmpty())
                     || (etChildSurname.getText() == null) || (etChildSurname.getText().toString() == null) || (etChildSurname.getText().toString().isEmpty())) {
                 return new VerificationError(getString(R.string.error_child_data));
             }
