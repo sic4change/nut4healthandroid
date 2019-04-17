@@ -53,6 +53,11 @@ public final class DataUserNames {
     public static final String COL_ROLE = "role";
 
     /**
+     * Column points for User role
+     */
+    public static final String COL_POINTS = "points";
+
+    /**
      * Column emptyUser for User photo
      */
     public static final String COL_EMPTY_USER = "emptyUser";

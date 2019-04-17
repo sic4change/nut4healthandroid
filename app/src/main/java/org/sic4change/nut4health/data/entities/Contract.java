@@ -29,34 +29,16 @@ public class Contract {
 
     @NonNull
     @ColumnInfo(name = DataContractNames.COL_SCREENER)
-    private User screener;
+    private String screener;
 
     @ColumnInfo(name = DataContractNames.COL_MEDICAL)
-    private User medical;
+    private String medical;
 
     @ColumnInfo(name = DataContractNames.COL_CHILD_NAME)
     private String childName;
 
     @ColumnInfo(name = DataContractNames.COL_CHILD_SURNAME)
     private String childSurname;
-
-    @ColumnInfo(name = DataContractNames.COL_CHILD_COUNTRY)
-    private String childCountry;
-
-    @ColumnInfo(name = DataContractNames.COL_CHILD_COUNTRYCODE)
-    private String childCountryCode;
-
-    @ColumnInfo(name = DataContractNames.COL_CHILD_PROVINCE)
-    private String childProvince;
-
-    @ColumnInfo(name = DataContractNames.COL_CHILD_MUNICIPALITY)
-    private String childMunicipality;
-
-    @ColumnInfo(name = DataContractNames.COL_CHILD_CITY)
-    private String childCity;
-
-    @ColumnInfo(name = DataContractNames.COL_CHILD_ZONE)
-    private String childZone;
 
     @ColumnInfo(name = DataContractNames.COL_CHILD_ADDRESS)
     private String childAddress;
@@ -74,7 +56,7 @@ public class Contract {
         this.id = id;
     }
 
-    public Contract(@NonNull String photo, int latitude, int longitude, @NonNull User screener) {
+    public Contract(@NonNull String photo, int latitude, int longitude, @NonNull String screener) {
         this.photo = photo;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -82,9 +64,8 @@ public class Contract {
     }
 
     public Contract(@NonNull String id, @NonNull String photo, int latitude, int longitude,
-                    @NonNull User screener, String childName, String childSurname, String childCountry,
-                    String childCountryCode, String childProvince, String childMunicipality, String childCity,
-                    String childZone, String childAddress, String status, long date) {
+                    @NonNull String screener, String childName, String childSurname,
+                    String childAddress, String status, long date) {
         this.id = id;
         this.photo = photo;
         this.latitude = latitude;
@@ -92,20 +73,13 @@ public class Contract {
         this.screener = screener;
         this.childName = childName;
         this.childSurname = childSurname;
-        this.childCountry = childCountry;
-        this.childCountryCode = childCountryCode;
-        this.childProvince = childProvince;
-        this.childMunicipality = childMunicipality;
-        this.childCity = childCity;
-        this.childZone = childZone;
         this.childAddress = childAddress;
         this.status = status;
         this.date = date;
     }
 
-    public Contract(@NonNull String id, @NonNull String photo, int latitude, int longitude, @NonNull User screener,
-                    User medical, String childName, String childSurname, String childCountry, String childCountryCode,
-                    String childProvince, String childMunicipality, String childCity, String childZone, String childAddress,
+    public Contract(@NonNull String id, @NonNull String photo, int latitude, int longitude, @NonNull String screener,
+                    String medical, String childName, String childSurname, String childAddress,
                     String status, String diagnosis, long date) {
         this.id = id;
         this.photo = photo;
@@ -115,12 +89,6 @@ public class Contract {
         this.medical = medical;
         this.childName = childName;
         this.childSurname = childSurname;
-        this.childCountry = childCountry;
-        this.childCountryCode = childCountryCode;
-        this.childProvince = childProvince;
-        this.childMunicipality = childMunicipality;
-        this.childCity = childCity;
-        this.childZone = childZone;
         this.childAddress = childAddress;
         this.status = status;
         this.diagnosis = diagnosis;
@@ -162,19 +130,19 @@ public class Contract {
     }
 
     @NonNull
-    public User getScreener() {
+    public String getScreener() {
         return screener;
     }
 
-    public void setScreener(@NonNull User screener) {
+    public void setScreener(@NonNull String screener) {
         this.screener = screener;
     }
 
-    public User getMedical() {
+    public String getMedical() {
         return medical;
     }
 
-    public void setMedical(User medical) {
+    public void setMedical(String medical) {
         this.medical = medical;
     }
 
@@ -192,54 +160,6 @@ public class Contract {
 
     public void setChildSurname(String childSurname) {
         this.childSurname = childSurname;
-    }
-
-    public String getChildCountry() {
-        return childCountry;
-    }
-
-    public void setChildCountry(String childCountry) {
-        this.childCountry = childCountry;
-    }
-
-    public String getChildCountryCode() {
-        return childCountryCode;
-    }
-
-    public void setChildCountryCode(String childCountryCode) {
-        this.childCountryCode = childCountryCode;
-    }
-
-    public String getChildProvince() {
-        return childProvince;
-    }
-
-    public void setChildProvince(String childProvince) {
-        this.childProvince = childProvince;
-    }
-
-    public String getChildMunicipality() {
-        return childMunicipality;
-    }
-
-    public void setChildMunicipality(String childMunicipality) {
-        this.childMunicipality = childMunicipality;
-    }
-
-    public String getChildCity() {
-        return childCity;
-    }
-
-    public void setChildCity(String childCity) {
-        this.childCity = childCity;
-    }
-
-    public String getChildZone() {
-        return childZone;
-    }
-
-    public void setChildZone(String childZone) {
-        this.childZone = childZone;
     }
 
     public String getChildAddress() {
@@ -275,7 +195,7 @@ public class Contract {
     }
 
     public enum Status {
-        INIT, DIAGNOSIS, NO_DIAGNOSIS, FINISHED, PAID
+        INIT, DIAGNOSIS, NO_DIAGNOSIS, PAID
     }
 
 }

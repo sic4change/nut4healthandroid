@@ -53,36 +53,6 @@ public final class DataContractNames {
     public static final String COL_CHILD_SURNAME = "child_surname";
 
     /**
-     * Column child country for contract
-     */
-    public static final String COL_CHILD_COUNTRY = "child_country";
-
-    /**
-     * Column child countryCode for contract
-     */
-    public static final String COL_CHILD_COUNTRYCODE = "child_countryCode";
-
-    /**
-     * Column child province for contract
-     */
-    public static final String COL_CHILD_PROVINCE = "child_province";
-
-    /**
-     * Column child municipality for contract
-     */
-    public static final String COL_CHILD_MUNICIPALITY = "child_municipality";
-
-    /**
-     * Column child city for contract
-     */
-    public static final String COL_CHILD_CITY = "child_city";
-
-    /**
-     * Column child zone for contract
-     */
-    public static final String COL_CHILD_ZONE = "child_zone";
-
-    /**
      * Column child address for contract
      */
     public static final String COL_CHILD_ADDRESS = "child_address";

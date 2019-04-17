@@ -16,7 +16,7 @@ public class User {
     private String email;
 
     @ColumnInfo(name = DataUserNames.COL_USERNAME)
-    private  String username;
+    private String username;
 
     @ColumnInfo(name = DataUserNames.COL_NAME)
     private String name;
@@ -34,32 +34,38 @@ public class User {
     private String photo;
 
     @ColumnInfo(name = DataUserNames.COL_ROLE)
-    private  String role;
+    private String role;
+
+    @NonNull
+    @ColumnInfo(name = DataUserNames.COL_POINTS)
+    private int points;
 
     @ColumnInfo(name = DataUserNames.COL_EMPTY_USER)
     private boolean emptyUser;
 
     public static final String EMPTY_EMAIL = "empty@emtpy.com";
 
-    public static final User userEmpty = new User(EMPTY_EMAIL, "", "", "", "", "", "", true);
+    public static final User userEmpty = new User(EMPTY_EMAIL, "", "", "", "", "", "",0, true);
 
     public User() {
-        this("","","","","","","", "",false);
+        this("","","","","","","", "",0,false);
     }
 
     public User(String email) {
-        this(email, "", "", "", "", "", "", "", false);
+        this(email, "", "", "", "", "", "", "", 0, false);
     }
 
     public User(String email, String username, String role) {
-        this(email, username, "", "", "", "", "", role,false);
+        this(email, username, "", "", "", "", "", role, 0,false);
     }
 
-    public User(String email, String username, String name, String surname, String country, String countryCode, String role, boolean emptyUser) {
-        this(email, username, name, surname, country, countryCode, "", role, emptyUser);
+    public User(String email, String username, String name, String surname, String country, String countryCode,
+                String role, int points, boolean emptyUser) {
+        this(email, username, name, surname, country, countryCode, "", role, points, emptyUser);
     }
 
-    public User(String email, String username, String name, String surname, String country, String countryCode, String photo, String role, boolean emptyUser) {
+    public User(String email, String username, String name, String surname, String country, String countryCode,
+                String photo, String role, int points, boolean emptyUser) {
         this.email = email;
         this.username = username;
         this.name = name;
@@ -68,6 +74,7 @@ public class User {
         this.countryCode = countryCode;
         this.photo = photo;
         this.role = role;
+        this.points = points;
         this.emptyUser = emptyUser;
     }
 
@@ -144,4 +151,12 @@ public class User {
         this.emptyUser = emptyUser;
     }
 
+    @NonNull
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
+    }
 }
