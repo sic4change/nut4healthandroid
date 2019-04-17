@@ -413,7 +413,14 @@ public class DataRepository {
         contractRef.add(contract).addOnCompleteListener(mIoExecutor, new OnCompleteListener<DocumentReference>() {
             @Override
             public void onComplete(@NonNull Task<DocumentReference> task) {
-                System.out.println("Aqui: subido contrato " + task.getResult());
+                contract.setId(task.getResult().getId());
+                task.getResult().set(contract);
+                FirebaseStorage storage = FirebaseStorage.getInstance();
+                StorageReference storageRef = storage.getReference().child("contracts/" + contract.getId());
+                storageRef.putFile(Uri.fromFile(new File(contract.getPhoto()))).addOnSuccessListener(taskSnapshot -> storageRef.getDownloadUrl().addOnCompleteListener(mIoExecutor, storageTask -> {
+                    contract.setPhoto(storageTask.getResult().toString());
+                    task.getResult().set(contract);
+                }));
             }
         });
     }
