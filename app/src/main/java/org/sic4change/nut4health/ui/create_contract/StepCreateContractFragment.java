@@ -2,15 +2,17 @@ package org.sic4change.nut4health.ui.create_contract;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.location.Address;
 import android.location.Geocoder;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
@@ -29,6 +31,8 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 
 import org.sic4change.animation_check.AnimatedCircleLoadingView;
 import org.sic4change.nut4health.R;
+import org.sic4change.nut4health.data.entities.Contract;
+import org.sic4change.nut4health.data.entities.User;
 import org.sic4change.nut4health.ui.main.MainActivity;
 import org.sic4change.nut4health.utils.location.Nut4HealthSingleShotLocationProvider;
 
@@ -44,7 +48,6 @@ import static maes.tech.intentanim.CustomIntent.customType;
 public class StepCreateContractFragment extends Fragment implements Step {
 
     private int position;
-    private boolean imageSelected = false;
 
     private Button btnTakePhoto;
     private ImageView ivTakePhoto;
@@ -62,6 +65,10 @@ public class StepCreateContractFragment extends Fragment implements Step {
     private static final long VERIFICATION_TICK_MILISECONDS  = 1000;
     private static final long EXIT_DELAY_MILISECONDS = 4000;
     private static final int LOCATION_REQUEST_CODE = 101;
+
+    private CreateContractViewModel mCreateContractViewModel;
+
+
 
     public int getPosition() {
         return position;
@@ -94,8 +101,30 @@ public class StepCreateContractFragment extends Fragment implements Step {
                     final int random = new Random().nextInt((max - min) + 1) + min;
                     if (random > 50) {
                         clView.stopFailure();
+                            mCreateContractViewModel.getUser().observe(getActivity(), new Observer<User>() {
+                                @Override
+                                public void onChanged(@Nullable User user) {
+                                    if (mCreateContractViewModel != null) {
+                                        mCreateContractViewModel.createContract(user.getEmail(),
+                                                mCreateContractViewModel.getLocation().latitude, mCreateContractViewModel.getLocation().longitude,
+                                                mCreateContractViewModel.getUriPhoto().getPath(), mCreateContractViewModel.getChildName(),
+                                                mCreateContractViewModel.getChildSurname(), mCreateContractViewModel.getChildLocation(), Contract.Status.NO_DIAGNOSIS.name());
+                                        mCreateContractViewModel = null;
+                                    }
+                                }
+                            });
+
                     } else {
                         clView.stopOk();
+                            mCreateContractViewModel.getUser().observe(getActivity(), user -> {
+                                if (mCreateContractViewModel != null) {
+                                    mCreateContractViewModel.createContract(user.getEmail(),
+                                            mCreateContractViewModel.getLocation().latitude, mCreateContractViewModel.getLocation().longitude,
+                                            mCreateContractViewModel.getUriPhoto().getPath(), mCreateContractViewModel.getChildName(),
+                                            mCreateContractViewModel.getChildSurname(), mCreateContractViewModel.getChildLocation(), Contract.Status.DIAGNOSIS.name());
+                                    mCreateContractViewModel = null;
+                                }
+                            });
                     }
                     new CountDownTimer(EXIT_DELAY_MILISECONDS, VERIFICATION_TICK_MILISECONDS) {
 
@@ -122,19 +151,25 @@ public class StepCreateContractFragment extends Fragment implements Step {
         } else {
             showMyPosition();
         }
+        CreateContractViewModelFactory createContractViewModelFactory = CreateContractViewModelFactory.createFactory(getActivity());
+        mCreateContractViewModel = ViewModelProviders.of(getActivity(), createContractViewModelFactory).get(CreateContractViewModel.class);
         return v;
     }
 
     @Override
     public VerificationError verifyStep() {
-        if (position == 0 && !imageSelected) {
+        if (position == 0 && !mCreateContractViewModel.isImageSelected()) {
             return new VerificationError(getString(R.string.error_photo));
         } else if (position == 1) {
             if ((etChildLocation.getText() == null) || (etChildLocation.getText().toString() == null) || (etChildLocation.getText().toString().isEmpty())
                 || (etChildName.getText() == null) || (etChildName.getText().toString() == null) || (etChildName.getText().toString().isEmpty())
                     || (etChildSurname.getText() == null) || (etChildSurname.getText().toString() == null) || (etChildSurname.getText().toString().isEmpty())) {
+                System.out.println("Aqui");
                 return new VerificationError(getString(R.string.error_child_data));
             }
+            mCreateContractViewModel.setChildLocation(etChildLocation.getText().toString());
+            mCreateContractViewModel.setChildName(etChildName.getText().toString());
+            mCreateContractViewModel.setChildSurname(etChildSurname.getText().toString());
             return null;
         }
         return null;
@@ -183,13 +218,12 @@ public class StepCreateContractFragment extends Fragment implements Step {
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if (resultCode == RESULT_OK) {
-                Uri resultUri = result.getUri();
+                mCreateContractViewModel.setUriPhoto(result.getUri());
                 Glide.with(getActivity().getApplicationContext())
-                        .load(resultUri)
+                        .load(mCreateContractViewModel.getUriPhoto())
                         .into(ivTakePhoto);
                 ivTakePhoto.setBackgroundColor(getResources().getColor(android.R.color.transparent));
-                imageSelected = true;
-
+                mCreateContractViewModel.setImageSelected(true);
             }
         }
     }
@@ -207,21 +241,20 @@ public class StepCreateContractFragment extends Fragment implements Step {
     }
 
     private void showMyPosition() {
-        Nut4HealthSingleShotLocationProvider.requestSingleUpdate(getActivity().getApplicationContext(),
-                location -> {
-                    Geocoder geocoder;
-                    List<Address> addresses;
-                    geocoder = new Geocoder(getActivity().getApplicationContext(), Locale.getDefault());
-                    try {
-                        addresses = geocoder.getFromLocation(location.latitude, location.longitude, 1);
-                        String address = addresses.get(0).getAddressLine(0);
-                        if (address != null) {
-                            etChildLocation.setText(address);
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                });
+        Nut4HealthSingleShotLocationProvider.requestSingleUpdate(getActivity().getApplicationContext(), newLocation -> {
+            mCreateContractViewModel.setLocation(newLocation);
+            List<Address> addresses;
+            Geocoder geocoder = new Geocoder(getActivity().getApplicationContext(), Locale.getDefault());
+            try {
+                addresses = geocoder.getFromLocation(mCreateContractViewModel.getLocation().latitude, mCreateContractViewModel.getLocation().longitude, 1);
+                String address = addresses.get(0).getAddressLine(0);
+                if (address != null) {
+                    etChildLocation.setText(address);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     private void goToMainActivity() {

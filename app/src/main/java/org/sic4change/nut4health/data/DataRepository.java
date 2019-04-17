@@ -6,21 +6,27 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import org.sic4change.nut4health.data.entities.Contract;
 import org.sic4change.nut4health.data.entities.User;
+import org.sic4change.nut4health.data.names.DataContractNames;
 import org.sic4change.nut4health.data.names.DataUserNames;
 
 import java.io.File;
+import java.util.Date;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -381,6 +387,33 @@ public class DataRepository {
                 }
             } catch (Exception error) {
                 Log.d(TAG, "Get user: " + "empty");
+            }
+        });
+    }
+
+    /**
+     * Method to create a contract
+     * @param email
+     * @param latitude
+     * @param longitude
+     * @param photo
+     * @param childName
+     * @param childUsername
+     * @param childAddress
+     * @param status
+     */
+    public void createContract(String email, float latitude, float longitude, String photo, String childName, String childUsername,
+                               String childAddress, String status) {
+
+        Contract contract = new Contract(photo, latitude, longitude, email, childName, childUsername, childAddress,
+                Contract.Status.INIT.name(), new Date().getTime());
+        contract.setStatus(status);
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference contractRef = db.collection(DataContractNames.TABLE_FIREBASE_NAME);
+        contractRef.add(contract).addOnCompleteListener(mIoExecutor, new OnCompleteListener<DocumentReference>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentReference> task) {
+                System.out.println("Aqui: subido contrato " + task.getResult());
             }
         });
     }

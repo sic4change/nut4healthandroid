@@ -1,11 +1,16 @@
 package org.sic4change.nut4health.data;
 
 import android.arch.lifecycle.LiveData;
+import android.arch.paging.DataSource;
+import android.arch.persistence.db.SupportSQLiteQuery;
 import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
+import android.arch.persistence.room.RawQuery;
 
+import org.sic4change.nut4health.data.entities.Contract;
 import org.sic4change.nut4health.data.entities.User;
 
 @Dao
@@ -74,5 +79,78 @@ public interface Nut4HealtDao {
     @Query("UPDATE user SET countryCode =:countryCode WHERE email=:email ")
     void updateCountryCodeUser(String countryCode, String email);
 
+    /**
+     * Update points user
+     */
+    @Query("UPDATE user SET points =:points WHERE email=:email ")
+    void updatePointsUser(int points, String email);
+
+    /**
+     * Get all contract for Paging
+     * @param query
+     * @return
+     */
+    @RawQuery(observedEntities = Contract.class)
+    DataSource.Factory<Integer, Contract> getUserContracts(SupportSQLiteQuery query);
+
+    /**
+     * Get a contract based on the contract id
+     * @param id
+     * @return
+     */
+    @Query("SELECT * FROM contract WHERE contractId =:id LIMIT 1")
+    LiveData<Contract> getContract(String id);
+
+    /**
+     * Update contract status
+     * @param id
+     * @param status
+     */
+    @Query("UPDATE contract SET status =:status WHERE contractId=:id ")
+    void updateContractStatus(String id, String status);
+
+    /**
+     * Update contract photo
+     * @param id
+     * @param photo
+     */
+    @Query("UPDATE contract SET photo =:photo WHERE contractId=:id ")
+    void updateContractPhoto(String id, String photo);
+
+    /**
+     * Update contract medical
+     * @param id
+     * @param medical
+     */
+    @Query("UPDATE contract SET medical =:medical WHERE contractId=:id ")
+    void updateContractMedical(String id, String medical);
+
+    /**
+     * Update contract diagnosis
+     * @param id
+     * @param diagnosis
+     */
+    @Query("UPDATE contract SET diagnosis =:diagnosis WHERE contractId=:id ")
+    void updateContractDiagnosis(String id, String diagnosis);
+
+    /**
+     * Insert a contract
+     * @param contract
+     */
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    void insert(Contract... contract);
+
+    /**
+     * Delete a contract
+     * @param contract
+     */
+    @Delete
+    void delete(Contract contract);
+
+    /**
+     * Delete all contracts
+     */
+    @Query("DELETE FROM contract")
+    void deleteAllContract();
 
 }

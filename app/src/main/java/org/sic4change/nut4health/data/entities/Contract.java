@@ -2,6 +2,7 @@ package org.sic4change.nut4health.data.entities;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
@@ -21,11 +22,11 @@ public class Contract {
 
     @NonNull
     @ColumnInfo(name = DataContractNames.COL_LATITUDE)
-    private int latitude;
+    private float latitude;
 
     @NonNull
     @ColumnInfo(name = DataContractNames.COL_LONGITUDE)
-    private int longitude;
+    private float longitude;
 
     @NonNull
     @ColumnInfo(name = DataContractNames.COL_SCREENER)
@@ -52,33 +53,33 @@ public class Contract {
     @ColumnInfo(name = DataContractNames.COL_DATE)
     private long date;
 
+    @Ignore
     public Contract(@NonNull String id) {
-        this.id = id;
+        this(id, "", 0.0f, 0.0f, "", "", "",
+                "", "", Status.INIT.name(), "", 0L);
     }
 
-    public Contract(@NonNull String photo, int latitude, int longitude, @NonNull String screener) {
-        this.photo = photo;
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.screener = screener;
+    @Ignore
+    public Contract(@NonNull String photo, float latitude, float longitude, @NonNull String screener) {
+        this("", photo, latitude, longitude, screener, "", "", "",
+                "", Status.INIT.name(), "", 0L);
     }
 
-    public Contract(@NonNull String id, @NonNull String photo, int latitude, int longitude,
+    @Ignore
+    public Contract(@NonNull String photo, float latitude, float longitude, @NonNull String screener,
+                    String childName, String childSurname, String childAddress, String status, long date) {
+        this("", photo, latitude, longitude, screener, "", childName, childSurname,
+                childAddress, status, "", date);
+    }
+    @Ignore
+    public Contract(@NonNull String id, @NonNull String photo, float latitude, float longitude,
                     @NonNull String screener, String childName, String childSurname,
                     String childAddress, String status, long date) {
-        this.id = id;
-        this.photo = photo;
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.screener = screener;
-        this.childName = childName;
-        this.childSurname = childSurname;
-        this.childAddress = childAddress;
-        this.status = status;
-        this.date = date;
+        this(id, photo, latitude, longitude, screener, "", childName, childSurname,
+                childAddress, status, "", date);
     }
 
-    public Contract(@NonNull String id, @NonNull String photo, int latitude, int longitude, @NonNull String screener,
+    public Contract(@NonNull String id, @NonNull String photo, float latitude, float longitude, @NonNull String screener,
                     String medical, String childName, String childSurname, String childAddress,
                     String status, String diagnosis, long date) {
         this.id = id;
@@ -113,19 +114,19 @@ public class Contract {
         this.photo = photo;
     }
 
-    public int getLatitude() {
+    public float getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(int latitude) {
+    public void setLatitude(float latitude) {
         this.latitude = latitude;
     }
 
-    public int getLongitude() {
+    public float getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(int longitude) {
+    public void setLongitude(float longitude) {
         this.longitude = longitude;
     }
 
