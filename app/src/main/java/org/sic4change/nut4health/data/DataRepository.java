@@ -3,6 +3,7 @@ package org.sic4change.nut4health.data;
 import android.arch.lifecycle.LiveData;
 import android.content.Context;
 import android.net.Uri;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -405,15 +406,15 @@ public class DataRepository {
      * @param childAddress
      * @param status
      */
-    public void createContract(String email, float latitude, float longitude, String photo, String childName, String childUsername,
+    public void createContract(String email, float latitude, float longitude, Uri photo, String childName, String childUsername,
                                String childAddress, String status) {
         String hash = "";
         try {
-            hash = Files.hash(new File(photo), Hashing.sha512()).toString();
+            hash = Files.hash(new File(photo.toString()), Hashing.sha512()).toString();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Contract contract = new Contract(photo, latitude, longitude, email, childName, childUsername, childAddress,
+        Contract contract = new Contract(photo.toString(), latitude, longitude, email, childName, childUsername, childAddress,
                 Contract.Status.INIT.name(), new Date().getTime(), hash);
         contract.setStatus(status);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -423,7 +424,7 @@ public class DataRepository {
             task.getResult().set(contract);
             FirebaseStorage storage = FirebaseStorage.getInstance();
             StorageReference storageRef = storage.getReference().child("contracts/" + contract.getId());
-            storageRef.putFile(Uri.fromFile(new File(contract.getPhoto()))).addOnSuccessListener(taskSnapshot -> storageRef.getDownloadUrl().addOnCompleteListener(mIoExecutor, storageTask -> {
+            storageRef.putFile(photo).addOnSuccessListener(taskSnapshot -> storageRef.getDownloadUrl().addOnCompleteListener(mIoExecutor, storageTask -> {
                 contract.setPhoto(storageTask.getResult().toString());
                 task.getResult().set(contract);
 
