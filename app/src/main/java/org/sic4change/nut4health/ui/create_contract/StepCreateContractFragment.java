@@ -74,7 +74,9 @@ public class StepCreateContractFragment extends Fragment implements Step {
     private static final long VERIFICATION_TICK_MILISECONDS  = 1000;
     private static final long EXIT_DELAY_MILISECONDS = 5000;
     private static final int LOCATION_REQUEST_CODE = 101;
-    private static final int  CAMERA_REQUEST_CODE = 102;
+    private static final int CAMERA_REQUEST_CODE = 102;
+    private static final int WRITE_EXTERNAL_STORAGE_REQUEST_CODE = 103;
+    private static final int READ_EXTERNAL_STORAGE_REQUEST_CODE = 104;
 
     private CreateContractViewModel mCreateContractViewModel;
 
@@ -116,7 +118,7 @@ public class StepCreateContractFragment extends Fragment implements Step {
                                 if ((mCreateContractViewModel != null) && (user != null)) {
                                     mCreateContractViewModel.createContract(user.getEmail(),
                                             mCreateContractViewModel.getLocation().latitude, mCreateContractViewModel.getLocation().longitude,
-                                            mCreateContractViewModel.getUriPhoto().getPath(), mCreateContractViewModel.getChildName(),
+                                            mCreateContractViewModel.getUriPhoto(), mCreateContractViewModel.getChildName(),
                                             mCreateContractViewModel.getChildSurname(), mCreateContractViewModel.getChildLocation(), Contract.Status.NO_DIAGNOSIS.name());
                                     mCreateContractViewModel = null;
                                 }
@@ -128,7 +130,7 @@ public class StepCreateContractFragment extends Fragment implements Step {
                                 if ((mCreateContractViewModel != null) && (user != null)) {
                                     mCreateContractViewModel.createContract(user.getEmail(),
                                             mCreateContractViewModel.getLocation().latitude, mCreateContractViewModel.getLocation().longitude,
-                                            mCreateContractViewModel.getUriPhoto().getPath(), mCreateContractViewModel.getChildName(),
+                                            mCreateContractViewModel.getUriPhoto(), mCreateContractViewModel.getChildName(),
                                             mCreateContractViewModel.getChildSurname(), mCreateContractViewModel.getChildLocation(), Contract.Status.DIAGNOSIS.name());
                                     mCreateContractViewModel = null;
                                 }
@@ -172,7 +174,6 @@ public class StepCreateContractFragment extends Fragment implements Step {
             if ((etChildLocation.getText() == null) || (etChildLocation.getText().toString() == null) || (etChildLocation.getText().toString().isEmpty())
                 || (etChildName.getText() == null) || (etChildName.getText().toString() == null) || (etChildName.getText().toString().isEmpty())
                     || (etChildSurname.getText() == null) || (etChildSurname.getText().toString() == null) || (etChildSurname.getText().toString().isEmpty())) {
-                System.out.println("Aqui");
                 return new VerificationError(getString(R.string.error_child_data));
             }
             mCreateContractViewModel.setChildLocation(etChildLocation.getText().toString());
@@ -267,6 +268,16 @@ public class StepCreateContractFragment extends Fragment implements Step {
             if (requestCode == LOCATION_REQUEST_CODE) {
                 showMyPosition();
             } else if (requestCode == CAMERA_REQUEST_CODE) {
+                if (ActivityCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_STORAGE_REQUEST_CODE);
+                }
+
+            } else if (requestCode == WRITE_EXTERNAL_STORAGE_REQUEST_CODE) {
+                if (ActivityCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, READ_EXTERNAL_STORAGE_REQUEST_CODE);
+                }
+            }
+            else {
                 takePhoto();
             }
         }
