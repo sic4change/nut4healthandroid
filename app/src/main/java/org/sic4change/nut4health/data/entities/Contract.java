@@ -50,38 +50,43 @@ public class Contract {
     @ColumnInfo(name = DataContractNames.COL_DIAGNOSIS)
     private String diagnosis;
 
+    @NonNull
     @ColumnInfo(name = DataContractNames.COL_DATE)
     private long date;
+
+    @NonNull
+    @ColumnInfo(name = DataContractNames.COL_HASH)
+    private String hash;
 
     @Ignore
     public Contract(@NonNull String id) {
         this(id, "", 0.0f, 0.0f, "", "", "",
-                "", "", Status.INIT.name(), "", 0L);
+                "", "", Status.INIT.name(), "", 0L, "");
     }
 
     @Ignore
     public Contract(@NonNull String photo, float latitude, float longitude, @NonNull String screener) {
         this("", photo, latitude, longitude, screener, "", "", "",
-                "", Status.INIT.name(), "", 0L);
+                "", Status.INIT.name(), "", 0L, "");
     }
 
     @Ignore
     public Contract(@NonNull String photo, float latitude, float longitude, @NonNull String screener,
-                    String childName, String childSurname, String childAddress, String status, long date) {
+                    String childName, String childSurname, String childAddress, String status, long date, String hash) {
         this("", photo, latitude, longitude, screener, "", childName, childSurname,
-                childAddress, status, "", date);
+                childAddress, status, "", date, hash);
     }
     @Ignore
     public Contract(@NonNull String id, @NonNull String photo, float latitude, float longitude,
                     @NonNull String screener, String childName, String childSurname,
-                    String childAddress, String status, long date) {
+                    String childAddress, String status, long date, String hash) {
         this(id, photo, latitude, longitude, screener, "", childName, childSurname,
-                childAddress, status, "", date);
+                childAddress, status, "", date, hash);
     }
 
     public Contract(@NonNull String id, @NonNull String photo, float latitude, float longitude, @NonNull String screener,
                     String medical, String childName, String childSurname, String childAddress,
-                    String status, String diagnosis, long date) {
+                    String status, String diagnosis, long date, String hash) {
         this.id = id;
         this.photo = photo;
         this.latitude = latitude;
@@ -94,6 +99,7 @@ public class Contract {
         this.status = status;
         this.diagnosis = diagnosis;
         this.date = date;
+        this.hash = hash;
     }
 
     @NonNull
@@ -193,6 +199,15 @@ public class Contract {
 
     public void setDate(long date) {
         this.date = date;
+    }
+
+    @NonNull
+    public String getHash() {
+        return hash;
+    }
+
+    public void setHash(@NonNull String hash) {
+        this.hash = hash;
     }
 
     public enum Status {

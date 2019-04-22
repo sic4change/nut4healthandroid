@@ -8,6 +8,8 @@ import android.util.Log;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.common.hash.Hashing;
+import com.google.common.io.Files;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
@@ -26,6 +28,7 @@ import org.sic4change.nut4health.data.names.DataContractNames;
 import org.sic4change.nut4health.data.names.DataUserNames;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Date;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -404,44 +407,46 @@ public class DataRepository {
      */
     public void createContract(String email, float latitude, float longitude, String photo, String childName, String childUsername,
                                String childAddress, String status) {
-
+        String hash = "";
+        try {
+            hash = Files.hash(new File(photo), Hashing.sha512()).toString();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         Contract contract = new Contract(photo, latitude, longitude, email, childName, childUsername, childAddress,
-                Contract.Status.INIT.name(), new Date().getTime());
+                Contract.Status.INIT.name(), new Date().getTime(), hash);
         contract.setStatus(status);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference contractRef = db.collection(DataContractNames.TABLE_FIREBASE_NAME);
-        contractRef.add(contract).addOnCompleteListener(mIoExecutor, new OnCompleteListener<DocumentReference>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentReference> task) {
-                contract.setId(task.getResult().getId());
+        contractRef.add(contract).addOnCompleteListener(mIoExecutor, task -> {
+            contract.setId(task.getResult().getId());
+            task.getResult().set(contract);
+            FirebaseStorage storage = FirebaseStorage.getInstance();
+            StorageReference storageRef = storage.getReference().child("contracts/" + contract.getId());
+            storageRef.putFile(Uri.fromFile(new File(contract.getPhoto()))).addOnSuccessListener(taskSnapshot -> storageRef.getDownloadUrl().addOnCompleteListener(mIoExecutor, storageTask -> {
+                contract.setPhoto(storageTask.getResult().toString());
                 task.getResult().set(contract);
-                FirebaseStorage storage = FirebaseStorage.getInstance();
-                StorageReference storageRef = storage.getReference().child("contracts/" + contract.getId());
-                storageRef.putFile(Uri.fromFile(new File(contract.getPhoto()))).addOnSuccessListener(taskSnapshot -> storageRef.getDownloadUrl().addOnCompleteListener(mIoExecutor, storageTask -> {
-                    contract.setPhoto(storageTask.getResult().toString());
-                    task.getResult().set(contract);
 
-                    FirebaseFirestore db = FirebaseFirestore.getInstance();
-                    CollectionReference userRef = db.collection(DataUserNames.TABLE_FIREBASE_NAME);
-                    Query query = userRef.whereEqualTo(DataUserNames.COL_EMAIL, email).limit(1);
-                    listenerQuery = query.addSnapshotListener(mIoExecutor, (queryDocumentSnapshots, e) -> {
-                        try {
-                            if ((queryDocumentSnapshots != null) && (queryDocumentSnapshots.getDocuments() != null)
-                                    && (queryDocumentSnapshots.getDocuments().size() > 0)) {
-                                User user = queryDocumentSnapshots.getDocuments().get(0).toObject(User.class);
-                                user.setPoints(user.getPoints() + 1);
-                                queryDocumentSnapshots.getDocuments().get(0).getReference().set(user);
-                                nut4HealtDao.deleteAllUser();
-                                listenerQuery.remove();
-                            } else {
-                                Log.d(TAG, "Get user from firebase: " + "empty");
-                            }
-                        } catch (Exception error) {
-                            Log.d(TAG, "Get user: " + "empty");
+                FirebaseFirestore db1 = FirebaseFirestore.getInstance();
+                CollectionReference userRef = db1.collection(DataUserNames.TABLE_FIREBASE_NAME);
+                Query query = userRef.whereEqualTo(DataUserNames.COL_EMAIL, email).limit(1);
+                listenerQuery = query.addSnapshotListener(mIoExecutor, (queryDocumentSnapshots, e) -> {
+                    try {
+                        if ((queryDocumentSnapshots != null) && (queryDocumentSnapshots.getDocuments() != null)
+                                && (queryDocumentSnapshots.getDocuments().size() > 0)) {
+                            User user = queryDocumentSnapshots.getDocuments().get(0).toObject(User.class);
+                            user.setPoints(user.getPoints() + 1);
+                            queryDocumentSnapshots.getDocuments().get(0).getReference().set(user);
+                            nut4HealtDao.deleteAllUser();
+                            listenerQuery.remove();
+                        } else {
+                            Log.d(TAG, "Get user from firebase: " + "empty");
                         }
-                    });
-                }));
-            }
+                    } catch (Exception error) {
+                        Log.d(TAG, "Get user: " + "empty");
+                    }
+                });
+            }));
         });
     }
 

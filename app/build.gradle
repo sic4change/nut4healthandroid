@@ -112,6 +112,9 @@ dependencies {
     //Animation check
     implementation project(':animation_check')
 
+    //Guava
+    implementation 'com.google.guava:guava:27.1-android'
+
     //Test
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     testImplementation 'junit:junit:4.12'

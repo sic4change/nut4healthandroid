@@ -34,6 +34,7 @@ import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.data.entities.Contract;
 import org.sic4change.nut4health.data.entities.User;
 import org.sic4change.nut4health.ui.main.MainActivity;
+import org.sic4change.nut4health.utils.Nut4HealthKeyboard;
 import org.sic4change.nut4health.utils.location.Nut4HealthSingleShotLocationProvider;
 
 
@@ -63,7 +64,7 @@ public class StepCreateContractFragment extends Fragment implements Step {
 
     private static final long VERIFICATION_DELAY_MILISECONDS = 5000;
     private static final long VERIFICATION_TICK_MILISECONDS  = 1000;
-    private static final long EXIT_DELAY_MILISECONDS = 4000;
+    private static final long EXIT_DELAY_MILISECONDS = 5000;
     private static final int LOCATION_REQUEST_CODE = 101;
 
     private CreateContractViewModel mCreateContractViewModel;
@@ -84,6 +85,7 @@ public class StepCreateContractFragment extends Fragment implements Step {
         btnTakePhoto = v.findViewById(R.id.btnTakePhoto);
         btnCheckMalnutrition = v.findViewById(R.id.btnCheckMalnutrition);
         btnCheckMalnutrition.setOnClickListener(v12 -> {
+            Nut4HealthKeyboard.closeKeyboard(etChildLocation, getContext());
             clView.setVisibility(View.VISIBLE);
             btnCheckMalnutrition.setClickable(false);
             btnCheckMalnutrition.setEnabled(false);
@@ -101,23 +103,20 @@ public class StepCreateContractFragment extends Fragment implements Step {
                     final int random = new Random().nextInt((max - min) + 1) + min;
                     if (random > 50) {
                         clView.stopFailure();
-                            mCreateContractViewModel.getUser().observe(getActivity(), new Observer<User>() {
-                                @Override
-                                public void onChanged(@Nullable User user) {
-                                    if (mCreateContractViewModel != null) {
-                                        mCreateContractViewModel.createContract(user.getEmail(),
-                                                mCreateContractViewModel.getLocation().latitude, mCreateContractViewModel.getLocation().longitude,
-                                                mCreateContractViewModel.getUriPhoto().getPath(), mCreateContractViewModel.getChildName(),
-                                                mCreateContractViewModel.getChildSurname(), mCreateContractViewModel.getChildLocation(), Contract.Status.NO_DIAGNOSIS.name());
-                                        mCreateContractViewModel = null;
-                                    }
+                            mCreateContractViewModel.getUser().observe(getActivity(), user -> {
+                                if ((mCreateContractViewModel != null) && (user != null)) {
+                                    mCreateContractViewModel.createContract(user.getEmail(),
+                                            mCreateContractViewModel.getLocation().latitude, mCreateContractViewModel.getLocation().longitude,
+                                            mCreateContractViewModel.getUriPhoto().getPath(), mCreateContractViewModel.getChildName(),
+                                            mCreateContractViewModel.getChildSurname(), mCreateContractViewModel.getChildLocation(), Contract.Status.NO_DIAGNOSIS.name());
+                                    mCreateContractViewModel = null;
                                 }
                             });
 
                     } else {
                         clView.stopOk();
                             mCreateContractViewModel.getUser().observe(getActivity(), user -> {
-                                if (mCreateContractViewModel != null) {
+                                if ((mCreateContractViewModel != null) && (user != null)) {
                                     mCreateContractViewModel.createContract(user.getEmail(),
                                             mCreateContractViewModel.getLocation().latitude, mCreateContractViewModel.getLocation().longitude,
                                             mCreateContractViewModel.getUriPhoto().getPath(), mCreateContractViewModel.getChildName(),

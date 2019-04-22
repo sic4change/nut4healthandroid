@@ -72,4 +72,9 @@ public final class DataContractNames {
      */
     public static final String COL_DATE = "date";
 
+    /**
+     * Column hash for contract
+     */
+    public static final String COL_HASH = "hash";
+
 }
