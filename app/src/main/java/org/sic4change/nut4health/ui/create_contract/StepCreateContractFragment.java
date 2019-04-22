@@ -224,7 +224,6 @@ public class StepCreateContractFragment extends Fragment implements Step {
                     // Error occurred while creating the File
                 }
                 if (photoFile != null) {
-                    getActivity().setRequestedOrientation( ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE );
                     photoURI = FileProvider.getUriForFile(getActivity(),
                             "org.sic4change.nut4health.android.fileprovider",
                             photoFile);
@@ -246,7 +245,6 @@ public class StepCreateContractFragment extends Fragment implements Step {
             ivTakePhoto.setBackgroundColor(getResources().getColor(android.R.color.transparent));
             mCreateContractViewModel.setImageSelected(true);
         }
-        getActivity().setRequestedOrientation( ActivityInfo.SCREEN_ORIENTATION_PORTRAIT );
     }
 
     private File createImageFile() throws IOException {
