@@ -33,6 +33,7 @@ import org.sic4change.animation_check.AnimatedCircleLoadingView;
 import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.data.entities.Contract;
 import org.sic4change.nut4health.ui.main.MainActivity;
+import org.sic4change.nut4health.ui.samphoto.SAMPhotoActivity;
 import org.sic4change.nut4health.utils.Nut4HealthKeyboard;
 import org.sic4change.nut4health.utils.location.Nut4HealthSingleShotLocationProvider;
 
@@ -48,6 +49,7 @@ import java.util.Random;
 
 import static android.app.Activity.RESULT_OK;
 import static maes.tech.intentanim.CustomIntent.customType;
+import static org.sic4change.nut4health.ui.samphoto.SAMPhotoActivity.PHOTO_PATH;
 
 public class StepCreateContractFragment extends Fragment implements Step {
 
@@ -62,13 +64,7 @@ public class StepCreateContractFragment extends Fragment implements Step {
     private Button btnCheckMalnutrition;
     private AnimatedCircleLoadingView clView;
 
-    static final int REQUEST_TAKE_PHOTO = 1;
-    private String currentPhotoPath;
-    private Uri photoURI;
-
-
-    public static final int IMAGE_COMPRESS_QUALITY = 100;
-    public static final int IMAGE_ASPECT_RATIO_X_Y = 3;
+    public static final int REQUEST_TAKE_PHOTO = 1;
 
     private static final long VERIFICATION_DELAY_MILISECONDS = 5000;
     private static final long VERIFICATION_TICK_MILISECONDS  = 1000;
@@ -114,27 +110,27 @@ public class StepCreateContractFragment extends Fragment implements Step {
                     final int random = new Random().nextInt((max - min) + 1) + min;
                     if (random > 50) {
                         clView.stopFailure();
-                            mCreateContractViewModel.getUser().observe(getActivity(), user -> {
-                                if ((mCreateContractViewModel != null) && (user != null)) {
-                                    mCreateContractViewModel.createContract(user.getEmail(),
-                                            mCreateContractViewModel.getLocation().latitude, mCreateContractViewModel.getLocation().longitude,
-                                            mCreateContractViewModel.getUriPhoto(), mCreateContractViewModel.getChildName(),
-                                            mCreateContractViewModel.getChildSurname(), mCreateContractViewModel.getChildLocation(), Contract.Status.NO_DIAGNOSIS.name());
-                                    mCreateContractViewModel = null;
-                                }
-                            });
+                        mCreateContractViewModel.getUser().observe(getActivity(), user -> {
+                            if ((mCreateContractViewModel != null) && (user != null)) {
+                                mCreateContractViewModel.createContract(user.getEmail(),
+                                        mCreateContractViewModel.getLocation().latitude, mCreateContractViewModel.getLocation().longitude,
+                                        mCreateContractViewModel.getUriPhoto(), mCreateContractViewModel.getChildName(),
+                                        mCreateContractViewModel.getChildSurname(), mCreateContractViewModel.getChildLocation(), Contract.Status.NO_DIAGNOSIS.name());
+                                mCreateContractViewModel = null;
+                            }
+                        });
 
                     } else {
                         clView.stopOk();
-                            mCreateContractViewModel.getUser().observe(getActivity(), user -> {
-                                if ((mCreateContractViewModel != null) && (user != null)) {
-                                    mCreateContractViewModel.createContract(user.getEmail(),
-                                            mCreateContractViewModel.getLocation().latitude, mCreateContractViewModel.getLocation().longitude,
-                                            mCreateContractViewModel.getUriPhoto(), mCreateContractViewModel.getChildName(),
-                                            mCreateContractViewModel.getChildSurname(), mCreateContractViewModel.getChildLocation(), Contract.Status.DIAGNOSIS.name());
-                                    mCreateContractViewModel = null;
-                                }
-                            });
+                        mCreateContractViewModel.getUser().observe(getActivity(), user -> {
+                            if ((mCreateContractViewModel != null) && (user != null)) {
+                                mCreateContractViewModel.createContract(user.getEmail(),
+                                        mCreateContractViewModel.getLocation().latitude, mCreateContractViewModel.getLocation().longitude,
+                                        mCreateContractViewModel.getUriPhoto(), mCreateContractViewModel.getChildName(),
+                                        mCreateContractViewModel.getChildSurname(), mCreateContractViewModel.getChildLocation(), Contract.Status.DIAGNOSIS.name());
+                                mCreateContractViewModel = null;
+                            }
+                        });
                     }
                     new CountDownTimer(EXIT_DELAY_MILISECONDS, VERIFICATION_TICK_MILISECONDS) {
 
@@ -172,7 +168,7 @@ public class StepCreateContractFragment extends Fragment implements Step {
             return new VerificationError(getString(R.string.error_photo));
         } else if (position == 1) {
             if ((etChildLocation.getText() == null) || (etChildLocation.getText().toString() == null) || (etChildLocation.getText().toString().isEmpty())
-                || (etChildName.getText() == null) || (etChildName.getText().toString() == null) || (etChildName.getText().toString().isEmpty())
+                    || (etChildName.getText() == null) || (etChildName.getText().toString() == null) || (etChildName.getText().toString().isEmpty())
                     || (etChildSurname.getText() == null) || (etChildSurname.getText().toString() == null) || (etChildSurname.getText().toString().isEmpty())) {
                 return new VerificationError(getString(R.string.error_child_data));
             }
@@ -215,50 +211,27 @@ public class StepCreateContractFragment extends Fragment implements Step {
     private void takePhoto() {
         if (ActivityCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA}, CAMERA_REQUEST_CODE);
-        } else {
-            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
-                File photoFile = null;
-                try {
-                    photoFile = createImageFile();
-                } catch (IOException ex) {
-                    // Error occurred while creating the File
-                }
-                if (photoFile != null) {
-                    photoURI = FileProvider.getUriForFile(getActivity(),
-                            "org.sic4change.nut4health.android.fileprovider",
-                            photoFile);
-                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                    startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
-                }
-            }
+        } else if (ActivityCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_STORAGE_REQUEST_CODE);
+        } else if (ActivityCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, READ_EXTERNAL_STORAGE_REQUEST_CODE);
         }
-
+        else {
+           Intent takePictureIntent = new Intent(getActivity(), SAMPhotoActivity.class);
+           startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
+        }
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-         if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
-            mCreateContractViewModel.setUriPhoto(photoURI);
+        if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
+            mCreateContractViewModel.setUriPhoto(Uri.parse(data.getStringExtra(PHOTO_PATH)));
             Glide.with(getActivity().getApplicationContext())
-                    .load(mCreateContractViewModel.getUriPhoto())
+                    .load(new File(mCreateContractViewModel.getUriPhoto().getPath()))
                     .into(ivTakePhoto);
             ivTakePhoto.setBackgroundColor(getResources().getColor(android.R.color.transparent));
             mCreateContractViewModel.setImageSelected(true);
         }
-    }
-
-    private File createImageFile() throws IOException {
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,
-                ".jpg",
-                storageDir
-        );
-        currentPhotoPath = image.getAbsolutePath();
-        return image;
     }
 
     @SuppressLint("MissingPermission")
