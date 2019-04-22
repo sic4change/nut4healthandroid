@@ -420,6 +420,26 @@ public class DataRepository {
                 storageRef.putFile(Uri.fromFile(new File(contract.getPhoto()))).addOnSuccessListener(taskSnapshot -> storageRef.getDownloadUrl().addOnCompleteListener(mIoExecutor, storageTask -> {
                     contract.setPhoto(storageTask.getResult().toString());
                     task.getResult().set(contract);
+
+                    FirebaseFirestore db = FirebaseFirestore.getInstance();
+                    CollectionReference userRef = db.collection(DataUserNames.TABLE_FIREBASE_NAME);
+                    Query query = userRef.whereEqualTo(DataUserNames.COL_EMAIL, email).limit(1);
+                    listenerQuery = query.addSnapshotListener(mIoExecutor, (queryDocumentSnapshots, e) -> {
+                        try {
+                            if ((queryDocumentSnapshots != null) && (queryDocumentSnapshots.getDocuments() != null)
+                                    && (queryDocumentSnapshots.getDocuments().size() > 0)) {
+                                User user = queryDocumentSnapshots.getDocuments().get(0).toObject(User.class);
+                                user.setPoints(user.getPoints() + 1);
+                                queryDocumentSnapshots.getDocuments().get(0).getReference().set(user);
+                                nut4HealtDao.deleteAllUser();
+                                listenerQuery.remove();
+                            } else {
+                                Log.d(TAG, "Get user from firebase: " + "empty");
+                            }
+                        } catch (Exception error) {
+                            Log.d(TAG, "Get user: " + "empty");
+                        }
+                    });
                 }));
             }
         });
