@@ -22,6 +22,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -53,6 +54,7 @@ public class StepCreateContractFragment extends Fragment implements Step {
 
     private Button btnTakePhoto;
     private ImageView ivTakePhoto;
+    private TextView tvPercentage;
     private CardView cvChild;
     private EditText etChildName;
     private EditText etChildSurname;
@@ -117,6 +119,7 @@ public class StepCreateContractFragment extends Fragment implements Step {
         });
         btnTakePhoto.setOnClickListener(v1 -> takePhoto());
         ivTakePhoto = v.findViewById(R.id.ivTakePhoto);
+        tvPercentage = v.findViewById(R.id.tvPercentage);
         cvChild = v.findViewById(R.id.cvChild);
         etChildName = v.findViewById(R.id.etChildName);
         etChildSurname = v.findViewById(R.id.etChildSurname);
@@ -155,6 +158,7 @@ public class StepCreateContractFragment extends Fragment implements Step {
         if (getPosition() == 0) {
             btnTakePhoto.setVisibility(View.VISIBLE);
             ivTakePhoto.setVisibility(View.VISIBLE);
+            tvPercentage.setVisibility(View.VISIBLE);
             cvChild.setVisibility(View.GONE);
             btnCheckMalnutrition.setVisibility(View.GONE);
             clView.setVisibility(View.GONE);
@@ -170,6 +174,7 @@ public class StepCreateContractFragment extends Fragment implements Step {
         } else if (getPosition() == 1) {
             btnTakePhoto.setVisibility(View.GONE);
             ivTakePhoto.setVisibility(View.GONE);
+            tvPercentage.setVisibility(View.GONE);
             cvChild.setVisibility(View.VISIBLE);
             btnCheckMalnutrition.setVisibility(View.GONE);
             clView.setVisibility(View.GONE);
@@ -185,6 +190,7 @@ public class StepCreateContractFragment extends Fragment implements Step {
         } else {
             btnTakePhoto.setVisibility(View.GONE);
             ivTakePhoto.setVisibility(View.GONE);
+            tvPercentage.setVisibility(View.GONE);
             cvChild.setVisibility(View.GONE);
             btnCheckMalnutrition.setVisibility(View.VISIBLE);
             clView.setVisibility(View.GONE);
@@ -223,6 +229,7 @@ public class StepCreateContractFragment extends Fragment implements Step {
                             .skipMemoryCache(true))
                     .into(ivTakePhoto);
             ivTakePhoto.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+            tvPercentage.setText(mCreateContractViewModel.getPercentage() + "");
             mCreateContractViewModel.setImageSelected(true);
         }
     }

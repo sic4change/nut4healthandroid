@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -47,7 +48,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         card_view:cardCornerRadius="3dp"
-        card_view:cardElevation="3dp">
+        card_view:cardElevation="3dp"
+        android:visibility="gone">
 
         <ScrollView
             android:id="@+id/scrollView"
@@ -191,5 +193,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvPercentage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="8dp"
+        android:textColor="@color/colorPrimaryDark"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:text="0%"
+        app:layout_constraintBottom_toBottomOf="@+id/clView"
+        app:layout_constraintEnd_toEndOf="@+id/clView"
+        app:layout_constraintStart_toStartOf="@+id/clView" />
 
 </android.support.constraint.ConstraintLayout>
