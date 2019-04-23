@@ -204,8 +204,9 @@
         android:textStyle="bold"
         android:textSize="20sp"
         android:text="0%"
-        app:layout_constraintBottom_toBottomOf="@+id/clView"
-        app:layout_constraintEnd_toEndOf="@+id/clView"
-        app:layout_constraintStart_toStartOf="@+id/clView" />
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/ivTakePhoto"
+        app:layout_constraintEnd_toEndOf="@+id/ivTakePhoto"
+        app:layout_constraintStart_toStartOf="@+id/ivTakePhoto" />
 
 </android.support.constraint.ConstraintLayout>

@@ -229,7 +229,7 @@ public class StepCreateContractFragment extends Fragment implements Step {
                             .skipMemoryCache(true))
                     .into(ivTakePhoto);
             ivTakePhoto.setBackgroundColor(getResources().getColor(android.R.color.transparent));
-            tvPercentage.setText(mCreateContractViewModel.getPercentage() + "");
+            tvPercentage.setText(mCreateContractViewModel.getPercentage() + " %");
             mCreateContractViewModel.setImageSelected(true);
         }
     }
