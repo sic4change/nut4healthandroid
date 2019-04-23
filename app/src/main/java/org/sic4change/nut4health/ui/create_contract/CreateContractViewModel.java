@@ -37,9 +37,9 @@ public class CreateContractViewModel extends ViewModel {
     }
 
     public void createContract(String screener, float latitude, float longitude, Uri photo, String childName,
-                               String childSurname, String childAddress, String status) {
+                               String childSurname, String childAddress,int percentage) {
         mRepository.createContract(screener, latitude, longitude, photo, childName, childSurname,
-                childAddress, status);
+                childAddress, percentage);
     }
 
 

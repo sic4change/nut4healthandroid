@@ -55,38 +55,43 @@ public class Contract {
     private long date;
 
     @NonNull
+    @ColumnInfo(name = DataContractNames.COL_PERCENTAGE)
+    private int percentage;
+
+    @NonNull
     @ColumnInfo(name = DataContractNames.COL_HASH)
     private String hash;
 
     @Ignore
     public Contract(@NonNull String id) {
         this(id, "", 0.0f, 0.0f, "", "", "",
-                "", "", Status.INIT.name(), "", 0L, "");
+                "", "", Status.INIT.name(), "", 0L, "", 0);
     }
 
     @Ignore
     public Contract(@NonNull String photo, float latitude, float longitude, @NonNull String screener) {
         this("", photo, latitude, longitude, screener, "", "", "",
-                "", Status.INIT.name(), "", 0L, "");
+                "", Status.INIT.name(), "", 0L, "", 0);
     }
 
     @Ignore
     public Contract(@NonNull String photo, float latitude, float longitude, @NonNull String screener,
-                    String childName, String childSurname, String childAddress, String status, long date, String hash) {
+                    String childName, String childSurname, String childAddress, String status, long date,
+                    String hash, int percentage) {
         this("", photo, latitude, longitude, screener, "", childName, childSurname,
-                childAddress, status, "", date, hash);
+                childAddress, status, "", date, hash, percentage);
     }
     @Ignore
     public Contract(@NonNull String id, @NonNull String photo, float latitude, float longitude,
                     @NonNull String screener, String childName, String childSurname,
-                    String childAddress, String status, long date, String hash) {
+                    String childAddress, String status, long date, String hash, int percentage) {
         this(id, photo, latitude, longitude, screener, "", childName, childSurname,
-                childAddress, status, "", date, hash);
+                childAddress, status, "", date, hash, percentage);
     }
 
     public Contract(@NonNull String id, @NonNull String photo, float latitude, float longitude, @NonNull String screener,
                     String medical, String childName, String childSurname, String childAddress,
-                    String status, String diagnosis, long date, String hash) {
+                    String status, String diagnosis, long date, String hash, int percentage) {
         this.id = id;
         this.photo = photo;
         this.latitude = latitude;
@@ -100,6 +105,7 @@ public class Contract {
         this.diagnosis = diagnosis;
         this.date = date;
         this.hash = hash;
+        this.percentage = percentage;
     }
 
     @NonNull
@@ -208,6 +214,14 @@ public class Contract {
 
     public void setHash(@NonNull String hash) {
         this.hash = hash;
+    }
+
+    public int getPercentage() {
+        return percentage;
+    }
+
+    public void setPercentage(int percentage) {
+        this.percentage = percentage;
     }
 
     public enum Status {

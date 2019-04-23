@@ -59,7 +59,7 @@ public class CreateContractActivity extends AppCompatActivity implements Stepper
 
     @Override
     public void onCompleted(View completeButton) {
-
+        goToMainActivity();
     }
 
     @Override

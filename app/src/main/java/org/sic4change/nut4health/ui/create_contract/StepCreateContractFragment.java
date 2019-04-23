@@ -105,30 +105,17 @@ public class StepCreateContractFragment extends Fragment implements Step {
                     final int min = 1;
                     final int max = 100;
                     final int random = new Random().nextInt((max - min) + 1) + min;
-                    if (random > 50) {
-                        clView.stopFailure();
-                        mCreateContractViewModel.getUser().observe(getActivity(), user -> {
-                            if ((mCreateContractViewModel != null) && (user != null)) {
-                                mCreateContractViewModel.createContract(user.getEmail(),
-                                        mCreateContractViewModel.getLocation().latitude, mCreateContractViewModel.getLocation().longitude,
-                                        mCreateContractViewModel.getUriPhoto(), mCreateContractViewModel.getChildName(),
-                                        mCreateContractViewModel.getChildSurname(), mCreateContractViewModel.getChildLocation(), Contract.Status.NO_DIAGNOSIS.name());
-                                mCreateContractViewModel = null;
-                            }
-                        });
-
-                    } else {
-                        clView.stopOk();
-                        mCreateContractViewModel.getUser().observe(getActivity(), user -> {
-                            if ((mCreateContractViewModel != null) && (user != null)) {
-                                mCreateContractViewModel.createContract(user.getEmail(),
-                                        mCreateContractViewModel.getLocation().latitude, mCreateContractViewModel.getLocation().longitude,
-                                        mCreateContractViewModel.getUriPhoto(), mCreateContractViewModel.getChildName(),
-                                        mCreateContractViewModel.getChildSurname(), mCreateContractViewModel.getChildLocation(), Contract.Status.DIAGNOSIS.name());
-                                mCreateContractViewModel = null;
-                            }
-                        });
-                    }
+                    clView.setPercent(random);
+                    clView.stopOk();
+                    mCreateContractViewModel.getUser().observe(getActivity(), user -> {
+                        if ((mCreateContractViewModel != null) && (user != null)) {
+                            mCreateContractViewModel.createContract(user.getEmail(),
+                                    mCreateContractViewModel.getLocation().latitude, mCreateContractViewModel.getLocation().longitude,
+                                    mCreateContractViewModel.getUriPhoto(), mCreateContractViewModel.getChildName(),
+                                    mCreateContractViewModel.getChildSurname(), mCreateContractViewModel.getChildLocation(), random);
+                            mCreateContractViewModel = null;
+                        }
+                    });
                     new CountDownTimer(EXIT_DELAY_MILISECONDS, VERIFICATION_TICK_MILISECONDS) {
 
                         public void onTick(long millisUntilFinished) {

@@ -186,7 +186,7 @@
         android:visibility="visible"
         app:animCircleLoadingView_mainColor="@color/colorPrimaryDark"
         app:animCircleLoadingView_secondaryColor="@color/colorAccent"
-        app:animCircleLoadingView_textColor="@android:color/white"
+        app:animCircleLoadingView_textColor="@color/colorPrimaryDark"
         app:layout_constraintBottom_toTopOf="@+id/btnCheckMalnutrition"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

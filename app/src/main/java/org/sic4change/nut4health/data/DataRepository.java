@@ -404,18 +404,24 @@ public class DataRepository {
      * @param childName
      * @param childUsername
      * @param childAddress
-     * @param status
+     * @param percentage
      */
     public void createContract(String email, float latitude, float longitude, Uri photo, String childName, String childUsername,
-                               String childAddress, String status) {
+                               String childAddress, int percentage) {
         String hash = "";
         try {
             hash = Files.hash(new File(photo.toString()), Hashing.sha512()).toString();
         } catch (IOException e) {
             e.printStackTrace();
         }
+        String status;
+        if (percentage > 49) {
+            status = Contract.Status.DIAGNOSIS.name();
+        } else {
+            status = Contract.Status.NO_DIAGNOSIS.name();
+        }
         Contract contract = new Contract(photo.toString(), latitude, longitude, email, childName, childUsername, childAddress,
-                Contract.Status.INIT.name(), new Date().getTime(), hash);
+                status, new Date().getTime(), hash, percentage);
         contract.setStatus(status);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference contractRef = db.collection(DataContractNames.TABLE_FIREBASE_NAME);
