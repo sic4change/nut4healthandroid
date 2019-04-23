@@ -1,6 +1,9 @@
 package org.sic4change.nut4health.data;
 
 import android.arch.lifecycle.LiveData;
+import android.arch.paging.LivePagedListBuilder;
+import android.arch.paging.PagedList;
+import android.arch.persistence.db.SimpleSQLiteQuery;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Environment;
@@ -17,6 +20,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
@@ -30,15 +34,21 @@ import org.sic4change.nut4health.data.names.DataUserNames;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
+import static android.nfc.tech.MifareUltralight.PAGE_SIZE;
 
 
 public class DataRepository {
 
     private String TAG = DataRepository.class.getName();
+
+    private final static int PAGE_SIZE = 20;
 
     private Nut4HealtDao nut4HealtDao;
     private final ExecutorService mIoExecutor;
@@ -455,6 +465,47 @@ public class DataRepository {
                 });
             }));
         });
+    }
+
+    /**
+     * Method to get contracts from firebase
+     * @param email
+     */
+    public void getContracts(String email) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference contractRef = db.collection(DataContractNames.TABLE_FIREBASE_NAME);
+        Query query = contractRef.whereEqualTo(DataContractNames.COL_SCREENER, email);
+        query.addSnapshotListener(mIoExecutor, (queryDocumentSnapshots, e) -> {
+            try {
+                if ((queryDocumentSnapshots != null) && (queryDocumentSnapshots.getDocuments() != null)
+                        && (queryDocumentSnapshots.getDocuments().size() > 0)) {
+                    for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
+                        Contract contract = document.toObject(Contract.class);
+                        /*if (nut4HealtDao.getContract(contract.getId(), contract.getStatus()).getValue() != null) {
+                            continue;
+                        } else {
+                            nut4HealtDao.insert(contract);
+                        }*/
+                        nut4HealtDao.insert(contract);
+                    }
+                } else {
+                    Log.d(TAG, "Get contracts: " + "empty");
+                }
+            } catch (Exception error) {
+                Log.d(TAG, "Get contracts: " + "empty");
+            }
+        });
+    }
+
+    /**
+     * Method to get contracts sorted
+     * @param sort
+     * @param status
+     * @return
+     */
+    public LiveData<PagedList<Contract>> getSortedContracts(String sort, String status) {
+        SimpleSQLiteQuery query = SortUtils.getAllQuery(sort, status);
+        return new LivePagedListBuilder<>(nut4HealtDao.getUserContracts(query), PAGE_SIZE).build();
     }
 
 }

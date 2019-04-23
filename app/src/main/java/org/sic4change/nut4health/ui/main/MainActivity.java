@@ -1,11 +1,14 @@
 package org.sic4change.nut4health.ui.main;
 
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.arch.paging.PagedList;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -26,6 +29,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 
 import org.sic4change.nut4health.R;
+import org.sic4change.nut4health.data.entities.Contract;
 import org.sic4change.nut4health.ui.profile.ProfileActivity;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -74,8 +78,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     mMainViewModel.updateUser(user.getEmail());
                     created = true;
                 }
+                mMainViewModel.getContracts(user.getEmail());
+                mMainViewModel.getContracts().observe(this, contracts -> System.out.println("Aqui: " + contracts.size()));
             }
         });
+
+
         Fragment fragment = null;
         if (mMainViewModel.getSelection(getApplicationContext()) == 1) {
             fragment = new EmptyFragment();

@@ -115,6 +115,9 @@ dependencies {
     //Guava
     implementation 'com.google.guava:guava:27.1-android'
 
+    //Date view
+    implementation 'com.github.curioustechizen.android-ago:library:1.4.0'
+
     //Test
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     testImplementation 'junit:junit:4.12'

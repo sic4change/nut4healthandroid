@@ -137,7 +137,7 @@ public interface Nut4HealtDao {
      * Insert a contract
      * @param contract
      */
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(Contract... contract);
 
     /**
@@ -152,5 +152,13 @@ public interface Nut4HealtDao {
      */
     @Query("DELETE FROM contract")
     void deleteAllContract();
+
+    /**
+     * Get a contract based on the contract id
+     * @param id
+     * @return
+     */
+    @Query("SELECT * FROM contract WHERE contractId =:id AND status =:status LIMIT 1")
+    LiveData<Contract> getContract(String id, String status);
 
 }

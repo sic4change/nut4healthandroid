@@ -62,6 +62,11 @@ public class Contract {
     @ColumnInfo(name = DataContractNames.COL_HASH)
     private String hash;
 
+    public Contract() {
+        this("", "", 0.0f, 0.0f, "", "", "",
+                "", "", Status.INIT.name(), "", 0L, "", 0);
+    }
+
     @Ignore
     public Contract(@NonNull String id) {
         this(id, "", 0.0f, 0.0f, "", "", "",
