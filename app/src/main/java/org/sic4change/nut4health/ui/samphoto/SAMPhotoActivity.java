@@ -3,6 +3,7 @@ package org.sic4change.nut4health.ui.samphoto;
 import android.content.Intent;
 import android.hardware.Camera;
 import android.net.Uri;
+import android.os.CountDownTimer;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,8 +11,10 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
 import android.widget.Button;
 
+import org.sic4change.animation_check.AnimatedCircleLoadingView;
 import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.ui.create_contract.CreateContractActivity;
 
@@ -19,6 +22,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Random;
 
 import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE;
 
@@ -28,6 +32,7 @@ public class SAMPhotoActivity extends AppCompatActivity implements SurfaceHolder
     private final String tag = "VideoServer";
 
     public static String PHOTO_PATH = "photo_path";
+    public static String PERCENTAGE = "percentage";
 
     private Camera camera;
     private SurfaceView surfaceView;
@@ -36,26 +41,27 @@ public class SAMPhotoActivity extends AppCompatActivity implements SurfaceHolder
     private Camera.ShutterCallback shutterCallback;
     private Camera.PictureCallback jpegCallback;
 
+    private int percentage = 0;
+
     private Button btnCapture;
+
+    private AnimatedCircleLoadingView clView;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_samphoto);
-        btnCapture = (Button) findViewById(R.id.btnCapture);
+        btnCapture = findViewById(R.id.btnCapture);
+        clView = findViewById(R.id.clView);
         btnCapture.setOnClickListener(v -> captureImage());
-
-        surfaceView = (SurfaceView)findViewById(R.id.surfaceView);
+        clView.setVisibility(View.GONE);
+        surfaceView = findViewById(R.id.surfaceView);
         surfaceHolder = surfaceView.getHolder();
         surfaceHolder.addCallback(this);
         surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 
-        rawCallback = new Camera.PictureCallback() {
-            public void onPictureTaken(byte[] data, Camera camera) {
-                Log.d("Log", "onPictureTaken - raw");
-            }
-        };
+        rawCallback = (data, camera) -> Log.d("Log", "onPictureTaken - raw");
 
         jpegCallback = (data, camera) -> {
             File pictureFile = getOutputMediaFile(MEDIA_TYPE_IMAGE);
@@ -74,14 +80,60 @@ public class SAMPhotoActivity extends AppCompatActivity implements SurfaceHolder
             }
 
             stopCamera();
-            goToCreateContractActivity();
+
+
         };
+    }
+
+    private void startPercentMockThread(int random) {
+        Runnable runnable = () -> {
+            try {
+                Thread.sleep(1500);
+                for (int i = 0; i <= random; i++) {
+                    Thread.sleep(65);
+                    changePercent(i);
+                }
+                clView.stopOk();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        };
+        new Thread(runnable).start();
+    }
+
+    private void changePercent(final int percent) {
+        runOnUiThread(() -> clView.setPercent(percent));
     }
 
     private void captureImage() {
         btnCapture.setEnabled(false);
         btnCapture.setClickable(false);
         camera.takePicture(shutterCallback, rawCallback, jpegCallback);
+        clView.setVisibility(View.VISIBLE);
+        clView.startDeterminate();
+        final int min = 1;
+        final int max = 100;
+        final int random = new Random().nextInt((max - min) + 1) + min;
+        percentage = random;
+        startPercentMockThread(random);
+        //clView.stopOk();
+        clView.setAnimationListener(new AnimatedCircleLoadingView.AnimationListener() {
+            @Override
+            public void onAnimationEnd(boolean success) {
+
+                new CountDownTimer(3000, 1000) {
+
+                    public void onTick(long millisUntilFinished) {
+
+                    }
+
+                    public void onFinish() {
+                        goToCreateContractActivity();
+                    }
+                }.start();
+
+            }
+        });
     }
 
     private void startCamera() {
@@ -117,6 +169,7 @@ public class SAMPhotoActivity extends AppCompatActivity implements SurfaceHolder
     private void goToCreateContractActivity() {
         Intent intent = new Intent(this, CreateContractActivity.class);
         intent.putExtra(PHOTO_PATH, getOutputMediaFileUri(MEDIA_TYPE_IMAGE).toString());
+        intent.putExtra(PERCENTAGE, percentage);
         setResult(RESULT_OK, intent);
         finish();
     }

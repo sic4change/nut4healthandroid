@@ -16,6 +16,7 @@ public class CreateContractViewModel extends ViewModel {
     private final LiveData<Contract> mContract;
 
     private Uri uriPhoto;
+    private int percentage;
     private Nut4HealthSingleShotLocationProvider.GPSCoordinates location;
     private String childName;
     private String childSurname;
@@ -89,5 +90,13 @@ public class CreateContractViewModel extends ViewModel {
 
     public void setChildLocation(String childLocation) {
         this.childLocation = childLocation;
+    }
+
+    public int getPercentage() {
+        return percentage;
+    }
+
+    public void setPercentage(int percentage) {
+        this.percentage = percentage;
     }
 }

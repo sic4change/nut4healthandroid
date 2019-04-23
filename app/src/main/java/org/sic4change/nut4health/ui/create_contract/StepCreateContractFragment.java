@@ -31,7 +31,6 @@ import com.stepstone.stepper.VerificationError;
 
 import org.sic4change.animation_check.AnimatedCircleLoadingView;
 import org.sic4change.nut4health.R;
-import org.sic4change.nut4health.data.entities.Contract;
 import org.sic4change.nut4health.ui.main.MainActivity;
 import org.sic4change.nut4health.ui.samphoto.SAMPhotoActivity;
 import org.sic4change.nut4health.utils.Nut4HealthKeyboard;
@@ -42,10 +41,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
-import java.util.Random;
 
 import static android.app.Activity.RESULT_OK;
 import static maes.tech.intentanim.CustomIntent.customType;
+import static org.sic4change.nut4health.ui.samphoto.SAMPhotoActivity.PERCENTAGE;
 import static org.sic4change.nut4health.ui.samphoto.SAMPhotoActivity.PHOTO_PATH;
 
 public class StepCreateContractFragment extends Fragment implements Step {
@@ -63,9 +62,8 @@ public class StepCreateContractFragment extends Fragment implements Step {
 
     public static final int REQUEST_TAKE_PHOTO = 1;
 
-    private static final long VERIFICATION_DELAY_MILISECONDS = 5000;
+    private static final long VERIFICATION_DELAY_MILISECONDS = 6000;
     private static final long VERIFICATION_TICK_MILISECONDS  = 1000;
-    private static final long EXIT_DELAY_MILISECONDS = 5000;
     private static final int LOCATION_REQUEST_CODE = 101;
     private static final int CAMERA_REQUEST_CODE = 102;
     private static final int WRITE_EXTERNAL_STORAGE_REQUEST_CODE = 103;
@@ -94,7 +92,17 @@ public class StepCreateContractFragment extends Fragment implements Step {
             btnCheckMalnutrition.setClickable(false);
             btnCheckMalnutrition.setEnabled(false);
             clView.startDeterminate();
-            //TODO: change por SAMPHOTO call
+            mCreateContractViewModel.getUser().observe(getActivity(), user -> {
+                if ((mCreateContractViewModel != null) && (user != null)) {
+                    mCreateContractViewModel.createContract(user.getEmail(),
+                            mCreateContractViewModel.getLocation().latitude, mCreateContractViewModel.getLocation().longitude,
+                            mCreateContractViewModel.getUriPhoto(), mCreateContractViewModel.getChildName(),
+                            mCreateContractViewModel.getChildSurname(), mCreateContractViewModel.getChildLocation(),
+                            mCreateContractViewModel.getPercentage());
+                    mCreateContractViewModel = null;
+                }
+            });
+            clView.stopOk();
             new CountDownTimer(VERIFICATION_DELAY_MILISECONDS, VERIFICATION_TICK_MILISECONDS) {
 
                 public void onTick(long millisUntilFinished) {
@@ -102,32 +110,10 @@ public class StepCreateContractFragment extends Fragment implements Step {
                 }
 
                 public void onFinish() {
-                    final int min = 1;
-                    final int max = 100;
-                    final int random = new Random().nextInt((max - min) + 1) + min;
-                    clView.setPercent(random);
-                    clView.stopOk();
-                    mCreateContractViewModel.getUser().observe(getActivity(), user -> {
-                        if ((mCreateContractViewModel != null) && (user != null)) {
-                            mCreateContractViewModel.createContract(user.getEmail(),
-                                    mCreateContractViewModel.getLocation().latitude, mCreateContractViewModel.getLocation().longitude,
-                                    mCreateContractViewModel.getUriPhoto(), mCreateContractViewModel.getChildName(),
-                                    mCreateContractViewModel.getChildSurname(), mCreateContractViewModel.getChildLocation(), random);
-                            mCreateContractViewModel = null;
-                        }
-                    });
-                    new CountDownTimer(EXIT_DELAY_MILISECONDS, VERIFICATION_TICK_MILISECONDS) {
-
-                        public void onTick(long millisUntilFinished) {
-
-                        }
-
-                        public void onFinish() {
-                            goToMainActivity();
-                        }
-                    }.start();
+                    goToMainActivity();
                 }
             }.start();
+
         });
         btnTakePhoto.setOnClickListener(v1 -> takePhoto());
         ivTakePhoto = v.findViewById(R.id.ivTakePhoto);
@@ -228,6 +214,7 @@ public class StepCreateContractFragment extends Fragment implements Step {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
             mCreateContractViewModel.setUriPhoto(Uri.parse(data.getExtras().get(PHOTO_PATH).toString()));
+            mCreateContractViewModel.setPercentage(data.getIntExtra(PERCENTAGE, 0));
             File file = new File(getRealPathFromURI(mCreateContractViewModel.getUriPhoto()));
             Glide.with(getActivity().getApplicationContext())
                     .load(file)
