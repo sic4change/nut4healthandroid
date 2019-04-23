@@ -1,5 +1,6 @@
 package org.sic4change.nut4health.ui.main;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
@@ -19,9 +20,11 @@ private TextView nPercentage;
 private RelativeTimeTextView nDate;
 private Contract mContract;
 private ContractsAdapter.ItemAction itemAction;
+private Context context;
 
-    ContractViewHolder(View itemView) {
+    ContractViewHolder(View itemView, Context context) {
         super(itemView);
+        this.context = context;
         nChildName = itemView.findViewById(R.id.tvNameItem);
         nChildSurname = itemView.findViewById(R.id.tvSurnameItem);
         nChildLocation = itemView.findViewById(R.id.tvLocationItem);
@@ -38,7 +41,14 @@ private ContractsAdapter.ItemAction itemAction;
         nChildName.setText(contract.getChildName());
         nChildSurname.setText(contract.getChildSurname());
         nChildLocation.setText(contract.getChildAddress());
-        nPercentage.setText(contract.getPercentage() + " %");
+        nPercentage.setText(contract.getPercentage() + "%");
+        if (contract.getStatus().equals(Contract.Status.DIAGNOSIS.name())) {
+            nPercentage.setTextColor(context.getResources().getColor(R.color.ms_errorColor));
+        } else if (contract.getStatus().equals(Contract.Status.NO_DIAGNOSIS.name())) {
+            nPercentage.setTextColor(context.getResources().getColor(R.color.colorPrimaryDark));
+        } else {
+            nPercentage.setTextColor(context.getResources().getColor(R.color.colorAccent));
+        }
         nDate.setReferenceTime(contract.getDate());
         setClickAction(this.itemAction);
         nChildName.setOnClickListener(v -> itemAction.onClick(getContract().getId()));
