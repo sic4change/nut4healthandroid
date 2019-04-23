@@ -1,13 +1,9 @@
 package org.sic4change.nut4health.ui.samphoto;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
 import android.hardware.Camera;
 import android.net.Uri;
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,18 +11,14 @@ import android.view.MenuItem;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.widget.Button;
-import android.widget.TextView;
 
 import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.ui.create_contract.CreateContractActivity;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE;
 
@@ -72,7 +64,7 @@ public class SAMPhotoActivity extends AppCompatActivity implements SurfaceHolder
                 return;
             }
             try {
-                FileOutputStream fos = new FileOutputStream(pictureFile);
+                FileOutputStream fos = new FileOutputStream(pictureFile, false);
                 fos.write(data);
                 fos.close();
             } catch (FileNotFoundException e) {
@@ -168,11 +160,10 @@ public class SAMPhotoActivity extends AppCompatActivity implements SurfaceHolder
                 return null;
             }
         }
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         File mediaFile;
         if (type == MEDIA_TYPE_IMAGE){
             mediaFile = new File(mediaStorageDir.getPath() + File.separator +
-                    "IMG_"+ timeStamp + ".jpg");
+                    "IMG_SAMPhoto.jpg");
         }  else {
             return null;
         }

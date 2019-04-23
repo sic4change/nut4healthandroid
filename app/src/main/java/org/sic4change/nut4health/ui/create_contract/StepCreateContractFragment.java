@@ -4,19 +4,17 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.FileProvider;
 import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +24,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.stepstone.stepper.Step;
 import com.stepstone.stepper.VerificationError;
 
@@ -40,9 +40,6 @@ import org.sic4change.nut4health.utils.location.Nut4HealthSingleShotLocationProv
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Method;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
@@ -153,7 +150,7 @@ public class StepCreateContractFragment extends Fragment implements Step {
         etChildLocation = v.findViewById(R.id.etChildLocation);
         clView = v.findViewById(R.id.clView);
         if (ActivityCompat.checkSelfPermission(getActivity().getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(getActivity(), new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, LOCATION_REQUEST_CODE);
+            requestPermissions(new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, LOCATION_REQUEST_CODE);
         } else {
             showMyPosition();
         }
@@ -188,12 +185,30 @@ public class StepCreateContractFragment extends Fragment implements Step {
             cvChild.setVisibility(View.GONE);
             btnCheckMalnutrition.setVisibility(View.GONE);
             clView.setVisibility(View.GONE);
+            if (mCreateContractViewModel.getChildLocation() != null) {
+                Glide.with(getActivity().getApplicationContext())
+                        .load(new File(mCreateContractViewModel.getUriPhoto().getPath()))
+                        .apply(new RequestOptions()
+                                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                                .skipMemoryCache(true))
+                        .into(ivTakePhoto);
+                ivTakePhoto.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+            }
         } else if (getPosition() == 1) {
             btnTakePhoto.setVisibility(View.GONE);
             ivTakePhoto.setVisibility(View.GONE);
             cvChild.setVisibility(View.VISIBLE);
             btnCheckMalnutrition.setVisibility(View.GONE);
             clView.setVisibility(View.GONE);
+            if (mCreateContractViewModel.getChildName() != null) {
+                etChildName.setText(mCreateContractViewModel.getChildName());
+            }
+            if (mCreateContractViewModel.getChildSurname() != null) {
+                etChildSurname.setText(mCreateContractViewModel.getChildSurname());
+            }
+            if (mCreateContractViewModel.getChildLocation() != null) {
+                etChildLocation.setText(mCreateContractViewModel.getChildLocation());
+            }
         } else {
             btnTakePhoto.setVisibility(View.GONE);
             ivTakePhoto.setVisibility(View.GONE);
@@ -210,11 +225,11 @@ public class StepCreateContractFragment extends Fragment implements Step {
 
     private void takePhoto() {
         if (ActivityCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA}, CAMERA_REQUEST_CODE);
+            requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_REQUEST_CODE);
         } else if (ActivityCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_STORAGE_REQUEST_CODE);
+            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_STORAGE_REQUEST_CODE);
         } else if (ActivityCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, READ_EXTERNAL_STORAGE_REQUEST_CODE);
+            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, READ_EXTERNAL_STORAGE_REQUEST_CODE);
         }
         else {
            Intent takePictureIntent = new Intent(getActivity(), SAMPhotoActivity.class);
@@ -225,13 +240,31 @@ public class StepCreateContractFragment extends Fragment implements Step {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
-            mCreateContractViewModel.setUriPhoto(Uri.parse(data.getStringExtra(PHOTO_PATH)));
+            mCreateContractViewModel.setUriPhoto(Uri.parse(data.getExtras().get(PHOTO_PATH).toString()));
+            File file = new File(getRealPathFromURI(mCreateContractViewModel.getUriPhoto()));
             Glide.with(getActivity().getApplicationContext())
-                    .load(new File(mCreateContractViewModel.getUriPhoto().getPath()))
+                    .load(file)
+                    .apply(new RequestOptions()
+                            .diskCacheStrategy(DiskCacheStrategy.NONE)
+                            .skipMemoryCache(true))
                     .into(ivTakePhoto);
             ivTakePhoto.setBackgroundColor(getResources().getColor(android.R.color.transparent));
             mCreateContractViewModel.setImageSelected(true);
         }
+    }
+
+    private String getRealPathFromURI(Uri contentURI) {
+        String result;
+        Cursor cursor = getActivity().getContentResolver().query(contentURI, null, null, null, null);
+        if (cursor == null) {
+            result = contentURI.getPath();
+        } else {
+            cursor.moveToFirst();
+            int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+            result = cursor.getString(idx);
+            cursor.close();
+        }
+        return result;
     }
 
     @SuppressLint("MissingPermission")
@@ -242,13 +275,10 @@ public class StepCreateContractFragment extends Fragment implements Step {
                 showMyPosition();
             } else if (requestCode == CAMERA_REQUEST_CODE) {
                 if (ActivityCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_STORAGE_REQUEST_CODE);
+                    requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_STORAGE_REQUEST_CODE);
                 }
-
             } else if (requestCode == WRITE_EXTERNAL_STORAGE_REQUEST_CODE) {
-                if (ActivityCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, READ_EXTERNAL_STORAGE_REQUEST_CODE);
-                }
+                takePhoto();
             }
             else {
                 takePhoto();
@@ -265,7 +295,7 @@ public class StepCreateContractFragment extends Fragment implements Step {
                 addresses = geocoder.getFromLocation(mCreateContractViewModel.getLocation().latitude, mCreateContractViewModel.getLocation().longitude, 1);
                 String address = addresses.get(0).getAddressLine(0);
                 if (address != null) {
-                    etChildLocation.setText(address);
+                    mCreateContractViewModel.setChildLocation(address);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -274,6 +304,7 @@ public class StepCreateContractFragment extends Fragment implements Step {
     }
 
     private void goToMainActivity() {
+        mCreateContractViewModel = null;
         Intent intent = new Intent(getActivity(), MainActivity.class);
         startActivity(intent);
         customType(getActivity(),"right-to-left");
