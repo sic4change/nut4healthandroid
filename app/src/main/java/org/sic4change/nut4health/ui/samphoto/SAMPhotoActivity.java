@@ -128,7 +128,7 @@ public class SAMPhotoActivity extends AppCompatActivity implements SurfaceHolder
                     }
 
                     public void onFinish() {
-                        goToCreateContractActivity();
+                        goToCreateContractActivityWithData();
                     }
                 }.start();
 
@@ -163,15 +163,7 @@ public class SAMPhotoActivity extends AppCompatActivity implements SurfaceHolder
     @Override
     public void onBackPressed() {
         stopCamera();
-        goToCreateContractActivity();
-    }
-
-    private void goToCreateContractActivity() {
-        Intent intent = new Intent(this, CreateContractActivity.class);
-        intent.putExtra(PHOTO_PATH, getOutputMediaFileUri(MEDIA_TYPE_IMAGE).toString());
-        intent.putExtra(PERCENTAGE, percentage);
-        setResult(RESULT_OK, intent);
-        finish();
+        goToCreateContractActivityWithoutData();
     }
 
     @Override
@@ -179,7 +171,7 @@ public class SAMPhotoActivity extends AppCompatActivity implements SurfaceHolder
         switch (item.getItemId()) {
             case android.R.id.home:
                 stopCamera();
-                goToCreateContractActivity();
+                goToCreateContractActivityWithoutData();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -224,5 +216,17 @@ public class SAMPhotoActivity extends AppCompatActivity implements SurfaceHolder
         return mediaFile;
     }
 
+    private void goToCreateContractActivityWithData() {
+        Intent intent = new Intent(this, CreateContractActivity.class);
+        intent.putExtra(PHOTO_PATH, getOutputMediaFileUri(MEDIA_TYPE_IMAGE).toString());
+        intent.putExtra(PERCENTAGE, percentage);
+        setResult(RESULT_OK, intent);
+        finish();
+    }
+
+    private void goToCreateContractActivityWithoutData() {
+        Intent intent = new Intent(this, CreateContractActivity.class);
+        finish();
+    }
 
 }
