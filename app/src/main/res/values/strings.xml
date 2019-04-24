@@ -86,7 +86,10 @@
     <string name="check_malnutrition">Check malnutrition</string>
     <string name="capture">Start diagnosis</string>
 
-    //Font awesome
+    <!--Main menu-->
+    <string name="contracts">Contracts</string>
+
+    <!--Font awasome -->
     <string name="fa_adjust">&#xf042;</string>
     <string name="fa_adn">&#xf170;</string>
     <string name="fa_align_center">&#xf037;</string>

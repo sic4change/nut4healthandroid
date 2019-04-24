@@ -374,6 +374,7 @@ public class DataRepository {
         FirebaseAuth auth = FirebaseAuth.getInstance();
         auth.signOut();
         mIoExecutor.submit(() -> nut4HealtDao.deleteAllUser());
+        mIoExecutor.submit(() -> nut4HealtDao.deleteAllContract());
     }
 
     /**
@@ -420,7 +421,7 @@ public class DataRepository {
                                String childAddress, int percentage) {
         String hash = "";
         try {
-            hash = Files.hash(new File(photo.toString()), Hashing.sha512()).toString();
+            hash = Files.hash(new File(photo.getPath()), Hashing.sha512()).toString();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -430,12 +431,17 @@ public class DataRepository {
         } else {
             status = Contract.Status.NO_DIAGNOSIS.name();
         }
+        long date = new Date().getTime();
         Contract contract = new Contract(photo.toString(), latitude, longitude, email, childName, childUsername, childAddress,
-                status, new Date().getTime(), hash, percentage);
+                status, date, hash, percentage);
+        contract.setId(date + "");
+        //Save contract local
+        mIoExecutor.execute(() -> nut4HealtDao.insert(contract));
         contract.setStatus(status);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference contractRef = db.collection(DataContractNames.TABLE_FIREBASE_NAME);
         contractRef.add(contract).addOnCompleteListener(mIoExecutor, task -> {
+            //Si no hace falta subir la foto y usamos cloud functions para actualizar el Id y sumar un punto al usuario esto sobraria
             contract.setId(task.getResult().getId());
             task.getResult().set(contract);
             FirebaseStorage storage = FirebaseStorage.getInstance();
@@ -454,7 +460,6 @@ public class DataRepository {
                             User user = queryDocumentSnapshots.getDocuments().get(0).toObject(User.class);
                             user.setPoints(user.getPoints() + 1);
                             queryDocumentSnapshots.getDocuments().get(0).getReference().set(user);
-                            nut4HealtDao.deleteAllUser();
                             listenerQuery.remove();
                         } else {
                             Log.d(TAG, "Get user from firebase: " + "empty");
@@ -481,12 +486,11 @@ public class DataRepository {
                         && (queryDocumentSnapshots.getDocuments().size() > 0)) {
                     for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
                         Contract contract = document.toObject(Contract.class);
-                        /*if (nut4HealtDao.getContract(contract.getId(), contract.getStatus()).getValue() != null) {
-                            continue;
-                        } else {
+                        if ((contract.getId() != null) && (!contract.getId().equals(contract.getDate()+ ""))) {
                             nut4HealtDao.insert(contract);
-                        }*/
-                        nut4HealtDao.insert(contract);
+                            //Remove contract with false id saved in local database
+                            nut4HealtDao.deleteContract(contract.getDate() + "", contract.getDate());
+                        }
                     }
                 } else {
                     Log.d(TAG, "Get contracts: " + "empty");

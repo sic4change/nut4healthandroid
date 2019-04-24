@@ -148,6 +148,13 @@ public interface Nut4HealtDao {
     void delete(Contract contract);
 
     /**
+     * Delete contract
+     * @param id
+     */
+    @Query("DELETE FROM contract WHERE contractId =:id AND date =:date")
+    void deleteContract(String id, long date);
+
+    /**
      * Delete all contracts
      */
     @Query("DELETE FROM contract")
