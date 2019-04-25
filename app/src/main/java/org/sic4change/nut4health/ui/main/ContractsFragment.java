@@ -32,6 +32,7 @@ public class ContractsFragment extends Fragment {
 
     private ContractsAdapter contractsAdapter;
     private FloatingActionButton btnCreateContract;
+    private org.sic4change.nut4health.utils.view.Nut4HealthTextAwesome ivEmptyContracts;
 
     public ContractsFragment() {
         // Required empty public constructor
@@ -49,6 +50,7 @@ public class ContractsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_contract, container, false);
         btnCreateContract = view.findViewById(R.id.btnCreateContract);
+        ivEmptyContracts = view.findViewById(R.id.ivEmptyContracts);
         btnCreateContract.setOnClickListener(v -> {
             goToCreateContractActivity();
         });
@@ -57,10 +59,12 @@ public class ContractsFragment extends Fragment {
         mMainViewModel.getCurrentUser().observe(this, user -> {
             if (user != null) {
                 mMainViewModel.getContracts(user.getEmail());
-                mMainViewModel.getContracts().observe(getActivity(), new Observer<PagedList<Contract>>() {
-                    @Override
-                    public void onChanged(@Nullable PagedList<Contract> contracts) {
-                        contractsAdapter.submitList(contracts);
+                mMainViewModel.getContracts().observe(getActivity(), contracts -> {
+                    contractsAdapter.submitList(contracts);
+                    if (contracts.size() > 0) {
+                        ivEmptyContracts.setVisibility(View.GONE);
+                    } else {
+                        ivEmptyContracts.setVisibility(View.VISIBLE);
                     }
                 });
             }

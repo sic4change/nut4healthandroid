@@ -40,6 +40,24 @@
 
     </FrameLayout>
 
+    <org.sic4change.nut4health.utils.view.Nut4HealthTextAwesome
+        android:id="@+id/ivEmptyContracts"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/margin_card"
+        android:layout_marginTop="@dimen/margin_card"
+        android:layout_marginEnd="@dimen/margin_card"
+        android:layout_marginBottom="@dimen/margin_card"
+        android:text="@string/fa_folder_open"
+        android:textSize="200sp"
+        android:gravity="center"
+        android:textColor="@color/colorPrimaryDark"
+       app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone"/>
+
 
 
 </android.support.constraint.ConstraintLayout>
