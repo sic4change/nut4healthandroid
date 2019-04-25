@@ -44,7 +44,7 @@ public class CreateContractViewModel extends ViewModel {
     }
 
     public void updatePointsUserLocal(String email) {
-        mRepository.updatePointsUserLocal(email, mUser.getValue().getPoints());
+        mRepository.updatePointsUserLocal(email, mUser.getValue().getPoints() + 1);
     }
 
 

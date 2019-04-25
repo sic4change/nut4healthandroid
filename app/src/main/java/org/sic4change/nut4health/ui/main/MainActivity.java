@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private TextView tvDrawerUsername;
     private TextView tvDrawerEmail;
     private TextView tvDrawerRole;
+    private TextView tvDrawerPoints;
     private CircleImageView ivUser;
 
     private MainViewModel mMainViewModel;
@@ -71,6 +72,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 tvDrawerEmail.setText(user.getEmail());
                 tvDrawerUsername.setText(user.getUsername());
                 tvDrawerRole.setText(user.getRole());
+                tvDrawerPoints.setText(user.getPoints() + " " + getString(R.string.points));
                 Glide.with(getApplicationContext())
                         .load(user.getPhoto())
                         .into(ivUser);
@@ -79,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     created = true;
                 }
                 mMainViewModel.getContracts(user.getEmail());
-                mMainViewModel.getContracts().observe(this, contracts -> System.out.println("Aqui: " + contracts.size()));
+                //mMainViewModel.getContracts().observe(this, contracts -> System.out.println("Aqui: " + contracts.size()));
             }
         });
 
@@ -135,6 +137,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         tvDrawerUsername = navigationView.getHeaderView(0).findViewById(R.id.tvDrawerUsername);
         tvDrawerRole = navigationView.getHeaderView(0).findViewById(R.id.tvDrawerRole);
         ivUser = navigationView.getHeaderView(0).findViewById(R.id.ivUser);
+        tvDrawerPoints = navigationView.getHeaderView(0).findViewById(R.id.tvPoints);
         this.navigationView.setCheckedItem(R.id.nav_ranking);
     }
 

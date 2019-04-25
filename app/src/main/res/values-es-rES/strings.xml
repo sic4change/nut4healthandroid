@@ -86,6 +86,7 @@
     <string name="location">Ubicación</string>
     <string name="check_malnutrition">Comprobar desnutrición</string>
     <string name="capture">Iniciar diagnóstico</string>
+    <string name="points">puntos</string>
 
     <!--Main menu-->
     <string name="contracts">Contratos</string>

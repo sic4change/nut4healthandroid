@@ -45,4 +45,10 @@
         android:layout_height="wrap_content"
         android:text="@string/role" />
 
+    <TextView
+        android:id="@+id/tvPoints"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/points" />
+
 </LinearLayout>

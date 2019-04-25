@@ -151,6 +151,7 @@ public class DataRepository {
                     nut4HealtDao.updateSurnameUser(user.getSurname(), email);
                     nut4HealtDao.updateCountryUser(user.getCountry(), email);
                     nut4HealtDao.updateCountryCodeUser(user.getCountryCode(), email);
+                    nut4HealtDao.updatePointsUser(user.getPoints(), email);
                     Log.d(TAG, "User updated in local database : " + user.getEmail());
                 } else {
                     Log.d(TAG, "Get user from firebase: " + "empty");
