@@ -1,15 +1,14 @@
 package org.sic4change.nut4health.ui.main;
 
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
-import android.arch.paging.PagedList;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.os.CountDownTimer;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -17,15 +16,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.sic4change.nut4health.R;
-import org.sic4change.nut4health.data.entities.Contract;
-import org.sic4change.nut4health.ui.create_account.CreateAccountActivity;
 import org.sic4change.nut4health.ui.create_contract.CreateContractActivity;
-import org.sic4change.nut4health.ui.login.LoginActivity;
 
 import static maes.tech.intentanim.CustomIntent.customType;
 
 
-public class ContractsFragment extends Fragment {
+public class ContractsFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     private OnFragmentInteractionListener mListener;
     private MainViewModel mMainViewModel;
@@ -33,6 +29,7 @@ public class ContractsFragment extends Fragment {
     private ContractsAdapter contractsAdapter;
     private FloatingActionButton btnCreateContract;
     private org.sic4change.nut4health.utils.view.Nut4HealthTextAwesome ivEmptyContracts;
+    private android.support.v4.widget.SwipeRefreshLayout swipe_container;
 
     public ContractsFragment() {
         // Required empty public constructor
@@ -50,6 +47,10 @@ public class ContractsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_contract, container, false);
         btnCreateContract = view.findViewById(R.id.btnCreateContract);
+        swipe_container = view.findViewById(R.id.swipe_container);
+        swipe_container.setColorSchemeColors(getResources().getColor(R.color.colorAccent),
+                getResources().getColor(R.color.colorAccent), getResources().getColor(R.color.colorAccent));
+        swipe_container.setOnRefreshListener(this);
         ivEmptyContracts = view.findViewById(R.id.ivEmptyContracts);
         btnCreateContract.setOnClickListener(v -> {
             goToCreateContractActivity();
@@ -65,6 +66,9 @@ public class ContractsFragment extends Fragment {
                         ivEmptyContracts.setVisibility(View.GONE);
                     } else {
                         ivEmptyContracts.setVisibility(View.VISIBLE);
+                    }
+                    if (swipe_container.isRefreshing()) {
+                        swipe_container.setRefreshing(false);
                     }
                 });
             }
@@ -90,6 +94,21 @@ public class ContractsFragment extends Fragment {
         mListener = null;
     }
 
+    @Override
+    public void onRefresh() {
+        mMainViewModel.getSortedContracts("DATE", "");
+        new CountDownTimer(4000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+
+            }
+
+            public void onFinish() {
+                swipe_container.setRefreshing(false);
+            }
+
+        }.start();
+    }
 
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
