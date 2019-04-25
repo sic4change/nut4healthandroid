@@ -442,9 +442,9 @@ public class DataRepository {
         CollectionReference contractRef = db.collection(DataContractNames.TABLE_FIREBASE_NAME);
         contractRef.add(contract).addOnCompleteListener(mIoExecutor, task -> {
             //Si no hace falta subir la foto y usamos cloud functions para actualizar el Id y sumar un punto al usuario esto sobraria
-            contract.setId(task.getResult().getId());
-            task.getResult().set(contract);
-            FirebaseStorage storage = FirebaseStorage.getInstance();
+            //contract.setId(task.getResult().getId());
+            //task.getResult().set(contract);
+            /*FirebaseStorage storage = FirebaseStorage.getInstance();
             StorageReference storageRef = storage.getReference().child("contracts/" + contract.getId());
             storageRef.putFile(photo).addOnSuccessListener(taskSnapshot -> storageRef.getDownloadUrl().addOnCompleteListener(mIoExecutor, storageTask -> {
                 contract.setPhoto(storageTask.getResult().toString());
@@ -468,7 +468,7 @@ public class DataRepository {
                         Log.d(TAG, "Get user: " + "empty");
                     }
                 });
-            }));
+            }));*/
         });
     }
 

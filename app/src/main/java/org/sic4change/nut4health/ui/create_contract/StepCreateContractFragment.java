@@ -269,17 +269,19 @@ public class StepCreateContractFragment extends Fragment implements Step {
 
     private void showMyPosition() {
         Nut4HealthSingleShotLocationProvider.requestSingleUpdate(getActivity().getApplicationContext(), newLocation -> {
-            mCreateContractViewModel.setLocation(newLocation);
-            List<Address> addresses;
-            Geocoder geocoder = new Geocoder(getActivity().getApplicationContext(), Locale.getDefault());
-            try {
-                addresses = geocoder.getFromLocation(mCreateContractViewModel.getLocation().latitude, mCreateContractViewModel.getLocation().longitude, 1);
-                String address = addresses.get(0).getAddressLine(0);
-                if (address != null) {
-                    mCreateContractViewModel.setChildLocation(address);
+            if (mCreateContractViewModel != null) {
+                mCreateContractViewModel.setLocation(newLocation);
+                List<Address> addresses;
+                Geocoder geocoder = new Geocoder(getActivity().getApplicationContext(), Locale.getDefault());
+                try {
+                    addresses = geocoder.getFromLocation(mCreateContractViewModel.getLocation().latitude, mCreateContractViewModel.getLocation().longitude, 1);
+                    String address = addresses.get(0).getAddressLine(0);
+                    if (address != null) {
+                        mCreateContractViewModel.setChildLocation(address);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
             }
         });
     }
