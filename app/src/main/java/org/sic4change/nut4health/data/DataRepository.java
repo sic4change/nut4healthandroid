@@ -311,6 +311,15 @@ public class DataRepository {
     }
 
     /**
+     * Method to update points in db local
+     * @param email
+     * @param points
+     */
+    public void updatePointsUserLocal(String email, int points) {
+        mIoExecutor.submit(() -> nut4HealtDao.updatePointsUser(points, email));
+    }
+
+    /**
      * Method to change surname user
      * @param email
      * @param surname
@@ -441,34 +450,7 @@ public class DataRepository {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference contractRef = db.collection(DataContractNames.TABLE_FIREBASE_NAME);
         contractRef.add(contract).addOnCompleteListener(mIoExecutor, task -> {
-            //Si no hace falta subir la foto y usamos cloud functions para actualizar el Id y sumar un punto al usuario esto sobraria
-            //contract.setId(task.getResult().getId());
-            //task.getResult().set(contract);
-            /*FirebaseStorage storage = FirebaseStorage.getInstance();
-            StorageReference storageRef = storage.getReference().child("contracts/" + contract.getId());
-            storageRef.putFile(photo).addOnSuccessListener(taskSnapshot -> storageRef.getDownloadUrl().addOnCompleteListener(mIoExecutor, storageTask -> {
-                contract.setPhoto(storageTask.getResult().toString());
-                task.getResult().set(contract);
 
-                FirebaseFirestore db1 = FirebaseFirestore.getInstance();
-                CollectionReference userRef = db1.collection(DataUserNames.TABLE_FIREBASE_NAME);
-                Query query = userRef.whereEqualTo(DataUserNames.COL_EMAIL, email).limit(1);
-                listenerQuery = query.addSnapshotListener(mIoExecutor, (queryDocumentSnapshots, e) -> {
-                    try {
-                        if ((queryDocumentSnapshots != null) && (queryDocumentSnapshots.getDocuments() != null)
-                                && (queryDocumentSnapshots.getDocuments().size() > 0)) {
-                            User user = queryDocumentSnapshots.getDocuments().get(0).toObject(User.class);
-                            user.setPoints(user.getPoints() + 1);
-                            queryDocumentSnapshots.getDocuments().get(0).getReference().set(user);
-                            listenerQuery.remove();
-                        } else {
-                            Log.d(TAG, "Get user from firebase: " + "empty");
-                        }
-                    } catch (Exception error) {
-                        Log.d(TAG, "Get user: " + "empty");
-                    }
-                });
-            }));*/
         });
     }
 

@@ -43,6 +43,10 @@ public class CreateContractViewModel extends ViewModel {
                 childAddress, percentage);
     }
 
+    public void updatePointsUserLocal(String email) {
+        mRepository.updatePointsUserLocal(email, mUser.getValue().getPoints());
+    }
+
 
     public Uri getUriPhoto() {
         return uriPhoto;
