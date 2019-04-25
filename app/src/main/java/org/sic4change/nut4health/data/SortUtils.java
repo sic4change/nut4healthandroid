@@ -14,13 +14,15 @@ public class SortUtils {
      * @return
      */
     public static SimpleSQLiteQuery getAllQuery(String sortBy, String status) {
-        SupportSQLiteQueryBuilder queryBuilder = SupportSQLiteQueryBuilder
+        /*SupportSQLiteQueryBuilder queryBuilder = SupportSQLiteQueryBuilder
                 .builder(DataContractNames.TABLE_NAME)
                 .orderBy(getSortColumn(sortBy));
         if ((status != null) && (!status.isEmpty())) {
             queryBuilder.selection(DataContractNames.COL_STATUS, new String[]{status});
         }
-        return new SimpleSQLiteQuery(queryBuilder.create().getSql());
+        return new SimpleSQLiteQuery(queryBuilder.create().getSql());*/
+        return new SimpleSQLiteQuery("SELECT * FROM " + DataContractNames.TABLE_NAME + " ORDER BY " + DataContractNames.COL_DATE
+            +  " DESC");
     }
 
     /**
