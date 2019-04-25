@@ -39,7 +39,7 @@
                 android:textSize="50dp"
                 app:layout_constraintBottom_toBottomOf="@+id/tvLocationItem"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="@+id/tvNameItem" />
 
             <TextView
                 android:id="@+id/tvNameItem"
@@ -48,8 +48,9 @@
                 android:layout_marginStart="8dp"
                 android:maxLines="1"
                 android:text="Name"
+                android:textStyle="bold"
                 android:textColor="@color/common_google_signin_btn_text_light_default"
-                android:textSize="12dp"
+                android:textSize="14dp"
                 app:layout_constraintStart_toEndOf="@+id/tvPercentageItem"
                 app:layout_constraintTop_toBottomOf="@+id/tvDateItem" />
 
@@ -58,9 +59,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_default"
-                android:layout_marginTop="@dimen/margin_default"
                 android:maxLines="1"
                 android:text="Surname"
+                android:textStyle="bold"
                 android:textColor="@color/common_google_signin_btn_text_light_default"
                 android:textSize="14dp"
                 app:layout_constraintStart_toEndOf="@+id/tvPercentageItem"
@@ -71,14 +72,11 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_default"
-                android:layout_marginTop="@dimen/margin_default"
                 android:layout_marginEnd="@dimen/margin_default"
-                android:layout_marginBottom="@dimen/margin_default"
                 android:gravity="left|center"
                 android:text="sdafoj alsdjf alsjfd alsjdf alsfj aslofj alsfj alsfdj alsfjals fjalsfj aslfja slfjaslfj alsjfalsfj alsfj alsfj lasf"
                 android:textColor="@color/common_google_signin_btn_text_light_default"
-                android:textSize="14dp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:textSize="12dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/tvPercentageItem"
                 app:layout_constraintTop_toBottomOf="@+id/tvSurnameItem" />
@@ -91,6 +89,7 @@
                 android:layout_marginEnd="@dimen/margin_medium"
                 android:textSize="12dp"
                 android:text="Date"
+                android:textStyle="italic"
                 android:textColor="@color/common_google_signin_btn_text_light_default"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
