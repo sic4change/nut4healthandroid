@@ -54,7 +54,11 @@ public class SAMPhotoActivity extends AppCompatActivity implements SurfaceHolder
         setContentView(R.layout.activity_samphoto);
         btnCapture = findViewById(R.id.btnCapture);
         clView = findViewById(R.id.clView);
-        btnCapture.setOnClickListener(v -> captureImage());
+        btnCapture.setVisibility(View.VISIBLE);
+        btnCapture.setOnClickListener(v -> {
+            btnCapture.setVisibility(View.GONE);
+            captureImage();
+        });
         clView.setVisibility(View.GONE);
         surfaceView = findViewById(R.id.surfaceView);
         surfaceHolder = surfaceView.getHolder();
