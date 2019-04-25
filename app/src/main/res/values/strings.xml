@@ -72,7 +72,7 @@
     <string name="createContract">Create contract</string>
     <string name="next_step">Next</string>
     <string name="back_step">Back</string>
-    <string name="complete_step">Complete</string>
+    <string name="complete_step"></string>
     <string name="first_step_title">Photo</string>
     <string name="second_step_title">Child</string>
     <string name="third_step_title">Send</string>
@@ -297,6 +297,7 @@
     <string name="fa_file_word_o">&#xf1c2;</string>
     <string name="fa_file_zip_o">&#xf1c6;</string>
     <string name="fa_files_o">&#xf0c5;</string>
+    <string name="fa_contract">&#xf56c;</string>
     <string name="fa_film">&#xf008;</string>
     <string name="fa_filter">&#xf0b0;</string>
     <string name="fa_fire">&#xf06d;</string>

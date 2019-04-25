@@ -61,6 +61,7 @@ public class StepCreateContractFragment extends Fragment implements Step {
     private EditText etChildLocation;
     private Button btnCheckMalnutrition;
     private AnimatedCircleLoadingView clView;
+    private org.sic4change.nut4health.utils.view.Nut4HealthTextAwesome ivNewContract;
 
     public static final int REQUEST_TAKE_PHOTO = 1;
 
@@ -88,11 +89,12 @@ public class StepCreateContractFragment extends Fragment implements Step {
         View v = inflater.inflate(R.layout.step_create_contract, container, false);
         btnTakePhoto = v.findViewById(R.id.btnTakePhoto);
         btnCheckMalnutrition = v.findViewById(R.id.btnCheckMalnutrition);
+        ivNewContract = v.findViewById(R.id.ivNewContract);
         btnCheckMalnutrition.setOnClickListener(v12 -> {
             Nut4HealthKeyboard.closeKeyboard(etChildLocation, getContext());
             clView.setVisibility(View.VISIBLE);
-            btnCheckMalnutrition.setClickable(false);
-            btnCheckMalnutrition.setEnabled(false);
+            btnCheckMalnutrition.setVisibility(View.GONE);
+            ivNewContract.setVisibility(View.GONE);
             clView.startDeterminate();
             mCreateContractViewModel.getUser().observe(getActivity(), user -> {
                 if ((mCreateContractViewModel != null) && (user != null)) {
@@ -162,6 +164,7 @@ public class StepCreateContractFragment extends Fragment implements Step {
             tvPercentage.setVisibility(View.VISIBLE);
             cvChild.setVisibility(View.GONE);
             btnCheckMalnutrition.setVisibility(View.GONE);
+            ivNewContract.setVisibility(View.GONE);
             clView.setVisibility(View.GONE);
             if (mCreateContractViewModel.getChildLocation() != null) {
                 Glide.with(getActivity().getApplicationContext())
@@ -178,6 +181,7 @@ public class StepCreateContractFragment extends Fragment implements Step {
             tvPercentage.setVisibility(View.GONE);
             cvChild.setVisibility(View.VISIBLE);
             btnCheckMalnutrition.setVisibility(View.GONE);
+            ivNewContract.setVisibility(View.GONE);
             clView.setVisibility(View.GONE);
             if (mCreateContractViewModel.getChildName() != null) {
                 etChildName.setText(mCreateContractViewModel.getChildName());
@@ -194,6 +198,7 @@ public class StepCreateContractFragment extends Fragment implements Step {
             tvPercentage.setVisibility(View.GONE);
             cvChild.setVisibility(View.GONE);
             btnCheckMalnutrition.setVisibility(View.VISIBLE);
+            ivNewContract.setVisibility(View.VISIBLE);
             clView.setVisibility(View.GONE);
         }
     }
