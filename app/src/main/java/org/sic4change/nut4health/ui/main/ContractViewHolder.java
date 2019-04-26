@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.github.curioustechizen.ago.RelativeTimeTextView;
+import com.github.pavlospt.CircleView;
 
 import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.data.entities.Contract;
@@ -15,7 +16,7 @@ public class ContractViewHolder extends RecyclerView.ViewHolder {
 
 private TextView nChildName;
 private TextView nChildLocation;
-private TextView nPercentage;
+private CircleView nPercentage;
 private RelativeTimeTextView nDate;
 private Contract mContract;
 private ContractsAdapter.ItemAction itemAction;
@@ -38,13 +39,16 @@ private Context context;
         mContract = contract;
         nChildName.setText(contract.getChildName() + " " + contract.getChildSurname());
         nChildLocation.setText(contract.getChildAddress());
-        nPercentage.setText(contract.getPercentage() + "%");
+        nPercentage.setTitleText(contract.getPercentage() + "%");
         if (contract.getStatus().equals(Contract.Status.DIAGNOSIS.name())) {
-            nPercentage.setTextColor(context.getResources().getColor(R.color.ms_errorColor));
+            nPercentage.setFillColor(context.getResources().getColor(R.color.ms_errorColor));
+            nPercentage.setStrokeColor(context.getResources().getColor(R.color.ms_errorColor));
         } else if (contract.getStatus().equals(Contract.Status.NO_DIAGNOSIS.name())) {
-            nPercentage.setTextColor(context.getResources().getColor(R.color.colorPrimaryDark));
+            nPercentage.setFillColor(context.getResources().getColor(R.color.colorPrimaryDark));
+            nPercentage.setStrokeColor(context.getResources().getColor(R.color.colorPrimaryDark));
         } else {
-            nPercentage.setTextColor(context.getResources().getColor(R.color.colorAccent));
+            nPercentage.setFillColor(context.getResources().getColor(R.color.colorAccent));
+            nPercentage.setStrokeColor(context.getResources().getColor(R.color.colorAccent));
         }
         nDate.setReferenceTime(contract.getDate());
         setClickAction(this.itemAction);
