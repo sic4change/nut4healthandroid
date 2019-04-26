@@ -36,7 +36,7 @@
                 android:gravity="center"
                 android:text="5 %"
                 android:textColor="@color/ms_errorColor"
-                android:textSize="50dp"
+                android:textSize="50sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -50,10 +50,9 @@
                 android:text="Name"
                 android:textStyle="bold"
                 android:textColor="@color/common_google_signin_btn_text_light_default"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 app:layout_constraintStart_toEndOf="@+id/tvPercentageItem"
                 app:layout_constraintTop_toBottomOf="@+id/tvDateItem" />
-
 
             <TextView
                 android:id="@+id/tvLocationItem"
@@ -61,6 +60,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_default"
                 android:layout_marginEnd="@dimen/margin_default"
+                android:layout_marginBottom="@dimen/margin_default"
                 android:gravity="left|center"
                 android:text="sdafoj alsdjf alsjfd alsjdf alsfj aslofj alsfj alsfdj alsfjals fjalsfj aslfja slfjaslfj alsjfalsfj alsfj alsfj lasf"
                 android:textColor="@color/common_google_signin_btn_text_light_default"
@@ -69,7 +69,8 @@
                 android:drawablePadding="2dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/tvPercentageItem"
-                app:layout_constraintTop_toBottomOf="@+id/tvNameItem" />
+                app:layout_constraintTop_toBottomOf="@+id/tvNameItem"
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
             <com.github.curioustechizen.ago.RelativeTimeTextView
                 android:id="@+id/tvDateItem"
@@ -77,7 +78,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_default"
                 android:layout_marginEnd="@dimen/margin_medium"
-                android:textSize="12sp"
+                android:textSize="10sp"
                 android:text="Date"
                 android:textStyle="italic"
                 android:gravity="left|center"
