@@ -30,6 +30,7 @@ public class ContractsFragment extends Fragment implements SwipeRefreshLayout.On
     private FloatingActionButton btnCreateContract;
     private org.sic4change.nut4health.utils.view.Nut4HealthTextAwesome ivEmptyContracts;
     private android.support.v4.widget.SwipeRefreshLayout swipe_container;
+    private RecyclerView rvContracts;
 
     public ContractsFragment() {
         // Required empty public constructor
@@ -38,8 +39,7 @@ public class ContractsFragment extends Fragment implements SwipeRefreshLayout.On
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        MainViewModelFactory mainViewModelFactory = MainViewModelFactory.createFactory(getActivity());
-        mMainViewModel = ViewModelProviders.of(this, mainViewModelFactory).get(MainViewModel.class);
+
     }
 
     @Override
@@ -55,8 +55,18 @@ public class ContractsFragment extends Fragment implements SwipeRefreshLayout.On
         btnCreateContract.setOnClickListener(v -> {
             goToCreateContractActivity();
         });
-        RecyclerView recyclerView = view.findViewById(R.id.rvContracts);
+        rvContracts = view.findViewById(R.id.rvContracts);
         contractsAdapter = new ContractsAdapter(getActivity().getApplicationContext());
+        rvContracts.setLayoutManager(new LinearLayoutManager(getActivity()));
+        rvContracts.setAdapter(contractsAdapter);
+
+        initData();
+        return view;
+    }
+
+    private void initData() {
+        MainViewModelFactory mainViewModelFactory = MainViewModelFactory.createFactory(getActivity());
+        mMainViewModel = ViewModelProviders.of(this, mainViewModelFactory).get(MainViewModel.class);
         mMainViewModel.getCurrentUser().observe(this, user -> {
             if (user != null) {
                 mMainViewModel.getContracts(user.getEmail());
@@ -73,9 +83,6 @@ public class ContractsFragment extends Fragment implements SwipeRefreshLayout.On
                 });
             }
         });
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setAdapter(contractsAdapter);
-        return view;
     }
 
     @Override
@@ -96,7 +103,9 @@ public class ContractsFragment extends Fragment implements SwipeRefreshLayout.On
 
     @Override
     public void onRefresh() {
-        mMainViewModel.getSortedContracts("DATE", "");
+        mMainViewModel = null;
+        initData();
+        contractsAdapter.notifyDataSetChanged();
         new CountDownTimer(4000, 1000) {
 
             public void onTick(long millisUntilFinished) {
