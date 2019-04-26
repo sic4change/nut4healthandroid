@@ -200,6 +200,7 @@ public class StepCreateContractFragment extends Fragment implements Step {
             btnCheckMalnutrition.setVisibility(View.VISIBLE);
             ivNewContract.setVisibility(View.VISIBLE);
             clView.setVisibility(View.GONE);
+            Nut4HealthKeyboard.closeKeyboard(etChildLocation, getContext());
         }
     }
 
