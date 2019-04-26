@@ -26,19 +26,6 @@
             android:layout_height="wrap_content"
             android:background="@color/white">
 
-            <!--<TextView
-                android:id="@+id/tvPercentageItem"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_marginStart="@dimen/margin_default"
-                android:gravity="center"
-                android:text="5 %"
-                android:textColor="@color/ms_errorColor"
-                android:textSize="50sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />-->
-
             <com.github.pavlospt.CircleView
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/tvPercentageItem"
@@ -54,6 +41,7 @@
                 app:cv_fillColor="@color/white"
                 app:cv_fillRadius="0.9"
                 app:cv_strokeWidthSize="5"
+                android:layout_marginLeft="@dimen/margin_default"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"/>
