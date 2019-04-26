@@ -14,7 +14,6 @@ import org.sic4change.nut4health.data.entities.Contract;
 public class ContractViewHolder extends RecyclerView.ViewHolder {
 
 private TextView nChildName;
-private TextView nChildSurname;
 private TextView nChildLocation;
 private TextView nPercentage;
 private RelativeTimeTextView nDate;
@@ -26,7 +25,6 @@ private Context context;
         super(itemView);
         this.context = context;
         nChildName = itemView.findViewById(R.id.tvNameItem);
-        nChildSurname = itemView.findViewById(R.id.tvSurnameItem);
         nChildLocation = itemView.findViewById(R.id.tvLocationItem);
         nPercentage = itemView.findViewById(R.id.tvPercentageItem);
         nDate = itemView.findViewById(R.id.tvDateItem);
@@ -38,8 +36,7 @@ private Context context;
 
     void bindTo(Contract contract, final ContractsAdapter.ItemAction itemAction) {
         mContract = contract;
-        nChildName.setText(contract.getChildName());
-        nChildSurname.setText(contract.getChildSurname());
+        nChildName.setText(contract.getChildName() + " " + contract.getChildSurname());
         nChildLocation.setText(contract.getChildAddress());
         nPercentage.setText(contract.getPercentage() + "%");
         if (contract.getStatus().equals(Contract.Status.DIAGNOSIS.name())) {
@@ -57,7 +54,6 @@ private Context context;
     void clear() {
         itemView.invalidate();
         nChildName.invalidate();
-        nChildSurname.invalidate();
         nChildLocation.invalidate();
     }
 

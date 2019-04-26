@@ -32,14 +32,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_default"
                 android:layout_marginTop="8dp"
-                android:layout_marginBottom="@dimen/margin_default"
+                android:layout_marginBottom="8dp"
                 android:gravity="center"
                 android:text="5 %"
                 android:textColor="@color/ms_errorColor"
                 android:textSize="50dp"
-                app:layout_constraintBottom_toBottomOf="@+id/tvLocationItem"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/tvNameItem" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tvNameItem"
@@ -50,22 +50,10 @@
                 android:text="Name"
                 android:textStyle="bold"
                 android:textColor="@color/common_google_signin_btn_text_light_default"
-                android:textSize="14dp"
+                android:textSize="16sp"
                 app:layout_constraintStart_toEndOf="@+id/tvPercentageItem"
                 app:layout_constraintTop_toBottomOf="@+id/tvDateItem" />
 
-            <TextView
-                android:id="@+id/tvSurnameItem"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_default"
-                android:maxLines="1"
-                android:text="Surname"
-                android:textStyle="bold"
-                android:textColor="@color/common_google_signin_btn_text_light_default"
-                android:textSize="14dp"
-                app:layout_constraintStart_toEndOf="@+id/tvPercentageItem"
-                app:layout_constraintTop_toBottomOf="@+id/tvNameItem" />
 
             <TextView
                 android:id="@+id/tvLocationItem"
@@ -76,10 +64,12 @@
                 android:gravity="left|center"
                 android:text="sdafoj alsdjf alsjfd alsjdf alsfj aslofj alsfj alsfdj alsfjals fjalsfj aslfja slfjaslfj alsjfalsfj alsfj alsfj lasf"
                 android:textColor="@color/common_google_signin_btn_text_light_default"
-                android:textSize="12dp"
+                android:textSize="12sp"
+                android:drawableLeft="@drawable/ic_position"
+                android:drawablePadding="2dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/tvPercentageItem"
-                app:layout_constraintTop_toBottomOf="@+id/tvSurnameItem" />
+                app:layout_constraintTop_toBottomOf="@+id/tvNameItem" />
 
             <com.github.curioustechizen.ago.RelativeTimeTextView
                 android:id="@+id/tvDateItem"
@@ -87,10 +77,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_default"
                 android:layout_marginEnd="@dimen/margin_medium"
-                android:textSize="12dp"
+                android:textSize="12sp"
                 android:text="Date"
                 android:textStyle="italic"
+                android:gravity="left|center"
                 android:textColor="@color/common_google_signin_btn_text_light_default"
+                android:drawableLeft="@drawable/ic_time"
+                android:drawablePadding="2dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
