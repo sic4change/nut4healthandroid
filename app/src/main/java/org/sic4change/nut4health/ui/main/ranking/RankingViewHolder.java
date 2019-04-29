@@ -57,7 +57,7 @@ private Context context;
                     .load(context.getResources().getDrawable(R.mipmap.icon))
                     .into(mUsernamePhoto);
         }
-        if (position < 3) {
+        if (position < 4) {
             ivPositionRanking.setVisibility(View.VISIBLE);
             if (position == 1) {
                 Glide.with(context)

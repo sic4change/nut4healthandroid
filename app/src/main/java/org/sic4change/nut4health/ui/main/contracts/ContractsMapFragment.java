@@ -35,9 +35,9 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_contract_map, container, false);
-        //SupportMapFragment mapFragment = (SupportMapFragment) getActivity().getSupportFragmentManager()
-          //      .findFragmentById(R.id.map);
-        //mapFragment.getMapAsync(this);
+        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
 
         initData();
         return view;
