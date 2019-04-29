@@ -10,16 +10,23 @@ import android.view.ViewGroup;
 
 import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.data.entities.Ranking;
+import org.sic4change.nut4health.data.entities.User;
 
 public class RankingAdapter extends PagedListAdapter<Ranking, RankingViewHolder> {
 
     private ItemAction mItemOnClickAction;
 
     Context context;
+    User user;
 
-    public RankingAdapter(Context context) {
+    public RankingAdapter(Context context, User user) {
         super(DIFF_CALLBACK);
         this.context = context;
+        this.user = user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public interface ItemAction {
@@ -45,7 +52,7 @@ public class RankingAdapter extends PagedListAdapter<Ranking, RankingViewHolder>
     public void onBindViewHolder(@NonNull RankingViewHolder holder, int position) {
         Ranking ranking = getItem(position);
         if (ranking != null) {
-            holder.bindTo(position + 1, ranking, mItemOnClickAction);
+            holder.bindTo(user, position + 1, ranking, mItemOnClickAction);
         } else {
             holder.clear();
         }

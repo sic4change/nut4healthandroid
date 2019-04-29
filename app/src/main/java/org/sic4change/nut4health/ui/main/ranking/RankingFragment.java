@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 
 import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.data.entities.Ranking;
+import org.sic4change.nut4health.data.entities.User;
 import org.sic4change.nut4health.ui.main.MainViewModel;
 import org.sic4change.nut4health.ui.main.MainViewModelFactory;
 import org.sic4change.nut4health.ui.main.contracts.ContractsAdapter;
@@ -51,7 +52,7 @@ public class RankingFragment extends Fragment implements SwipeRefreshLayout.OnRe
                 getResources().getColor(R.color.colorAccent), getResources().getColor(R.color.colorAccent));
         swipe_container.setOnRefreshListener(this);
         rvRanking = view.findViewById(R.id.rvRanking);
-        rankingAdapter = new RankingAdapter(getActivity().getApplicationContext());
+        rankingAdapter = new RankingAdapter(getActivity().getApplicationContext(), new User());
         rvRanking.setLayoutManager(new LinearLayoutManager(getActivity()));
         rvRanking.setAdapter(rankingAdapter);
         initData();
@@ -63,6 +64,7 @@ public class RankingFragment extends Fragment implements SwipeRefreshLayout.OnRe
         mMainViewModel = ViewModelProviders.of(this, mainViewModelFactory).get(MainViewModel.class);
         mMainViewModel.getCurrentUser().observe(this, user -> {
             if (user != null) {
+                rankingAdapter.setUser(user);
                 mMainViewModel.getRankingUser();
                 mMainViewModel.getRanking().observe(getActivity(), rankings -> {
                     rankingAdapter.submitList(rankings);
