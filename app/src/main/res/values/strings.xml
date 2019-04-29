@@ -89,6 +89,7 @@
 
     <!--Main menu-->
     <string name="contracts">Contracts</string>
+    <string name="ranking">Ranking</string>
 
     <!--Font awasome -->
     <string name="fa_adjust">&#xf042;</string>

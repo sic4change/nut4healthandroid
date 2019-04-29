@@ -79,8 +79,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     mMainViewModel.updateUser(user.getEmail());
                     created = true;
                 }
-                //Lo hemos quitado porque es probable que no haga falta
-                //mMainViewModel.getContracts(user.getEmail());
             }
         });
 
@@ -88,8 +86,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Fragment fragment = null;
         if (mMainViewModel.getSelection(getApplicationContext()) == 1) {
             fragment = new RankingFragment();
+            setTitle(R.string.ranking);
         } else if (mMainViewModel.getSelection(getApplicationContext()) == 2) {
             fragment = new ContractsFragment();
+            setTitle(R.string.contracts);
         } else if (mMainViewModel.getSelection(getApplicationContext()) == 3) {
             fragment = new EmptyFragment();
         } else if (mMainViewModel.getSelection(getApplicationContext()) == 4) {
@@ -176,9 +176,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (id == R.id.nav_ranking) {
             mMainViewModel.saveSelection(1);
             fragment = new RankingFragment();
+            setTitle(R.string.ranking);
         } else if (id == R.id.nav_contracts) {
             mMainViewModel.saveSelection(2);
             fragment = new ContractsFragment();
+            setTitle(R.string.contracts);
         } else if (id == R.id.nav_diagnostics) {
             mMainViewModel.saveSelection(3);
             fragment = new EmptyFragment();

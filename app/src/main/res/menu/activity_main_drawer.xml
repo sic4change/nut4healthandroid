@@ -7,7 +7,7 @@
         <item
             android:id="@+id/nav_ranking"
             android:icon="@drawable/ic_ranking"
-            android:title="Ranking (TODO)" />
+            android:title="@string/ranking" />
         <item
             android:id="@+id/nav_contracts"
             android:icon="@drawable/ic_contract"
