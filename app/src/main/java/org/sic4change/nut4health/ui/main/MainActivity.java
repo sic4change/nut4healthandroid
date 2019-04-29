@@ -175,7 +175,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Fragment fragment = null;
         if (id == R.id.nav_ranking) {
             mMainViewModel.saveSelection(1);
-            fragment = new EmptyFragment();
+            fragment = new RankingFragment();
         } else if (id == R.id.nav_contracts) {
             mMainViewModel.saveSelection(2);
             fragment = new ContractsFragment();
