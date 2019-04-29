@@ -1,4 +1,4 @@
-package org.sic4change.nut4health.ui.main;
+package org.sic4change.nut4health.ui.main.contracts;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;

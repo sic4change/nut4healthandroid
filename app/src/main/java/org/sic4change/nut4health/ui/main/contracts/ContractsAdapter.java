@@ -1,4 +1,4 @@
-package org.sic4change.nut4health.ui.main;
+package org.sic4change.nut4health.ui.main.contracts;
 
 import android.arch.paging.PagedListAdapter;
 import android.content.Context;

@@ -4,6 +4,7 @@ import android.arch.persistence.db.SimpleSQLiteQuery;
 import android.arch.persistence.db.SupportSQLiteQueryBuilder;
 
 import org.sic4change.nut4health.data.names.DataContractNames;
+import org.sic4change.nut4health.data.names.DataRankingNames;
 
 public class SortUtils {
 
@@ -13,7 +14,7 @@ public class SortUtils {
      * @param status
      * @return
      */
-    public static SimpleSQLiteQuery getAllQuery(String sortBy, String status) {
+    public static SimpleSQLiteQuery getAllQueryContracts(String sortBy, String status) {
         /*SupportSQLiteQueryBuilder queryBuilder = SupportSQLiteQueryBuilder
                 .builder(DataContractNames.TABLE_NAME)
                 .orderBy(getSortColumn(sortBy));
@@ -23,6 +24,23 @@ public class SortUtils {
         return new SimpleSQLiteQuery(queryBuilder.create().getSql());*/
         return new SimpleSQLiteQuery("SELECT * FROM " + DataContractNames.TABLE_NAME + " ORDER BY " + DataContractNames.COL_DATE
             +  " DESC");
+    }
+
+    /**
+     * A raw query at runtime to oder by column for getting all the ranking sorted.
+     * @param sortBy
+     * @return
+     */
+    public static SimpleSQLiteQuery getAllQueryRanking(String sortBy) {
+        /*SupportSQLiteQueryBuilder queryBuilder = SupportSQLiteQueryBuilder
+                .builder(DataContractNames.TABLE_NAME)
+                .orderBy(getSortColumn(sortBy));
+        if ((status != null) && (!status.isEmpty())) {
+            queryBuilder.selection(DataContractNames.COL_STATUS, new String[]{status});
+        }
+        return new SimpleSQLiteQuery(queryBuilder.create().getSql());*/
+        return new SimpleSQLiteQuery("SELECT * FROM " + DataRankingNames.TABLE_NAME + " ORDER BY " + DataRankingNames.COL_POINTS
+                +  " DESC");
     }
 
     /**
@@ -40,6 +58,8 @@ public class SortUtils {
                 return DataContractNames.COL_MEDICAL;
             case "STATUS":
                 return DataContractNames.COL_STATUS;
+            case "POINTS":
+                return DataRankingNames.COL_POINTS;
             default:
                 return DataContractNames.COL_DATE;
         }

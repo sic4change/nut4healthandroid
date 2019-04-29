@@ -11,6 +11,7 @@ import android.arch.persistence.room.Query;
 import android.arch.persistence.room.RawQuery;
 
 import org.sic4change.nut4health.data.entities.Contract;
+import org.sic4change.nut4health.data.entities.Ranking;
 import org.sic4change.nut4health.data.entities.User;
 
 @Dao
@@ -167,5 +168,20 @@ public interface Nut4HealtDao {
      */
     @Query("SELECT * FROM contract WHERE contractId =:id AND status =:status LIMIT 1")
     LiveData<Contract> getContract(String id, String status);
+
+    /**
+     * Get ranking for Paging
+     * @param query
+     * @return
+     */
+    @RawQuery(observedEntities = Ranking.class)
+    DataSource.Factory<Integer, Ranking> getRanking(SupportSQLiteQuery query);
+
+    /**
+     * Insert a ranking
+     * @param rankings
+     */
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insert(Ranking... rankings);
 
 }

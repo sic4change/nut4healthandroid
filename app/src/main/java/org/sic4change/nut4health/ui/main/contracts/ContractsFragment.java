@@ -1,4 +1,4 @@
-package org.sic4change.nut4health.ui.main;
+package org.sic4change.nut4health.ui.main.contracts;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
@@ -17,6 +17,8 @@ import android.view.ViewGroup;
 
 import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.ui.create_contract.CreateContractActivity;
+import org.sic4change.nut4health.ui.main.MainViewModel;
+import org.sic4change.nut4health.ui.main.MainViewModelFactory;
 
 import static maes.tech.intentanim.CustomIntent.customType;
 

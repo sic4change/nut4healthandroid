@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 
 import org.sic4change.nut4health.data.DataRepository;
 import org.sic4change.nut4health.data.entities.Contract;
+import org.sic4change.nut4health.data.entities.Ranking;
 import org.sic4change.nut4health.data.entities.User;
 
 public class MainViewModel extends ViewModel {
@@ -19,12 +20,14 @@ public class MainViewModel extends ViewModel {
     private final DataRepository mRepository;
     private final LiveData<User> mUser;
     private LiveData<PagedList<Contract>> mContracts;
+    private LiveData<PagedList<Ranking>> mRanking;
 
     public MainViewModel(Context context, DataRepository repository) {
         this.mContext = context;
         this.mRepository = repository;
         mUser = this.mRepository.getCurrentUser();
         mContracts = this.mRepository.getSortedContracts("DATE", "");
+        mRanking = this.mRepository.getSortedRanking("POINTS");
     }
 
     public LiveData<User> getCurrentUser() {
@@ -56,6 +59,14 @@ public class MainViewModel extends ViewModel {
 
     public LiveData<PagedList<Contract>> getContracts() {
         return mContracts;
+    }
+
+    public void getRankingUser() {
+        this.mRepository.getRanking();
+    }
+
+    public LiveData<PagedList<Ranking>> getRanking() {
+        return mRanking;
     }
 
 }

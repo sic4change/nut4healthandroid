@@ -6,12 +6,8 @@ import android.arch.paging.PagedList;
 import android.arch.persistence.db.SimpleSQLiteQuery;
 import android.content.Context;
 import android.net.Uri;
-import android.os.Environment;
-import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.common.hash.Hashing;
 import com.google.common.io.Files;
 import com.google.firebase.auth.AuthCredential;
@@ -19,7 +15,6 @@ import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
@@ -28,20 +23,18 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import org.sic4change.nut4health.data.entities.Contract;
+import org.sic4change.nut4health.data.entities.Ranking;
 import org.sic4change.nut4health.data.entities.User;
 import org.sic4change.nut4health.data.names.DataContractNames;
+import org.sic4change.nut4health.data.names.DataRankingNames;
 import org.sic4change.nut4health.data.names.DataUserNames;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
-import static android.nfc.tech.MifareUltralight.PAGE_SIZE;
 
 
 public class DataRepository {
@@ -491,8 +484,42 @@ public class DataRepository {
      * @return
      */
     public LiveData<PagedList<Contract>> getSortedContracts(String sort, String status) {
-        SimpleSQLiteQuery query = SortUtils.getAllQuery(sort, status);
+        SimpleSQLiteQuery query = SortUtils.getAllQueryContracts(sort, status);
         return new LivePagedListBuilder<>(nut4HealtDao.getUserContracts(query), PAGE_SIZE).build();
+    }
+
+    /**
+     * Method to get ranking sorted
+     * @param sort
+     * @return
+     */
+    public LiveData<PagedList<Ranking>> getSortedRanking(String sort) {
+        SimpleSQLiteQuery query = SortUtils.getAllQueryRanking(sort);
+        return new LivePagedListBuilder<>(nut4HealtDao.getRanking(query), PAGE_SIZE).build();
+    }
+
+    /**
+     * Method to get ranking from firebase
+     */
+    public void getRanking() {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference contractRef = db.collection(DataRankingNames.TABLE_FIREBASE_NAME);
+        contractRef.addSnapshotListener(mIoExecutor, (queryDocumentSnapshots, e) -> {
+            try {
+                if ((queryDocumentSnapshots != null) && (queryDocumentSnapshots.getDocuments() != null)
+                        && (queryDocumentSnapshots.getDocuments().size() > 0)) {
+                    for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
+                        User user = document.toObject(User.class);
+                        Ranking ranking = new Ranking(user.getUsername(), user.getPhoto(), user.getPoints());
+                        nut4HealtDao.insert(ranking);
+                    }
+                } else {
+                    Log.d(TAG, "Get ranking: " + "empty");
+                }
+            } catch (Exception error) {
+                Log.d(TAG, "Get ranking: " + "empty");
+            }
+        });
     }
 
 }
