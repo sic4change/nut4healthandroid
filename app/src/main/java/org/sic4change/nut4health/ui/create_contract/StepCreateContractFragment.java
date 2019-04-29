@@ -143,7 +143,7 @@ public class StepCreateContractFragment extends Fragment implements Step {
         if (position == 0 && !mCreateContractViewModel.isImageSelected()) {
             return new VerificationError(getString(R.string.error_photo));
         } else if (position == 1) {
-            if (mCreateContractViewModel.getLocation() != null) {
+            if (mCreateContractViewModel.getLocation() == null) {
                 return new VerificationError(getString(R.string.error_not_gps_position));
             } else {
                 if ((etChildLocation.getText() == null) || (etChildLocation.getText().toString() == null) || (etChildLocation.getText().toString().isEmpty())
