@@ -23,7 +23,7 @@ import org.sic4change.nut4health.ui.main.MainViewModelFactory;
 import static maes.tech.intentanim.CustomIntent.customType;
 
 
-public class ContractsFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class ContractsListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     private OnFragmentInteractionListener mListener;
     private MainViewModel mMainViewModel;
@@ -34,7 +34,7 @@ public class ContractsFragment extends Fragment implements SwipeRefreshLayout.On
     private android.support.v4.widget.SwipeRefreshLayout swipe_container;
     private RecyclerView rvContracts;
 
-    public ContractsFragment() {
+    public ContractsListFragment() {
         // Required empty public constructor
     }
 
@@ -47,7 +47,7 @@ public class ContractsFragment extends Fragment implements SwipeRefreshLayout.On
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_contract, container, false);
+        View view = inflater.inflate(R.layout.fragment_contract_list, container, false);
         btnCreateContract = view.findViewById(R.id.btnCreateContract);
         swipe_container = view.findViewById(R.id.swipe_container);
         swipe_container.setColorSchemeColors(getResources().getColor(R.color.colorAccent),

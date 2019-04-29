@@ -26,7 +26,9 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 
 import org.sic4change.nut4health.R;
-import org.sic4change.nut4health.ui.main.contracts.ContractsFragment;
+import org.sic4change.nut4health.ui.main.contracts.ContractFragment;
+import org.sic4change.nut4health.ui.main.contracts.ContractsListFragment;
+import org.sic4change.nut4health.ui.main.contracts.ContractsMapFragment;
 import org.sic4change.nut4health.ui.main.ranking.RankingFragment;
 import org.sic4change.nut4health.ui.profile.ProfileActivity;
 
@@ -36,8 +38,8 @@ import static maes.tech.intentanim.CustomIntent.customType;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
-        EmptyFragment.OnFragmentInteractionListener, ContractsFragment.OnFragmentInteractionListener,
-        RankingFragment.OnFragmentInteractionListener{
+        EmptyFragment.OnFragmentInteractionListener, ContractsListFragment.OnFragmentInteractionListener,
+        ContractsMapFragment.OnFragmentInteractionListener, RankingFragment.OnFragmentInteractionListener{
 
     private boolean doubleBackToExitPressedOnce = false;
 
@@ -88,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             fragment = new RankingFragment();
             setTitle(R.string.ranking);
         } else if (mMainViewModel.getSelection(getApplicationContext()) == 2) {
-            fragment = new ContractsFragment();
+            fragment = new ContractFragment();
             setTitle(R.string.contracts);
         } else if (mMainViewModel.getSelection(getApplicationContext()) == 3) {
             fragment = new EmptyFragment();
@@ -179,7 +181,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             setTitle(R.string.ranking);
         } else if (id == R.id.nav_contracts) {
             mMainViewModel.saveSelection(2);
-            fragment = new ContractsFragment();
+            fragment = new ContractFragment();
             setTitle(R.string.contracts);
         } else if (id == R.id.nav_diagnostics) {
             mMainViewModel.saveSelection(3);

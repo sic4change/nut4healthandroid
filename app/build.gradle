@@ -118,7 +118,6 @@ dependencies {
     //Date view
     implementation 'com.github.curioustechizen.android-ago:library:1.4.0'
 
-
     //Circle View
     implementation 'com.github.pavlospt:circleview:1.3'
 
