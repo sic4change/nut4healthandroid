@@ -84,6 +84,7 @@
     <string name="take_photo">Tomar foto</string>
     <string name="error_photo">Debes tomar una foto</string>
     <string name="error_child_data">Debes introducir los datos del niño</string>
+    <string name="error_not_gps_position">Debes activar la localización en tu dispositivo</string>
     <string name="child_data">DATOS DEL MENOR</string>
     <string name="name">Nombre</string>
     <string name="surname">Apellidos</string>

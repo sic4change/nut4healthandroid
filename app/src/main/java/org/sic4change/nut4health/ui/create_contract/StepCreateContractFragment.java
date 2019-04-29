@@ -143,14 +143,19 @@ public class StepCreateContractFragment extends Fragment implements Step {
         if (position == 0 && !mCreateContractViewModel.isImageSelected()) {
             return new VerificationError(getString(R.string.error_photo));
         } else if (position == 1) {
-            if ((etChildLocation.getText() == null) || (etChildLocation.getText().toString() == null) || (etChildLocation.getText().toString().isEmpty())
-                    || (etChildName.getText() == null) || (etChildName.getText().toString() == null) || (etChildName.getText().toString().isEmpty())
-                    || (etChildSurname.getText() == null) || (etChildSurname.getText().toString() == null) || (etChildSurname.getText().toString().isEmpty())) {
-                return new VerificationError(getString(R.string.error_child_data));
+            if (mCreateContractViewModel.getLocation() != null) {
+                return new VerificationError(getString(R.string.error_not_gps_position));
+            } else {
+                if ((etChildLocation.getText() == null) || (etChildLocation.getText().toString() == null) || (etChildLocation.getText().toString().isEmpty())
+                        || (etChildName.getText() == null) || (etChildName.getText().toString() == null) || (etChildName.getText().toString().isEmpty())
+                        || (etChildSurname.getText() == null) || (etChildSurname.getText().toString() == null) || (etChildSurname.getText().toString().isEmpty())) {
+                    return new VerificationError(getString(R.string.error_child_data));
+                }
+                mCreateContractViewModel.setChildLocation(etChildLocation.getText().toString());
+                mCreateContractViewModel.setChildName(etChildName.getText().toString());
+                mCreateContractViewModel.setChildSurname(etChildSurname.getText().toString());
             }
-            mCreateContractViewModel.setChildLocation(etChildLocation.getText().toString());
-            mCreateContractViewModel.setChildName(etChildName.getText().toString());
-            mCreateContractViewModel.setChildSurname(etChildSurname.getText().toString());
+
             return null;
         }
         return null;

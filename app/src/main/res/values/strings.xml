@@ -83,6 +83,7 @@
     <string name="take_photo">Take photo</string>
     <string name="error_photo">You must take a picture</string>
     <string name="error_child_data">You must enter child data</string>
+    <string name="error_not_gps_position">You must activate geolocatlization</string>
     <string name="child_data">CHILD INFORMATION</string>
     <string name="name">Name</string>
     <string name="surname">Surname</string>
