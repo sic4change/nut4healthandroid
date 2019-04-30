@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             }
         });
-        
+
         Fragment fragment = null;
         if (mMainViewModel.getSelection(getApplicationContext()) == 1) {
             fragment = new CreateContractFragment();
