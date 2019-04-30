@@ -26,9 +26,11 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 
 import org.sic4change.nut4health.R;
+import org.sic4change.nut4health.ui.create_contract.CreateContractActivity;
 import org.sic4change.nut4health.ui.main.contracts.ContractFragment;
 import org.sic4change.nut4health.ui.main.contracts.ContractsListFragment;
 import org.sic4change.nut4health.ui.main.contracts.ContractsMapFragment;
+import org.sic4change.nut4health.ui.main.create_contract.CreateContractFragment;
 import org.sic4change.nut4health.ui.main.ranking.RankingFragment;
 import org.sic4change.nut4health.ui.profile.ProfileActivity;
 
@@ -38,8 +40,9 @@ import static maes.tech.intentanim.CustomIntent.customType;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
-        EmptyFragment.OnFragmentInteractionListener, ContractsListFragment.OnFragmentInteractionListener,
-        ContractsMapFragment.OnFragmentInteractionListener, RankingFragment.OnFragmentInteractionListener{
+        EmptyFragment.OnFragmentInteractionListener, CreateContractFragment.OnFragmentInteractionListener,
+        ContractsListFragment.OnFragmentInteractionListener, ContractsMapFragment.OnFragmentInteractionListener,
+        RankingFragment.OnFragmentInteractionListener{
 
     private boolean doubleBackToExitPressedOnce = false;
 
@@ -83,21 +86,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             }
         });
-
-
+        
         Fragment fragment = null;
         if (mMainViewModel.getSelection(getApplicationContext()) == 1) {
-            fragment = new RankingFragment();
-            setTitle(R.string.ranking);
+            fragment = new CreateContractFragment();
+            setTitle(R.string.capture);
         } else if (mMainViewModel.getSelection(getApplicationContext()) == 2) {
             fragment = new ContractFragment();
             setTitle(R.string.contracts);
         } else if (mMainViewModel.getSelection(getApplicationContext()) == 3) {
-            fragment = new EmptyFragment();
+            fragment = new RankingFragment();
+            setTitle(R.string.ranking);
         } else if (mMainViewModel.getSelection(getApplicationContext()) == 4) {
             fragment = new EmptyFragment();
-        }   else if (mMainViewModel.getSelection(getApplicationContext()) == 5) {
+            setTitle("Pagos");
+        } else if (mMainViewModel.getSelection(getApplicationContext()) == 5) {
             fragment = new EmptyFragment();
+            setTitle("Ayuda");
         }
         fragmentManager.beginTransaction()
                 .replace(R.id.lyMainContent, fragment)
@@ -175,23 +180,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
         Fragment fragment = null;
-        if (id == R.id.nav_ranking) {
+        if (id == R.id.nav_start_diagnosis) {
             mMainViewModel.saveSelection(1);
-            fragment = new RankingFragment();
-            setTitle(R.string.ranking);
+            fragment = new CreateContractFragment();
+            setTitle(R.string.capture);
         } else if (id == R.id.nav_contracts) {
             mMainViewModel.saveSelection(2);
             fragment = new ContractFragment();
             setTitle(R.string.contracts);
-        } else if (id == R.id.nav_diagnostics) {
+        } else if (id == R.id.nav_ranking) {
             mMainViewModel.saveSelection(3);
-            fragment = new EmptyFragment();
+            fragment = new RankingFragment();
+            setTitle(R.string.ranking);
         } else if (id == R.id.nav_paids) {
             mMainViewModel.saveSelection(4);
             fragment = new EmptyFragment();
-        }   else if (id == R.id.nav_help) {
+            setTitle("Pagos");
+        } else if (id == R.id.nav_help) {
             mMainViewModel.saveSelection(5);
             fragment = new EmptyFragment();
+            setTitle("Ayuda");
         }
         fragmentManager.beginTransaction()
                 .replace(R.id.lyMainContent, fragment)
@@ -214,4 +222,5 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         customType(MainActivity.this,"left-to-right");
         finish();
     }
+
 }

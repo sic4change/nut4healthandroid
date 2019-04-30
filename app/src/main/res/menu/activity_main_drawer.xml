@@ -5,24 +5,24 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_ranking"
-            android:icon="@drawable/ic_ranking"
-            android:title="@string/ranking" />
+            android:id="@+id/nav_start_diagnosis"
+            android:icon="@drawable/ic_action_add"
+            android:title="@string/capture" />
         <item
             android:id="@+id/nav_contracts"
             android:icon="@drawable/ic_contract"
             android:title="@string/contracts" />
         <item
-            android:id="@+id/nav_diagnostics"
-            android:icon="@drawable/ic_diagnostics"
-            android:title="Pacientes y Dianósticos (TODO)" />
+            android:id="@+id/nav_ranking"
+            android:icon="@drawable/ic_ranking"
+            android:title="@string/ranking" />
         <item
             android:id="@+id/nav_paids"
             android:icon="@drawable/ic_paid"
             android:title="Pagos (TODO)" />
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="Communícate">
         <menu>
             <item
                 android:id="@+id/nav_help"

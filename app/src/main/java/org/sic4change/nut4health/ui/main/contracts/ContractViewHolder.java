@@ -52,7 +52,7 @@ private Context context;
         }
         nDate.setReferenceTime(contract.getDate());
         setClickAction(this.itemAction);
-        nChildName.setOnClickListener(v -> itemAction.onClick(getContract().getId()));
+        //nChildName.setOnClickListener(v -> itemAction.onClick(getContract().getId()));
     }
 
     void clear() {

@@ -74,7 +74,7 @@
     <string name="map">Mapa</string>
 
     <!--Create Contract-->
-    <string name="createContract">Crear contrato</string>
+    <string name="createContract">Crear diagnóstico</string>
     <string name="next_step">Siguiente</string>
     <string name="back_step">Anterior</string>
     <string name="complete_step"></string>
@@ -94,7 +94,7 @@
     <string name="points">puntos</string>
 
     <!--Main menu-->
-    <string name="contracts">Contratos</string>
+    <string name="contracts">Histórico de Diagnósticos</string>
     <string name="ranking">Ranking</string>
 
     <!--Font awasome -->

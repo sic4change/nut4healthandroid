@@ -73,7 +73,7 @@
     <string name="map">Map</string>
 
     <!--Create Contract-->
-    <string name="createContract">Create contract</string>
+    <string name="createContract">Create diagnosis</string>
     <string name="next_step">Next</string>
     <string name="back_step">Back</string>
     <string name="complete_step"></string>
@@ -93,7 +93,7 @@
     <string name="points">points</string>
 
     <!--Main menu-->
-    <string name="contracts">Contracts</string>
+    <string name="contracts">Diagnostics history</string>
     <string name="ranking">Ranking</string>
 
     <!--Font awasome -->
