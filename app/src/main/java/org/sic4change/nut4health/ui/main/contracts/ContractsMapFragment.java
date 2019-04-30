@@ -65,7 +65,7 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         if (ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(getActivity(), new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 101);
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 101);
         } else showMyPosition();
         initData();
         return view;
