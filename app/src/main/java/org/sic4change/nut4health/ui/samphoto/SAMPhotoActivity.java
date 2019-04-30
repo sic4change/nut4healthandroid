@@ -5,6 +5,7 @@ import android.hardware.Camera;
 import android.net.Uri;
 import android.os.CountDownTimer;
 import android.os.Environment;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -43,7 +44,7 @@ public class SAMPhotoActivity extends AppCompatActivity implements SurfaceHolder
 
     private int percentage = 0;
 
-    private Button btnCapture;
+    private FloatingActionButton btnCapture;
 
     private AnimatedCircleLoadingView clView;
 

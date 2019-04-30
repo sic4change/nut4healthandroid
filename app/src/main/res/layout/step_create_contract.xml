@@ -201,7 +201,7 @@
         android:layout_marginEnd="@dimen/margin_card"
         android:layout_marginBottom="@dimen/margin_card"
         android:background="@drawable/rounded_button"
-        android:text="@string/createContract"
+        android:text="@string/registerContract"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

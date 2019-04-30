@@ -92,6 +92,7 @@
     <string name="capture">Start diagnosis</string>
     <string name="points">points</string>
     <string name="your_position">You are here</string>
+    <string name="registerContract">Registrar diagnóstico</string>
 
     <!--Main menu-->
     <string name="contracts">Diagnostics history</string>

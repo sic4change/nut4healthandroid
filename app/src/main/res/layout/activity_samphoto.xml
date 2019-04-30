@@ -16,23 +16,6 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-    <Button
-        android:id="@+id/btnCapture"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_card"
-        android:layout_marginTop="@dimen/margin_medium"
-        android:layout_marginEnd="@dimen/margin_card"
-        android:layout_marginBottom="@dimen/margin_default"
-        android:background="@drawable/rounded_button"
-        android:text="@string/capture"
-        android:textColor="@color/white"
-        android:paddingRight="@dimen/margin_card"
-        android:paddingLeft="@dimen/margin_card"
-        app:layout_constraintBottom_toBottomOf="@+id/surfaceView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvResetPassword" />
 
     <org.sic4change.animation_check.AnimatedCircleLoadingView xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/clView"
@@ -51,6 +34,31 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <FrameLayout
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginEnd="@dimen/margin_medium"
+        android:layout_marginBottom="@dimen/margin_medium"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/btnCapture"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_gravity="center"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:clickable="true"
+        android:foregroundGravity="center"
+        android:src="@drawable/ic_take_photo"
+        app:backgroundTint="@color/colorPrimaryDark"
+        app:fabCustomSize="70dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    </FrameLayout>
 
 
 </android.support.constraint.ConstraintLayout>
