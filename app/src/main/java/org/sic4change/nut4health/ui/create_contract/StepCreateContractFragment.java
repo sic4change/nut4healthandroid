@@ -2,20 +2,26 @@ package org.sic4change.nut4health.ui.create_contract;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +33,13 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.common.api.ResolvableApiException;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsStatusCodes;
+import com.google.android.gms.location.SettingsClient;
 import com.stepstone.stepper.Step;
 import com.stepstone.stepper.VerificationError;
 
@@ -48,7 +61,7 @@ import static maes.tech.intentanim.CustomIntent.customType;
 import static org.sic4change.nut4health.ui.samphoto.SAMPhotoActivity.PERCENTAGE;
 import static org.sic4change.nut4health.ui.samphoto.SAMPhotoActivity.PHOTO_PATH;
 
-public class StepCreateContractFragment extends Fragment implements Step {
+public class StepCreateContractFragment extends Fragment implements Step{
 
     private int position;
 
@@ -74,7 +87,10 @@ public class StepCreateContractFragment extends Fragment implements Step {
 
     private CreateContractViewModel mCreateContractViewModel;
 
-
+    private SettingsClient mSettingsClient;
+    private LocationSettingsRequest mLocationSettingsRequest;
+    private static final int REQUEST_CHECK_SETTINGS = 214;
+    private static final int REQUEST_ENABLE_GPS = 516;
 
     public int getPosition() {
         return position;
@@ -128,10 +144,10 @@ public class StepCreateContractFragment extends Fragment implements Step {
         etChildSurname = v.findViewById(R.id.etChildSurname);
         etChildLocation = v.findViewById(R.id.etChildLocation);
         clView = v.findViewById(R.id.clView);
-        if (ActivityCompat.checkSelfPermission(getActivity().getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, LOCATION_REQUEST_CODE);
-        } else {
-            showMyPosition();
+            if (ActivityCompat.checkSelfPermission(getActivity().getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, LOCATION_REQUEST_CODE);
+            } else {
+                showMyPosition();
         }
         CreateContractViewModelFactory createContractViewModelFactory = CreateContractViewModelFactory.createFactory(getActivity());
         mCreateContractViewModel = ViewModelProviders.of(getActivity(), createContractViewModelFactory).get(CreateContractViewModel.class);
@@ -144,6 +160,7 @@ public class StepCreateContractFragment extends Fragment implements Step {
             return new VerificationError(getString(R.string.error_photo));
         } else if (position == 1) {
             if (mCreateContractViewModel.getLocation() == null) {
+                openLocationSettingsDialog();
                 return new VerificationError(getString(R.string.error_not_gps_position));
             } else {
                 if ((etChildLocation.getText() == null) || (etChildLocation.getText().toString() == null) || (etChildLocation.getText().toString().isEmpty())
@@ -159,6 +176,35 @@ public class StepCreateContractFragment extends Fragment implements Step {
             return null;
         }
         return null;
+    }
+
+    private void openLocationSettingsDialog() {
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
+        builder.addLocationRequest(new LocationRequest().setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY));
+        builder.setAlwaysShow(true);
+        mLocationSettingsRequest = builder.build();
+
+        mSettingsClient = LocationServices.getSettingsClient(getActivity());
+
+        mSettingsClient.checkLocationSettings(mLocationSettingsRequest).addOnSuccessListener(locationSettingsResponse -> {
+
+        })
+                .addOnFailureListener(e -> {
+                    int statusCode = ((ApiException) e).getStatusCode();
+                    switch (statusCode) {
+                        case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
+                            try {
+                                ResolvableApiException rae = (ResolvableApiException) e;
+                                startIntentSenderForResult(rae.getResolution().getIntentSender(), REQUEST_CHECK_SETTINGS, null, 0, 0, 0, null);
+                            } catch (IntentSender.SendIntentException sie) {
+                                Log.e("GPS", "Unable to execute request.");
+                            }
+                            break;
+                        case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
+                            Log.e("GPS", "Location settings are inadequate, and cannot be fixed here. Fix in Settings.");
+                    }
+                })
+                .addOnCanceledListener(() -> Log.e("GPS", "checkLocationSettings -> onCanceled"));
     }
 
     @Override
@@ -243,7 +289,37 @@ public class StepCreateContractFragment extends Fragment implements Step {
             ivTakePhoto.setBackgroundColor(getResources().getColor(android.R.color.transparent));
             tvPercentage.setText(mCreateContractViewModel.getPercentage() + " %");
             mCreateContractViewModel.setImageSelected(true);
+        } else if (requestCode == REQUEST_CHECK_SETTINGS) {
+            switch (resultCode) {
+                case Activity.RESULT_OK:
+                    new CountDownTimer(VERIFICATION_DELAY_MILISECONDS, VERIFICATION_TICK_MILISECONDS) {
+
+                        public void onTick(long millisUntilFinished) {
+
+                        }
+
+                        public void onFinish() {
+                            showMyPosition();
+                        }
+                    }.start();
+                    break;
+                case Activity.RESULT_CANCELED:
+                    Log.e("GPS","User denied to access location");
+                    openGpsEnableSetting();
+                    break;
+            }
+        } else if (requestCode == REQUEST_ENABLE_GPS) {
+            LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+            boolean isGpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+            if (!isGpsEnabled) {
+                openGpsEnableSetting();
+            }
         }
+    }
+
+    private void openGpsEnableSetting() {
+        Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+        startActivityForResult(intent, REQUEST_ENABLE_GPS);
     }
 
     private String getRealPathFromURI(Uri contentURI) {
@@ -290,6 +366,7 @@ public class StepCreateContractFragment extends Fragment implements Step {
                     String address = addresses.get(0).getAddressLine(0);
                     if (address != null) {
                         mCreateContractViewModel.setChildLocation(address);
+                        etChildLocation.setText(mCreateContractViewModel.getChildLocation());
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -305,5 +382,6 @@ public class StepCreateContractFragment extends Fragment implements Step {
         customType(getActivity(),"right-to-left");
         getActivity().finish();
     }
+
 
 }
