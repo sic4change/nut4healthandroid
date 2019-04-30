@@ -92,6 +92,7 @@
     <string name="check_malnutrition">Comprobar desnutrición</string>
     <string name="capture">Iniciar diagnóstico</string>
     <string name="points">puntos</string>
+    <string name="your_position">Usted está aquí</string>
 
     <!--Main menu-->
     <string name="contracts">Histórico de Diagnósticos</string>

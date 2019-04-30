@@ -136,6 +136,8 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
                 nDate.setReferenceTime(contract.getDate());
                 cvContract.setVisibility(View.VISIBLE);
                 marker.setTitle(contract.getPercentage() + "%");
+            } else {
+                marker.setTitle(getString(R.string.your_position));
             }
             return false;
         });
@@ -161,7 +163,7 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
     private void markMyPosition() {
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(currentPosition);
-        markerOptions.icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher));
+        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
         mMap.addMarker(markerOptions);
     }
 
