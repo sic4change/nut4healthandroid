@@ -59,7 +59,7 @@ public class MainViewModel extends ViewModel {
 
     public int getContractViewMenuSelection(Context context) {
         SharedPreferences prefs = context.getSharedPreferences(NAME_SHARED_PREFERENCES, Context.MODE_PRIVATE);
-        return prefs.getInt(KEY_CONTRACT_SELECTION, 1);
+        return prefs.getInt(KEY_CONTRACT_SELECTION, 0);
     }
 
     public void saveContractSelectionPosition(int position) {
@@ -70,7 +70,7 @@ public class MainViewModel extends ViewModel {
 
     public int getContractSelectionPosition(Context context) {
         SharedPreferences prefs = context.getSharedPreferences(NAME_SHARED_PREFERENCES, Context.MODE_PRIVATE);
-        return prefs.getInt(KEY_CONTRACT_POSITION_SELECTION, 1);
+        return prefs.getInt(KEY_CONTRACT_POSITION_SELECTION, 0);
     }
 
     public void getContracts(String email) {
