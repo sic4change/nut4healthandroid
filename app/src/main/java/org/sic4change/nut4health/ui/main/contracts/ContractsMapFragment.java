@@ -34,7 +34,6 @@ import org.sic4change.nut4health.data.entities.Contract;
 import org.sic4change.nut4health.ui.contract_detail.ContractDetailActivity;
 import org.sic4change.nut4health.ui.main.MainViewModel;
 import org.sic4change.nut4health.ui.main.MainViewModelFactory;
-import org.sic4change.nut4health.utils.location.Nut4HealthMapStateManager;
 import org.sic4change.nut4health.utils.location.Nut4HealthSingleShotLocationProvider;
 
 import static maes.tech.intentanim.CustomIntent.customType;
@@ -64,13 +63,10 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_contract_map, container, false);
         cvContract = view.findViewById(R.id.cvContract);
-        //cvContract.setOnClickListener(v -> goToContractDetailActivity(id));
         cvContract.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 goToContractDetailActivity(id);
-                Nut4HealthMapStateManager mgr = new Nut4HealthMapStateManager(getContext());
-                mgr.saveMapState(mMap);
             }
         });
         nChildName = view.findViewById(R.id.tvNameItem);
@@ -84,9 +80,7 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
         if (ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 101);
         } else {
-            if (mMainViewModel.getContractSelectionId(getContext()) == null || mMainViewModel.getContractSelectionId(getContext()).equals("")) {
-                showMyPosition();
-            }
+            showMyPosition();
         }
         return view;
     }
@@ -112,13 +106,6 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
                         }
                         Marker marker = mMap.addMarker(markerOptions);
                         marker.setTag(contract);
-                        if (contract.getId().equals(mMainViewModel.getContractSelectionId(getContext()))) {
-                            showContractInformation(contract);
-                            Nut4HealthMapStateManager mgr = new Nut4HealthMapStateManager(getContext());
-                            marker.setTitle(contract.getPercentage() + "%");
-                            marker.showInfoWindow();
-                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mgr.getSavedCameraPosition().target, mgr.getSavedCameraPosition().zoom));
-                        }
                     }
                 });
             }
@@ -212,12 +199,11 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
     }
 
     private void goToContractDetailActivity(String id) {
-        mMainViewModel.saveContractSelectionId(id);
         Intent intent = new Intent(getActivity(), ContractDetailActivity.class);
         intent.putExtra("CONTRACT_ID", id);
         startActivity(intent);
         customType(getActivity(),"left-to-right");
-        getActivity().finish();
+        //getActivity().finish();
     }
 
 }

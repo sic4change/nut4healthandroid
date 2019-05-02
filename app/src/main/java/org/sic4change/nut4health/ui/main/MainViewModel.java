@@ -63,28 +63,6 @@ public class MainViewModel extends ViewModel {
         return prefs.getInt(KEY_CONTRACT_SELECTION, 0);
     }
 
-    public void saveContractSelectionPosition(int position) {
-        SharedPreferences.Editor editor = mContext.getSharedPreferences(NAME_SHARED_PREFERENCES, Context.MODE_PRIVATE).edit();
-        editor.putInt(KEY_CONTRACT_POSITION_SELECTION, position);
-        editor.apply();
-    }
-
-    public int getContractSelectionPosition(Context context) {
-        SharedPreferences prefs = context.getSharedPreferences(NAME_SHARED_PREFERENCES, Context.MODE_PRIVATE);
-        return prefs.getInt(KEY_CONTRACT_POSITION_SELECTION, 0);
-    }
-
-    public void saveContractSelectionId(String id) {
-        SharedPreferences.Editor editor = mContext.getSharedPreferences(NAME_SHARED_PREFERENCES, Context.MODE_PRIVATE).edit();
-        editor.putString(KEY_CONTRACT_ID_SELECTION, id);
-        editor.apply();
-    }
-
-    public String getContractSelectionId(Context context) {
-        SharedPreferences prefs = context.getSharedPreferences(NAME_SHARED_PREFERENCES, Context.MODE_PRIVATE);
-        return prefs.getString(KEY_CONTRACT_ID_SELECTION, "");
-    }
-
     public void getContracts(String email) {
         this.mRepository.getContracts(email);
     }

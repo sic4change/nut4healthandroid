@@ -64,7 +64,6 @@ public class ContractsListFragment extends Fragment implements SwipeRefreshLayou
         rvContracts.setAdapter(contractsAdapter);
         contractsAdapter.setItemOnClickAction((position, id) -> {
             goToContractDetailActivity(id);
-            mMainViewModel.saveContractSelectionPosition(position);
         });
         initData();
         return view;
@@ -80,7 +79,6 @@ public class ContractsListFragment extends Fragment implements SwipeRefreshLayou
                     contractsAdapter.submitList(contracts);
                     if (contracts.size() > 0) {
                         ivEmptyContracts.setVisibility(View.GONE);
-                        rvContracts.scrollToPosition(mMainViewModel.getContractSelectionPosition(getContext()));
                     } else {
                         ivEmptyContracts.setVisibility(View.VISIBLE);
                     }
@@ -110,7 +108,7 @@ public class ContractsListFragment extends Fragment implements SwipeRefreshLayou
 
     @Override
     public void onRefresh() {
-        mMainViewModel.saveContractSelectionPosition(0);
+        //mMainViewModel.saveContractSelectionPosition(0);
         mMainViewModel = null;
         initData();
         contractsAdapter.notifyDataSetChanged();
@@ -144,7 +142,7 @@ public class ContractsListFragment extends Fragment implements SwipeRefreshLayou
         intent.putExtra("CONTRACT_ID", id);
         startActivity(intent);
         customType(getActivity(),"left-to-right");
-        getActivity().finish();
+        //getActivity().finish();
     }
 
 }

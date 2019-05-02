@@ -168,8 +168,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else {
             if (doubleBackToExitPressedOnce) {
                 mMainViewModel.saveContractViewMenuSelection(0);
-                mMainViewModel.saveContractSelectionPosition(0);
-                mMainViewModel.saveContractSelectionId("");
                 finish();
                 return;
             }
@@ -200,8 +198,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             mMainViewModel.saveMainMenuSelection(1);
             fragment = new CreateContractFragment();
             setTitle(R.string.capture);
-            mMainViewModel.saveContractSelectionId("");
-            mMainViewModel.saveContractSelectionPosition(0);
             mMainViewModel.saveContractViewMenuSelection(0);
         } else if (id == R.id.nav_contracts) {
             mMainViewModel.saveMainMenuSelection(2);
@@ -211,22 +207,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             mMainViewModel.saveMainMenuSelection(3);
             fragment = new RankingFragment();
             setTitle(R.string.ranking);
-            mMainViewModel.saveContractSelectionId("");
-            mMainViewModel.saveContractSelectionPosition(0);
             mMainViewModel.saveContractViewMenuSelection(0);
         } else if (id == R.id.nav_paids) {
             mMainViewModel.saveMainMenuSelection(4);
             fragment = new EmptyFragment();
             setTitle("Pagos");
-            mMainViewModel.saveContractSelectionId("");
-            mMainViewModel.saveContractSelectionPosition(0);
             mMainViewModel.saveContractViewMenuSelection(0);
         } else if (id == R.id.nav_help) {
             mMainViewModel.saveMainMenuSelection(5);
             fragment = new EmptyFragment();
             setTitle("Ayuda");
-            mMainViewModel.saveContractSelectionId("");
-            mMainViewModel.saveContractSelectionPosition(0);
             mMainViewModel.saveContractViewMenuSelection(0);
         }
         fragmentManager.beginTransaction()
