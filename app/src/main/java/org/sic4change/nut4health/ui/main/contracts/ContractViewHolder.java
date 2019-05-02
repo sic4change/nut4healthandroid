@@ -1,6 +1,7 @@
 package org.sic4change.nut4health.ui.main.contracts;
 
 import android.content.Context;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
@@ -18,6 +19,7 @@ private TextView nChildName;
 private TextView nChildLocation;
 private CircleView nPercentage;
 private RelativeTimeTextView nDate;
+private CardView cvContract;
 private Contract mContract;
 private ContractsAdapter.ItemAction itemAction;
 private Context context;
@@ -28,6 +30,7 @@ private Context context;
         nChildName = itemView.findViewById(R.id.tvNameItem);
         nChildLocation = itemView.findViewById(R.id.tvLocationItem);
         nPercentage = itemView.findViewById(R.id.tvPercentageItem);
+        cvContract = itemView.findViewById(R.id.cvContractItem);
         nDate = itemView.findViewById(R.id.tvDateItem);
     }
 
@@ -52,7 +55,7 @@ private Context context;
         }
         nDate.setReferenceTime(contract.getDate());
         setClickAction(this.itemAction);
-        //nChildName.setOnClickListener(v -> itemAction.onClick(getContract().getId()));
+        cvContract.setOnClickListener(v -> itemAction.onClick(getContract().getId()));
     }
 
     void clear() {

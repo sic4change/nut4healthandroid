@@ -99,6 +99,9 @@
     <string name="contracts">Histórico de Diagnósticos</string>
     <string name="ranking">Ranking</string>
 
+    <!--Contract Detail-->
+    <string name="contractDetail">Detalle del contrato</string>
+
     <!--Font awasome -->
     <string name="fa_adjust">&#xf042;</string>
     <string name="fa_adn">&#xf170;</string>

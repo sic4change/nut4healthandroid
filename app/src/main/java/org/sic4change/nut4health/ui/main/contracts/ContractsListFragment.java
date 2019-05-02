@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.sic4change.nut4health.R;
+import org.sic4change.nut4health.ui.contract_detail.ContractDetailActivity;
 import org.sic4change.nut4health.ui.create_contract.CreateContractActivity;
 import org.sic4change.nut4health.ui.main.MainViewModel;
 import org.sic4change.nut4health.ui.main.MainViewModelFactory;
@@ -61,7 +62,12 @@ public class ContractsListFragment extends Fragment implements SwipeRefreshLayou
         contractsAdapter = new ContractsAdapter(getActivity().getApplicationContext());
         rvContracts.setLayoutManager(new LinearLayoutManager(getActivity()));
         rvContracts.setAdapter(contractsAdapter);
-
+        contractsAdapter.setItemOnClickAction(new ContractsAdapter.ItemAction() {
+            @Override
+            public void onClick(String id) {
+                goToContractDetailActivity();
+            }
+        });
         initData();
         return view;
     }
@@ -128,6 +134,13 @@ public class ContractsListFragment extends Fragment implements SwipeRefreshLayou
 
     private void goToCreateContractActivity() {
         Intent intent = new Intent(getActivity(), CreateContractActivity.class);
+        startActivity(intent);
+        customType(getActivity(),"left-to-right");
+        getActivity().finish();
+    }
+
+    private void goToContractDetailActivity() {
+        Intent intent = new Intent(getActivity(), ContractDetailActivity.class);
         startActivity(intent);
         customType(getActivity(),"left-to-right");
         getActivity().finish();

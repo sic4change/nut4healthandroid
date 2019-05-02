@@ -98,6 +98,9 @@
     <string name="contracts">Diagnostics history</string>
     <string name="ranking">Ranking</string>
 
+    <!--Contract Detail-->
+    <string name="contractDetail">Contract detail</string>
+
     <!--Font awasome -->
     <string name="fa_adjust">&#xf042;</string>
     <string name="fa_adn">&#xf170;</string>

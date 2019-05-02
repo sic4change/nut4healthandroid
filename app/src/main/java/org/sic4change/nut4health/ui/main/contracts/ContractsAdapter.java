@@ -23,7 +23,7 @@ public class ContractsAdapter extends PagedListAdapter<Contract, ContractViewHol
     }
 
     public interface ItemAction {
-        void onClick(String teaName);
+        void onClick(String id);
     }
 
     public void setItemOnClickAction(ItemAction itemOnClickAction) {

@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -30,9 +31,12 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.data.entities.Contract;
+import org.sic4change.nut4health.ui.contract_detail.ContractDetailActivity;
 import org.sic4change.nut4health.ui.main.MainViewModel;
 import org.sic4change.nut4health.ui.main.MainViewModelFactory;
 import org.sic4change.nut4health.utils.location.Nut4HealthSingleShotLocationProvider;
+
+import static maes.tech.intentanim.CustomIntent.customType;
 
 
 public class ContractsMapFragment extends Fragment implements OnMapReadyCallback {
@@ -57,6 +61,7 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_contract_map, container, false);
         cvContract = view.findViewById(R.id.cvContract);
+        cvContract.setOnClickListener(v -> goToContractDetailActivity());
         nChildName = view.findViewById(R.id.tvNameItem);
         nChildLocation = view.findViewById(R.id.tvLocationItem);
         nPercentage = view.findViewById(R.id.tvPercentageItem);
@@ -173,6 +178,13 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
         if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             showMyPosition();
         }
+    }
+
+    private void goToContractDetailActivity() {
+        Intent intent = new Intent(getActivity(), ContractDetailActivity.class);
+        startActivity(intent);
+        customType(getActivity(),"left-to-right");
+        getActivity().finish();
     }
 
 }
