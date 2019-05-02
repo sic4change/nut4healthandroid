@@ -34,6 +34,7 @@ import org.sic4change.nut4health.data.entities.Contract;
 import org.sic4change.nut4health.ui.contract_detail.ContractDetailActivity;
 import org.sic4change.nut4health.ui.main.MainViewModel;
 import org.sic4change.nut4health.ui.main.MainViewModelFactory;
+import org.sic4change.nut4health.utils.location.Nut4HealthMapStateManager;
 import org.sic4change.nut4health.utils.location.Nut4HealthSingleShotLocationProvider;
 
 import static maes.tech.intentanim.CustomIntent.customType;
@@ -63,7 +64,15 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_contract_map, container, false);
         cvContract = view.findViewById(R.id.cvContract);
-        cvContract.setOnClickListener(v -> goToContractDetailActivity(id));
+        //cvContract.setOnClickListener(v -> goToContractDetailActivity(id));
+        cvContract.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToContractDetailActivity(id);
+                Nut4HealthMapStateManager mgr = new Nut4HealthMapStateManager(getContext());
+                mgr.saveMapState(mMap);
+            }
+        });
         nChildName = view.findViewById(R.id.tvNameItem);
         nChildLocation = view.findViewById(R.id.tvLocationItem);
         nPercentage = view.findViewById(R.id.tvPercentageItem);
@@ -71,12 +80,17 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        initData();
         if (ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 101);
-        } else showMyPosition();
-        initData();
+        } else {
+            if (mMainViewModel.getContractSelectionId(getContext()) == null || mMainViewModel.getContractSelectionId(getContext()).equals("")) {
+                showMyPosition();
+            }
+        }
         return view;
     }
+
 
     private void initData() {
         MainViewModelFactory mainViewModelFactory = MainViewModelFactory.createFactory(getActivity());
@@ -98,6 +112,13 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
                         }
                         Marker marker = mMap.addMarker(markerOptions);
                         marker.setTag(contract);
+                        if (contract.getId().equals(mMainViewModel.getContractSelectionId(getContext()))) {
+                            showContractInformation(contract);
+                            Nut4HealthMapStateManager mgr = new Nut4HealthMapStateManager(getContext());
+                            marker.setTitle(contract.getPercentage() + "%");
+                            marker.showInfoWindow();
+                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mgr.getSavedCameraPosition().target, mgr.getSavedCameraPosition().zoom));
+                        }
                     }
                 });
             }
@@ -123,34 +144,37 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
         mMap.setOnMarkerClickListener(marker -> {
             Contract contract = (Contract) marker.getTag();
             if (contract != null) {
-                nChildName.setText(contract.getChildName() + " " + contract.getChildSurname());
-                nChildLocation.setText(contract.getChildAddress());
-                nPercentage.setTitleText(contract.getPercentage() + "%");
-                if (contract.getStatus().equals(Contract.Status.DIAGNOSIS.name())) {
-                    nPercentage.setFillColor(getActivity().getResources().getColor(R.color.ms_errorColor));
-                    nPercentage.setStrokeColor(getActivity().getResources().getColor(R.color.ms_errorColor));
-                } else if (contract.getStatus().equals(Contract.Status.NO_DIAGNOSIS.name())) {
-                    nPercentage.setFillColor(getActivity().getResources().getColor(R.color.colorPrimaryDark));
-                    nPercentage.setStrokeColor(getActivity().getResources().getColor(R.color.colorPrimaryDark));
-                } else {
-                    nPercentage.setFillColor(getActivity().getResources().getColor(R.color.colorAccent));
-                    nPercentage.setStrokeColor(getActivity().getResources().getColor(R.color.colorAccent));
-                }
-                nDate.setReferenceTime(contract.getDate());
-                cvContract.setVisibility(View.VISIBLE);
+                showContractInformation(contract);
                 marker.setTitle(contract.getPercentage() + "%");
                 id = contract.getId();
-            } else {
-                marker.setTitle(getString(R.string.your_position));
             }
+            markMyPosition();
             return false;
         });
         mMap.setOnMapClickListener(latLng -> cvContract.setVisibility(View.GONE));
         mMap.setOnMapLongClickListener(latLng -> cvContract.setVisibility(View.GONE));
+    }
+
+    private void showContractInformation(Contract contract) {
+        nChildName.setText(contract.getChildName() + " " + contract.getChildSurname());
+        nChildLocation.setText(contract.getChildAddress());
+        nPercentage.setTitleText(contract.getPercentage() + "%");
+        if (contract.getStatus().equals(Contract.Status.DIAGNOSIS.name())) {
+            nPercentage.setFillColor(getActivity().getResources().getColor(R.color.ms_errorColor));
+            nPercentage.setStrokeColor(getActivity().getResources().getColor(R.color.ms_errorColor));
+        } else if (contract.getStatus().equals(Contract.Status.NO_DIAGNOSIS.name())) {
+            nPercentage.setFillColor(getActivity().getResources().getColor(R.color.colorPrimaryDark));
+            nPercentage.setStrokeColor(getActivity().getResources().getColor(R.color.colorPrimaryDark));
+        } else {
+            nPercentage.setFillColor(getActivity().getResources().getColor(R.color.colorAccent));
+            nPercentage.setStrokeColor(getActivity().getResources().getColor(R.color.colorAccent));
+        }
+        nDate.setReferenceTime(contract.getDate());
+        cvContract.setVisibility(View.VISIBLE);
+
     }
 
     public interface OnFragmentInteractionListener {
@@ -169,10 +193,14 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
     }
 
     private void markMyPosition() {
-        MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(currentPosition);
-        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
-        mMap.addMarker(markerOptions);
+        if (currentPosition != null) {
+            MarkerOptions markerOptions = new MarkerOptions();
+            markerOptions.position(currentPosition);
+            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
+            markerOptions.title(getString(R.string.your_position));
+            Marker marker = mMap.addMarker(markerOptions);
+            marker.showInfoWindow();
+        }
     }
 
     @SuppressLint("MissingPermission")
@@ -184,6 +212,7 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
     }
 
     private void goToContractDetailActivity(String id) {
+        mMainViewModel.saveContractSelectionId(id);
         Intent intent = new Intent(getActivity(), ContractDetailActivity.class);
         intent.putExtra("CONTRACT_ID", id);
         startActivity(intent);

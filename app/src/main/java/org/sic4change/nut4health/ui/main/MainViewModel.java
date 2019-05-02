@@ -17,6 +17,7 @@ public class MainViewModel extends ViewModel {
     private static final String KEY_SELECTION = "selection";
     private static final String KEY_CONTRACT_SELECTION = "contract_selection";
     private static final String KEY_CONTRACT_POSITION_SELECTION = "contract_selection_position";
+    private static final String KEY_CONTRACT_ID_SELECTION = "contract_selection_id";
 
     private Context mContext;
     private final DataRepository mRepository;
@@ -71,6 +72,17 @@ public class MainViewModel extends ViewModel {
     public int getContractSelectionPosition(Context context) {
         SharedPreferences prefs = context.getSharedPreferences(NAME_SHARED_PREFERENCES, Context.MODE_PRIVATE);
         return prefs.getInt(KEY_CONTRACT_POSITION_SELECTION, 0);
+    }
+
+    public void saveContractSelectionId(String id) {
+        SharedPreferences.Editor editor = mContext.getSharedPreferences(NAME_SHARED_PREFERENCES, Context.MODE_PRIVATE).edit();
+        editor.putString(KEY_CONTRACT_ID_SELECTION, id);
+        editor.apply();
+    }
+
+    public String getContractSelectionId(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences(NAME_SHARED_PREFERENCES, Context.MODE_PRIVATE);
+        return prefs.getString(KEY_CONTRACT_ID_SELECTION, "");
     }
 
     public void getContracts(String email) {
