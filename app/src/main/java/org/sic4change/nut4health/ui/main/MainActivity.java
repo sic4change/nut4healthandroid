@@ -2,6 +2,8 @@ package org.sic4change.nut4health.ui.main;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -60,7 +62,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private CircleImageView ivUser;
 
     private MainViewModel mMainViewModel;
-
     private boolean created = false;
 
 
@@ -111,6 +112,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .commit();
 
         this.navigationView.getMenu().getItem(mMainViewModel.getSelection(getApplicationContext())-1).setChecked(true);
+        showCurrentVersion();
+    }
+
+    private void showCurrentVersion() {
+        PackageManager manager = this.getPackageManager();
+        PackageInfo info = null;
+        try {
+            info = manager.getPackageInfo(this.getPackageName(), PackageManager.GET_ACTIVITIES);
+            TextView tvVersion = findViewById(R.id.version);
+            tvVersion.setText("Version - " + info.versionName);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

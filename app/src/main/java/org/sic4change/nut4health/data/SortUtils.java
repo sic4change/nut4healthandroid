@@ -39,7 +39,9 @@ public class SortUtils {
             queryBuilder.selection(DataContractNames.COL_STATUS, new String[]{status});
         }
         return new SimpleSQLiteQuery(queryBuilder.create().getSql());*/
-        return new SimpleSQLiteQuery("SELECT * FROM " + DataRankingNames.TABLE_NAME + " ORDER BY " + DataRankingNames.COL_POINTS
+        return new SimpleSQLiteQuery("SELECT * FROM " + DataRankingNames.TABLE_NAME + " WHERE " +  DataRankingNames.COL_USERNAME + " "
+                + " NOT LIKE 'anonymous%'"
+                + " ORDER BY " + DataRankingNames.COL_POINTS
                 +  " DESC");
     }
 
