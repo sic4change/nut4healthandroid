@@ -62,7 +62,14 @@ public class ContractsListFragment extends Fragment implements SwipeRefreshLayou
         contractsAdapter = new ContractsAdapter(getActivity().getApplicationContext());
         rvContracts.setLayoutManager(new LinearLayoutManager(getActivity()));
         rvContracts.setAdapter(contractsAdapter);
-        contractsAdapter.setItemOnClickAction(id -> goToContractDetailActivity(id));
+        //contractsAdapter.setItemOnClickAction(id -> goToContractDetailActivity(id));
+        contractsAdapter.setItemOnClickAction(new ContractsAdapter.ItemAction() {
+            @Override
+            public void onClick(int position, String id) {
+                goToContractDetailActivity(id);
+                mMainViewModel.saveContractSelectionPosition(position);
+            }
+        });
         initData();
         return view;
     }
@@ -79,6 +86,7 @@ public class ContractsListFragment extends Fragment implements SwipeRefreshLayou
                         ivEmptyContracts.setVisibility(View.GONE);
                     } else {
                         ivEmptyContracts.setVisibility(View.VISIBLE);
+                        rvContracts.scrollToPosition(mMainViewModel.getContractSelectionPosition(getContext()));
                     }
                     if (swipe_container.isRefreshing()) {
                         swipe_container.setRefreshing(false);

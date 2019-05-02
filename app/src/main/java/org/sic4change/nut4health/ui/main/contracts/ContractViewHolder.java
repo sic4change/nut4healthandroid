@@ -38,7 +38,7 @@ private Context context;
         return mContract;
     }
 
-    void bindTo(Contract contract, final ContractsAdapter.ItemAction itemAction) {
+    void bindTo(int position, Contract contract, final ContractsAdapter.ItemAction itemAction) {
         mContract = contract;
         nChildName.setText(contract.getChildName() + " " + contract.getChildSurname());
         nChildLocation.setText(contract.getChildAddress());
@@ -55,7 +55,7 @@ private Context context;
         }
         nDate.setReferenceTime(contract.getDate());
         setClickAction(this.itemAction);
-        cvContract.setOnClickListener(v -> itemAction.onClick(getContract().getId()));
+        cvContract.setOnClickListener(v -> itemAction.onClick(position, getContract().getId()));
     }
 
     void clear() {

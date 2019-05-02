@@ -23,7 +23,7 @@ public class ContractsAdapter extends PagedListAdapter<Contract, ContractViewHol
     }
 
     public interface ItemAction {
-        void onClick(String id);
+        void onClick(int position, String id);
     }
 
     public void setItemOnClickAction(ItemAction itemOnClickAction) {
@@ -45,7 +45,7 @@ public class ContractsAdapter extends PagedListAdapter<Contract, ContractViewHol
     public void onBindViewHolder(@NonNull ContractViewHolder holder, int position) {
         Contract contract = getItem(position);
         if (contract != null) {
-            holder.bindTo(contract, mItemOnClickAction);
+            holder.bindTo(position, contract, mItemOnClickAction);
         } else {
             holder.clear();
         }
