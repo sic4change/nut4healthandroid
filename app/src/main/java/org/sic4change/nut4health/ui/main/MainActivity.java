@@ -28,7 +28,6 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 
 import org.sic4change.nut4health.R;
-import org.sic4change.nut4health.ui.create_contract.CreateContractActivity;
 import org.sic4change.nut4health.ui.main.contracts.ContractFragment;
 import org.sic4change.nut4health.ui.main.contracts.ContractsListFragment;
 import org.sic4change.nut4health.ui.main.contracts.ContractsMapFragment;
@@ -89,19 +88,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
 
         Fragment fragment = null;
-        if (mMainViewModel.getSelection(getApplicationContext()) == 1) {
+        if (mMainViewModel.getMainMenuSelection(getApplicationContext()) == 1) {
             fragment = new CreateContractFragment();
             setTitle(R.string.capture);
-        } else if (mMainViewModel.getSelection(getApplicationContext()) == 2) {
+        } else if (mMainViewModel.getMainMenuSelection(getApplicationContext()) == 2) {
             fragment = new ContractFragment();
             setTitle(R.string.contracts);
-        } else if (mMainViewModel.getSelection(getApplicationContext()) == 3) {
+        } else if (mMainViewModel.getMainMenuSelection(getApplicationContext()) == 3) {
             fragment = new RankingFragment();
             setTitle(R.string.ranking);
-        } else if (mMainViewModel.getSelection(getApplicationContext()) == 4) {
+        } else if (mMainViewModel.getMainMenuSelection(getApplicationContext()) == 4) {
             fragment = new EmptyFragment();
             setTitle("Pagos");
-        } else if (mMainViewModel.getSelection(getApplicationContext()) == 5) {
+        } else if (mMainViewModel.getMainMenuSelection(getApplicationContext()) == 5) {
             fragment = new EmptyFragment();
             setTitle("Ayuda");
         }
@@ -111,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .addToBackStack(null)
                 .commit();
 
-        this.navigationView.getMenu().getItem(mMainViewModel.getSelection(getApplicationContext())-1).setChecked(true);
+        this.navigationView.getMenu().getItem(mMainViewModel.getMainMenuSelection(getApplicationContext())-1).setChecked(true);
         showCurrentVersion();
     }
 
@@ -195,23 +194,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
         Fragment fragment = null;
         if (id == R.id.nav_start_diagnosis) {
-            mMainViewModel.saveSelection(1);
+            mMainViewModel.saveMainMenuSelection(1);
             fragment = new CreateContractFragment();
             setTitle(R.string.capture);
         } else if (id == R.id.nav_contracts) {
-            mMainViewModel.saveSelection(2);
+            mMainViewModel.saveMainMenuSelection(2);
             fragment = new ContractFragment();
             setTitle(R.string.contracts);
         } else if (id == R.id.nav_ranking) {
-            mMainViewModel.saveSelection(3);
+            mMainViewModel.saveMainMenuSelection(3);
             fragment = new RankingFragment();
             setTitle(R.string.ranking);
         } else if (id == R.id.nav_paids) {
-            mMainViewModel.saveSelection(4);
+            mMainViewModel.saveMainMenuSelection(4);
             fragment = new EmptyFragment();
             setTitle("Pagos");
         } else if (id == R.id.nav_help) {
-            mMainViewModel.saveSelection(5);
+            mMainViewModel.saveMainMenuSelection(5);
             fragment = new EmptyFragment();
             setTitle("Ayuda");
         }

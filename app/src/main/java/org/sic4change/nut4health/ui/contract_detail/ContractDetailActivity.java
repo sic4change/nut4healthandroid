@@ -28,12 +28,7 @@ public class ContractDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_contract_detail);
         ContractDetailViewModelFactory contractDetailViewModelFactory = ContractDetailViewModelFactory.createFactory(this, getIntent().getStringExtra("CONTRACT_ID"));
         mDetailContractViewModel = ViewModelProviders.of(this, contractDetailViewModelFactory).get(DetailContractViewModel.class);
-        mDetailContractViewModel.getContract().observe(this, new Observer<Contract>() {
-            @Override
-            public void onChanged(@Nullable Contract contract) {
-                showContractDetail(contract);
-            }
-        });
+        mDetailContractViewModel.getContract().observe(this, contract -> showContractDetail(contract));
     }
 
     private void showContractDetail(Contract contract) {

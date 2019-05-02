@@ -11,14 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.contract_detail.ContractDetailActivity">
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
-            app:layout_constraintBottom_toTopOf="@id/ivIcon"
-            app:layout_constraintTop_toTopOf="parent" />
-
+        
         <com.github.pavlospt.CircleView
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/ivIcon"

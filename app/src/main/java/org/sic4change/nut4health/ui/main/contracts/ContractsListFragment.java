@@ -62,12 +62,7 @@ public class ContractsListFragment extends Fragment implements SwipeRefreshLayou
         contractsAdapter = new ContractsAdapter(getActivity().getApplicationContext());
         rvContracts.setLayoutManager(new LinearLayoutManager(getActivity()));
         rvContracts.setAdapter(contractsAdapter);
-        contractsAdapter.setItemOnClickAction(new ContractsAdapter.ItemAction() {
-            @Override
-            public void onClick(String id) {
-                goToContractDetailActivity(id);
-            }
-        });
+        contractsAdapter.setItemOnClickAction(id -> goToContractDetailActivity(id));
         initData();
         return view;
     }
