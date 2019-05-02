@@ -100,7 +100,8 @@
     <string name="ranking">Ranking</string>
 
     <!--Contract Detail-->
-    <string name="contractDetail">Detalle del contrato</string>
+    <string name="contractDetail">Detalle del diagnóstico</string>
+    <string name="date">Fecha</string>
 
     <!--Font awasome -->
     <string name="fa_adjust">&#xf042;</string>

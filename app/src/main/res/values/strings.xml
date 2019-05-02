@@ -99,7 +99,8 @@
     <string name="ranking">Ranking</string>
 
     <!--Contract Detail-->
-    <string name="contractDetail">Contract detail</string>
+    <string name="contractDetail">Diagnosis detail</string>
+    <string name="date">Date</string>
 
     <!--Font awasome -->
     <string name="fa_adjust">&#xf042;</string>

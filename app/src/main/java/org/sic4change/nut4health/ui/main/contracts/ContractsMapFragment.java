@@ -53,6 +53,8 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
     private CircleView nPercentage;
     private RelativeTimeTextView nDate;
 
+    private String id;
+
     public ContractsMapFragment() {
         // Required empty public constructor
     }
@@ -61,7 +63,7 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_contract_map, container, false);
         cvContract = view.findViewById(R.id.cvContract);
-        cvContract.setOnClickListener(v -> goToContractDetailActivity());
+        cvContract.setOnClickListener(v -> goToContractDetailActivity(id));
         nChildName = view.findViewById(R.id.tvNameItem);
         nChildLocation = view.findViewById(R.id.tvLocationItem);
         nPercentage = view.findViewById(R.id.tvPercentageItem);
@@ -141,6 +143,7 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
                 nDate.setReferenceTime(contract.getDate());
                 cvContract.setVisibility(View.VISIBLE);
                 marker.setTitle(contract.getPercentage() + "%");
+                id = contract.getId();
             } else {
                 marker.setTitle(getString(R.string.your_position));
             }
@@ -180,8 +183,9 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
         }
     }
 
-    private void goToContractDetailActivity() {
+    private void goToContractDetailActivity(String id) {
         Intent intent = new Intent(getActivity(), ContractDetailActivity.class);
+        intent.putExtra("CONTRACT_ID", id);
         startActivity(intent);
         customType(getActivity(),"left-to-right");
         getActivity().finish();

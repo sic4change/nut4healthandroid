@@ -65,7 +65,7 @@ public class ContractsListFragment extends Fragment implements SwipeRefreshLayou
         contractsAdapter.setItemOnClickAction(new ContractsAdapter.ItemAction() {
             @Override
             public void onClick(String id) {
-                goToContractDetailActivity();
+                goToContractDetailActivity(id);
             }
         });
         initData();
@@ -139,8 +139,9 @@ public class ContractsListFragment extends Fragment implements SwipeRefreshLayou
         getActivity().finish();
     }
 
-    private void goToContractDetailActivity() {
+    private void goToContractDetailActivity(String id) {
         Intent intent = new Intent(getActivity(), ContractDetailActivity.class);
+        intent.putExtra("CONTRACT_ID", id);
         startActivity(intent);
         customType(getActivity(),"left-to-right");
         getActivity().finish();

@@ -489,6 +489,15 @@ public class DataRepository {
     }
 
     /**
+     * Method to get contracts sorted
+     * @param id
+     * @return
+     */
+    public LiveData<Contract> getContract(String id) {
+        return nut4HealtDao.getContract(id);
+    }
+
+    /**
      * Method to get ranking sorted
      * @param sort
      * @return
