@@ -1,198 +1,205 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scrollView"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.contract_detail.ContractDetailActivity">
+    android:layout_height="wrap_content">
 
-    <View
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/ivIcon"/>
+        android:layout_height="match_parent"
+        tools:context=".ui.contract_detail.ContractDetailActivity">
 
-    <com.github.pavlospt.CircleView
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/ivIcon"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="@dimen/margin_card"
-        android:layout_marginLeft="@dimen/margin_card"
-        android:layout_marginEnd="@dimen/margin_card"
-        android:layout_marginRight="@dimen/margin_card"
-        android:layout_marginBottom="@dimen/margin_card"
-        android:layout_marginTop="@dimen/margin_card"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/cardView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:cv_titleText="50%"
-        app:cv_titleSize="30dp"
-        app:cv_subtitleSize="0dp"
-        app:cv_titleColor="@color/white"
-        app:cv_subtitleColor="@color/colorAccent"
-        app:cv_strokeColorValue="@color/ms_errorColor"
-        app:cv_backgroundColorValue="@color/white"
-        app:cv_fillColor="@color/white"
-        app:cv_fillRadius="0.9"
-        app:cv_strokeWidthSize="5"/>
-
-    <android.support.v7.widget.CardView
-        android:id="@+id/cardView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        card_view:cardCornerRadius="3dp"
-        card_view:cardElevation="3dp"
-        android:layout_marginStart="@dimen/margin_card"
-        android:layout_marginLeft="@dimen/margin_card"
-        android:layout_marginTop="@dimen/margin_card"
-        android:layout_marginEnd="@dimen/margin_card"
-        android:layout_marginRight="@dimen/margin_card"
-        android:layout_marginBottom="@dimen/margin_card"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <android.support.constraint.ConstraintLayout
+        <View
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:focusable="true"
-            android:focusableInTouchMode="true">
+            android:background="@color/colorPrimary"
+            app:layout_constraintBottom_toTopOf="@id/ivIcon"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/tvContractDetail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_medium"
-                android:layout_marginLeft="@dimen/margin_medium"
-                android:layout_marginTop="@dimen/margin_medium"
-                android:layout_marginEnd="@dimen/margin_medium"
-                android:layout_marginRight="@dimen/margin_medium"
-                android:text="@string/contractDetail"
-                android:textSize="18dp"
-                android:textStyle="bold"
-                android:textColor="@color/colorAccent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+        <com.github.pavlospt.CircleView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/ivIcon"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="@dimen/margin_card"
+            android:layout_marginLeft="@dimen/margin_card"
+            android:layout_marginTop="@dimen/margin_default"
+            android:layout_marginEnd="@dimen/margin_card"
+            android:layout_marginRight="@dimen/margin_card"
+            android:layout_marginBottom="@dimen/margin_default"
+            app:cv_backgroundColorValue="@color/white"
+            app:cv_fillColor="@color/white"
+            app:cv_fillRadius="0.9"
+            app:cv_strokeColorValue="@color/ms_errorColor"
+            app:cv_strokeWidthSize="5"
+            app:cv_subtitleColor="@color/colorAccent"
+            app:cv_subtitleSize="0dp"
+            app:cv_titleColor="@color/white"
+            app:cv_titleSize="30dp"
+            app:cv_titleText="50%"
+            app:layout_constraintBottom_toTopOf="@+id/cardView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/tvName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_medium"
-                android:layout_marginLeft="@dimen/margin_medium"
-                android:layout_marginTop="@dimen/margin_medium"
-                android:text="@string/name"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvContractDetail" />
+        <android.support.v7.widget.CardView
+            android:id="@+id/cardView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_card"
+            android:layout_marginLeft="@dimen/margin_card"
+            android:layout_marginTop="@dimen/margin_card"
+            android:layout_marginEnd="@dimen/margin_card"
+            android:layout_marginRight="@dimen/margin_card"
+            android:layout_marginBottom="@dimen/margin_card"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            card_view:cardCornerRadius="3dp"
+            card_view:cardElevation="3dp">
 
-            <EditText
-                android:id="@+id/etName"
+            <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_medium"
-                android:layout_marginLeft="@dimen/margin_medium"
-                android:layout_marginEnd="@dimen/margin_medium"
-                android:layout_marginRight="@dimen/margin_medium"
-                android:inputType="textPersonName"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvName"
-                android:enabled="false"
-                android:editable="false"/>
+                android:focusable="true"
+                android:focusableInTouchMode="true">
 
-            <TextView
-                android:id="@+id/tvSurname"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_medium"
-                android:layout_marginLeft="@dimen/margin_medium"
-                android:layout_marginTop="@dimen/margin_medium"
-                android:text="@string/surname"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/etName" />
+                <TextView
+                    android:id="@+id/tvContractDetail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:layout_marginRight="@dimen/margin_medium"
+                    android:text="@string/contractDetail"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="18dp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <EditText
-                android:id="@+id/etSurname"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_medium"
-                android:layout_marginLeft="@dimen/margin_medium"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="@dimen/margin_medium"
-                android:layout_marginRight="@dimen/margin_medium"
-                android:layout_marginBottom="@dimen/margin_medium"
-                android:inputType="textPersonName"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvSurname"
-                android:enabled="false"
-                android:editable="false"/>
+                <TextView
+                    android:id="@+id/tvName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:text="@string/name"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvContractDetail" />
 
-            <TextView
-                android:id="@+id/tvLocation"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_medium"
-                android:layout_marginLeft="@dimen/margin_medium"
-                android:layout_marginTop="@dimen/margin_medium"
-                android:text="@string/location"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/etSurname" />
+                <EditText
+                    android:id="@+id/etName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:layout_marginRight="@dimen/margin_medium"
+                    android:editable="false"
+                    android:enabled="false"
+                    android:inputType="textPersonName"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvName" />
 
-            <EditText
-                android:id="@+id/etLocation"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_medium"
-                android:layout_marginLeft="@dimen/margin_medium"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="@dimen/margin_medium"
-                android:layout_marginRight="@dimen/margin_medium"
-                android:layout_marginBottom="@dimen/margin_medium"
-                android:inputType="textMultiLine|textCapSentences"
-                android:ems="10"
-                android:lines="5"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvLocation"
-                android:enabled="false"
-                android:editable="false"/>
+                <TextView
+                    android:id="@+id/tvSurname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:text="@string/surname"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/etName" />
 
-            <TextView
-                android:id="@+id/tvDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_medium"
-                android:layout_marginLeft="@dimen/margin_medium"
-                android:layout_marginTop="@dimen/margin_medium"
-                android:text="@string/date"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/etLocation" />
+                <EditText
+                    android:id="@+id/etSurname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:layout_marginRight="@dimen/margin_medium"
+                    android:layout_marginBottom="@dimen/margin_medium"
+                    android:editable="false"
+                    android:enabled="false"
+                    android:inputType="textPersonName"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvSurname" />
 
-            <com.github.curioustechizen.ago.RelativeTimeTextView
-                android:id="@+id/etDate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_medium"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="@dimen/margin_medium"
-                android:layout_marginBottom="8dp"
-                android:editable="false"
-                android:enabled="false"
-                android:inputType="textPersonName"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvDate" />
+                <TextView
+                    android:id="@+id/tvLocation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:text="@string/location"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/etSurname" />
 
-        </android.support.constraint.ConstraintLayout>
+                <EditText
+                    android:id="@+id/etLocation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:layout_marginRight="@dimen/margin_medium"
+                    android:layout_marginBottom="@dimen/margin_medium"
+                    android:editable="false"
+                    android:ems="10"
+                    android:enabled="false"
+                    android:inputType="textMultiLine|textCapSentences"
+                    android:lines="5"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvLocation" />
 
-    </android.support.v7.widget.CardView>
+                <TextView
+                    android:id="@+id/tvDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:text="@string/date"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/etLocation" />
 
-</android.support.constraint.ConstraintLayout>
+                <com.github.curioustechizen.ago.RelativeTimeTextView
+                    android:id="@+id/etDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:layout_marginBottom="8dp"
+                    android:editable="false"
+                    android:enabled="false"
+                    android:inputType="textPersonName"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvDate" />
+
+            </android.support.constraint.ConstraintLayout>
+
+        </android.support.v7.widget.CardView>
+
+    </android.support.constraint.ConstraintLayout>
+
+</ScrollView>
