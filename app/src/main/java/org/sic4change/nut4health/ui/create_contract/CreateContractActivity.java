@@ -1,7 +1,5 @@
 package org.sic4change.nut4health.ui.create_contract;
 
-import android.app.Fragment;
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -13,7 +11,6 @@ import com.stepstone.stepper.StepperLayout;
 import com.stepstone.stepper.VerificationError;
 
 import org.sic4change.nut4health.R;
-import org.sic4change.nut4health.ui.main.MainActivity;
 
 import static maes.tech.intentanim.CustomIntent.customType;
 
@@ -40,9 +37,8 @@ public class CreateContractActivity extends AppCompatActivity implements Stepper
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        goToMainActivity();
-        return super.onOptionsItemSelected(item);
+        onBackPressed();
+        return true;
     }
 
     @Override
@@ -52,10 +48,8 @@ public class CreateContractActivity extends AppCompatActivity implements Stepper
     }
 
     private void goToMainActivity() {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
         customType(CreateContractActivity.this,"right-to-left");
-        finish();
+        getSupportFragmentManager().popBackStackImmediate();
     }
 
     @Override
@@ -71,7 +65,6 @@ public class CreateContractActivity extends AppCompatActivity implements Stepper
 
     @Override
     public void onStepSelected(int newStepPosition) {
-
 
     }
 

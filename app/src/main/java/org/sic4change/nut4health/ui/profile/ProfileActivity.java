@@ -27,8 +27,6 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 import org.sic4change.country_selector.CountryPicker;
 import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.data.entities.User;
-import org.sic4change.nut4health.ui.login.LoginActivity;
-import org.sic4change.nut4health.ui.main.MainActivity;
 import org.sic4change.nut4health.utils.view.Nut4HealthSnackbar;
 import org.sic4change.nut4health.utils.view.Nut4HealthTextAwesome;
 
@@ -120,25 +118,20 @@ public class ProfileActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                goToMainActivity();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
+        onBackPressed();
+        return true;
     }
 
 
     @Override
     public void onBackPressed() {
+        super.onBackPressed();
         goToMainActivity();
     }
 
     private void goToMainActivity() {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
         customType(ProfileActivity.this,"right-to-left");
-        finish();
+        getSupportFragmentManager().popBackStackImmediate();
     }
 
     public void changePhoto(View view) {
@@ -248,10 +241,8 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void goToLoginActivity() {
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
         customType(this,"right-to-left");
-        finish();
+        getSupportFragmentManager().popBackStackImmediate();
     }
 
     public void logout() {

@@ -203,7 +203,6 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
         intent.putExtra("CONTRACT_ID", id);
         startActivity(intent);
         customType(getActivity(),"left-to-right");
-        //getActivity().finish();
     }
 
 }

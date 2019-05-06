@@ -1,9 +1,6 @@
 package org.sic4change.nut4health.ui.contract_detail;
 
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Intent;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -14,7 +11,6 @@ import com.github.pavlospt.CircleView;
 
 import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.data.entities.Contract;
-import org.sic4change.nut4health.ui.main.MainActivity;
 
 import static maes.tech.intentanim.CustomIntent.customType;
 
@@ -62,9 +58,8 @@ public class ContractDetailActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        goToMainActivity();
-        return super.onOptionsItemSelected(item);
+        onBackPressed();
+        return true;
     }
 
     @Override
@@ -74,10 +69,8 @@ public class ContractDetailActivity extends AppCompatActivity {
     }
 
     private void goToMainActivity() {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
         customType(ContractDetailActivity.this,"right-to-left");
-        finish();
+        getSupportFragmentManager().popBackStackImmediate();
     }
 
 }

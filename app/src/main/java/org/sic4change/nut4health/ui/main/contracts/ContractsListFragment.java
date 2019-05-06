@@ -108,7 +108,6 @@ public class ContractsListFragment extends Fragment implements SwipeRefreshLayou
 
     @Override
     public void onRefresh() {
-        //mMainViewModel.saveContractSelectionPosition(0);
         mMainViewModel = null;
         initData();
         contractsAdapter.notifyDataSetChanged();
@@ -134,7 +133,6 @@ public class ContractsListFragment extends Fragment implements SwipeRefreshLayou
         Intent intent = new Intent(getActivity(), CreateContractActivity.class);
         startActivity(intent);
         customType(getActivity(),"left-to-right");
-        getActivity().finish();
     }
 
     private void goToContractDetailActivity(String id) {
@@ -142,7 +140,6 @@ public class ContractsListFragment extends Fragment implements SwipeRefreshLayou
         intent.putExtra("CONTRACT_ID", id);
         startActivity(intent);
         customType(getActivity(),"left-to-right");
-        //getActivity().finish();
     }
 
 }

@@ -86,31 +86,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             }
         });
-
-        Fragment fragment = null;
-        if (mMainViewModel.getMainMenuSelection(getApplicationContext()) == 1) {
-            fragment = new CreateContractFragment();
-            setTitle(R.string.capture);
-        } else if (mMainViewModel.getMainMenuSelection(getApplicationContext()) == 2) {
-            fragment = new ContractFragment();
-            setTitle(R.string.contracts);
-        } else if (mMainViewModel.getMainMenuSelection(getApplicationContext()) == 3) {
-            fragment = new RankingFragment();
-            setTitle(R.string.ranking);
-        } else if (mMainViewModel.getMainMenuSelection(getApplicationContext()) == 4) {
-            fragment = new EmptyFragment();
-            setTitle("Pagos");
-        } else if (mMainViewModel.getMainMenuSelection(getApplicationContext()) == 5) {
-            fragment = new EmptyFragment();
-            setTitle("Ayuda");
-        }
+        Fragment fragment = new CreateContractFragment();
         fragmentManager.beginTransaction()
                 .replace(R.id.lyMainContent, fragment)
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .addToBackStack(null)
                 .commit();
-
-        this.navigationView.getMenu().getItem(mMainViewModel.getMainMenuSelection(getApplicationContext())-1).setChecked(true);
+        setTitle(R.string.capture);
+        this.navigationView.getMenu().getItem(0).setChecked(true);
         showCurrentVersion();
     }
 
@@ -167,7 +150,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             drawer.closeDrawer(GravityCompat.START);
         } else {
             if (doubleBackToExitPressedOnce) {
-                mMainViewModel.saveContractViewMenuSelection(0);
                 finish();
                 return;
             }
@@ -195,29 +177,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
         Fragment fragment = null;
         if (id == R.id.nav_start_diagnosis) {
-            mMainViewModel.saveMainMenuSelection(1);
             fragment = new CreateContractFragment();
             setTitle(R.string.capture);
-            mMainViewModel.saveContractViewMenuSelection(0);
         } else if (id == R.id.nav_contracts) {
-            mMainViewModel.saveMainMenuSelection(2);
             fragment = new ContractFragment();
             setTitle(R.string.contracts);
         } else if (id == R.id.nav_ranking) {
-            mMainViewModel.saveMainMenuSelection(3);
             fragment = new RankingFragment();
             setTitle(R.string.ranking);
-            mMainViewModel.saveContractViewMenuSelection(0);
         } else if (id == R.id.nav_paids) {
-            mMainViewModel.saveMainMenuSelection(4);
             fragment = new EmptyFragment();
             setTitle("Pagos");
-            mMainViewModel.saveContractViewMenuSelection(0);
         } else if (id == R.id.nav_help) {
-            mMainViewModel.saveMainMenuSelection(5);
             fragment = new EmptyFragment();
             setTitle("Ayuda");
-            mMainViewModel.saveContractViewMenuSelection(0);
         }
         fragmentManager.beginTransaction()
                 .replace(R.id.lyMainContent, fragment)
@@ -238,7 +211,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Intent intent = new Intent(this, ProfileActivity.class);
         startActivity(intent);
         customType(MainActivity.this,"left-to-right");
-        finish();
     }
 
 
