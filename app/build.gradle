@@ -127,6 +127,9 @@ dependencies {
     //Seekbar
     implementation 'com.crystal:crystalrangeseekbar:1.0.0'
 
+    //Calendar
+    implementation 'com.github.psinetron:slycalendarview:0.0.9'
+
     //Test
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     testImplementation 'junit:junit:4.12'
