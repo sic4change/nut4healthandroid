@@ -39,6 +39,7 @@ public class ContractFragment extends Fragment {
     private TextView tvMinRange;
     private TextView tvMaxRange;
     private Button btnFilter;
+    private Button btnClear;
 
     public ContractFragment() {
         // Required empty public constructor
@@ -86,6 +87,16 @@ public class ContractFragment extends Fragment {
         btnFilterContracts.setOnClickListener(v -> {
             showContractFilterMenu();
         });
+        btnClear = view.findViewById(R.id.btnClear);
+        btnClear.setOnClickListener(v -> {
+            etNameAndSurname.setText("");
+            tvDateRange.setText("");
+            slDesnutrition.setSelected(false);
+            slDesnutrition.setMinStartValue(0).apply();
+            slDesnutrition.setMaxStartValue(100).apply();
+            tvMaxRange.setText("100%");
+            tvMinRange.setText("0%");
+        });
         lyFilter = view.findViewById(R.id.lyFilter);
         etNameAndSurname = view.findViewById(R.id.etNameAndSurname);
         spStatus = view.findViewById(R.id.spStatus);
@@ -97,30 +108,28 @@ public class ContractFragment extends Fragment {
             tvMinRange.setText(String.valueOf(minValue) + "%");
             tvMaxRange.setText(String.valueOf(maxValue)  + "%");
         });
-        tvDateRange.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SlyCalendarDialog.Callback callback = new SlyCalendarDialog.Callback() {
-                    @Override
-                    public void onCancelled() {
+        tvDateRange.setOnClickListener(v -> {
+            SlyCalendarDialog.Callback callback = new SlyCalendarDialog.Callback() {
+                @Override
+                public void onCancelled() {
 
-                    }
+                }
 
-                    @Override
-                    public void onDataSelected(Calendar firstDate, Calendar secondDate, int hours, int minutes) {
-                        tvDateRange.setText(firstDate.get(Calendar.DAY_OF_MONTH) + "/" + firstDate.get(Calendar.MONTH) + "/" + firstDate.get(Calendar.YEAR)
-                        + " - " + secondDate.get(Calendar.DAY_OF_MONTH) + "/" + secondDate.get(Calendar.MONTH) + "/" + secondDate.get(Calendar.YEAR));
+                @Override
+                public void onDataSelected(Calendar firstDate, Calendar secondDate, int hours, int minutes) {
+                    tvDateRange.setText(firstDate.get(Calendar.DAY_OF_MONTH) + "/" + firstDate.get(Calendar.MONTH) + "/" + firstDate.get(Calendar.YEAR)
+                    + " - " + secondDate.get(Calendar.DAY_OF_MONTH) + "/" + secondDate.get(Calendar.MONTH) + "/" + secondDate.get(Calendar.YEAR));
 
-                    }
-                };
-                new SlyCalendarDialog()
-                        .setSingle(false)
-                        .setCallback(callback)
-                        .setBackgroundColor(getContext().getResources().getColor(R.color.white))
-                        .setSelectedTextColor(getContext().getResources().getColor(R.color.white))
-                        .setSelectedColor(getContext().getResources().getColor(R.color.colorPrimaryDark))
-                        .show(getActivity().getSupportFragmentManager(), "TAG_CALENDAR_RANGE_SELECTION");
-            }
+                }
+            };
+            new SlyCalendarDialog()
+                    .setSingle(false)
+                    .setCallback(callback)
+                    .setHeaderColor(getContext().getResources().getColor(R.color.colorPrimaryDark))
+                    .setBackgroundColor(getContext().getResources().getColor(R.color.white))
+                    .setSelectedTextColor(getContext().getResources().getColor(R.color.white))
+                    .setSelectedColor(getContext().getResources().getColor(R.color.colorPrimaryDark))
+                    .show(getActivity().getSupportFragmentManager(), "TAG_CALENDAR_RANGE_SELECTION");
         });
         btnFilter = view.findViewById(R.id.btnFilter);
         return view;

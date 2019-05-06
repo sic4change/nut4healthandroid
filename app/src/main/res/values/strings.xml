@@ -113,6 +113,7 @@
     <string name="hintNameSearch">Name and/or surname</string>
     <string name="dateRange">Date range</string>
     <string name="filter">Filter</string>
+    <string name="clear">Clear</string>
 
     <!--Font awasome -->
     <string name="fa_adjust">&#xf042;</string>

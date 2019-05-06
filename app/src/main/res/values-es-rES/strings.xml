@@ -114,6 +114,7 @@
     <string name="hintNameSearch">Nombre y/o apellido</string>
     <string name="dateRange">Rango de fechas</string>
     <string name="filter">Filtrar</string>
+    <string name="clear">Limpiar</string>
 
     <!--Font awasome -->
     <string name="fa_adjust">&#xf042;</string>
