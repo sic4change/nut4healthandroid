@@ -25,26 +25,6 @@
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
-    <FrameLayout
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginEnd="@dimen/margin_medium"
-        android:layout_marginBottom="@dimen/margin_medium"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/btnCreateContract"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_gravity="center"
-            android:clickable="true"
-            android:foregroundGravity="center"
-            android:src="@drawable/ic_action_add"
-            app:backgroundTint="@color/colorPrimaryDark"
-            app:fabCustomSize="70dp" />
-
-    </FrameLayout>
 
     <org.sic4change.nut4health.utils.view.Nut4HealthTextAwesome
         android:id="@+id/ivEmptyContracts"

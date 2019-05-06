@@ -30,4 +30,25 @@
         android:layout_height="fill_parent"
         android:layout_below="@id/tab_layout"/>
 
+    <FrameLayout
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginEnd="@dimen/margin_medium"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="@dimen/margin_medium">
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/btnCreateContract"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_gravity="center"
+            android:clickable="true"
+            android:foregroundGravity="center"
+            android:src="@drawable/ic_action_add"
+            app:backgroundTint="@color/colorPrimaryDark"
+            app:fabCustomSize="70dp" />
+
+    </FrameLayout>
+
 </RelativeLayout>

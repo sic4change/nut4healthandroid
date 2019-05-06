@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
@@ -63,12 +64,7 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_contract_map, container, false);
         cvContract = view.findViewById(R.id.cvContract);
-        cvContract.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                goToContractDetailActivity(id);
-            }
-        });
+        cvContract.setOnClickListener(v -> goToContractDetailActivity(id));
         nChildName = view.findViewById(R.id.tvNameItem);
         nChildLocation = view.findViewById(R.id.tvLocationItem);
         nPercentage = view.findViewById(R.id.tvPercentageItem);

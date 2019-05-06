@@ -30,7 +30,6 @@ public class ContractsListFragment extends Fragment implements SwipeRefreshLayou
     private MainViewModel mMainViewModel;
 
     private ContractsAdapter contractsAdapter;
-    private FloatingActionButton btnCreateContract;
     private org.sic4change.nut4health.utils.view.Nut4HealthTextAwesome ivEmptyContracts;
     private android.support.v4.widget.SwipeRefreshLayout swipe_container;
     private RecyclerView rvContracts;
@@ -49,15 +48,11 @@ public class ContractsListFragment extends Fragment implements SwipeRefreshLayou
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_contract_list, container, false);
-        btnCreateContract = view.findViewById(R.id.btnCreateContract);
         swipe_container = view.findViewById(R.id.swipe_container);
         swipe_container.setColorSchemeColors(getResources().getColor(R.color.colorAccent),
                 getResources().getColor(R.color.colorAccent), getResources().getColor(R.color.colorAccent));
         swipe_container.setOnRefreshListener(this);
         ivEmptyContracts = view.findViewById(R.id.ivEmptyContracts);
-        btnCreateContract.setOnClickListener(v -> {
-            goToCreateContractActivity();
-        });
         rvContracts = view.findViewById(R.id.rvContracts);
         contractsAdapter = new ContractsAdapter(getActivity().getApplicationContext());
         rvContracts.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -127,12 +122,6 @@ public class ContractsListFragment extends Fragment implements SwipeRefreshLayou
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
-    }
-
-    private void goToCreateContractActivity() {
-        Intent intent = new Intent(getActivity(), CreateContractActivity.class);
-        startActivity(intent);
-        customType(getActivity(),"left-to-right");
     }
 
     private void goToContractDetailActivity(String id) {

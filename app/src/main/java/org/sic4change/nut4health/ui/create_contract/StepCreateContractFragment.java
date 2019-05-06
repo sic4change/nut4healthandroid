@@ -377,10 +377,10 @@ public class StepCreateContractFragment extends Fragment implements Step{
 
     private void goToMainActivity() {
         mCreateContractViewModel = null;
-        Intent intent = new Intent(getActivity(), MainActivity.class);
-        startActivity(intent);
         customType(getActivity(),"right-to-left");
+        getActivity().getSupportFragmentManager().popBackStackImmediate();
         getActivity().finish();
+
     }
 
 
