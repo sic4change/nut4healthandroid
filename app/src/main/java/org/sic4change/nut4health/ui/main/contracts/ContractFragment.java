@@ -116,6 +116,9 @@ public class ContractFragment extends Fragment {
                 new SlyCalendarDialog()
                         .setSingle(false)
                         .setCallback(callback)
+                        .setBackgroundColor(getContext().getResources().getColor(R.color.white))
+                        .setSelectedTextColor(getContext().getResources().getColor(R.color.white))
+                        .setSelectedColor(getContext().getResources().getColor(R.color.colorPrimaryDark))
                         .show(getActivity().getSupportFragmentManager(), "TAG_CALENDAR_RANGE_SELECTION");
             }
         });
