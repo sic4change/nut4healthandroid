@@ -124,6 +124,9 @@ dependencies {
     //Location
     implementation 'com.google.android.gms:play-services-location:16.0.0'
 
+    //Seekbar
+    implementation 'com.crystal:crystalrangeseekbar:1.0.0'
+
     //Test
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     testImplementation 'junit:junit:4.12'

@@ -2,10 +2,12 @@ package org.sic4change.nut4health.ui.main.contracts;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +21,8 @@ import static maes.tech.intentanim.CustomIntent.customType;
 public class ContractFragment extends Fragment  {
 
     private FloatingActionButton btnCreateContract;
-
+    private FloatingActionButton btnFilterContracts;
+    private CardView lyFilter;
 
     public ContractFragment() {
         // Required empty public constructor
@@ -63,6 +66,11 @@ public class ContractFragment extends Fragment  {
         btnCreateContract.setOnClickListener(v -> {
             goToCreateContractActivity();
         });
+        btnFilterContracts = view.findViewById(R.id.btnFilterContracts);
+        btnFilterContracts.setOnClickListener(v -> {
+            showContractFilterMenu();
+        });
+        lyFilter = view.findViewById(R.id.lyFilter);
         return view;
     }
 
@@ -70,6 +78,14 @@ public class ContractFragment extends Fragment  {
         Intent intent = new Intent(getActivity(), CreateContractActivity.class);
         startActivity(intent);
         customType(getActivity(),"left-to-right");
+    }
+
+    private void showContractFilterMenu() {
+        if (lyFilter.getVisibility() == View.VISIBLE) {
+            lyFilter.setVisibility(View.GONE);
+        } else if (lyFilter.getVisibility() == View.GONE) {
+            lyFilter.setVisibility(View.VISIBLE);
+        }
     }
 
 }

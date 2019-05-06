@@ -102,6 +102,18 @@
     <string name="contractDetail">Diagnosis detail</string>
     <string name="date">Date</string>
 
+    <!--Contract Filter-->
+    <string-array name="array_status">
+        <item>All</item>
+        <item>Init</item>
+        <item>Diagnosis</item>
+        <item>No diagnosis</item>
+        <item>Paid</item>
+    </string-array>
+    <string name="hintNameSearch">Name and/or surname</string>
+    <string name="dateRange">Date range</string>
+    <string name="filter">Filter</string>
+
     <!--Font awasome -->
     <string name="fa_adjust">&#xf042;</string>
     <string name="fa_adn">&#xf170;</string>
