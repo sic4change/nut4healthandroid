@@ -175,6 +175,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         drawer.closeDrawer(GravityCompat.START);
+        Fragment fragment = new EmptyFragment();
+        fragmentManager.beginTransaction()
+                .replace(R.id.lyMainContent, fragment)
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .addToBackStack(null)
+                .commit();
         new CountDownTimer(500, 100) {
 
             public void onTick(long millisUntilFinished) {
