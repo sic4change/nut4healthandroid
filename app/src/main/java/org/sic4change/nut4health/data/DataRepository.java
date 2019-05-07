@@ -483,8 +483,11 @@ public class DataRepository {
      * @param status
      * @return
      */
-    public LiveData<PagedList<Contract>> getSortedContracts(String sort, String status) {
-        SimpleSQLiteQuery query = SortUtils.getAllQueryContracts(sort, status);
+    public LiveData<PagedList<Contract>> getSortedContracts(String sort, String name, String surname,
+                                                            String status, long dateStart, long dateEnd,
+                                                            int percentageMin, int percentageMax) {
+        SimpleSQLiteQuery query = SortUtils.getFilterContracts(sort, name, surname, status, dateStart, dateEnd,
+                percentageMin, percentageMax);
         return new LivePagedListBuilder<>(nut4HealtDao.getUserContracts(query), PAGE_SIZE).build();
     }
 

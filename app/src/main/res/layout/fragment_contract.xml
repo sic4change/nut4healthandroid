@@ -32,14 +32,14 @@
         android:layout_below="@id/tab_layout"
         android:background="@color/white"
         android:layout_margin="@dimen/margin_default"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <EditText
-                android:id="@+id/etNameAndSurname"
+                android:id="@+id/etName"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_default"
@@ -48,10 +48,27 @@
                 android:drawableLeft="@drawable/ic_search"
                 android:drawablePadding="2dp"
                 android:textSize="12sp"
-                android:hint="@string/hintNameSearch"
+                android:hint="@string/name"
+                android:inputType="textCapWords"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/etSurname"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_default"
+                android:layout_marginTop="@dimen/margin_default"
+                android:layout_marginEnd="@dimen/margin_default"
+                android:drawableLeft="@drawable/ic_search"
+                android:drawablePadding="2dp"
+                android:textSize="12sp"
+                android:hint="@string/surname"
+                android:inputType="textCapWords"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/etName" />
 
             <Spinner
                 android:id="@+id/spStatus"
@@ -64,7 +81,7 @@
                 android:theme="@style/spinnerItemStyle"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/etNameAndSurname">
+                app:layout_constraintTop_toBottomOf="@+id/etSurname">
 
             </Spinner>
 

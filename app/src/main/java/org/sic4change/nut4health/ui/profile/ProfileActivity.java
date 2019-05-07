@@ -27,6 +27,8 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 import org.sic4change.country_selector.CountryPicker;
 import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.data.entities.User;
+import org.sic4change.nut4health.ui.login.LoginActivity;
+import org.sic4change.nut4health.ui.splash.SplashActivity;
 import org.sic4change.nut4health.utils.view.Nut4HealthSnackbar;
 import org.sic4change.nut4health.utils.view.Nut4HealthTextAwesome;
 
@@ -241,8 +243,10 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void goToLoginActivity() {
-        customType(this,"right-to-left");
-        getSupportFragmentManager().popBackStackImmediate();
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+        customType(ProfileActivity.this,"right-to-left");
+        finish();
     }
 
     public void logout() {

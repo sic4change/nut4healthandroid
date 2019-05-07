@@ -1,6 +1,7 @@
 package org.sic4change.nut4health.ui.main;
 
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.arch.paging.PagedList;
 import android.content.Context;
@@ -20,12 +21,22 @@ public class MainViewModel extends ViewModel {
     private LiveData<PagedList<Contract>> mContracts;
     private LiveData<PagedList<Ranking>> mRanking;
 
+    private String name = "";
+    private String surname = "";
+    private String status = Contract.Status.ALL.name();
+    private long dateStart = 0;
+    private long dateEnd = 0;
+    private int percentageMin = 0;
+    private int percentageMax = 100;
+    private final MutableLiveData<Boolean> isFiltered = new MutableLiveData<>();
+
     public MainViewModel(Context context, DataRepository repository) {
         this.mContext = context;
         this.mRepository = repository;
         mUser = this.mRepository.getCurrentUser();
-        mContracts = this.mRepository.getSortedContracts("DATE", "");
+        mContracts = this.mRepository.getSortedContracts("DATE", name, surname, status, dateStart, dateEnd, percentageMin, percentageMax);
         mRanking = this.mRepository.getSortedRanking("POINTS");
+        isFiltered.setValue(false);
     }
 
     public LiveData<User> getCurrentUser() {
@@ -41,8 +52,10 @@ public class MainViewModel extends ViewModel {
         this.mRepository.getContracts(email);
     }
 
-    public void getSortedContracts(String sort, String status) {
-        mContracts = this.mRepository.getSortedContracts(sort, status);
+    public void getSortedContracts(String sort, String name, String surname, String status, long dateStart, long dataEnd,
+                                   int percentageMin, int percentageMax) {
+        mContracts = this.mRepository.getSortedContracts(sort, name, surname, status, dateStart, dateEnd,
+                percentageMin, percentageMax);
     }
 
     public LiveData<PagedList<Contract>> getContracts() {
@@ -57,4 +70,67 @@ public class MainViewModel extends ViewModel {
         return mRanking;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public long getDateStart() {
+        return dateStart;
+    }
+
+    public void setDateStart(long dateStart) {
+        this.dateStart = dateStart;
+    }
+
+    public long getDateEnd() {
+        return dateEnd;
+    }
+
+    public void setDateEnd(long dateEnd) {
+        this.dateEnd = dateEnd;
+    }
+
+    public int getPercentageMin() {
+        return percentageMin;
+    }
+
+    public void setPercentageMin(int percentageMin) {
+        this.percentageMin = percentageMin;
+    }
+
+    public int getPercentageMax() {
+        return percentageMax;
+    }
+
+    public void setPercentageMax(int percentageMax) {
+        this.percentageMax = percentageMax;
+    }
+
+    public MutableLiveData<Boolean> getIsFiltered() {
+        return isFiltered;
+    }
+
+    public void setIsFiltered(Boolean filtered) {
+        isFiltered.setValue(filtered);
+    }
 }

@@ -230,7 +230,7 @@ public class Contract {
     }
 
     public enum Status {
-        INIT, DIAGNOSIS, NO_DIAGNOSIS, PAID
+        INIT, DIAGNOSIS, NO_DIAGNOSIS, PAID, ALL
     }
 
 }

@@ -1,7 +1,11 @@
 package org.sic4change.nut4health.ui.main.contracts;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
+import android.arch.paging.PagedList;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -18,7 +22,11 @@ import android.widget.TextView;
 import com.crystal.crystalrangeseekbar.widgets.BubbleThumbRangeSeekbar;
 
 import org.sic4change.nut4health.R;
+import org.sic4change.nut4health.data.entities.Contract;
 import org.sic4change.nut4health.ui.create_contract.CreateContractActivity;
+import org.sic4change.nut4health.ui.main.MainViewModel;
+import org.sic4change.nut4health.ui.main.MainViewModelFactory;
+import org.sic4change.nut4health.utils.Nut4HealthKeyboard;
 
 import java.util.Calendar;
 
@@ -32,7 +40,8 @@ public class ContractFragment extends Fragment {
     private FloatingActionButton btnCreateContract;
     private FloatingActionButton btnFilterContracts;
     private CardView lyFilter;
-    private EditText etNameAndSurname;
+    private EditText etName;
+    private EditText etSurname;
     private Spinner spStatus;
     private EditText tvDateRange;
     private BubbleThumbRangeSeekbar slDesnutrition;
@@ -40,6 +49,11 @@ public class ContractFragment extends Fragment {
     private TextView tvMaxRange;
     private Button btnFilter;
     private Button btnClear;
+
+    private long timeRangeMin;
+    private long timeRangeMax;
+
+    private MainViewModel mMainViewModel;
 
     public ContractFragment() {
         // Required empty public constructor
@@ -89,16 +103,13 @@ public class ContractFragment extends Fragment {
         });
         btnClear = view.findViewById(R.id.btnClear);
         btnClear.setOnClickListener(v -> {
-            etNameAndSurname.setText("");
-            tvDateRange.setText("");
-            slDesnutrition.setSelected(false);
-            slDesnutrition.setMinStartValue(0).apply();
-            slDesnutrition.setMaxStartValue(100).apply();
-            tvMaxRange.setText("100%");
-            tvMinRange.setText("0%");
+            Nut4HealthKeyboard.closeKeyboard(etName, getContext());
+            mMainViewModel.setIsFiltered(false);
+            clear();
         });
         lyFilter = view.findViewById(R.id.lyFilter);
-        etNameAndSurname = view.findViewById(R.id.etNameAndSurname);
+        etName = view.findViewById(R.id.etName);
+        etSurname = view.findViewById(R.id.etSurname);
         spStatus = view.findViewById(R.id.spStatus);
         tvDateRange = view.findViewById(R.id.tvDateRange);
         slDesnutrition = view.findViewById(R.id.slDesnutrition);
@@ -117,9 +128,17 @@ public class ContractFragment extends Fragment {
 
                 @Override
                 public void onDataSelected(Calendar firstDate, Calendar secondDate, int hours, int minutes) {
-                    tvDateRange.setText(firstDate.get(Calendar.DAY_OF_MONTH) + "/" + firstDate.get(Calendar.MONTH) + "/" + firstDate.get(Calendar.YEAR)
-                    + " - " + secondDate.get(Calendar.DAY_OF_MONTH) + "/" + secondDate.get(Calendar.MONTH) + "/" + secondDate.get(Calendar.YEAR));
-
+                    try {
+                        timeRangeMin = firstDate.getTimeInMillis();
+                        timeRangeMax = secondDate.getTimeInMillis();
+                        tvDateRange.setText(firstDate.get(Calendar.DAY_OF_MONTH) + "/" + (firstDate.get(Calendar.MONTH) + 1) + "/" + firstDate.get(Calendar.YEAR)
+                                + " - " + secondDate.get(Calendar.DAY_OF_MONTH) + "/" + (firstDate.get(Calendar.MONTH) + 1) + "/" + secondDate.get(Calendar.YEAR));
+                    } catch (Exception e) {
+                        timeRangeMin = firstDate.getTimeInMillis();
+                        timeRangeMax = Calendar.getInstance().getTimeInMillis();
+                        tvDateRange.setText(firstDate.get(Calendar.DAY_OF_MONTH) + "/" + (firstDate.get(Calendar.MONTH) + 1)  + "/" + firstDate.get(Calendar.YEAR)
+                                + " - " + Calendar.getInstance().get(Calendar.DAY_OF_MONTH) + "/" + (firstDate.get(Calendar.MONTH) + 1)  + "/" + Calendar.getInstance().get(Calendar.YEAR));
+                    }
                 }
             };
             new SlyCalendarDialog()
@@ -132,6 +151,11 @@ public class ContractFragment extends Fragment {
                     .show(getActivity().getSupportFragmentManager(), "TAG_CALENDAR_RANGE_SELECTION");
         });
         btnFilter = view.findViewById(R.id.btnFilter);
+        btnFilter.setOnClickListener(v -> {
+            Nut4HealthKeyboard.closeKeyboard(etName, getContext());
+            filterContracts();
+        });
+        mMainViewModel = ViewModelProviders.of(getActivity()).get(MainViewModel.class);
         return view;
     }
 
@@ -144,9 +168,76 @@ public class ContractFragment extends Fragment {
     private void showContractFilterMenu() {
         if (lyFilter.getVisibility() == View.VISIBLE) {
             lyFilter.setVisibility(View.GONE);
+            Nut4HealthKeyboard.closeKeyboard(etName, getContext());
         } else if (lyFilter.getVisibility() == View.GONE) {
             lyFilter.setVisibility(View.VISIBLE);
         }
+    }
+
+    private void clear() {
+        etName.setText("");
+        etSurname.setText("");
+        tvDateRange.setText("");
+        slDesnutrition.setSelected(false);
+        slDesnutrition.setMinStartValue(0).apply();
+        slDesnutrition.setMaxStartValue(100).apply();
+        tvMaxRange.setText("100%");
+        tvMinRange.setText("0%");
+        mMainViewModel.setName("");
+        mMainViewModel.setSurname("");
+        mMainViewModel.setStatus(Contract.Status.ALL.name());
+        timeRangeMin = 0;
+        timeRangeMax = 0;
+        mMainViewModel.setDateEnd(timeRangeMin);
+        mMainViewModel.setDateStart(timeRangeMax);
+        mMainViewModel.setPercentageMax(100);
+        mMainViewModel.setPercentageMin(0);
+    }
+
+    private void filterContracts() {
+        mMainViewModel.setName(etName.getText().toString());
+        mMainViewModel.setSurname(etSurname.getText().toString());
+        switch (spStatus.getSelectedItemPosition()) {
+            case 0:
+                mMainViewModel.setStatus(Contract.Status.ALL.name());
+                break;
+            case 1:
+                mMainViewModel.setStatus(Contract.Status.INIT.name());
+                break;
+            case 2:
+                mMainViewModel.setStatus(Contract.Status.DIAGNOSIS.name());
+                break;
+            case 3:
+                mMainViewModel.setStatus(Contract.Status.NO_DIAGNOSIS.name());
+                break;
+            case 4:
+                mMainViewModel.setStatus(Contract.Status.PAID.name());
+                break;
+            default:
+                mMainViewModel.setStatus(Contract.Status.ALL.name());
+                break;
+        }
+        if (timeRangeMin != 0) {
+            Calendar c1 = Calendar.getInstance();
+            c1.setTimeInMillis(timeRangeMin);
+            c1.add(Calendar.DATE, -1);
+            mMainViewModel.setDateStart(c1.getTimeInMillis());
+        } else {
+            mMainViewModel.setDateStart(timeRangeMin);
+        }
+        if (timeRangeMax != 0) {
+            Calendar c2 = Calendar.getInstance();
+            c2.setTimeInMillis(timeRangeMax);
+            c2.add(Calendar.DATE, 1);
+            mMainViewModel.setDateEnd(c2.getTimeInMillis());
+        } else {
+            mMainViewModel.setDateStart(timeRangeMax);
+        }
+        mMainViewModel.setPercentageMax(Integer.parseInt(tvMaxRange.getText().toString().substring(0, tvMaxRange.getText().toString().length()-1)));
+        mMainViewModel.setPercentageMin(Integer.parseInt(tvMinRange.getText().toString().substring(0, tvMinRange.getText().toString().length()-1)));
+        mMainViewModel.getSortedContracts("DATE", mMainViewModel.getName(), mMainViewModel.getSurname(), mMainViewModel.getStatus(),
+                mMainViewModel.getDateStart(), mMainViewModel.getDateEnd(), mMainViewModel.getPercentageMin(), mMainViewModel.getPercentageMax());
+        mMainViewModel.getContracts().observe(getActivity(), contracts -> mMainViewModel.setIsFiltered(true));
     }
 
 }

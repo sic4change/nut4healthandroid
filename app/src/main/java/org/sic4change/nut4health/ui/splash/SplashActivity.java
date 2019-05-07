@@ -51,6 +51,7 @@ public class SplashActivity extends AppCompatActivity {
         });
     }
 
+
     @Override
     public void onBackPressed() {
         //Disable back pressed

@@ -1,12 +1,14 @@
 package org.sic4change.nut4health.ui.main.contracts;
 
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.arch.paging.PagedList;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.support.design.widget.FloatingActionButton;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,10 +18,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.sic4change.nut4health.R;
+import org.sic4change.nut4health.data.entities.Contract;
 import org.sic4change.nut4health.ui.contract_detail.ContractDetailActivity;
-import org.sic4change.nut4health.ui.create_contract.CreateContractActivity;
 import org.sic4change.nut4health.ui.main.MainViewModel;
-import org.sic4change.nut4health.ui.main.MainViewModelFactory;
 
 import static maes.tech.intentanim.CustomIntent.customType;
 
@@ -41,7 +42,7 @@ public class ContractsListFragment extends Fragment implements SwipeRefreshLayou
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        initData();
     }
 
     @Override
@@ -60,29 +61,34 @@ public class ContractsListFragment extends Fragment implements SwipeRefreshLayou
         contractsAdapter.setItemOnClickAction((position, id) -> {
             goToContractDetailActivity(id);
         });
-        initData();
         return view;
     }
 
     private void initData() {
-        MainViewModelFactory mainViewModelFactory = MainViewModelFactory.createFactory(getActivity());
-        mMainViewModel = ViewModelProviders.of(this, mainViewModelFactory).get(MainViewModel.class);
-        mMainViewModel.getCurrentUser().observe(this, user -> {
+        mMainViewModel = ViewModelProviders.of(getActivity()).get(MainViewModel.class);
+        mMainViewModel.getCurrentUser().observe(getActivity(), user -> {
             if (user != null) {
                 mMainViewModel.getContracts(user.getEmail());
-                mMainViewModel.getContracts().observe(getActivity(), contracts -> {
-                    contractsAdapter.submitList(contracts);
-                    if (contracts.size() > 0) {
-                        ivEmptyContracts.setVisibility(View.GONE);
-                    } else {
-                        ivEmptyContracts.setVisibility(View.VISIBLE);
-                    }
-                    if (swipe_container.isRefreshing()) {
-                        swipe_container.setRefreshing(false);
-                    }
-                });
             }
         });
+        mMainViewModel.getContracts().observe(getActivity(), contracts -> showContracts(contracts));
+        mMainViewModel.getIsFiltered().observe(getActivity(), filtered -> {
+            if (filtered) {
+                showContracts(mMainViewModel.getContracts().getValue());
+            }
+        });
+    }
+
+    private void showContracts(PagedList<Contract> contracts) {
+        contractsAdapter.submitList(contracts);
+        if (contracts.size() > 0) {
+            ivEmptyContracts.setVisibility(View.GONE);
+        } else {
+            ivEmptyContracts.setVisibility(View.VISIBLE);
+        }
+        if (swipe_container != null && swipe_container.isRefreshing()) {
+            swipe_container.setRefreshing(false);
+        }
     }
 
     @Override

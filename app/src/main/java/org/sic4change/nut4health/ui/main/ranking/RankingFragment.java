@@ -1,13 +1,10 @@
 package org.sic4change.nut4health.ui.main.ranking;
 
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
-import android.arch.paging.PagedList;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,11 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.sic4change.nut4health.R;
-import org.sic4change.nut4health.data.entities.Ranking;
 import org.sic4change.nut4health.data.entities.User;
 import org.sic4change.nut4health.ui.main.MainViewModel;
-import org.sic4change.nut4health.ui.main.MainViewModelFactory;
-import org.sic4change.nut4health.ui.main.contracts.ContractsAdapter;
 
 
 public class RankingFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
@@ -44,8 +38,7 @@ public class RankingFragment extends Fragment implements SwipeRefreshLayout.OnRe
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_ranking, container, false);
         swipe_container = view.findViewById(R.id.swipe_container);
         swipe_container.setColorSchemeColors(getResources().getColor(R.color.colorAccent),
@@ -60,8 +53,7 @@ public class RankingFragment extends Fragment implements SwipeRefreshLayout.OnRe
     }
 
     private void initData() {
-        MainViewModelFactory mainViewModelFactory = MainViewModelFactory.createFactory(getActivity());
-        mMainViewModel = ViewModelProviders.of(this, mainViewModelFactory).get(MainViewModel.class);
+        mMainViewModel = ViewModelProviders.of(getActivity()).get(MainViewModel.class);
         mMainViewModel.getCurrentUser().observe(this, user -> {
             if (user != null) {
                 rankingAdapter.setUser(user);

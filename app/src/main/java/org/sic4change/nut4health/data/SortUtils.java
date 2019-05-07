@@ -3,26 +3,57 @@ package org.sic4change.nut4health.data;
 import android.arch.persistence.db.SimpleSQLiteQuery;
 import android.arch.persistence.db.SupportSQLiteQueryBuilder;
 
+import org.sic4change.nut4health.data.entities.Contract;
 import org.sic4change.nut4health.data.names.DataContractNames;
 import org.sic4change.nut4health.data.names.DataRankingNames;
 
 public class SortUtils {
 
     /**
-     * A raw query at runtime to oder by column for getting all the contracts sorted.
+     * A raw query at runtime to oder by column for getting filter and sorted contracts.
      * @param sortBy
+     * @param name
+     * @param surname
      * @param status
+     * @param dateStart
+     * @param dataEnd
+     * @param percentageMin
+     * @param percentageMax
      * @return
      */
-    public static SimpleSQLiteQuery getAllQueryContracts(String sortBy, String status) {
-        /*SupportSQLiteQueryBuilder queryBuilder = SupportSQLiteQueryBuilder
-                .builder(DataContractNames.TABLE_NAME)
-                .orderBy(getSortColumn(sortBy));
-        if ((status != null) && (!status.isEmpty())) {
-            queryBuilder.selection(DataContractNames.COL_STATUS, new String[]{status});
+    public static SimpleSQLiteQuery getFilterContracts(String sortBy, String name, String surname, String status, long dateStart, long dataEnd,
+                                                       int percentageMin, int percentageMax) {
+        String query = "SELECT * FROM " + DataContractNames.TABLE_NAME;
+        if ((name != null) && (!name.isEmpty())) {
+            query = query + " WHERE " + DataContractNames.COL_CHILD_NAME + " LIKE " + "'%" + name + "%'";
         }
-        return new SimpleSQLiteQuery(queryBuilder.create().getSql());*/
-        return new SimpleSQLiteQuery("SELECT * FROM " + DataContractNames.TABLE_NAME + " ORDER BY " + DataContractNames.COL_DATE
+        if ((surname != null) && (!surname.isEmpty())) {
+            if (query.contains("WHERE")) {
+                query = query + " AND " + DataContractNames.COL_CHILD_SURNAME + " LIKE " + "'%" + surname + "%'";
+            } else {
+                query = query + " WHERE " + DataContractNames.COL_CHILD_SURNAME + " LIKE " + "'%" + surname + "%'";
+            }
+        }
+        if (!status.equals(Contract.Status.ALL.name())) {
+            if (query.contains("WHERE")) {
+                query = query + " AND " + DataContractNames.COL_STATUS + " = " + "'" + status + "'";
+            } else {
+                query = query + " WHERE " + DataContractNames.COL_STATUS + " = " + "'" + status + "'";
+            }
+        }
+        if (dateStart != 0 && dataEnd != 0) {
+            if (query.contains("WHERE")) {
+                query = query + " AND " + DataContractNames.COL_DATE + " >= " + dateStart + " AND " + DataContractNames.COL_DATE + " <= " + dataEnd;
+            } else {
+                query = query + " WHERE " + DataContractNames.COL_DATE + " >= " + dateStart + " AND " + DataContractNames.COL_DATE + " <= " + dataEnd;
+            }
+        }
+        if (query.contains("WHERE")) {
+            query = query + " AND " + DataContractNames.COL_PERCENTAGE + " >= " + percentageMin + " AND " + DataContractNames.COL_PERCENTAGE + " <= " + percentageMax;
+        } else {
+            query = query + " WHERE " + DataContractNames.COL_PERCENTAGE + " >= " + percentageMin + " AND " + DataContractNames.COL_PERCENTAGE + " <= " + percentageMax;
+        }
+        return new SimpleSQLiteQuery(query + " ORDER BY " + DataContractNames.COL_DATE
             +  " DESC");
     }
 
@@ -32,13 +63,6 @@ public class SortUtils {
      * @return
      */
     public static SimpleSQLiteQuery getAllQueryRanking(String sortBy) {
-        /*SupportSQLiteQueryBuilder queryBuilder = SupportSQLiteQueryBuilder
-                .builder(DataContractNames.TABLE_NAME)
-                .orderBy(getSortColumn(sortBy));
-        if ((status != null) && (!status.isEmpty())) {
-            queryBuilder.selection(DataContractNames.COL_STATUS, new String[]{status});
-        }
-        return new SimpleSQLiteQuery(queryBuilder.create().getSql());*/
         return new SimpleSQLiteQuery("SELECT * FROM " + DataRankingNames.TABLE_NAME + " WHERE " +  DataRankingNames.COL_USERNAME + " "
                 + " NOT LIKE 'anonymous%'"
                 + " ORDER BY " + DataRankingNames.COL_POINTS
