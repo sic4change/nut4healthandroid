@@ -3,6 +3,7 @@ package org.sic4change.nut4health.ui.main.contracts;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.arch.lifecycle.ViewModelProviders;
+import android.arch.paging.PagedList;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -83,29 +84,40 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
 
 
     private void initData() {
-        MainViewModelFactory mainViewModelFactory = MainViewModelFactory.createFactory(getActivity());
-        mMainViewModel = ViewModelProviders.of(this, mainViewModelFactory).get(MainViewModel.class);
-        mMainViewModel.getCurrentUser().observe(this, user -> {
+        mMainViewModel = ViewModelProviders.of(getActivity()).get(MainViewModel.class);
+        mMainViewModel.getCurrentUser().observe(getActivity(), user -> {
             if (user != null) {
                 mMainViewModel.getContracts(user.getEmail());
-                mMainViewModel.getContracts().observe(getActivity(), contracts -> {
-                    mMap.clear();
-                    for (Contract contract : contracts) {
-                        MarkerOptions markerOptions = new MarkerOptions();
-                        markerOptions.position(new LatLng(contract.getLatitude(), contract.getLongitude()));
-                        if (contract.getStatus().equals(Contract.Status.NO_DIAGNOSIS.name())) {
-                            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
-                        } else if (contract.getStatus().equals(Contract.Status.DIAGNOSIS.name())) {
-                            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-                        } else {
-                            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-                        }
-                        Marker marker = mMap.addMarker(markerOptions);
-                        marker.setTag(contract);
-                    }
-                });
             }
         });
+        mMainViewModel.getContracts().observe(getActivity(), contracts -> showContracts(contracts));
+        mMainViewModel.getIsFiltered().observe(getActivity(), filtered -> {
+            if (filtered) {
+                showContracts(mMainViewModel.getContracts().getValue());
+            }
+        });
+
+
+    }
+
+    private void showContracts(PagedList<Contract> contracts) {
+        if (mMap != null) {
+            mMap.clear();
+            for (Contract contract : contracts) {
+                MarkerOptions markerOptions = new MarkerOptions();
+                markerOptions.position(new LatLng(contract.getLatitude(), contract.getLongitude()));
+                if (contract.getStatus().equals(Contract.Status.NO_DIAGNOSIS.name())) {
+                    markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+                } else if (contract.getStatus().equals(Contract.Status.DIAGNOSIS.name())) {
+                    markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+                } else {
+                    markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+                }
+                Marker marker = mMap.addMarker(markerOptions);
+                marker.setTag(contract);
+            }
+        }
+        cvContract.setVisibility(View.GONE);
     }
 
     @Override
