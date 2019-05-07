@@ -80,14 +80,16 @@ public class ContractsListFragment extends Fragment implements SwipeRefreshLayou
     }
 
     private void showContracts(PagedList<Contract> contracts) {
-        contractsAdapter.submitList(contracts);
-        if (contracts.size() > 0) {
-            ivEmptyContracts.setVisibility(View.GONE);
-        } else {
-            ivEmptyContracts.setVisibility(View.VISIBLE);
-        }
-        if (swipe_container != null && swipe_container.isRefreshing()) {
-            swipe_container.setRefreshing(false);
+        if (contractsAdapter != null) {
+            contractsAdapter.submitList(contracts);
+            if (contracts.size() > 0) {
+                ivEmptyContracts.setVisibility(View.GONE);
+            } else {
+                ivEmptyContracts.setVisibility(View.VISIBLE);
+            }
+            if (swipe_container != null && swipe_container.isRefreshing()) {
+                swipe_container.setRefreshing(false);
+            }
         }
     }
 

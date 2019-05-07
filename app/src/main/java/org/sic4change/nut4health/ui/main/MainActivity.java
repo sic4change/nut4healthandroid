@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -168,36 +169,44 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        Fragment fragment = null;
-        if (id == R.id.nav_start_diagnosis) {
-            fragment = new CreateContractFragment();
-            setTitle(R.string.capture);
-        } else if (id == R.id.nav_contracts) {
-            fragment = new ContractFragment();
-            setTitle(R.string.contracts);
-        } else if (id == R.id.nav_ranking) {
-            fragment = new RankingFragment();
-            setTitle(R.string.ranking);
-        } else if (id == R.id.nav_paids) {
-            fragment = new EmptyFragment();
-            setTitle("Pagos");
-        } else if (id == R.id.nav_help) {
-            fragment = new EmptyFragment();
-            setTitle("Ayuda");
-        }
-        fragmentManager.beginTransaction()
-                .replace(R.id.lyMainContent, fragment)
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                .addToBackStack(null)
-                .commit();
         drawer.closeDrawer(GravityCompat.START);
+        new CountDownTimer(500, 100) {
+
+            public void onTick(long millisUntilFinished) {
+
+            }
+            public void onFinish() {
+                int id = item.getItemId();
+                Fragment fragment = null;
+                if (id == R.id.nav_start_diagnosis) {
+                    fragment = new CreateContractFragment();
+                    setTitle(R.string.capture);
+                } else if (id == R.id.nav_contracts) {
+                    fragment = new ContractFragment();
+                    setTitle(R.string.contracts);
+                } else if (id == R.id.nav_ranking) {
+                    fragment = new RankingFragment();
+                    setTitle(R.string.ranking);
+                } else if (id == R.id.nav_paids) {
+                    fragment = new EmptyFragment();
+                    setTitle("Pagos");
+                } else if (id == R.id.nav_help) {
+                    fragment = new EmptyFragment();
+                    setTitle("Ayuda");
+                }
+                fragmentManager.beginTransaction()
+                        .replace(R.id.lyMainContent, fragment)
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                        .addToBackStack(null)
+                        .commit();
+            }
+
+        }.start();
         return true;
     }
 
