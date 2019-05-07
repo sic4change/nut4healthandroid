@@ -1,11 +1,8 @@
 package org.sic4change.nut4health.ui.main.contracts;
 
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
-import android.arch.paging.PagedList;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -25,7 +22,6 @@ import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.data.entities.Contract;
 import org.sic4change.nut4health.ui.create_contract.CreateContractActivity;
 import org.sic4change.nut4health.ui.main.MainViewModel;
-import org.sic4change.nut4health.ui.main.MainViewModelFactory;
 import org.sic4change.nut4health.utils.Nut4HealthKeyboard;
 
 import java.util.Calendar;
@@ -179,6 +175,7 @@ public class ContractFragment extends Fragment {
         etSurname.setText("");
         tvDateRange.setText("");
         slDesnutrition.setSelected(false);
+        spStatus.setSelection(0);
         slDesnutrition.setMinStartValue(0).apply();
         slDesnutrition.setMaxStartValue(100).apply();
         tvMaxRange.setText("100%");
