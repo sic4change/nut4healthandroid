@@ -161,8 +161,12 @@ public class SAMPhotoActivity extends AppCompatActivity implements SurfaceHolder
     }
 
     private void stopCamera() {
-        camera.stopPreview();
-        camera.release();
+        try {
+            camera.stopPreview();
+            camera.release();
+        } catch (Exception e) {
+            Log.e(tag, "close_camera: " + e);
+        }
     }
 
     @Override
