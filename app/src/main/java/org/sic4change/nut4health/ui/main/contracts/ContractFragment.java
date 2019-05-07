@@ -11,6 +11,7 @@ import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -38,6 +39,7 @@ public class ContractFragment extends Fragment {
     private CardView lyFilter;
     private EditText etName;
     private EditText etSurname;
+    private View ivStatus;
     private Spinner spStatus;
     private EditText tvDateRange;
     private BubbleThumbRangeSeekbar slDesnutrition;
@@ -106,6 +108,7 @@ public class ContractFragment extends Fragment {
         lyFilter = view.findViewById(R.id.lyFilter);
         etName = view.findViewById(R.id.etName);
         etSurname = view.findViewById(R.id.etSurname);
+        ivStatus = view.findViewById(R.id.ivStatus);
         spStatus = view.findViewById(R.id.spStatus);
         tvDateRange = view.findViewById(R.id.tvDateRange);
         slDesnutrition = view.findViewById(R.id.slDesnutrition);
@@ -150,6 +153,36 @@ public class ContractFragment extends Fragment {
         btnFilter.setOnClickListener(v -> {
             Nut4HealthKeyboard.closeKeyboard(etName, getContext());
             filterContracts();
+        });
+        spStatus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                switch (position) {
+                    case 0:
+                        ivStatus.setBackgroundColor(getResources().getColor(R.color.ms_black));
+                        break;
+                    case 1:
+                        ivStatus.setBackgroundColor(getResources().getColor(R.color.ms_material_grey_400));
+                        break;
+                    case 2:
+                        ivStatus.setBackgroundColor(getResources().getColor(R.color.ms_errorColor));
+                        break;
+                    case 3:
+                        ivStatus.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+                        break;
+                    case 4:
+                        ivStatus.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+                        break;
+                    default:
+                        ivStatus.setBackgroundColor(getResources().getColor(R.color.ms_black));
+                        break;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
         });
         mMainViewModel = ViewModelProviders.of(getActivity()).get(MainViewModel.class);
         return view;
