@@ -183,19 +183,26 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
                     Log.d("Location", "my location is " + location.toString());
                     currentPosition = new LatLng(location.latitude, location.longitude);
                     markMyPosition();
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPosition, DEFAULT_ZOOM));
+                    if (mMap != null) {
+                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPosition, DEFAULT_ZOOM));
+                    }
                 });
     }
 
     private void markMyPosition() {
-        if (currentPosition != null) {
-            MarkerOptions markerOptions = new MarkerOptions();
-            markerOptions.position(currentPosition);
-            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
-            markerOptions.title(getString(R.string.your_position));
-            Marker marker = mMap.addMarker(markerOptions);
-            marker.showInfoWindow();
+        try {
+            if (currentPosition != null) {
+                MarkerOptions markerOptions = new MarkerOptions();
+                markerOptions.position(currentPosition);
+                markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
+                markerOptions.title(getString(R.string.your_position));
+                Marker marker = mMap.addMarker(markerOptions);
+                marker.showInfoWindow();
+            }
+        } catch (Exception e) {
+            Log.d("Location", "can not show my position");
         }
+
     }
 
     @SuppressLint("MissingPermission")

@@ -153,6 +153,7 @@ public class ContractFragment extends Fragment {
         btnFilter.setOnClickListener(v -> {
             Nut4HealthKeyboard.closeKeyboard(etName, getContext());
             filterContracts();
+            lyFilter.setVisibility(View.GONE);
         });
         spStatus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
