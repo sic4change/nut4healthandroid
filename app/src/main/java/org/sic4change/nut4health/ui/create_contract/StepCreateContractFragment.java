@@ -359,6 +359,7 @@ public class StepCreateContractFragment extends Fragment implements Step{
         Nut4HealthSingleShotLocationProvider.requestSingleUpdate(getActivity().getApplicationContext(), newLocation -> {
             if (mCreateContractViewModel != null) {
                 mCreateContractViewModel.setLocation(newLocation);
+                etChildLocation.setText(newLocation.latitude + ", " + newLocation.longitude);
                 List<Address> addresses;
                 Geocoder geocoder = new Geocoder(getActivity().getApplicationContext(), Locale.getDefault());
                 try {
