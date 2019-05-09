@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.ScrollView;
 
 import com.github.pavlospt.CircleView;
 
@@ -48,6 +49,8 @@ public class ContractDetailActivity extends AppCompatActivity {
             ivIcon.setStrokeColor(getApplicationContext().getResources().getColor(R.color.colorAccent));
         }
         etDate.setReferenceTime(contract.getDate());
+        ScrollView scrollView = findViewById(R.id.scrollView);
+        scrollView.smoothScrollTo(0,0);
     }
 
     @Override
