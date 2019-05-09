@@ -30,7 +30,7 @@ public class RankingAdapter extends PagedListAdapter<Ranking, RankingViewHolder>
     }
 
     public interface ItemAction {
-        void onClick(String teaName);
+        void onClick(String username, int position);
     }
 
     public void setItemOnClickAction(ItemAction itemOnClickAction) {

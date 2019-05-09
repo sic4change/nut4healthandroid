@@ -85,7 +85,8 @@ private Context context;
             mRankingUsername.setTextColor(context.getResources().getColor(R.color.common_google_signin_btn_text_light_default));
             mRankingPoints.setTextColor(context.getResources().getColor(R.color.common_google_signin_btn_text_light_default));
         }
-        //mRankingUsername.setOnClickListener(v -> itemAction.onClick(getmRanking().getId()));
+        setClickAction(this.itemAction);
+        cvRanking.setOnClickListener(v -> itemAction.onClick(getRanking().getUsername(), position));
     }
 
     void clear() {

@@ -492,7 +492,7 @@ public class DataRepository {
     }
 
     /**
-     * Method to get contracts sorted
+     * Method to get a contract
      * @param id
      * @return
      */
@@ -532,6 +532,15 @@ public class DataRepository {
                 Log.d(TAG, "Get ranking: " + "empty");
             }
         });
+    }
+
+    /**
+     * Method to get user ranking
+     * @param username
+     * @return
+     */
+    public LiveData<Ranking> getUserRanking(String username) {
+        return nut4HealtDao.getUserRanking(username);
     }
 
 }

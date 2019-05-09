@@ -116,6 +116,11 @@
     <string name="filter">Filtrar</string>
     <string name="clear">Limpiar</string>
 
+    <!--Ranking Detail-->
+    <string name="ranking_detail">Detalle del usuario</string>
+    <string name="ranking_points">Puntos</string>
+    <string name="ranking_position">Posición</string>
+
     <!--Font awasome -->
     <string name="fa_adjust">&#xf042;</string>
     <string name="fa_adn">&#xf170;</string>

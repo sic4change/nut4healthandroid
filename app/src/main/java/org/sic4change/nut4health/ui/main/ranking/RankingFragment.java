@@ -2,6 +2,7 @@ package org.sic4change.nut4health.ui.main.ranking;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -15,7 +16,11 @@ import android.view.ViewGroup;
 
 import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.data.entities.User;
+import org.sic4change.nut4health.ui.contract_detail.ContractDetailActivity;
 import org.sic4change.nut4health.ui.main.MainViewModel;
+import org.sic4change.nut4health.ui.ranking_detail.RankingDetailActivity;
+
+import static maes.tech.intentanim.CustomIntent.customType;
 
 
 public class RankingFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
@@ -48,6 +53,12 @@ public class RankingFragment extends Fragment implements SwipeRefreshLayout.OnRe
         rankingAdapter = new RankingAdapter(getActivity().getApplicationContext(), new User());
         rvRanking.setLayoutManager(new LinearLayoutManager(getActivity()));
         rvRanking.setAdapter(rankingAdapter);
+        rankingAdapter.setItemOnClickAction(new RankingAdapter.ItemAction() {
+            @Override
+            public void onClick(String username, int position) {
+                goToUserRankingDetailActivity(username, position);
+            }
+        });
         initData();
         return view;
     }
@@ -105,6 +116,14 @@ public class RankingFragment extends Fragment implements SwipeRefreshLayout.OnRe
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    private void goToUserRankingDetailActivity(String username, int position) {
+        Intent intent = new Intent(getActivity(), RankingDetailActivity.class);
+        intent.putExtra("RANKING_USERNAME", username);
+        intent.putExtra("RANKING_POSITION", position);
+        startActivity(intent);
+        customType(getActivity(),"left-to-right");
     }
 
 

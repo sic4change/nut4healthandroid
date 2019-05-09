@@ -184,4 +184,12 @@ public interface Nut4HealtDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(Ranking... rankings);
 
+    /**
+     * Get a user ranking based on the username
+     * @param username
+     * @return
+     */
+    @Query("SELECT * FROM ranking WHERE username =:username LIMIT 1")
+    LiveData<Ranking> getUserRanking(String username);
+
 }
