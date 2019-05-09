@@ -1,24 +1,33 @@
 package org.sic4change.nut4health.ui.main.ranking;
 
+import android.annotation.SuppressLint;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.data.entities.User;
 import org.sic4change.nut4health.ui.contract_detail.ContractDetailActivity;
 import org.sic4change.nut4health.ui.main.MainViewModel;
 import org.sic4change.nut4health.ui.ranking_detail.RankingDetailActivity;
+import org.sic4change.nut4health.utils.Nut4HealthKeyboard;
 
 import static maes.tech.intentanim.CustomIntent.customType;
 
@@ -30,7 +39,9 @@ public class RankingFragment extends Fragment implements SwipeRefreshLayout.OnRe
     private RankingAdapter rankingAdapter;
     private RecyclerView rvRanking;
     private android.support.v4.widget.SwipeRefreshLayout swipe_container;
-
+    private FloatingActionButton btnSearchUser;
+    private CardView lyFilter;
+    private EditText etSurname;
 
     public RankingFragment() {
         // Required empty public constructor
@@ -42,6 +53,7 @@ public class RankingFragment extends Fragment implements SwipeRefreshLayout.OnRe
 
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_ranking, container, false);
@@ -53,10 +65,43 @@ public class RankingFragment extends Fragment implements SwipeRefreshLayout.OnRe
         rankingAdapter = new RankingAdapter(getActivity().getApplicationContext(), new User());
         rvRanking.setLayoutManager(new LinearLayoutManager(getActivity()));
         rvRanking.setAdapter(rankingAdapter);
-        rankingAdapter.setItemOnClickAction(new RankingAdapter.ItemAction() {
+        rankingAdapter.setItemOnClickAction((username, position) -> goToUserRankingDetailActivity(username, position));
+        btnSearchUser = view.findViewById(R.id.btnSearchUser);
+        btnSearchUser.setOnClickListener(v -> {
+            if (lyFilter.getVisibility() == View.VISIBLE) {
+                lyFilter.setVisibility(View.GONE);
+                Nut4HealthKeyboard.closeKeyboard(etSurname, getContext());
+            } else {
+                lyFilter.setVisibility(View.VISIBLE);
+            }
+        });
+        lyFilter = view.findViewById(R.id.lyFilter);
+        etSurname = view.findViewById(R.id.etSurname);
+        etSurname.setOnTouchListener((v, event) -> {
+            final int DRAWABLE_RIGHT = 2;
+
+            if(event.getAction() == MotionEvent.ACTION_UP) {
+                if(event.getRawX() >= (etSurname.getRight() - etSurname.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+                    etSurname.setText("");
+                    return true;
+                }
+            }
+            return false;
+        });
+        etSurname.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onClick(String username, int position) {
-                goToUserRankingDetailActivity(username, position);
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                System.out.println("Aqui: " + count);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
         initData();
