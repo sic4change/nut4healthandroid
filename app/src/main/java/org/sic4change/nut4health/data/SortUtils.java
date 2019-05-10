@@ -62,11 +62,18 @@ public class SortUtils {
      * @param sortBy
      * @return
      */
-    public static SimpleSQLiteQuery getAllQueryRanking(String sortBy) {
-        return new SimpleSQLiteQuery("SELECT * FROM " + DataRankingNames.TABLE_NAME + " WHERE " +  DataRankingNames.COL_USERNAME + " "
+    public static SimpleSQLiteQuery getAllQueryRanking(String sortBy, String username) {
+        String query = "SELECT * FROM " + DataRankingNames.TABLE_NAME + " WHERE " +  DataRankingNames.COL_USERNAME
+                + " NOT LIKE 'anonymous%'";
+        if ((username != null) && (!username.isEmpty())) {
+            query = query + " AND " + DataRankingNames.COL_USERNAME + " LIKE " + "'" + username + "%'";
+        }
+        return new SimpleSQLiteQuery(query + " ORDER BY " + DataRankingNames.COL_POINTS +  " DESC");
+
+        /*return new SimpleSQLiteQuery("SELECT * FROM " + DataRankingNames.TABLE_NAME + " WHERE " +  DataRankingNames.COL_USERNAME + " "
                 + " NOT LIKE 'anonymous%'"
                 + " ORDER BY " + DataRankingNames.COL_POINTS
-                +  " DESC");
+                +  " DESC");*/
     }
 
     /**

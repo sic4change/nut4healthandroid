@@ -1,12 +1,15 @@
 package org.sic4change.nut4health.ui.main.ranking;
 
 import android.annotation.SuppressLint;
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.arch.paging.PagedList;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -23,6 +26,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import org.sic4change.nut4health.R;
+import org.sic4change.nut4health.data.entities.Ranking;
 import org.sic4change.nut4health.data.entities.User;
 import org.sic4change.nut4health.ui.contract_detail.ContractDetailActivity;
 import org.sic4change.nut4health.ui.main.MainViewModel;
@@ -80,8 +84,8 @@ public class RankingFragment extends Fragment implements SwipeRefreshLayout.OnRe
         etSurname.setOnTouchListener((v, event) -> {
             final int DRAWABLE_RIGHT = 2;
 
-            if(event.getAction() == MotionEvent.ACTION_UP) {
-                if(event.getRawX() >= (etSurname.getRight() - etSurname.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+            if (event.getAction() == MotionEvent.ACTION_UP) {
+                if (event.getRawX() >= (etSurname.getRight() - etSurname.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
                     etSurname.setText("");
                     return true;
                 }
@@ -96,12 +100,16 @@ public class RankingFragment extends Fragment implements SwipeRefreshLayout.OnRe
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                System.out.println("Aqui: " + count);
+
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-
+                mMainViewModel.setUsernameRanking(s.toString());
+                mMainViewModel.getSortedRanking("POINTS", mMainViewModel.getUsernameRanking());
+                mMainViewModel.getRanking().observe(getActivity(), rankings -> {
+                    rankingAdapter.submitList(rankings);
+                });
             }
         });
         initData();
@@ -114,12 +122,12 @@ public class RankingFragment extends Fragment implements SwipeRefreshLayout.OnRe
             if (user != null) {
                 rankingAdapter.setUser(user);
                 mMainViewModel.getRankingUser();
-                mMainViewModel.getRanking().observe(getActivity(), rankings -> {
-                    rankingAdapter.submitList(rankings);
-                    if (swipe_container.isRefreshing()) {
-                        swipe_container.setRefreshing(false);
-                    }
-                });
+            }
+        });
+        mMainViewModel.getRanking().observe(getActivity(), rankings -> {
+            rankingAdapter.submitList(rankings);
+            if (swipe_container.isRefreshing()) {
+                swipe_container.setRefreshing(false);
             }
         });
     }

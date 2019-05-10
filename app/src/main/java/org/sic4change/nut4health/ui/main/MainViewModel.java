@@ -30,12 +30,14 @@ public class MainViewModel extends ViewModel {
     private int percentageMax = 100;
     private final MutableLiveData<Boolean> isFiltered = new MutableLiveData<>();
 
+    private String usernameRanking = "";
+
     public MainViewModel(Context context, DataRepository repository) {
         this.mContext = context;
         this.mRepository = repository;
         mUser = this.mRepository.getCurrentUser();
         mContracts = this.mRepository.getSortedContracts("DATE", name, surname, status, dateStart, dateEnd, percentageMin, percentageMax);
-        mRanking = this.mRepository.getSortedRanking("POINTS");
+        mRanking = this.mRepository.getSortedRanking("POINTS", usernameRanking);
         isFiltered.setValue(false);
     }
 
@@ -56,6 +58,10 @@ public class MainViewModel extends ViewModel {
                                    int percentageMin, int percentageMax) {
         mContracts = this.mRepository.getSortedContracts(sort, name, surname, status, dateStart, dateEnd,
                 percentageMin, percentageMax);
+    }
+
+    public void getSortedRanking(String sort, String username) {
+        mRanking = this.mRepository.getSortedRanking(sort, username);
     }
 
     public LiveData<PagedList<Contract>> getContracts() {
@@ -132,5 +138,13 @@ public class MainViewModel extends ViewModel {
 
     public void setIsFiltered(Boolean filtered) {
         isFiltered.setValue(filtered);
+    }
+
+    public String getUsernameRanking() {
+        return usernameRanking;
+    }
+
+    public void setUsernameRanking(String usernameRanking) {
+        this.usernameRanking = usernameRanking;
     }
 }

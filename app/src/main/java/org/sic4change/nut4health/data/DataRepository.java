@@ -503,10 +503,11 @@ public class DataRepository {
     /**
      * Method to get ranking sorted
      * @param sort
+     * @param username
      * @return
      */
-    public LiveData<PagedList<Ranking>> getSortedRanking(String sort) {
-        SimpleSQLiteQuery query = SortUtils.getAllQueryRanking(sort);
+    public LiveData<PagedList<Ranking>> getSortedRanking(String sort, String username) {
+        SimpleSQLiteQuery query = SortUtils.getAllQueryRanking(sort, username);
         return new LivePagedListBuilder<>(nut4HealtDao.getRanking(query), PAGE_SIZE).build();
     }
 
