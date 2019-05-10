@@ -1,6 +1,5 @@
 package org.sic4change.nut4health.ui.main.contracts;
 
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.arch.paging.PagedList;
 import android.content.Context;

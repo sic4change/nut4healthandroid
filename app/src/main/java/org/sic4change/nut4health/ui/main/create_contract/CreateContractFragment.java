@@ -70,6 +70,5 @@ public class CreateContractFragment extends Fragment {
         Intent intent = new Intent(getActivity(), CreateContractActivity.class);
         startActivity(intent);
         customType(getActivity(),"left-to-right");
-        getActivity().finish();
     }
 }
