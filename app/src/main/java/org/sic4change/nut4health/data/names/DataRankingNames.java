@@ -13,19 +13,24 @@ public final class DataRankingNames {
     public static final String TABLE_NAME = "ranking";
 
     /**
-     * Column username for User username
+     * Column username for User
      */
     public static final String COL_USERNAME = "username";
 
     /**
-     * Column photo for User photo
+     * Column photo for User
      */
     public static final String COL_PHOTO = "photo";
 
     /**
-     * Column points for User role
+     * Column points for User
      */
     public static final String COL_POINTS = "points";
+
+    /**
+     * Column position for User
+     */
+    public static final String COL_POSITION = "position";
 
 
 }

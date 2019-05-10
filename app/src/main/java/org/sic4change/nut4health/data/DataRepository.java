@@ -31,7 +31,9 @@ import org.sic4change.nut4health.data.names.DataUserNames;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -517,14 +519,23 @@ public class DataRepository {
     public void getRanking() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference contractRef = db.collection(DataRankingNames.TABLE_FIREBASE_NAME);
-        contractRef.addSnapshotListener(mIoExecutor, (queryDocumentSnapshots, e) -> {
+        contractRef.orderBy(DataRankingNames.COL_POINTS).addSnapshotListener(mIoExecutor, (queryDocumentSnapshots, e) -> {
             try {
                 if ((queryDocumentSnapshots != null) && (queryDocumentSnapshots.getDocuments() != null)
                         && (queryDocumentSnapshots.getDocuments().size() > 0)) {
+                    List<User> users = new ArrayList<User>();
                     for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
                         User user = document.toObject(User.class);
+                        if (!user.getUsername().contains("anonymous")) {
+                            users.add(user);
+                        }
+                    }
+                    int i = users.size();
+                    for (User user : users) {
                         Ranking ranking = new Ranking(user.getUsername(), user.getPhoto(), user.getPoints());
+                        ranking.setPosition(i);
                         nut4HealtDao.insert(ranking);
+                        i--;
                     }
                 } else {
                     Log.d(TAG, "Get ranking: " + "empty");

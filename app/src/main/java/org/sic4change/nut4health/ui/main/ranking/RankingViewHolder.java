@@ -43,9 +43,9 @@ private Context context;
         return mRanking;
     }
 
-    void bindTo(User user, int position, Ranking ranking, final RankingAdapter.ItemAction itemAction) {
+    void bindTo(User user, Ranking ranking, final RankingAdapter.ItemAction itemAction) {
         mRanking = ranking;
-        mPosition.setText(position + ".");
+        mPosition.setText(ranking.getPosition() + ".");
         mRankingUsername.setText(ranking.getUsername());
         mRankingPoints.setText(ranking.getPoints() + " " + context.getResources().getString(R.string.points));
         if ((ranking.getPhoto() != null) && (!ranking.getPhoto().isEmpty())) {
@@ -57,13 +57,13 @@ private Context context;
                     .load(context.getResources().getDrawable(R.mipmap.icon))
                     .into(mUsernamePhoto);
         }
-        if (position < 4) {
+        if (ranking.getPosition() < 4) {
             ivPositionRanking.setVisibility(View.VISIBLE);
-            if (position == 1) {
+            if (ranking.getPosition() == 1) {
                 Glide.with(context)
                         .load(context.getResources().getDrawable(R.mipmap.ic_gold_medal))
                         .into(ivPositionRanking);
-            } else if (position == 2) {
+            } else if (ranking.getPosition() == 2) {
                 Glide.with(context)
                         .load(context.getResources().getDrawable(R.mipmap.ic_plate_medal))
                         .into(ivPositionRanking);
@@ -86,7 +86,7 @@ private Context context;
             mRankingPoints.setTextColor(context.getResources().getColor(R.color.common_google_signin_btn_text_light_default));
         }
         setClickAction(this.itemAction);
-        cvRanking.setOnClickListener(v -> itemAction.onClick(getRanking().getUsername(), position));
+        cvRanking.setOnClickListener(v -> itemAction.onClick(getRanking().getUsername(), ranking.getPosition()));
     }
 
     void clear() {

@@ -60,6 +60,7 @@ public class SortUtils {
     /**
      * A raw query at runtime to oder by column for getting all the ranking sorted.
      * @param sortBy
+     * @param username
      * @return
      */
     public static SimpleSQLiteQuery getAllQueryRanking(String sortBy, String username) {
@@ -68,12 +69,7 @@ public class SortUtils {
         if ((username != null) && (!username.isEmpty())) {
             query = query + " AND " + DataRankingNames.COL_USERNAME + " LIKE " + "'" + username + "%'";
         }
-        return new SimpleSQLiteQuery(query + " ORDER BY " + DataRankingNames.COL_POINTS +  " DESC");
-
-        /*return new SimpleSQLiteQuery("SELECT * FROM " + DataRankingNames.TABLE_NAME + " WHERE " +  DataRankingNames.COL_USERNAME + " "
-                + " NOT LIKE 'anonymous%'"
-                + " ORDER BY " + DataRankingNames.COL_POINTS
-                +  " DESC");*/
+        return new SimpleSQLiteQuery(query + " ORDER BY " + DataRankingNames.COL_POSITION +  " ASC");
     }
 
     /**

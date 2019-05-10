@@ -2,6 +2,7 @@ package org.sic4change.nut4health.data.entities;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
@@ -23,10 +24,20 @@ public class Ranking {
     @ColumnInfo(name = DataUserNames.COL_POINTS)
     private int points;
 
-    public Ranking(@NonNull String username, String photo, int points) {
+    @NonNull
+    @ColumnInfo(name = DataUserNames.COL_POSITION)
+    private int position;
+
+    public Ranking(@NonNull String username, String photo, int points, int position) {
         this.username = username;
         this.photo = photo;
         this.points = points;
+        this.position = position;
+    }
+
+    @Ignore
+    public Ranking(@NonNull String username, String photo, int points) {
+        this(username, photo, points, 0);
     }
 
     @NonNull
@@ -44,6 +55,14 @@ public class Ranking {
 
     public void setPoints(int points) {
         this.points = points;
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
     }
 
     public String getPhoto() {

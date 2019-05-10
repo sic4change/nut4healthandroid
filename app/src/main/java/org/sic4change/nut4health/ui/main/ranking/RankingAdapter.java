@@ -52,7 +52,7 @@ public class RankingAdapter extends PagedListAdapter<Ranking, RankingViewHolder>
     public void onBindViewHolder(@NonNull RankingViewHolder holder, int position) {
         Ranking ranking = getItem(position);
         if (ranking != null) {
-            holder.bindTo(user, position + 1, ranking, mItemOnClickAction);
+            holder.bindTo(user, ranking, mItemOnClickAction);
         } else {
             holder.clear();
         }
