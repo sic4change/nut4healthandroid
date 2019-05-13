@@ -12,6 +12,12 @@ public final class DataUserNames {
      */
     public static final String TABLE_NAME = "user";
 
+
+    /**
+     * Column id for User id
+     */
+    public static final String COL_USER_ID = "contractId";
+
     /**
      * Column email for User email
      */

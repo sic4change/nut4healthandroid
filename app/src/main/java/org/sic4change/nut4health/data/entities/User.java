@@ -5,10 +5,14 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
+import org.sic4change.nut4health.data.names.DataContractNames;
 import org.sic4change.nut4health.data.names.DataUserNames;
 
 @Entity(tableName = DataUserNames.TABLE_NAME)
 public class User {
+
+    @ColumnInfo(name = DataUserNames.COL_USER_ID)
+    private String id;
 
     @NonNull
     @PrimaryKey
@@ -76,6 +80,29 @@ public class User {
         this.role = role;
         this.points = points;
         this.emptyUser = emptyUser;
+    }
+
+    public User(@NonNull String id, @NonNull String email, String username, String name, String surname,
+                String country, String countryCode, String photo, String role, int points) {
+        this.id = id;
+        this.email = email;
+        this.username = username;
+        this.name = name;
+        this.surname = surname;
+        this.country = country;
+        this.countryCode = countryCode;
+        this.photo = photo;
+        this.role = role;
+        this.points = points;
+    }
+
+    @NonNull
+    public String getId() {
+        return id;
+    }
+
+    public void setId(@NonNull String id) {
+        this.id = id;
     }
 
     @NonNull
