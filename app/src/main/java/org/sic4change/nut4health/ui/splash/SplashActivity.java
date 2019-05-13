@@ -41,12 +41,15 @@ public class SplashActivity extends AppCompatActivity {
         mSplashViewModel.getCurrentUser().observe(this, user -> {
             if (mSplashViewModel != null) {
                 mSplashViewModel.saveSelection(1);
-                mSplashViewModel = null;
                 if (user == null) {
                     goToLoginActivity();
                 } else {
+                    if ((user.getId() != null) && (!user.getId().isEmpty())) {
+                        mSplashViewModel.subscribeToTopic(user.getId());
+                    }
                     goToMainActivity();
                 }
+                mSplashViewModel = null;
             }
         });
     }

@@ -250,6 +250,7 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     public void logout() {
+        mProfileViewModel.unsuscribeToNotification();
         mProfileViewModel.logout();
     }
 
@@ -285,6 +286,7 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     public void removeAccount() {
+        mProfileViewModel.unsuscribeToNotification();
         mProfileViewModel.removeAccount(tvEmail.getText().toString());
     }
 

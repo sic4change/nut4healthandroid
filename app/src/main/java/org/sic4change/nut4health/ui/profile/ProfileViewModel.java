@@ -51,4 +51,8 @@ public class ProfileViewModel extends ViewModel {
     public void removeAccount(String email) {
         this.mRepository.removeAccount(email);
     }
+
+    public void unsuscribeToNotification() {
+        this.mRepository.unsubscribeToNotificationTopic(mUser.getValue().getId());
+    }
 }

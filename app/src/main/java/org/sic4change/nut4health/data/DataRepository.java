@@ -6,8 +6,11 @@ import android.arch.paging.PagedList;
 import android.arch.persistence.db.SimpleSQLiteQuery;
 import android.content.Context;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.common.hash.Hashing;
 import com.google.common.io.Files;
 import com.google.firebase.auth.AuthCredential;
@@ -19,9 +22,11 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.data.entities.Contract;
 import org.sic4change.nut4health.data.entities.Ranking;
 import org.sic4change.nut4health.data.entities.User;
@@ -553,6 +558,24 @@ public class DataRepository {
      */
     public LiveData<Ranking> getUserRanking(String username) {
         return nut4HealtDao.getUserRanking(username);
+    }
+
+    /**
+     * Method to subscribe to notification
+     * @param id
+     */
+    public void subscribeToNotificationTopic(String id) {
+        FirebaseMessaging.getInstance().subscribeToTopic(id)
+                .addOnCompleteListener(task -> Log.d(TAG, "Subscribe to notification topic: " + id));
+    }
+
+    /**
+     * Method to unsubscribe to notification
+     * @param id
+     */
+    public void unsubscribeToNotificationTopic(String id) {
+        FirebaseMessaging.getInstance().unsubscribeFromTopic(id)
+                .addOnCompleteListener(task -> Log.d(TAG, "Unsubscribe to notification topic: " + id));
     }
 
 }

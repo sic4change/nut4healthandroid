@@ -27,6 +27,10 @@ public class SplashViewModel extends ViewModel {
         return mUser;
     }
 
+    public void subscribeToTopic(String id) {
+        this.mRepository.subscribeToNotificationTopic(id);
+    }
+
     public void saveSelection(int selection) {
         SharedPreferences.Editor editor = mContext.getSharedPreferences(NAME_SHARED_PREFERENCES, Context.MODE_PRIVATE).edit();
         editor.putInt(KEY_SELECTION, selection);
