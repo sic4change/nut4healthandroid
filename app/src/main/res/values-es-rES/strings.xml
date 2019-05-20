@@ -100,15 +100,15 @@
     <string name="ranking">Ranking</string>
 
     <!--Contract Detail-->
-    <string name="contractDetail">Detalle del diagnóstico</string>
+    <string name="contractDetail">Detalle del paciente</string>
     <string name="date">Fecha</string>
 
     <!--Contract Filter-->
     <string-array name="array_status">
         <item>Todos</item>
         <item>Iniciado</item>
-        <item>Diagnósticado</item>
-        <item>No diagnósticado</item>
+        <item>Desnutrido</item>
+        <item>No desnutrido</item>
         <item>Pagado</item>
     </string-array>
     <string name="hintNameSearch">Nombre y/o apellido</string>

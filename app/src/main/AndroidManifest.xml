@@ -117,7 +117,7 @@
             android:value="21e3c2716b100a791d9cdfd7acaad80f5c8a79d9" />
 
         <activity android:name=".ui.contract_detail.ContractDetailActivity"
-            android:label="@string/contractDetail"
+            android:label=""
             android:parentActivityName=".ui.main.MainActivity"
             android:screenOrientation="portrait">
         </activity>
