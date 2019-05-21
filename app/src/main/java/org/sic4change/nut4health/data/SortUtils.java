@@ -1,10 +1,11 @@
 package org.sic4change.nut4health.data;
 
 import android.arch.persistence.db.SimpleSQLiteQuery;
-import android.arch.persistence.db.SupportSQLiteQueryBuilder;
 
 import org.sic4change.nut4health.data.entities.Contract;
+import org.sic4change.nut4health.data.entities.Payment;
 import org.sic4change.nut4health.data.names.DataContractNames;
+import org.sic4change.nut4health.data.names.DataPaymentNames;
 import org.sic4change.nut4health.data.names.DataRankingNames;
 
 public class SortUtils {
@@ -70,6 +71,25 @@ public class SortUtils {
             query = query + " AND " + DataRankingNames.COL_USERNAME + " LIKE " + "'" + username + "%'";
         }
         return new SimpleSQLiteQuery(query + " ORDER BY " + DataRankingNames.COL_POSITION +  " ASC");
+    }
+
+    public static SimpleSQLiteQuery getFilterPayments(String sortBy, String status, long dateStart, long dataEnd) {
+        String query = "SELECT * FROM " + DataPaymentNames.TABLE_NAME;
+        if (!status.equals(Payment.Status.ALL.name())) {
+            if (query.contains("WHERE")) {
+                query = query + " AND " + DataPaymentNames.COL_TYPE + " = " + "'" + status + "'";
+            } else {
+                query = query + " WHERE " + DataPaymentNames.COL_TYPE + " = " + "'" + status + "'";
+            }
+        }
+        if (dateStart != 0 && dataEnd != 0) {
+            if (query.contains("WHERE")) {
+                query = query + " AND " + DataPaymentNames.COL_DATE + " >= " + dateStart + " AND " + DataPaymentNames.COL_DATE + " <= " + dataEnd;
+            } else {
+                query = query + " WHERE " + DataPaymentNames.COL_DATE + " >= " + dateStart + " AND " + DataPaymentNames.COL_DATE + " <= " + dataEnd;
+            }
+        }
+        return new SimpleSQLiteQuery(query + " ORDER BY " + DataPaymentNames.COL_DATE +  " DESC");
     }
 
     /**

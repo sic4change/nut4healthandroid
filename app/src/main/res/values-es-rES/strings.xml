@@ -98,6 +98,7 @@
     <!--Main menu-->
     <string name="contracts">Histórico de Diagnósticos</string>
     <string name="ranking">Ranking</string>
+    <string name="payments">Pagos</string>
 
     <!--Contract Detail-->
     <string name="contractDetail">Detalle del paciente</string>
@@ -120,6 +121,10 @@
     <string name="ranking_detail">Detalle del usuario</string>
     <string name="ranking_points">Puntos</string>
     <string name="ranking_position">Posición</string>
+
+    <!--Payments -->
+    <string name="confirmation_text">Diagnóstico confirmado</string>
+    <string name="bonus_text">Bonificación de 100 diagnósticos</string>
 
     <!--Font awasome -->
     <string name="fa_adjust">&#xf042;</string>

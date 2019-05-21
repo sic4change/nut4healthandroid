@@ -7,10 +7,11 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import org.sic4change.nut4health.data.entities.Contract;
+import org.sic4change.nut4health.data.entities.Payment;
 import org.sic4change.nut4health.data.entities.Ranking;
 import org.sic4change.nut4health.data.entities.User;
 
-@Database(entities = {User.class, Contract.class, Ranking.class}, version = 4, exportSchema = false)
+@Database(entities = {User.class, Contract.class, Ranking.class, Payment.class}, version = 5, exportSchema = false)
 public abstract  class Nut4HealthDatabase extends RoomDatabase {
 
     private static volatile Nut4HealthDatabase sInstance = null;

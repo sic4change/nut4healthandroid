@@ -6,11 +6,8 @@ import android.arch.paging.PagedList;
 import android.arch.persistence.db.SimpleSQLiteQuery;
 import android.content.Context;
 import android.net.Uri;
-import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.common.hash.Hashing;
 import com.google.common.io.Files;
 import com.google.firebase.auth.AuthCredential;
@@ -26,11 +23,12 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.data.entities.Contract;
+import org.sic4change.nut4health.data.entities.Payment;
 import org.sic4change.nut4health.data.entities.Ranking;
 import org.sic4change.nut4health.data.entities.User;
 import org.sic4change.nut4health.data.names.DataContractNames;
+import org.sic4change.nut4health.data.names.DataPaymentNames;
 import org.sic4change.nut4health.data.names.DataRankingNames;
 import org.sic4change.nut4health.data.names.DataUserNames;
 
@@ -385,6 +383,7 @@ public class DataRepository {
         auth.signOut();
         mIoExecutor.submit(() -> nut4HealtDao.deleteAllUser());
         mIoExecutor.submit(() -> nut4HealtDao.deleteAllContract());
+        mIoExecutor.submit(() -> nut4HealtDao.deleteAllPayment());
     }
 
     /**
@@ -487,7 +486,13 @@ public class DataRepository {
     /**
      * Method to get contracts sorted
      * @param sort
+     * @param name
+     * @param surname
      * @param status
+     * @param dateStart
+     * @param dateEnd
+     * @param percentageMin
+     * @param percentageMax
      * @return
      */
     public LiveData<PagedList<Contract>> getSortedContracts(String sort, String name, String surname,
@@ -558,6 +563,44 @@ public class DataRepository {
      */
     public LiveData<Ranking> getUserRanking(String username) {
         return nut4HealtDao.getUserRanking(username);
+    }
+
+    /**
+     * Method to get payments from firebase
+     * @param email
+     */
+    public void getPayments(String email) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference paymentsRef = db.collection(DataPaymentNames.TABLE_FIREBASE_NAME);
+        Query query = paymentsRef.whereEqualTo(DataPaymentNames.COL_SCREENER, email);
+        query.addSnapshotListener(mIoExecutor, (queryDocumentSnapshots, e) -> {
+            try {
+                if ((queryDocumentSnapshots != null) && (queryDocumentSnapshots.getDocuments() != null)
+                        && (queryDocumentSnapshots.getDocuments().size() > 0)) {
+                    for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
+                        Payment payment = document.toObject(Payment.class);
+                        if (((payment.getId() != null) && (!payment.getId().equals("")))) {
+                            nut4HealtDao.insert(payment);
+                        }
+                    }
+                } else {
+                    Log.d(TAG, "Get payments: " + "empty");
+                }
+            } catch (Exception error) {
+                Log.d(TAG, "Get payments: " + "empty");
+            }
+        });
+    }
+
+    /**
+     * Method to get payments sorted
+     * @param sort
+     * @param status
+     * @return
+     */
+    public LiveData<PagedList<Payment>> getSortedPayments(String sort, String status, long dateStart, long dateEnd) {
+        SimpleSQLiteQuery query = SortUtils.getFilterPayments(sort, status, dateStart, dateEnd);
+        return new LivePagedListBuilder<>(nut4HealtDao.getPayments(query), PAGE_SIZE).build();
     }
 
     /**

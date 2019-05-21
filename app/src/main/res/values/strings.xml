@@ -97,6 +97,7 @@
     <!--Main menu-->
     <string name="contracts">Diagnostics history</string>
     <string name="ranking">Ranking</string>
+    <string name="payments">Payments</string>
 
     <!--Contract Detail-->
     <string name="contractDetail">Diagnosis patient</string>
@@ -119,6 +120,10 @@
     <string name="ranking_detail">User detail</string>
     <string name="ranking_points">Points</string>
     <string name="ranking_position">Position</string>
+
+    <!--Payments -->
+    <string name="confirmation_text">Confirmed diagnosis</string>
+    <string name="bonus_text">100 Diagnostics Bonus</string>
 
     <!--Font awasome -->
     <string name="fa_adjust">&#xf042;</string>

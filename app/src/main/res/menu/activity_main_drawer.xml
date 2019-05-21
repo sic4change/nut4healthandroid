@@ -19,7 +19,7 @@
         <item
             android:id="@+id/nav_paids"
             android:icon="@drawable/ic_paid"
-            android:title="Pagos (TODO)" />
+            android:title="@string/payments" />
     </group>
 
     <item android:title="Communícate">

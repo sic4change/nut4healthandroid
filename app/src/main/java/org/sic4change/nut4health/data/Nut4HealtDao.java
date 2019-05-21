@@ -11,6 +11,7 @@ import android.arch.persistence.room.Query;
 import android.arch.persistence.room.RawQuery;
 
 import org.sic4change.nut4health.data.entities.Contract;
+import org.sic4change.nut4health.data.entities.Payment;
 import org.sic4change.nut4health.data.entities.Ranking;
 import org.sic4change.nut4health.data.entities.User;
 
@@ -192,4 +193,24 @@ public interface Nut4HealtDao {
     @Query("SELECT * FROM ranking WHERE username =:username LIMIT 1")
     LiveData<Ranking> getUserRanking(String username);
 
+    /**
+     * Get payments for Paging
+     * @param query
+     * @return
+     */
+    @RawQuery(observedEntities = Payment.class)
+    DataSource.Factory<Integer, Payment> getPayments(SupportSQLiteQuery query);
+
+    /**
+     * Insert a payment
+     * @param payments
+     */
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insert(Payment... payments);
+
+    /**
+     * Delete all payments
+     */
+    @Query("DELETE FROM payment")
+    void deleteAllPayment();
 }

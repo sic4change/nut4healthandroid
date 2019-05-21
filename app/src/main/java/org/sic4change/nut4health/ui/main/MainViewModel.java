@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 
 import org.sic4change.nut4health.data.DataRepository;
 import org.sic4change.nut4health.data.entities.Contract;
+import org.sic4change.nut4health.data.entities.Payment;
 import org.sic4change.nut4health.data.entities.Ranking;
 import org.sic4change.nut4health.data.entities.User;
 
@@ -20,6 +21,7 @@ public class MainViewModel extends ViewModel {
     private final LiveData<User> mUser;
     private LiveData<PagedList<Contract>> mContracts;
     private LiveData<PagedList<Ranking>> mRanking;
+    private LiveData<PagedList<Payment>> mPayments;
 
     private String name = "";
     private String surname = "";
@@ -32,12 +34,17 @@ public class MainViewModel extends ViewModel {
 
     private String usernameRanking = "";
 
+    private String statusPayment = Payment.Status.ALL.name();
+    private long dateStartPayment = 0;
+    private long dateEndPayment = 0;
+
     public MainViewModel(Context context, DataRepository repository) {
         this.mContext = context;
         this.mRepository = repository;
         mUser = this.mRepository.getCurrentUser();
         mContracts = this.mRepository.getSortedContracts("DATE", name, surname, status, dateStart, dateEnd, percentageMin, percentageMax);
         mRanking = this.mRepository.getSortedRanking("POINTS", usernameRanking);
+        mPayments = this.mRepository.getSortedPayments("DATE", statusPayment, dateStartPayment, dateEndPayment);
         isFiltered.setValue(false);
     }
 
@@ -56,7 +63,7 @@ public class MainViewModel extends ViewModel {
 
     public void getSortedContracts(String sort, String name, String surname, String status, long dateStart, long dataEnd,
                                    int percentageMin, int percentageMax) {
-        mContracts = this.mRepository.getSortedContracts(sort, name, surname, status, dateStart, dateEnd,
+        mContracts = this.mRepository.getSortedContracts(sort, name, surname, status, dateStart, dataEnd,
                 percentageMin, percentageMax);
     }
 
@@ -66,6 +73,18 @@ public class MainViewModel extends ViewModel {
 
     public LiveData<PagedList<Contract>> getContracts() {
         return mContracts;
+    }
+
+    public void getSortedPayments(String sort, String status, long dateStart, long dataEnd) {
+        mPayments = this.mRepository.getSortedPayments(sort, status, dateStart, dataEnd);
+    }
+
+    public void getPayments(String email) {
+        this.mRepository.getPayments(email);
+    }
+
+    public LiveData<PagedList<Payment>> getPayments() {
+        return mPayments;
     }
 
     public void getRankingUser() {
@@ -146,5 +165,29 @@ public class MainViewModel extends ViewModel {
 
     public void setUsernameRanking(String usernameRanking) {
         this.usernameRanking = usernameRanking;
+    }
+
+    public String getStatusPayment() {
+        return statusPayment;
+    }
+
+    public void setStatusPayment(String statusPayment) {
+        this.statusPayment = statusPayment;
+    }
+
+    public long getDateStartPayment() {
+        return dateStartPayment;
+    }
+
+    public void setDateStartPayment(long dateStartPayment) {
+        this.dateStartPayment = dateStartPayment;
+    }
+
+    public long getDateEndPayment() {
+        return dateEndPayment;
+    }
+
+    public void setDateEndPayment(long dateEndPayment) {
+        this.dateEndPayment = dateEndPayment;
     }
 }
