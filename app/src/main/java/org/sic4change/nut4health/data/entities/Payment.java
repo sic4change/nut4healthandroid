@@ -111,7 +111,7 @@ public class Payment {
     }
 
     public enum Status {
-        BONUS, CONFIRMATION, ALL
+        Bonus, Confirmation, ALL
     }
 
 }

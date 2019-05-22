@@ -42,7 +42,7 @@ private Context context;
     void bindTo(Payment payment, final PaymentAdapter.ItemAction itemAction) {
         mPayment = payment;
 
-        if (mPayment.getType().toUpperCase().equals(Payment.Status.BONUS.name())) {
+        if (mPayment.getType().equals(Payment.Status.Bonus.name())) {
             tvTitle.setText(context.getResources().getString(R.string.bonus_text));
             tvTitle.setTextColor(context.getResources().getColor(R.color.colorPrimary));
             btnContractDetail.setVisibility(View.GONE);

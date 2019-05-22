@@ -1,12 +1,15 @@
 package org.sic4change.nut4health.ui.main.payments;
 
 import android.annotation.SuppressLint;
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.arch.paging.PagedList;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -244,10 +247,10 @@ public class PaymentFragment extends Fragment implements SwipeRefreshLayout.OnRe
                 mMainViewModel.setStatusPayment(Payment.Status.ALL.name());
                 break;
             case 1:
-                mMainViewModel.setStatusPayment(Payment.Status.BONUS.name());
+                mMainViewModel.setStatusPayment(Payment.Status.Bonus.name());
                 break;
             case 2:
-                mMainViewModel.setStatusPayment(Payment.Status.CONFIRMATION.name());
+                mMainViewModel.setStatusPayment(Payment.Status.Confirmation.name());
                 break;
             default:
                 mMainViewModel.setStatusPayment(Payment.Status.ALL.name());
@@ -271,7 +274,12 @@ public class PaymentFragment extends Fragment implements SwipeRefreshLayout.OnRe
         }
         mMainViewModel.getSortedPayments("DATE", mMainViewModel.getStatusPayment(),
                 mMainViewModel.getDateStartPayment(), mMainViewModel.getDateEndPayment());
-        mMainViewModel.getPayments().observe(getActivity(), contracts -> mMainViewModel.setIsFiltered(true));
+        mMainViewModel.getPayments().observe(getActivity(), new Observer<PagedList<Payment>>() {
+            @Override
+            public void onChanged(@Nullable PagedList<Payment> payments) {
+                paymentAdapter.submitList(payments);
+            }
+        });
     }
 
 
