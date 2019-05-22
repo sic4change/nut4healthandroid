@@ -3,6 +3,7 @@ package org.sic4change.nut4health.ui.main.payments;
 import android.annotation.SuppressLint;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -12,18 +13,16 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
 import org.sic4change.nut4health.R;
+import org.sic4change.nut4health.ui.contract_detail.ContractDetailActivity;
 import org.sic4change.nut4health.ui.main.MainViewModel;
-import org.sic4change.nut4health.utils.Nut4HealthKeyboard;
 
+import static maes.tech.intentanim.CustomIntent.customType;
 
 
 public class PaymentFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
@@ -59,6 +58,9 @@ public class PaymentFragment extends Fragment implements SwipeRefreshLayout.OnRe
         paymentAdapter = new PaymentAdapter(getActivity().getApplicationContext());
         rvPayment.setLayoutManager(new LinearLayoutManager(getActivity()));
         rvPayment.setAdapter(paymentAdapter);
+        paymentAdapter.setItemOnClickAction((id) -> {
+            goToContractDetailActivity(id);
+        });
         initData();
         return view;
     }
@@ -118,7 +120,12 @@ public class PaymentFragment extends Fragment implements SwipeRefreshLayout.OnRe
         void onFragmentInteraction(Uri uri);
     }
 
-
+    private void goToContractDetailActivity(String id) {
+        Intent intent = new Intent(getActivity(), ContractDetailActivity.class);
+        intent.putExtra("CONTRACT_ID", id);
+        startActivity(intent);
+        customType(getActivity(),"left-to-right");
+    }
 
 
 }

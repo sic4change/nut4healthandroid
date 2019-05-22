@@ -1,9 +1,11 @@
 package org.sic4change.nut4health.ui.main.payments;
 
 import android.content.Context;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import org.sic4change.nut4health.R;
@@ -17,6 +19,7 @@ public class PaymentViewHolder extends RecyclerView.ViewHolder {
 private CardView cvPayment;
 private TextView tvTitle;
 private TextView tvQuantity;
+private Button btnContractDetail;
 private com.github.curioustechizen.ago.RelativeTimeTextView tvDate;
 private Payment mPayment;
 private RankingAdapter.ItemAction itemAction;
@@ -28,6 +31,7 @@ private Context context;
         tvTitle = itemView.findViewById(R.id.tvTitle);
         tvQuantity = itemView.findViewById(R.id.tvQuantity);
         tvDate = itemView.findViewById(R.id.tvDate);
+        btnContractDetail = itemView.findViewById(R.id.btnContractDetail);
         cvPayment = itemView.findViewById(R.id.cvRanking);
     }
 
@@ -40,13 +44,17 @@ private Context context;
 
         if (mPayment.getType().toUpperCase().equals(Payment.Status.BONUS.name())) {
             tvTitle.setText(context.getResources().getString(R.string.bonus_text));
+            tvTitle.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+            btnContractDetail.setVisibility(View.GONE);
         } else {
             tvTitle.setText(context.getResources().getString(R.string.confirmation_text));
+            tvTitle.setTextColor(context.getResources().getColor(R.color.ms_errorColor));
+            btnContractDetail.setVisibility(View.VISIBLE);
         }
         tvQuantity.setText(mPayment.getQuantity() + " euro");
         tvDate.setReferenceTime(mPayment.getDate());
         setClickAction(this.itemAction);
-        //cvPayment.setOnClickListener(v -> itemAction.onClick(getPayment().getContractId()));
+        btnContractDetail.setOnClickListener(v -> itemAction.onClick(getPayment().getContractId()));
     }
 
     void clear() {
