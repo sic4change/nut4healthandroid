@@ -124,6 +124,11 @@
     <!--Payments -->
     <string name="confirmation_text">Confirmed diagnosis</string>
     <string name="bonus_text">100 Diagnostics Bonus</string>
+    <string-array name="array_status_payments">
+        <item>All</item>
+        <item>Bonus</item>
+        <item>Confirmed</item>
+    </string-array>
 
     <!--Font awasome -->
     <string name="fa_adjust">&#xf042;</string>
