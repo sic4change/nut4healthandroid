@@ -11,6 +11,7 @@ import org.sic4change.nut4health.data.DataRepository;
 import org.sic4change.nut4health.data.entities.Contract;
 import org.sic4change.nut4health.data.entities.Payment;
 import org.sic4change.nut4health.data.entities.Ranking;
+import org.sic4change.nut4health.data.entities.Report;
 import org.sic4change.nut4health.data.entities.User;
 
 public class MainViewModel extends ViewModel {
@@ -22,6 +23,7 @@ public class MainViewModel extends ViewModel {
     private LiveData<PagedList<Contract>> mContracts;
     private LiveData<PagedList<Ranking>> mRanking;
     private LiveData<PagedList<Payment>> mPayments;
+    private MutableLiveData<Report> mReport;
 
     private String name = "";
     private String surname = "";
@@ -189,5 +191,16 @@ public class MainViewModel extends ViewModel {
 
     public void setDateEndPayment(long dateEndPayment) {
         this.dateEndPayment = dateEndPayment;
+    }
+
+    public MutableLiveData<Report> getReport() {
+        return mReport;
+    }
+
+    public void sendReport(Report report) {
+        report.setEmail(mUser.getValue().getEmail());
+        mReport = new MutableLiveData<Report>();
+        mReport.setValue(report);
+        mRepository.sendReport(mReport);
     }
 }

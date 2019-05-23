@@ -36,6 +36,7 @@ import org.sic4change.nut4health.ui.main.create_contract.CreateContractFragment;
 import org.sic4change.nut4health.ui.main.payments.PaymentFragment;
 import org.sic4change.nut4health.ui.main.ranking.RankingFragment;
 import org.sic4change.nut4health.ui.profile.ProfileActivity;
+import org.sic4change.nut4health.ui.main.report.ReportFragment;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -45,7 +46,8 @@ import static maes.tech.intentanim.CustomIntent.customType;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
         EmptyFragment.OnFragmentInteractionListener, CreateContractFragment.OnFragmentInteractionListener,
         ContractsListFragment.OnFragmentInteractionListener, ContractsMapFragment.OnFragmentInteractionListener,
-        RankingFragment.OnFragmentInteractionListener, PaymentFragment.OnFragmentInteractionListener {
+        RankingFragment.OnFragmentInteractionListener, PaymentFragment.OnFragmentInteractionListener,
+        ReportFragment.OnFragmentInteractionListener {
 
     private boolean doubleBackToExitPressedOnce = false;
 
@@ -202,6 +204,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 } else if (id == R.id.nav_paids) {
                     fragment = new PaymentFragment();
                     setTitle(R.string.payments);
+                } else if (id == R.id.nav_report) {
+                    fragment = new ReportFragment();
+                    setTitle(R.string.report);
                 } else if (id == R.id.nav_help) {
                     fragment = new EmptyFragment();
                     setTitle("Ayuda");

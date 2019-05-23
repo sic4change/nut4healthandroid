@@ -1,13 +1,17 @@
 package org.sic4change.nut4health.data;
 
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.arch.paging.LivePagedListBuilder;
 import android.arch.paging.PagedList;
 import android.arch.persistence.db.SimpleSQLiteQuery;
 import android.content.Context;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.common.hash.Hashing;
 import com.google.common.io.Files;
 import com.google.firebase.auth.AuthCredential;
@@ -15,6 +19,7 @@ import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
@@ -26,6 +31,7 @@ import com.google.firebase.storage.StorageReference;
 import org.sic4change.nut4health.data.entities.Contract;
 import org.sic4change.nut4health.data.entities.Payment;
 import org.sic4change.nut4health.data.entities.Ranking;
+import org.sic4change.nut4health.data.entities.Report;
 import org.sic4change.nut4health.data.entities.User;
 import org.sic4change.nut4health.data.names.DataContractNames;
 import org.sic4change.nut4health.data.names.DataPaymentNames;
@@ -619,6 +625,18 @@ public class DataRepository {
     public void unsubscribeToNotificationTopic(String id) {
         FirebaseMessaging.getInstance().unsubscribeFromTopic(id)
                 .addOnCompleteListener(task -> Log.d(TAG, "Unsubscribe to notification topic: " + id));
+    }
+
+    /**
+     * Method to send report
+     * @param mutableReport
+     */
+    public void sendReport(MutableLiveData<Report> mutableReport) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference contractRef = db.collection("reports");
+        contractRef.add(mutableReport.getValue()).addOnCompleteListener(task -> {
+            mutableReport.getValue().setSent(true);
+        });
     }
 
 }

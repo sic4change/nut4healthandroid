@@ -99,6 +99,7 @@
     <string name="contracts">Histórico de Diagnósticos</string>
     <string name="ranking">Ranking</string>
     <string name="payments">Pagos</string>
+    <string name="report">Reportar</string>
 
     <!--Contract Detail-->
     <string name="contractDetail">Detalle del paciente</string>
@@ -130,6 +131,12 @@
         <item>Bonus</item>
         <item>Confirmaciones</item>
     </string-array>
+
+    <!--Report -->
+    <string name="send_report">Enviar reporte</string>
+    <string name="hintSugerencia">¿Tienes alguna idea para mejorar la aplicación? ¿Quieres reportarnos algún error? \n\nDeja tus comentarios aquí:</string>
+    <string name="reportSend">Reporte enviado correctamente</string>
+    <string name="reportSendDescription">Gracias!! Pronto nos podremos en contacto contigo.</string>
 
     <!--Font awasome -->
     <string name="fa_adjust">&#xf042;</string>

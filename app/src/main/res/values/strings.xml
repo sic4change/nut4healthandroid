@@ -98,6 +98,7 @@
     <string name="contracts">Diagnostics history</string>
     <string name="ranking">Ranking</string>
     <string name="payments">Payments</string>
+    <string name="report">Report</string>
 
     <!--Contract Detail-->
     <string name="contractDetail">Diagnosis patient</string>
@@ -129,6 +130,12 @@
         <item>Bonus</item>
         <item>Confirmed</item>
     </string-array>
+
+    <!--Report -->
+    <string name="send_report">Send report</string>
+    <string name="hintSugerencia">Do you have any idea to improve the application? Do you want to report an error? \n\nLeave us your comments here</string>
+    <string name="reportSend">Report sent correctly</string>
+    <string name="reportSendDescription">Thank you!! Soon we can contact you.</string>
 
     <!--Font awasome -->
     <string name="fa_adjust">&#xf042;</string>
