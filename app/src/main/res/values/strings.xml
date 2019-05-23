@@ -99,6 +99,7 @@
     <string name="ranking">Ranking</string>
     <string name="payments">Payments</string>
     <string name="report">Report</string>
+    <string name="notifications">Notifications</string>
 
     <!--Contract Detail-->
     <string name="contractDetail">Diagnosis patient</string>

@@ -11,6 +11,7 @@ import android.arch.persistence.room.Query;
 import android.arch.persistence.room.RawQuery;
 
 import org.sic4change.nut4health.data.entities.Contract;
+import org.sic4change.nut4health.data.entities.Notification;
 import org.sic4change.nut4health.data.entities.Payment;
 import org.sic4change.nut4health.data.entities.Ranking;
 import org.sic4change.nut4health.data.entities.User;
@@ -213,4 +214,33 @@ public interface Nut4HealtDao {
      */
     @Query("DELETE FROM payment")
     void deleteAllPayment();
+
+    /**
+     * Get notifications for Paging
+     * @param query
+     * @return
+     */
+    @RawQuery(observedEntities = Notification.class)
+    DataSource.Factory<Integer, Notification> getNotifications(SupportSQLiteQuery query);
+
+    /**
+     * Insert a notification
+     * @param notifications
+     */
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insert(Notification... notifications);
+
+    /**
+     * Delete all notificationss
+     */
+    @Query("DELETE FROM notification")
+    void deleteAllNotification();
+
+    /**
+     * Update notification read
+     * @param id
+     * @param read
+     */
+    @Query("UPDATE notification SET read =:read WHERE id=:id ")
+    void updateNotificationRead(String id, String read);
 }

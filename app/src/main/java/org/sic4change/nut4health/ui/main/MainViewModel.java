@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 
 import org.sic4change.nut4health.data.DataRepository;
 import org.sic4change.nut4health.data.entities.Contract;
+import org.sic4change.nut4health.data.entities.Notification;
 import org.sic4change.nut4health.data.entities.Payment;
 import org.sic4change.nut4health.data.entities.Ranking;
 import org.sic4change.nut4health.data.entities.Report;
@@ -23,6 +24,7 @@ public class MainViewModel extends ViewModel {
     private LiveData<PagedList<Contract>> mContracts;
     private LiveData<PagedList<Ranking>> mRanking;
     private LiveData<PagedList<Payment>> mPayments;
+    private LiveData<PagedList<Notification>> mNotifications;
     private MutableLiveData<Report> mReport;
 
     private String name = "";
@@ -47,6 +49,7 @@ public class MainViewModel extends ViewModel {
         mContracts = this.mRepository.getSortedContracts("DATE", name, surname, status, dateStart, dateEnd, percentageMin, percentageMax);
         mRanking = this.mRepository.getSortedRanking("POINTS", usernameRanking);
         mPayments = this.mRepository.getSortedPayments("DATE", statusPayment, dateStartPayment, dateEndPayment);
+        mNotifications = this.mRepository.getSortedNotifications();
         isFiltered.setValue(false);
     }
 
@@ -202,5 +205,21 @@ public class MainViewModel extends ViewModel {
         mReport = new MutableLiveData<Report>();
         mReport.setValue(report);
         mRepository.sendReport(mReport);
+    }
+
+    public void getSortedNotifications() {
+        mNotifications = this.mRepository.getSortedNotifications();
+    }
+
+    public void getNotifications(String userId) {
+        this.mRepository.getNotifications(userId);
+    }
+
+    public LiveData<PagedList<Notification>> getNotifications() {
+        return mNotifications;
+    }
+
+    public void markAsReadNotification(String id) {
+        this.mRepository.markNotificationRead(id, mUser.getValue().getId());
     }
 }

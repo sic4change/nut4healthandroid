@@ -5,6 +5,7 @@ import android.arch.persistence.db.SimpleSQLiteQuery;
 import org.sic4change.nut4health.data.entities.Contract;
 import org.sic4change.nut4health.data.entities.Payment;
 import org.sic4change.nut4health.data.names.DataContractNames;
+import org.sic4change.nut4health.data.names.DataNotificationNames;
 import org.sic4change.nut4health.data.names.DataPaymentNames;
 import org.sic4change.nut4health.data.names.DataRankingNames;
 
@@ -90,6 +91,11 @@ public class SortUtils {
             }
         }
         return new SimpleSQLiteQuery(query + " ORDER BY " + DataPaymentNames.COL_DATE +  " DESC");
+    }
+
+    public static SimpleSQLiteQuery getNotifications() {
+        String query = "SELECT * FROM " + DataNotificationNames.TABLE_NAME;
+        return new SimpleSQLiteQuery(query + " ORDER BY " + DataNotificationNames.COL_DATE +  " DESC");
     }
 
     /**

@@ -4,6 +4,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
@@ -33,6 +35,7 @@ import org.sic4change.nut4health.ui.main.contracts.ContractFragment;
 import org.sic4change.nut4health.ui.main.contracts.ContractsListFragment;
 import org.sic4change.nut4health.ui.main.contracts.ContractsMapFragment;
 import org.sic4change.nut4health.ui.main.create_contract.CreateContractFragment;
+import org.sic4change.nut4health.ui.main.notifications.NotificationFragment;
 import org.sic4change.nut4health.ui.main.payments.PaymentFragment;
 import org.sic4change.nut4health.ui.main.ranking.RankingFragment;
 import org.sic4change.nut4health.ui.profile.ProfileActivity;
@@ -47,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         EmptyFragment.OnFragmentInteractionListener, CreateContractFragment.OnFragmentInteractionListener,
         ContractsListFragment.OnFragmentInteractionListener, ContractsMapFragment.OnFragmentInteractionListener,
         RankingFragment.OnFragmentInteractionListener, PaymentFragment.OnFragmentInteractionListener,
-        ReportFragment.OnFragmentInteractionListener {
+        ReportFragment.OnFragmentInteractionListener, NotificationFragment.OnFragmentInteractionListener {
 
     private boolean doubleBackToExitPressedOnce = false;
 
@@ -145,6 +148,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ivUser = navigationView.getHeaderView(0).findViewById(R.id.ivUser);
         tvDrawerPoints = navigationView.getHeaderView(0).findViewById(R.id.tvPoints);
         this.navigationView.setCheckedItem(R.id.nav_ranking);
+
+
+        //Prueba para pintar un valor de notificaciones
+        TextView tvNotifications = (TextView) navigationView.getMenu().findItem(R.id.nav_notifications).getActionView();
+        tvNotifications.setTextColor(getResources().getColor(R.color.colorAccent));
+        tvNotifications.setGravity(Gravity.CENTER_VERTICAL);
+        tvNotifications.setTypeface(null, Typeface.BOLD);
+        tvNotifications.setText("40");
     }
 
     @Override
@@ -204,6 +215,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 } else if (id == R.id.nav_paids) {
                     fragment = new PaymentFragment();
                     setTitle(R.string.payments);
+                } else if (id == R.id.nav_notifications) {
+                    fragment = new NotificationFragment();
+                    setTitle(R.string.notifications);
                 } else if (id == R.id.nav_report) {
                     fragment = new ReportFragment();
                     setTitle(R.string.report);

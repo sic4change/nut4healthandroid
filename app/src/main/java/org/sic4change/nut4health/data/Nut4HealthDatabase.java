@@ -3,15 +3,18 @@ package org.sic4change.nut4health.data;
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
+import android.arch.persistence.room.TypeConverters;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import org.sic4change.nut4health.data.converter.UserConverter;
 import org.sic4change.nut4health.data.entities.Contract;
+import org.sic4change.nut4health.data.entities.Notification;
 import org.sic4change.nut4health.data.entities.Payment;
 import org.sic4change.nut4health.data.entities.Ranking;
 import org.sic4change.nut4health.data.entities.User;
 
-@Database(entities = {User.class, Contract.class, Ranking.class, Payment.class}, version = 5, exportSchema = false)
+@Database(entities = {User.class, Contract.class, Ranking.class, Payment.class, Notification.class}, version = 6, exportSchema = false)
 public abstract  class Nut4HealthDatabase extends RoomDatabase {
 
     private static volatile Nut4HealthDatabase sInstance = null;

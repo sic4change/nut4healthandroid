@@ -29,11 +29,13 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import org.sic4change.nut4health.data.entities.Contract;
+import org.sic4change.nut4health.data.entities.Notification;
 import org.sic4change.nut4health.data.entities.Payment;
 import org.sic4change.nut4health.data.entities.Ranking;
 import org.sic4change.nut4health.data.entities.Report;
 import org.sic4change.nut4health.data.entities.User;
 import org.sic4change.nut4health.data.names.DataContractNames;
+import org.sic4change.nut4health.data.names.DataNotificationNames;
 import org.sic4change.nut4health.data.names.DataPaymentNames;
 import org.sic4change.nut4health.data.names.DataRankingNames;
 import org.sic4change.nut4health.data.names.DataUserNames;
@@ -59,6 +61,7 @@ public class DataRepository {
     private static volatile DataRepository sInstance = null;
 
     private ListenerRegistration listenerQuery;
+    private ListenerRegistration listenerMarkNotification;
 
     public static DataRepository getInstance(Context context) {
         if (sInstance == null) {
@@ -390,6 +393,7 @@ public class DataRepository {
         mIoExecutor.submit(() -> nut4HealtDao.deleteAllUser());
         mIoExecutor.submit(() -> nut4HealtDao.deleteAllContract());
         mIoExecutor.submit(() -> nut4HealtDao.deleteAllPayment());
+        mIoExecutor.submit(() -> nut4HealtDao.deleteAllNotification());
     }
 
     /**
@@ -637,6 +641,97 @@ public class DataRepository {
         mutableReport.getValue().setDate(new Date().toString());
         contractRef.add(mutableReport.getValue()).addOnCompleteListener(task -> {
             mutableReport.getValue().setSent(true);
+        });
+    }
+
+    /**
+     * Method to get notification from firebase
+     * @param userId
+     */
+    public void getNotifications(String userId) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference notificationRead = db.collection(DataNotificationNames.TABLE_FIREBASE_NAME);
+        Query query = notificationRead.whereEqualTo(DataNotificationNames.COL_USERID, userId);
+        query.addSnapshotListener(mIoExecutor, (queryDocumentSnapshots, e) -> {
+            try {
+                if ((queryDocumentSnapshots != null) && (queryDocumentSnapshots.getDocuments() != null)
+                        && (queryDocumentSnapshots.getDocuments().size() > 0)) {
+                    for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
+                        Notification notification = document.toObject(Notification.class);
+                        if (((notification.getId() != null) && (!notification.getId().equals("")))) {
+                            nut4HealtDao.insert(notification);
+                        }
+                    }
+                } else {
+                    Log.d(TAG, "Get notifications: " + "empty");
+                }
+            } catch (Exception error) {
+                Log.d(TAG, "Get notifications: " + "empty");
+            }
+        });
+        Query queryALL = notificationRead.whereEqualTo(DataNotificationNames.COL_USERID, "ALL");
+        queryALL.addSnapshotListener(mIoExecutor, (queryDocumentSnapshots, e) -> {
+            try {
+                if ((queryDocumentSnapshots != null) && (queryDocumentSnapshots.getDocuments() != null)
+                        && (queryDocumentSnapshots.getDocuments().size() > 0)) {
+                    for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
+                        Notification notification = document.toObject(Notification.class);
+                        if (((notification.getId() != null) && (!notification.getId().equals("")))) {
+                            nut4HealtDao.insert(notification);
+                        }
+                    }
+                } else {
+                    Log.d(TAG, "Get notifications: " + "empty");
+                }
+            } catch (Exception error) {
+                Log.d(TAG, "Get notifications: " + "empty");
+            }
+        });
+    }
+
+    /**
+     * Method to get notification sorted
+     * @return
+     */
+    public LiveData<PagedList<Notification>> getSortedNotifications() {
+        SimpleSQLiteQuery query = SortUtils.getNotifications();
+        return new LivePagedListBuilder<>(nut4HealtDao.getNotifications(query), PAGE_SIZE).build();
+    }
+
+    /**
+     * Method to mark notification as read
+     * @param notificationId
+     * @param userId
+     */
+    public void markNotificationRead(String notificationId, String userId) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference notificationRead = db.collection(DataNotificationNames.TABLE_FIREBASE_NAME);
+        Query query = notificationRead.whereEqualTo(DataNotificationNames.COL_ID, notificationId);
+        listenerMarkNotification = query.addSnapshotListener(mIoExecutor, (queryDocumentSnapshots, e) -> {
+            try {
+                if ((queryDocumentSnapshots != null) && (queryDocumentSnapshots.getDocuments() != null)
+                        && (queryDocumentSnapshots.getDocuments().size() > 0)) {
+                    for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
+                        Notification notification = document.toObject(Notification.class);
+                        if (((notification.getId() != null) && (!notification.getId().equals("")))) {
+                            if ((notification.getRead() == null) || (notification.getRead().isEmpty())) {
+                                notification.setRead(userId);
+                                queryDocumentSnapshots.getDocuments().get(0).getReference().set(notification);
+                                nut4HealtDao.updateNotificationRead(notificationId, userId);
+                            } else if (!notification.getRead().contains(userId)) {
+                                notification.setRead(notification.getRead() + "," + userId);
+                                queryDocumentSnapshots.getDocuments().get(0).getReference().set(notification);
+                                nut4HealtDao.updateNotificationRead(notificationId, notification.getRead() + "," + userId);
+                            }
+                        }
+                    }
+                    listenerMarkNotification.remove();
+                } else {
+                    Log.d(TAG, "Get notifications: " + "empty");
+                }
+            } catch (Exception error) {
+                Log.d(TAG, "Get notifications: " + "empty");
+            }
         });
     }
 
