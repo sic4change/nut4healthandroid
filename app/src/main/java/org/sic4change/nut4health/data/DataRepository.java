@@ -634,6 +634,7 @@ public class DataRepository {
     public void sendReport(MutableLiveData<Report> mutableReport) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference contractRef = db.collection("reports");
+        mutableReport.getValue().setDate(new Date().toString());
         contractRef.add(mutableReport.getValue()).addOnCompleteListener(task -> {
             mutableReport.getValue().setSent(true);
         });
