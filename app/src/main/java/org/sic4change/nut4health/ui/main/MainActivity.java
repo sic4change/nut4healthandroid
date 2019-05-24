@@ -93,6 +93,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     mMainViewModel.updateUser(user.getEmail());
                     created = true;
                 }
+                mMainViewModel.getNotifications(user.getId());
             }
         });
         mMainViewModel.getNotifications().observe(this, notifications -> {
