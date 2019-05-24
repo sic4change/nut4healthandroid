@@ -222,4 +222,16 @@ public class MainViewModel extends ViewModel {
     public void markAsReadNotification(String id) {
         this.mRepository.markNotificationRead(id, mUser.getValue().getId());
     }
+
+    public int getNotificationsNoRead() {
+        int notificatonsNoRead = 0;
+        if ((mNotifications != null) && (mNotifications.getValue() != null)) {
+            for (Notification notification : mNotifications.getValue()) {
+                if (!notification.getRead().contains(mUser.getValue().getId())) {
+                    notificatonsNoRead++;
+                }
+            }
+        }
+        return notificatonsNoRead;
+    }
 }

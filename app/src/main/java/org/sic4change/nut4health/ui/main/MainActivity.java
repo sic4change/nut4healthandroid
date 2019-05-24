@@ -22,6 +22,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
@@ -66,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private TextView tvDrawerRole;
     private TextView tvDrawerPoints;
     private CircleImageView ivUser;
+    private TextView tvNotifications;
 
     private MainViewModel mMainViewModel;
     private boolean created = false;
@@ -91,6 +93,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     mMainViewModel.updateUser(user.getEmail());
                     created = true;
                 }
+            }
+        });
+        mMainViewModel.getNotifications().observe(this, notifications -> {
+            int notificationNoRead = mMainViewModel.getNotificationsNoRead();
+            if (notificationNoRead > 0) {
+                tvNotifications.setText(mMainViewModel.getNotificationsNoRead() + "");
+                tvNotifications.setVisibility(View.VISIBLE);
+            } else {
+                tvNotifications.setVisibility(View.GONE);
             }
         });
         Fragment fragment = new CreateContractFragment();
@@ -149,13 +160,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         tvDrawerPoints = navigationView.getHeaderView(0).findViewById(R.id.tvPoints);
         this.navigationView.setCheckedItem(R.id.nav_ranking);
 
-
-        //Prueba para pintar un valor de notificaciones
-        TextView tvNotifications = (TextView) navigationView.getMenu().findItem(R.id.nav_notifications).getActionView();
+        tvNotifications = (TextView) navigationView.getMenu().findItem(R.id.nav_notifications).getActionView();
         tvNotifications.setTextColor(getResources().getColor(R.color.colorAccent));
         tvNotifications.setGravity(Gravity.CENTER_VERTICAL);
         tvNotifications.setTypeface(null, Typeface.BOLD);
-        tvNotifications.setText("40");
     }
 
     @Override
