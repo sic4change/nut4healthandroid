@@ -12,6 +12,7 @@ public class SplashViewModel extends ViewModel {
 
     public static final String NAME_SHARED_PREFERENCES = "NUT4HealthPreferences";
     private static final String KEY_SELECTION = "selection";
+    private static final String KEY_SUBSCRIBE_GLOBAL_NOTIFICATIONS = "global_notification";
 
     private Context mContext;
     private final DataRepository mRepository;
@@ -29,6 +30,10 @@ public class SplashViewModel extends ViewModel {
 
     public void subscribeToTopic(String id) {
         this.mRepository.subscribeToNotificationTopic(id);
+    }
+
+    public void subscribeToGlobalNotification() {
+        this.mRepository.subscribeToNotificationTopic(KEY_SUBSCRIBE_GLOBAL_NOTIFICATIONS);
     }
 
     public void saveSelection(int selection) {
