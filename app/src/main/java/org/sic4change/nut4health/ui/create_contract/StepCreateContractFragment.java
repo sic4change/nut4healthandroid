@@ -377,11 +377,14 @@ public class StepCreateContractFragment extends Fragment implements Step{
     }
 
     private void goToMainActivity() {
-        mCreateContractViewModel = null;
-        customType(getActivity(),"right-to-left");
-        getActivity().getSupportFragmentManager().popBackStackImmediate();
-        getActivity().finish();
-
+        try {
+            mCreateContractViewModel = null;
+            customType(getActivity(),"right-to-left");
+            getActivity().getSupportFragmentManager().popBackStackImmediate();
+            getActivity().finish();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
