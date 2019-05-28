@@ -85,7 +85,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 tvDrawerEmail.setText(user.getEmail());
                 tvDrawerUsername.setText(user.getUsername());
                 tvDrawerRole.setText(user.getRole());
-                tvDrawerPoints.setText(user.getPoints() + " " + getString(R.string.points));
+                if (!user.getRole().equals("Screener")) {
+                    tvDrawerPoints.setVisibility(View.GONE);
+                    navigationView.getMenu().findItem(R.id.nav_ranking).setVisible(false);
+                    navigationView.getMenu().findItem(R.id.nav_paids).setVisible(false);
+                } else {
+                    tvDrawerPoints.setText(user.getPoints() + " " + getString(R.string.points));
+                    tvDrawerPoints.setVisibility(View.VISIBLE);
+                    navigationView.getMenu().findItem(R.id.nav_ranking).setVisible(true);
+                    navigationView.getMenu().findItem(R.id.nav_paids).setVisible(true);
+                }
                 Glide.with(getApplicationContext())
                         .load(user.getPhoto())
                         .into(ivUser);
