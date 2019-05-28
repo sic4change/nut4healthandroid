@@ -114,7 +114,7 @@ public class StepCreateContractFragment extends Fragment implements Step{
             clView.startDeterminate();
             mCreateContractViewModel.getUser().observe(getActivity(), user -> {
                 if ((mCreateContractViewModel != null) && (user != null)) {
-                    mCreateContractViewModel.createContract(user.getEmail(),
+                    mCreateContractViewModel.createContract(user.getRole(), user.getEmail(),
                             mCreateContractViewModel.getLocation().latitude, mCreateContractViewModel.getLocation().longitude,
                             mCreateContractViewModel.getUriPhoto(), mCreateContractViewModel.getChildName(),
                             mCreateContractViewModel.getChildSurname(), mCreateContractViewModel.getChildLocation(),

@@ -428,6 +428,7 @@ public class DataRepository {
 
     /**
      * Method to create a contract
+     * @param role
      * @param email
      * @param latitude
      * @param longitude
@@ -437,8 +438,8 @@ public class DataRepository {
      * @param childAddress
      * @param percentage
      */
-    public void createContract(String email, float latitude, float longitude, Uri photo, String childName, String childUsername,
-                               String childAddress, int percentage) {
+    public void createContract(String role, String email, float latitude, float longitude, Uri photo,
+                               String childName, String childUsername, String childAddress, int percentage) {
         String hash = "";
         try {
             hash = Files.hash(new File(photo.getPath()), Hashing.sha512()).toString();
@@ -452,17 +453,20 @@ public class DataRepository {
             status = Contract.Status.NO_DIAGNOSIS.name();
         }
         long date = new Date().getTime();
-        Contract contract = new Contract(photo.toString(), latitude, longitude, email, childName, childUsername, childAddress,
+        Contract contract = new Contract(photo.toString(), latitude, longitude, "", childName, childUsername, childAddress,
                 status, date, hash, percentage);
+        if (role.equals("Screener")) {
+            contract.setScreener(email);
+        } else {
+            contract.setMedical(email);
+            contract.setStatus(Contract.Status.PAID.name());
+        }
         contract.setId(date + "");
         //Save contract local
         mIoExecutor.execute(() -> nut4HealtDao.insert(contract));
-        contract.setStatus(status);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference contractRef = db.collection(DataContractNames.TABLE_FIREBASE_NAME);
-        contractRef.add(contract).addOnCompleteListener(mIoExecutor, task -> {
-
-        });
+        contractRef.add(contract).addOnCompleteListener(mIoExecutor, task -> { });
     }
 
     /**
