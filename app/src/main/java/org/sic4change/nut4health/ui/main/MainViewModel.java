@@ -225,12 +225,16 @@ public class MainViewModel extends ViewModel {
 
     public int getNotificationsNoRead() {
         int notificatonsNoRead = 0;
-        if ((mNotifications != null) && (mNotifications.getValue() != null)) {
-            for (Notification notification : mNotifications.getValue()) {
-                if (!notification.getRead().contains(mUser.getValue().getId())) {
-                    notificatonsNoRead++;
+        try {
+            if ((mNotifications != null) && (mNotifications.getValue() != null)) {
+                for (Notification notification : mNotifications.getValue()) {
+                    if (!notification.getRead().contains(mUser.getValue().getId())) {
+                        notificatonsNoRead++;
+                    }
                 }
             }
+        } catch (Exception e) {
+            System.out.println("notifications empty");
         }
         return notificatonsNoRead;
     }
