@@ -195,6 +195,12 @@ public interface Nut4HealtDao {
     LiveData<Ranking> getUserRanking(String username);
 
     /**
+     * Delete all ranking
+     */
+    @Query("DELETE FROM ranking")
+    void deleteAllRanking();
+
+    /**
      * Get payments for Paging
      * @param query
      * @return

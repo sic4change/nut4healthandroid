@@ -392,6 +392,7 @@ public class DataRepository {
         auth.signOut();
         mIoExecutor.submit(() -> nut4HealtDao.deleteAllUser());
         mIoExecutor.submit(() -> nut4HealtDao.deleteAllContract());
+        mIoExecutor.submit(() -> nut4HealtDao.deleteAllRanking());
         mIoExecutor.submit(() -> nut4HealtDao.deleteAllPayment());
         mIoExecutor.submit(() -> nut4HealtDao.deleteAllNotification());
     }
@@ -546,7 +547,7 @@ public class DataRepository {
                     List<User> users = new ArrayList<User>();
                     for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
                         User user = document.toObject(User.class);
-                        if (!user.getUsername().contains("anonymous")) {
+                        if (!user.getUsername().contains("anonymous") && user.getRole().equals("Screener")) {
                             users.add(user);
                         }
                     }
