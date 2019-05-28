@@ -62,8 +62,8 @@ public class MainViewModel extends ViewModel {
     }
 
 
-    public void getContracts(String email) {
-        this.mRepository.getContracts(email);
+    public void getContracts(String email, String role) {
+        this.mRepository.getContracts(email, role);
     }
 
     public void getSortedContracts(String sort, String name, String surname, String status, long dateStart, long dataEnd,

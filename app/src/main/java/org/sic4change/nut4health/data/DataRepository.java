@@ -468,11 +468,17 @@ public class DataRepository {
     /**
      * Method to get contracts from firebase
      * @param email
+     * @param role
      */
-    public void getContracts(String email) {
+    public void getContracts(String email, String role) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference contractRef = db.collection(DataContractNames.TABLE_FIREBASE_NAME);
-        Query query = contractRef.whereEqualTo(DataContractNames.COL_SCREENER, email);
+        Query query;
+        if (role.equals("Screener")) {
+            query = contractRef.whereEqualTo(DataContractNames.COL_SCREENER, email);
+        } else {
+            query = contractRef.whereEqualTo(DataContractNames.COL_MEDICAL, email);
+        }
         query.addSnapshotListener(mIoExecutor, (queryDocumentSnapshots, e) -> {
             try {
                 if ((queryDocumentSnapshots != null) && (queryDocumentSnapshots.getDocuments() != null)

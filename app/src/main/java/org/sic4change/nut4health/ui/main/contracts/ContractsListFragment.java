@@ -66,7 +66,7 @@ public class ContractsListFragment extends Fragment implements SwipeRefreshLayou
         mMainViewModel = ViewModelProviders.of(getActivity()).get(MainViewModel.class);
         mMainViewModel.getCurrentUser().observe(getActivity(), user -> {
             if (user != null) {
-                mMainViewModel.getContracts(user.getEmail());
+                mMainViewModel.getContracts(user.getEmail(), user.getRole());
             }
         });
         mMainViewModel.getContracts().observe(getActivity(), contracts -> showContracts(contracts));
