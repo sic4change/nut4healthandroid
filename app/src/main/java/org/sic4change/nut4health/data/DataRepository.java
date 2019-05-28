@@ -627,8 +627,10 @@ public class DataRepository {
      * @param id
      */
     public void unsubscribeToNotificationTopic(String id) {
-        FirebaseMessaging.getInstance().unsubscribeFromTopic(id)
-                .addOnCompleteListener(task -> Log.d(TAG, "Unsubscribe to notification topic: " + id));
+        if (id != null) {
+            FirebaseMessaging.getInstance().unsubscribeFromTopic(id)
+                    .addOnCompleteListener(task -> Log.d(TAG, "Unsubscribe to notification topic: " + id));
+        }
     }
 
     /**
