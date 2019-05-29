@@ -38,9 +38,9 @@ public class CreateContractViewModel extends ViewModel {
     }
 
     public void createContract(String role, String screener, float latitude, float longitude, Uri photo, String childName,
-                               String childSurname, String childAddress,int percentage) {
+                               String childSurname, String childAddress, int percentage, int points) {
         mRepository.createContract(role, screener, latitude, longitude, photo, childName, childSurname,
-                childAddress, percentage);
+                childAddress, percentage, points);
     }
 
     public void updatePointsUserLocal(String email) {

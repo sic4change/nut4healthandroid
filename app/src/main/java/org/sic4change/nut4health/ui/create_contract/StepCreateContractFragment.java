@@ -118,8 +118,8 @@ public class StepCreateContractFragment extends Fragment implements Step{
                             mCreateContractViewModel.getLocation().latitude, mCreateContractViewModel.getLocation().longitude,
                             mCreateContractViewModel.getUriPhoto(), mCreateContractViewModel.getChildName(),
                             mCreateContractViewModel.getChildSurname(), mCreateContractViewModel.getChildLocation(),
-                            mCreateContractViewModel.getPercentage());
-                    mCreateContractViewModel.updatePointsUserLocal(user.getEmail());
+                            mCreateContractViewModel.getPercentage(), user.getPoints());
+                    //mCreateContractViewModel.updatePointsUserLocal(user.getEmail());
                     mCreateContractViewModel = null;
                 }
             });

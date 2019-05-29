@@ -54,6 +54,7 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
     private TextView nChildLocation;
     private CircleView nPercentage;
     private RelativeTimeTextView nDate;
+    private RelativeTimeTextView nConfirmationDate;
 
     private String id;
 
@@ -70,6 +71,7 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
         nChildLocation = view.findViewById(R.id.tvLocationItem);
         nPercentage = view.findViewById(R.id.tvPercentageItem);
         nDate = view.findViewById(R.id.tvDateItem);
+        nConfirmationDate = view.findViewById(R.id.tvDateConfirmationItem);
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -160,12 +162,16 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
         if (contract.getStatus().equals(Contract.Status.DIAGNOSIS.name())) {
             nPercentage.setFillColor(getActivity().getResources().getColor(R.color.ms_errorColor));
             nPercentage.setStrokeColor(getActivity().getResources().getColor(R.color.ms_errorColor));
+            nConfirmationDate.setVisibility(View.GONE);
         } else if (contract.getStatus().equals(Contract.Status.NO_DIAGNOSIS.name())) {
             nPercentage.setFillColor(getActivity().getResources().getColor(R.color.colorPrimaryDark));
             nPercentage.setStrokeColor(getActivity().getResources().getColor(R.color.colorPrimaryDark));
+            nConfirmationDate.setVisibility(View.GONE);
         } else {
             nPercentage.setFillColor(getActivity().getResources().getColor(R.color.colorAccent));
             nPercentage.setStrokeColor(getActivity().getResources().getColor(R.color.colorAccent));
+            nConfirmationDate.setReferenceTime(contract.getMedicalDate());
+            nConfirmationDate.setVisibility(View.VISIBLE);
         }
         nDate.setReferenceTime(contract.getDate());
         cvContract.setVisibility(View.VISIBLE);

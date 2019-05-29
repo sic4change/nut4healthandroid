@@ -19,6 +19,7 @@ private TextView nChildName;
 private TextView nChildLocation;
 private CircleView nPercentage;
 private RelativeTimeTextView nDate;
+private RelativeTimeTextView nConfirmationDate;
 private CardView cvContract;
 private Contract mContract;
 private ContractsAdapter.ItemAction itemAction;
@@ -32,6 +33,7 @@ private Context context;
         nPercentage = itemView.findViewById(R.id.tvPercentageItem);
         cvContract = itemView.findViewById(R.id.cvContractItem);
         nDate = itemView.findViewById(R.id.tvDateItem);
+        nConfirmationDate = itemView.findViewById(R.id.tvDateConfirmationItem);
     }
 
     public Contract getContract() {
@@ -46,12 +48,16 @@ private Context context;
         if (contract.getStatus().equals(Contract.Status.DIAGNOSIS.name())) {
             nPercentage.setFillColor(context.getResources().getColor(R.color.ms_errorColor));
             nPercentage.setStrokeColor(context.getResources().getColor(R.color.ms_errorColor));
+            nConfirmationDate.setVisibility(View.GONE);
         } else if (contract.getStatus().equals(Contract.Status.NO_DIAGNOSIS.name())) {
             nPercentage.setFillColor(context.getResources().getColor(R.color.colorPrimaryDark));
             nPercentage.setStrokeColor(context.getResources().getColor(R.color.colorPrimaryDark));
+            nConfirmationDate.setVisibility(View.GONE);
         } else {
             nPercentage.setFillColor(context.getResources().getColor(R.color.colorAccent));
             nPercentage.setStrokeColor(context.getResources().getColor(R.color.colorAccent));
+            nConfirmationDate.setReferenceTime(contract.getMedicalDate());
+            nConfirmationDate.setVisibility(View.VISIBLE);
         }
         nDate.setReferenceTime(contract.getDate());
         setClickAction(this.itemAction);

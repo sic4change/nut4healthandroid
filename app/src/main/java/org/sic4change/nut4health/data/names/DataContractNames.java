@@ -82,4 +82,9 @@ public final class DataContractNames {
      */
     public static final String COL_PERCENTAGE= "percentage";
 
+    /**
+     * Column medical date for contract
+     */
+    public static final String COL_MEDICAL_DATE = "medical_date";
+
 }

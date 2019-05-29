@@ -62,21 +62,25 @@ public class Contract {
     @ColumnInfo(name = DataContractNames.COL_HASH)
     private String hash;
 
+    @NonNull
+    @ColumnInfo(name = DataContractNames.COL_MEDICAL_DATE)
+    private long medicalDate;
+
     public Contract() {
         this("", "", 0.0f, 0.0f, "", "", "",
-                "", "", Status.INIT.name(), "", 0L, "", 0);
+                "", "", Status.INIT.name(), "", 0L, "", 0, 0);
     }
 
     @Ignore
     public Contract(@NonNull String id) {
         this(id, "", 0.0f, 0.0f, "", "", "",
-                "", "", Status.INIT.name(), "", 0L, "", 0);
+                "", "", Status.INIT.name(), "", 0L, "", 0, 0);
     }
 
     @Ignore
     public Contract(@NonNull String photo, float latitude, float longitude, @NonNull String screener) {
         this("", photo, latitude, longitude, screener, "", "", "",
-                "", Status.INIT.name(), "", 0L, "", 0);
+                "", Status.INIT.name(), "", 0L, "", 0, 0);
     }
 
     @Ignore
@@ -84,19 +88,19 @@ public class Contract {
                     String childName, String childSurname, String childAddress, String status, long date,
                     String hash, int percentage) {
         this("", photo, latitude, longitude, screener, "", childName, childSurname,
-                childAddress, status, "", date, hash, percentage);
+                childAddress, status, "", date, hash, percentage, 0);
     }
     @Ignore
     public Contract(@NonNull String id, @NonNull String photo, float latitude, float longitude,
                     @NonNull String screener, String childName, String childSurname,
                     String childAddress, String status, long date, String hash, int percentage) {
         this(id, photo, latitude, longitude, screener, "", childName, childSurname,
-                childAddress, status, "", date, hash, percentage);
+                childAddress, status, "", date, hash, percentage, 0);
     }
 
     public Contract(@NonNull String id, @NonNull String photo, float latitude, float longitude, @NonNull String screener,
                     String medical, String childName, String childSurname, String childAddress,
-                    String status, String diagnosis, long date, String hash, int percentage) {
+                    String status, String diagnosis, long date, String hash, int percentage, long medicalDate) {
         this.id = id;
         this.photo = photo;
         this.latitude = latitude;
@@ -111,6 +115,7 @@ public class Contract {
         this.date = date;
         this.hash = hash;
         this.percentage = percentage;
+        this.medicalDate = medicalDate;
     }
 
     @NonNull
@@ -233,4 +238,11 @@ public class Contract {
         INIT, DIAGNOSIS, NO_DIAGNOSIS, PAID, ALL
     }
 
+    public long getMedicalDate() {
+        return medicalDate;
+    }
+
+    public void setMedicalDate(long medicalDate) {
+        this.medicalDate = medicalDate;
+    }
 }

@@ -139,6 +139,9 @@
     <string name="reportSend">Reporte enviado correctamente</string>
     <string name="reportSendDescription">Gracias!! Pronto nos podremos en contacto contigo.</string>
 
+    <!--Error create contract server -->
+    <string name="error_create_contract_server">Ya has diganosticado previamente al menor o ya ha recibido tratamiento recientemente</string>
+
     <!--Font awasome -->
     <string name="fa_adjust">&#xf042;</string>
     <string name="fa_adn">&#xf170;</string>
