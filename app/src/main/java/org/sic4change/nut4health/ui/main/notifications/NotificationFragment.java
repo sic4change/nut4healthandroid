@@ -59,7 +59,7 @@ public class NotificationFragment extends Fragment implements SwipeRefreshLayout
         mMainViewModel.getCurrentUser().observe(getActivity(), user -> {
             if (user != null) {
                 notificationAdapter.setUserId(user.getId());
-                mMainViewModel.getNotifications(user.getId());
+                mMainViewModel.getNotifications(user.getId(), user.getCreationDate());
             }
         });
         mMainViewModel.getNotifications().observe(getActivity(), notifications -> {

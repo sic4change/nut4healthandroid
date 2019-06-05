@@ -22,6 +22,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
@@ -221,14 +222,22 @@ public class DataRepository {
                                 nut4HealtDao.insert(User.userEmpty);
                                 deleteAutenticatedUser(email, password);
                             } else {
+                                user.setCreationDate(new Date().getTime() - 3600);
                                 userRef.add(user).addOnCompleteListener(mIoExecutor, task1 -> {
+                                    DocumentReference docRef = task1.getResult();
+                                    String key = docRef.getId();
+                                    user.setId(key);
                                     nut4HealtDao.deleteEmptyUser();
                                     nut4HealtDao.insert(user);
                                 });
                             }
                         } catch (Exception error) {
+                            user.setCreationDate(new Date().getTime() - 3600);
                             userRef.add(user).addOnCompleteListener(mIoExecutor, task1 -> {
                                 nut4HealtDao.deleteEmptyUser();
+                                DocumentReference docRef = task1.getResult();
+                                String key = docRef.getId();
+                                user.setId(key);
                                 nut4HealtDao.insert(user);
                             });
                         }
@@ -758,8 +767,9 @@ public class DataRepository {
     /**
      * Method to get notification from firebase
      * @param userId
+     * @param creationDate
      */
-    public void getNotifications(String userId) {
+    public void getNotifications(String userId, long creationDate) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference notificationRead = db.collection(DataNotificationNames.TABLE_FIREBASE_NAME);
         Query query = notificationRead.whereEqualTo(DataNotificationNames.COL_USERID, userId);
@@ -787,7 +797,8 @@ public class DataRepository {
                         && (queryDocumentSnapshots.getDocuments().size() > 0)) {
                     for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
                         Notification notification = document.toObject(Notification.class);
-                        if (((notification.getId() != null) && (!notification.getId().equals("")))) {
+                        if (((notification.getId() != null) && (!notification.getId().equals("")))
+                                && (notification.getDate() > creationDate)) {
                             nut4HealtDao.insert(notification);
                         }
                     }

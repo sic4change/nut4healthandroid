@@ -211,8 +211,8 @@ public class MainViewModel extends ViewModel {
         mNotifications = this.mRepository.getSortedNotifications();
     }
 
-    public void getNotifications(String userId) {
-        this.mRepository.getNotifications(userId);
+    public void getNotifications(String userId, long creationDate) {
+        this.mRepository.getNotifications(userId, creationDate);
     }
 
     public LiveData<PagedList<Notification>> getNotifications() {

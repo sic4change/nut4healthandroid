@@ -54,7 +54,7 @@ public class NotificationAdapter extends PagedListAdapter<Notification, Notifica
     @Override
     public void onBindViewHolder(@NonNull NotificationViewHolder holder, int position) {
         Notification notification = getItem(position);
-        if (notification != null) {
+        if (userId != null && notification != null) {
             holder.bindTo(userId, notification, mItemOnClickAction);
         } else {
             holder.clear();

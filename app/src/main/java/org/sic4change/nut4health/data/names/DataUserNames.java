@@ -69,6 +69,11 @@ public final class DataUserNames {
     public static final String COL_POSITION = "position";
 
     /**
+     * Column creation date for User
+     */
+    public static final String COL_CREATION_DATE = "creationDate";
+
+    /**
      * Column emptyUser for User
      */
     public static final String COL_EMPTY_USER = "emptyUser";
