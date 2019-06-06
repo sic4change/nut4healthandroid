@@ -472,10 +472,18 @@ public class DataRepository {
                         && (queryDocumentSnapshots.getDocuments().size() > 0)) {
                     for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
                         Contract contract = document.toObject(Contract.class);
-                        if (contract.getStatus().equals(Contract.Status.INIT)) {
-                            //Lo usaremos para cuando se cambie en el servidor a INIT todos los diagnosticos
-                            //que esten a PAID durante cierto tiemo (esperando por Borja)
-                            //Simplemente nos debe crear uno nuevo
+                        //si el campo medical es distinto de null o vacio y la fecha actual
+                        // es mayor que la fecha medical en 30 dias
+                        //1) pones ese contrato a INIT
+                        //2) pones el hash a su propio Id
+                        //2) creas un nuevo contrato
+                        if (((contract.getMedical() != null) && (!contract.getMedical().isEmpty())) &&
+                            contract.getMedicalDate() != 0 && (new Date().getTime() > (30*24*3600*1000) + contract.getMedicalDate())) {
+                            contract.setStatus(Contract.Status.INIT.name());
+                            contract.setHash(contract.getId());
+                            document.getReference().set(contract);
+                            mIoExecutor.execute(() -> nut4HealtDao.insert(contract));
+                            //Create new contract
                             String status;
                             if (percentage > 49) {
                                 status = Contract.Status.DIAGNOSIS.name();
@@ -530,6 +538,7 @@ public class DataRepository {
                                             status, date, finalHash, percentage);
                                     contractScreener.setScreener(email);
                                     contractScreener.setId(date + "");
+                                    contractScreener.setMedicalDate(0);
                                     //Save contract local
                                     mIoExecutor.execute(() -> nut4HealtDao.insert(contractScreener));
                                     contractRef.add(contractScreener);
@@ -562,6 +571,7 @@ public class DataRepository {
                             contract.setStatus(Contract.Status.NO_DIAGNOSIS.name());
                         }
                     }
+                    contract.setMedicalDate(0);
                     contract.setId(date + "");
                     //Save contract local
                     mIoExecutor.execute(() -> nut4HealtDao.insert(contract));
