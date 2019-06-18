@@ -42,6 +42,11 @@ import org.sic4change.nut4health.ui.main.ranking.RankingFragment;
 import org.sic4change.nut4health.ui.profile.ProfileActivity;
 import org.sic4change.nut4health.ui.main.report.ReportFragment;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static maes.tech.intentanim.CustomIntent.customType;
@@ -102,7 +107,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     mMainViewModel.updateUser(user.getEmail());
                     created = true;
                 }
-                mMainViewModel.getNotifications(user.getId(), user.getCreationDate());
+                SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd yyyy hh:mm:ss", Locale.ENGLISH);
+                try {
+                    Date date=formatter.parse(user.getCreationDate());
+                    mMainViewModel.getNotifications(user.getId(), date.getTime());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
             }
         });
         mMainViewModel.getNotifications().observe(this, notifications -> {

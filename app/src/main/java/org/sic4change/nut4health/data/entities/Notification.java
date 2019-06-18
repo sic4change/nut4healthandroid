@@ -18,7 +18,7 @@ public class Notification {
 
     @NonNull
     @ColumnInfo(name = DataNotificationNames.COL_DATE)
-    private long date;
+    private String creationDate;
 
     @NonNull
     @ColumnInfo(name = DataNotificationNames.COL_TEXT)
@@ -32,12 +32,12 @@ public class Notification {
     private String read;
 
     public Notification() {
-        this("", new Date().getTime(), "", "", "");
+        this("", "", "", "", "");
     }
 
-    public Notification(@NonNull String id, long date, @NonNull String text, @NonNull String userId, String read) {
+    public Notification(@NonNull String id, String creationDate, @NonNull String text, @NonNull String userId, String read) {
         this.id = id;
-        this.date = date;
+        this.creationDate = creationDate;
         this.text = text;
         this.userId = userId;
         this.read = read;
@@ -52,12 +52,13 @@ public class Notification {
         this.id = id;
     }
 
-    public long getDate() {
-        return date;
+    @NonNull
+    public String getCreationDate() {
+        return creationDate;
     }
 
-    public void setDate(long date) {
-        this.date = date;
+    public void setCreationDate(@NonNull String creationDate) {
+        this.creationDate = creationDate;
     }
 
     @NonNull

@@ -45,9 +45,12 @@ import org.sic4change.nut4health.data.names.DataUserNames;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -222,7 +225,7 @@ public class DataRepository {
                                 nut4HealtDao.insert(User.userEmpty);
                                 deleteAutenticatedUser(email, password);
                             } else {
-                                user.setCreationDate(new Date().getTime() - 3600);
+                                //user.setCreationDate(new Date().getTime() - 3600);
                                 userRef.add(user).addOnCompleteListener(mIoExecutor, task1 -> {
                                     DocumentReference docRef = task1.getResult();
                                     String key = docRef.getId();
@@ -232,7 +235,7 @@ public class DataRepository {
                                 });
                             }
                         } catch (Exception error) {
-                            user.setCreationDate(new Date().getTime() - 3600);
+                            //user.setCreationDate(new Date().getTime() - 3600);
                             userRef.add(user).addOnCompleteListener(mIoExecutor, task1 -> {
                                 nut4HealtDao.deleteEmptyUser();
                                 DocumentReference docRef = task1.getResult();
@@ -426,8 +429,8 @@ public class DataRepository {
                 if ((queryDocumentSnapshots != null) && (queryDocumentSnapshots.getDocuments() != null)
                         && (queryDocumentSnapshots.getDocuments().size() > 0)) {
                     User user = queryDocumentSnapshots.getDocuments().get(0).toObject(User.class);
-                    user.setEmail("anonymous" + queryDocumentSnapshots.getDocuments().get(0).getId() + "@anonymous.com");
-                    user.setUsername("anonymous" + queryDocumentSnapshots.getDocuments().get(0).getId());
+                    user.setEmail(queryDocumentSnapshots.getDocuments().get(0).getId() + "@anonymous.com");
+                    user.setUsername(queryDocumentSnapshots.getDocuments().get(0).getId());
                     queryDocumentSnapshots.getDocuments().get(0).getReference().set(user);
                     nut4HealtDao.deleteAllUser();
                     listenerQuery.remove();
@@ -768,7 +771,6 @@ public class DataRepository {
     public void sendReport(MutableLiveData<Report> mutableReport) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference contractRef = db.collection("reports");
-        mutableReport.getValue().setDate(new Date().toString());
         contractRef.add(mutableReport.getValue()).addOnCompleteListener(task -> {
             mutableReport.getValue().setSent(true);
         });
@@ -807,9 +809,15 @@ public class DataRepository {
                         && (queryDocumentSnapshots.getDocuments().size() > 0)) {
                     for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
                         Notification notification = document.toObject(Notification.class);
-                        if (((notification.getId() != null) && (!notification.getId().equals("")))
-                                && (notification.getDate() > creationDate)) {
-                            nut4HealtDao.insert(notification);
+                        SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd yyyy hh:mm:ss", Locale.ENGLISH);
+                        try {
+                            Date notificationDate = formatter.parse(notification.getCreationDate());
+                            if (((notification.getId() != null) && (!notification.getId().equals("")))
+                                    && (notificationDate.getTime() > creationDate)) {
+                                nut4HealtDao.insert(notification);
+                            }
+                        } catch (ParseException e2) {
+                            e2.printStackTrace();
                         }
                     }
                 } else {

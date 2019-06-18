@@ -17,6 +17,11 @@ import android.view.ViewGroup;
 import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.ui.main.MainViewModel;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 
 public class NotificationFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
@@ -56,10 +61,17 @@ public class NotificationFragment extends Fragment implements SwipeRefreshLayout
 
     private void initData() {
         mMainViewModel = ViewModelProviders.of(getActivity()).get(MainViewModel.class);
+
         mMainViewModel.getCurrentUser().observe(getActivity(), user -> {
             if (user != null) {
                 notificationAdapter.setUserId(user.getId());
-                mMainViewModel.getNotifications(user.getId(), user.getCreationDate());
+                SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd yyyy hh:mm:ss", Locale.ENGLISH);
+                try {
+                    Date date = formatter.parse(user.getCreationDate());
+                    mMainViewModel.getNotifications(user.getId(), date.getTime());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
             }
         });
         mMainViewModel.getNotifications().observe(getActivity(), notifications -> {

@@ -13,6 +13,11 @@ import org.sic4change.nut4health.data.entities.Payment;
 import org.sic4change.nut4health.ui.main.payments.PaymentAdapter;
 import org.sic4change.nut4health.ui.main.ranking.RankingAdapter;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 
 public class NotificationViewHolder extends RecyclerView.ViewHolder {
 
@@ -39,12 +44,23 @@ private Context context;
     void bindTo(String userId, Notification notification, final NotificationAdapter.ItemAction itemAction) {
         mNotification = notification;
         tvTitle.setText(mNotification.getText());
-        if (notification.getRead().contains(userId)) {
-            tvTitle.setTextColor(context.getResources().getColor(R.color.common_google_signin_btn_text_light_default));
-        } else {
+        try {
+            if (notification.getRead().contains(userId)) {
+                tvTitle.setTextColor(context.getResources().getColor(R.color.common_google_signin_btn_text_light_default));
+            } else {
+                tvTitle.setTextColor(context.getResources().getColor(R.color.colorAccent));
+            }
+        } catch (Exception e) {
             tvTitle.setTextColor(context.getResources().getColor(R.color.colorAccent));
         }
-        tvDate.setReferenceTime(mNotification.getDate());
+        SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd yyyy hh:mm:ss", Locale.ENGLISH);
+        try {
+            Date notificationDate = formatter.parse(notification.getCreationDate());
+            tvDate.setReferenceTime(notificationDate.getTime());
+        } catch (ParseException e2) {
+            e2.printStackTrace();
+        }
+
         setClickAction(this.itemAction);
         cvNotification.setOnClickListener(v -> itemAction.onClick(getNotification().getId()));
     }
