@@ -37,7 +37,7 @@ public interface Nut4HealtDao {
      * Insert a user
      * @param user
      */
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(User... user);
 
     /**
