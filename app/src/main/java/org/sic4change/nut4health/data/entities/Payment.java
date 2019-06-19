@@ -18,7 +18,7 @@ public class Payment {
 
     @NonNull
     @ColumnInfo(name = DataPaymentNames.COL_DATE)
-    private long date;
+    private String creationDate;
 
     @NonNull
     @ColumnInfo(name = DataPaymentNames.COL_SCREENER)
@@ -36,22 +36,22 @@ public class Payment {
     private String contractId;
 
     public Payment() {
-        this("", 0, "", 0, "", "");
+        this("", "", "", 0, "", "");
     }
 
     @Ignore
     public Payment(@NonNull String id) {
-        this(id, 0, "", 0, "", "");
+        this(id, "", "", 0, "", "");
     }
 
     @Ignore
-    public Payment(@NonNull String id, long date, @NonNull String screener, int quantity, @NonNull String type) {
-        this(id, date, screener, quantity, type, "");
+    public Payment(@NonNull String id, String creationDate, @NonNull String screener, int quantity, @NonNull String type) {
+        this(id, creationDate, screener, quantity, type, "");
     }
 
-    public Payment(@NonNull String id, long date, @NonNull String screener, int quantity, @NonNull String type, String contractId) {
+    public Payment(@NonNull String id, String creationDate, @NonNull String screener, int quantity, @NonNull String type, String contractId) {
         this.id = id;
-        this.date = date;
+        this.creationDate = creationDate;
         this.screener = screener;
         this.quantity = quantity;
         this.type = type;
@@ -68,12 +68,13 @@ public class Payment {
         this.id = id;
     }
 
-    public long getDate() {
-        return date;
+    @NonNull
+    public String getCreationDate() {
+        return creationDate;
     }
 
-    public void setDate(long date) {
-        this.date = date;
+    public void setCreationDate(@NonNull String creationDate) {
+        this.creationDate = creationDate;
     }
 
     @NonNull

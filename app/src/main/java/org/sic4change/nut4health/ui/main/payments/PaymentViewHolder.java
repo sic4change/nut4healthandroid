@@ -12,6 +12,11 @@ import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.data.entities.Payment;
 import org.sic4change.nut4health.ui.main.ranking.RankingAdapter;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 
 public class PaymentViewHolder extends RecyclerView.ViewHolder {
 
@@ -52,7 +57,13 @@ private Context context;
             btnContractDetail.setVisibility(View.VISIBLE);
         }
         tvQuantity.setText(mPayment.getQuantity() + " euro");
-        tvDate.setReferenceTime(mPayment.getDate());
+        SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd yyyy hh:mm:ss", Locale.ENGLISH);
+        try {
+            Date date = formatter.parse(mPayment.getCreationDate());
+            tvDate.setReferenceTime(date.getTime());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         setClickAction(this.itemAction);
         btnContractDetail.setOnClickListener(v -> itemAction.onClick(getPayment().getContractId()));
     }
