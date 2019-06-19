@@ -12,6 +12,11 @@ import com.github.pavlospt.CircleView;
 import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.data.entities.Contract;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 
 public class ContractViewHolder extends RecyclerView.ViewHolder {
 
@@ -56,10 +61,22 @@ private Context context;
         } else {
             nPercentage.setFillColor(context.getResources().getColor(R.color.colorAccent));
             nPercentage.setStrokeColor(context.getResources().getColor(R.color.colorAccent));
-            nConfirmationDate.setReferenceTime(contract.getMedicalDate());
+            SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd yyyy hh:mm:ss", Locale.ENGLISH);
+            try {
+                Date date = formatter.parse(contract.getMedicalDate());
+                nConfirmationDate.setReferenceTime(date.getTime());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
             nConfirmationDate.setVisibility(View.VISIBLE);
         }
-        nDate.setReferenceTime(contract.getDate());
+        SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd yyyy hh:mm:ss", Locale.ENGLISH);
+        try {
+            Date date = formatter.parse(contract.getCreationDate());
+            nDate.setReferenceTime(date.getTime());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         setClickAction(this.itemAction);
         cvContract.setOnClickListener(v -> itemAction.onClick(position, getContract().getId()));
     }

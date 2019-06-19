@@ -38,6 +38,11 @@ import org.sic4change.nut4health.ui.main.MainViewModel;
 import org.sic4change.nut4health.ui.main.MainViewModelFactory;
 import org.sic4change.nut4health.utils.location.Nut4HealthSingleShotLocationProvider;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 import static maes.tech.intentanim.CustomIntent.customType;
 
 
@@ -170,10 +175,22 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
         } else {
             nPercentage.setFillColor(getActivity().getResources().getColor(R.color.colorAccent));
             nPercentage.setStrokeColor(getActivity().getResources().getColor(R.color.colorAccent));
-            nConfirmationDate.setReferenceTime(contract.getMedicalDate());
+            SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd yyyy hh:mm:ss", Locale.ENGLISH);
+            try {
+                Date date = formatter.parse(contract.getMedicalDate());
+                nConfirmationDate.setReferenceTime(date.getTime());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
             nConfirmationDate.setVisibility(View.VISIBLE);
         }
-        nDate.setReferenceTime(contract.getDate());
+        SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd yyyy hh:mm:ss", Locale.ENGLISH);
+        try {
+            Date date = formatter.parse(contract.getCreationDate());
+            nDate.setReferenceTime(date.getTime());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         cvContract.setVisibility(View.VISIBLE);
 
     }

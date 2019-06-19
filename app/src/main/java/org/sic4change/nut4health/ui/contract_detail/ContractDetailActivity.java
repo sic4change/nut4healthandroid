@@ -13,6 +13,11 @@ import com.github.pavlospt.CircleView;
 import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.data.entities.Contract;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 import static maes.tech.intentanim.CustomIntent.customType;
 
 public class ContractDetailActivity extends AppCompatActivity {
@@ -48,7 +53,13 @@ public class ContractDetailActivity extends AppCompatActivity {
             ivIcon.setFillColor(getApplicationContext().getResources().getColor(R.color.colorAccent));
             ivIcon.setStrokeColor(getApplicationContext().getResources().getColor(R.color.colorAccent));
         }
-        etDate.setReferenceTime(contract.getDate());
+        SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd yyyy hh:mm:ss", Locale.ENGLISH);
+        try {
+            Date date = formatter.parse(contract.getCreationDate());
+            etDate.setReferenceTime(date.getTime());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         ScrollView scrollView = findViewById(R.id.scrollView);
         scrollView.smoothScrollTo(0,0);
     }

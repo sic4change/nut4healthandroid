@@ -480,53 +480,47 @@ public class DataRepository {
                         //1) pones ese contrato a INIT
                         //2) pones el hash a su propio Id
                         //2) creas un nuevo contrato
+                        Date date = new Date();
+                        SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd yyyy hh:mm:ss", Locale.ENGLISH);
+                        try {
+                            date = formatter.parse(contract.getCreationDate());
+                        } catch (ParseException e3) {
+                            e3.printStackTrace();
+                        }
                         if (((contract.getMedical() != null) && (!contract.getMedical().isEmpty())) &&
-                            contract.getMedicalDate() != 0 && (new Date().getTime() > (30*24*3600*1000) + contract.getMedicalDate())) {
+                                date.getTime() != 0 && (new Date().getTime() > (30*24*3600*1000) + date.getTime())) {
                             contract.setStatus(Contract.Status.INIT.name());
                             contract.setHash(contract.getId());
                             document.getReference().set(contract);
                             mIoExecutor.execute(() -> nut4HealtDao.insert(contract));
-                            //Create new contract
                             String status;
                             if (percentage > 49) {
                                 status = Contract.Status.DIAGNOSIS.name();
                             } else {
                                 status = Contract.Status.NO_DIAGNOSIS.name();
                             }
-                            long date = new Date().getTime();
                             Contract contractNew = new Contract(photo.toString(), latitude, longitude, "", childName, childUsername, childAddress,
-                                    status, date, finalHash, percentage);
+                                    status, "", finalHash, percentage);
                             if (role.equals("Screener")) {
                                 contractNew.setScreener(email);
                             } else {
                                 contractNew.setMedical(email);
-                                contractNew.setMedicalDate(new Date().getTime());
                                 if (percentage > 49) {
                                     contractNew.setStatus(Contract.Status.PAID.name());
                                 } else {
                                     contractNew.setStatus(Contract.Status.NO_DIAGNOSIS.name());
                                 }
                             }
-                            contractNew.setId(date + "");
-                            //Save contract local
-                            mIoExecutor.execute(() -> nut4HealtDao.insert(contractNew));
                             contractRef.add(contractNew);
-                            updatePointsUserLocal(email, userPoints + 1);
                             continue;
                         } else {
                             if (contract.getStatus().equals(Contract.Status.DIAGNOSIS.name()) && !role.equals("Screener")) {
                                 contract.setMedical(email);
-                                contract.setMedicalDate(new Date().getTime());
                                 contract.setStatus(Contract.Status.PAID.name());
                                 document.getReference().set(contract);
-                                //Save contract local
-                                mIoExecutor.execute(() -> nut4HealtDao.insert(contract));
                             } else if (contract.getStatus().equals(Contract.Status.NO_DIAGNOSIS.name()) && !role.equals("Screener")) {
                                 contract.setMedical(email);
-                                contract.setMedicalDate(new Date().getTime());
                                 document.getReference().set(contract);
-                                //Save contract local
-                                mIoExecutor.execute(() -> nut4HealtDao.insert(contract));
                             } else {
                                 if (((contract.getMedical() == null) || (contract.getMedical().isEmpty())) && role.equals("Screener")
                                         && (!email.equals(contract.getScreener()))) {
@@ -536,16 +530,10 @@ public class DataRepository {
                                     } else {
                                         status = Contract.Status.NO_DIAGNOSIS.name();
                                     }
-                                    long date = new Date().getTime();
                                     Contract contractScreener = new Contract(photo.toString(), latitude, longitude, "", childName, childUsername, childAddress,
-                                            status, date, finalHash, percentage);
+                                            status, "", finalHash, percentage);
                                     contractScreener.setScreener(email);
-                                    contractScreener.setId(date + "");
-                                    contractScreener.setMedicalDate(0);
-                                    //Save contract local
-                                    mIoExecutor.execute(() -> nut4HealtDao.insert(contractScreener));
                                     contractRef.add(contractScreener);
-                                    updatePointsUserLocal(email, userPoints + 1);
                                 } else {
                                     Toast.makeText(mContext, R.string.error_create_contract_server, Toast.LENGTH_LONG).show();
                                 }
@@ -560,26 +548,19 @@ public class DataRepository {
                     } else {
                         status = Contract.Status.NO_DIAGNOSIS.name();
                     }
-                    long date = new Date().getTime();
                     Contract contract = new Contract(photo.toString(), latitude, longitude, "", childName, childUsername, childAddress,
-                            status, date, finalHash, percentage);
+                            status, "", finalHash, percentage);
                     if (role.equals("Screener")) {
                         contract.setScreener(email);
                     } else {
                         contract.setMedical(email);
-                        contract.setMedicalDate(new Date().getTime());
                         if (percentage > 49) {
                             contract.setStatus(Contract.Status.PAID.name());
                         } else {
                             contract.setStatus(Contract.Status.NO_DIAGNOSIS.name());
                         }
                     }
-                    contract.setMedicalDate(0);
-                    contract.setId(date + "");
-                    //Save contract local
-                    mIoExecutor.execute(() -> nut4HealtDao.insert(contract));
                     contractRef.add(contract);
-                    updatePointsUserLocal(email, userPoints + 1);
                 }
                 listenerQuery.remove();
             } catch (Exception error) {
@@ -609,10 +590,19 @@ public class DataRepository {
                         && (queryDocumentSnapshots.getDocuments().size() > 0)) {
                     for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
                         Contract contract = document.toObject(Contract.class);
-                        if ((contract.getId() != null) && (!contract.getId().equals(contract.getDate()+ ""))) {
+                        /*SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd yyyy hh:mm:ss", Locale.ENGLISH);
+                        try {
+                            Date date = formatter.parse(contract.getCreationDate());
+                            if ((contract.getId() != null) && (!contract.getId().equals(date.getTime() + ""))) {
+                                nut4HealtDao.insert(contract);
+                                //Remove contract with false id saved in local database
+                                nut4HealtDao.deleteContract(date.getTime() + "", date.getTime());
+                            }
+                        } catch (ParseException e2) {
+                            Log.d(TAG, "Get contracts: " + "error parse date");
+                        }*/
+                        if (contract.getId() != null && !contract.getId().isEmpty()) {
                             nut4HealtDao.insert(contract);
-                            //Remove contract with false id saved in local database
-                            nut4HealtDao.deleteContract(contract.getDate() + "", contract.getDate());
                         }
                     }
                 } else {
