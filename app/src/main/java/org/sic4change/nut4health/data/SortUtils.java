@@ -90,7 +90,7 @@ public class SortUtils {
                 query = query + " WHERE " + DataPaymentNames.COL_DATE + " >= " + dateStart + " AND " + DataPaymentNames.COL_DATE + " <= " + dataEnd;
             }
         }
-        return new SimpleSQLiteQuery(query + " ORDER BY " + DataPaymentNames.COL_DATE +  " DESC");
+        return new SimpleSQLiteQuery(query + " ORDER BY " + DataPaymentNames.COL_DATE_MILI +  " DESC");
     }
 
     public static SimpleSQLiteQuery getNotifications() {

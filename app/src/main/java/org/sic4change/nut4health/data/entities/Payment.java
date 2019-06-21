@@ -7,6 +7,7 @@ import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
 import org.sic4change.nut4health.data.names.DataPaymentNames;
+import org.sic4change.nut4health.utils.time.Nut4HealthTimeUtil;
 
 @Entity(tableName = DataPaymentNames.TABLE_NAME)
 public class Payment {
@@ -19,6 +20,10 @@ public class Payment {
     @NonNull
     @ColumnInfo(name = DataPaymentNames.COL_DATE)
     private String creationDate;
+
+    @NonNull
+    @ColumnInfo(name = DataPaymentNames.COL_DATE_MILI)
+    private long creationDateMiliseconds;
 
     @NonNull
     @ColumnInfo(name = DataPaymentNames.COL_SCREENER)
@@ -36,22 +41,23 @@ public class Payment {
     private String contractId;
 
     public Payment() {
-        this("", "", "", 0, "", "");
+        this("", "", 0, "", 0, "", "");
     }
 
     @Ignore
     public Payment(@NonNull String id) {
-        this(id, "", "", 0, "", "");
+        this(id, "", 0,"", 0, "", "");
     }
 
     @Ignore
     public Payment(@NonNull String id, String creationDate, @NonNull String screener, int quantity, @NonNull String type) {
-        this(id, creationDate, screener, quantity, type, "");
+        this(id, creationDate, Nut4HealthTimeUtil.convertCreationDateToTimeMilis(creationDate), screener, quantity, type, "");
     }
 
-    public Payment(@NonNull String id, String creationDate, @NonNull String screener, int quantity, @NonNull String type, String contractId) {
+    public Payment(@NonNull String id, String creationDate, long creationDateMiliseconds, @NonNull String screener, int quantity, @NonNull String type, String contractId) {
         this.id = id;
         this.creationDate = creationDate;
+        this.creationDateMiliseconds = creationDateMiliseconds;
         this.screener = screener;
         this.quantity = quantity;
         this.type = type;
@@ -75,6 +81,14 @@ public class Payment {
 
     public void setCreationDate(@NonNull String creationDate) {
         this.creationDate = creationDate;
+    }
+
+    public long getCreationDateMiliseconds() {
+        return creationDateMiliseconds;
+    }
+
+    public void setCreationDateMiliseconds(@NonNull long creationDateMiliseconds) {
+        this.creationDateMiliseconds = creationDateMiliseconds;
     }
 
     @NonNull

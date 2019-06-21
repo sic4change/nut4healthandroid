@@ -23,6 +23,11 @@ public final class DataPaymentNames {
     public static final String COL_DATE = "date";
 
     /**
+     * Column date time milis for Payment
+     */
+    public static final String COL_DATE_MILI = "date_mili";
+
+    /**
      * Column screener for Payment
      */
     public static final String COL_SCREENER = "screener";
