@@ -2,11 +2,16 @@ package org.sic4change.nut4health.data.entities;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 import org.sic4change.nut4health.data.names.DataNotificationNames;
+import org.sic4change.nut4health.utils.time.Nut4HealthTimeUtil;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 @Entity(tableName = DataNotificationNames.TABLE_NAME)
 public class Notification {
@@ -20,6 +25,9 @@ public class Notification {
     @ColumnInfo(name = DataNotificationNames.COL_DATE)
     private String creationDate;
 
+    @ColumnInfo(name = DataNotificationNames.COL_DATE_MILI)
+    private long creationDateMiliseconds;
+
     @NonNull
     @ColumnInfo(name = DataNotificationNames.COL_TEXT)
     private String text;
@@ -32,12 +40,13 @@ public class Notification {
     private String read;
 
     public Notification() {
-        this("", "", "", "", "");
+        this("", "", 0, "", "", "");
     }
 
-    public Notification(@NonNull String id, String creationDate, @NonNull String text, @NonNull String userId, String read) {
+    public Notification(@NonNull String id, String creationDate, long creationDateMiliseconds, @NonNull String text, @NonNull String userId, String read) {
         this.id = id;
         this.creationDate = creationDate;
+        this.creationDateMiliseconds = creationDateMiliseconds;
         this.text = text;
         this.userId = userId;
         this.read = read;
@@ -59,6 +68,14 @@ public class Notification {
 
     public void setCreationDate(@NonNull String creationDate) {
         this.creationDate = creationDate;
+    }
+
+    public long getCreationDateMiliseconds() {
+        return creationDateMiliseconds;
+    }
+
+    public void setCreationDateMiliseconds(long creationDateMiliseconds) {
+        this.creationDateMiliseconds = creationDateMiliseconds;
     }
 
     @NonNull
@@ -86,5 +103,6 @@ public class Notification {
     public void setRead(String read) {
         this.read = read;
     }
+
 
 }

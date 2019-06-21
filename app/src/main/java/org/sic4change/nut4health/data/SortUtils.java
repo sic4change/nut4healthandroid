@@ -55,7 +55,7 @@ public class SortUtils {
         } else {
             query = query + " WHERE " + DataContractNames.COL_PERCENTAGE + " >= " + percentageMin + " AND " + DataContractNames.COL_PERCENTAGE + " <= " + percentageMax;
         }
-        return new SimpleSQLiteQuery(query + " ORDER BY " + DataContractNames.COL_DATE
+        return new SimpleSQLiteQuery(query + " ORDER BY " + DataContractNames.COL_DATE_MILI
             +  " DESC");
     }
 
@@ -95,7 +95,7 @@ public class SortUtils {
 
     public static SimpleSQLiteQuery getNotifications() {
         String query = "SELECT * FROM " + DataNotificationNames.TABLE_NAME;
-        return new SimpleSQLiteQuery(query + " ORDER BY " + DataNotificationNames.COL_DATE +  " DESC");
+        return new SimpleSQLiteQuery(query + " ORDER BY " + DataNotificationNames.COL_DATE_MILI +  " DESC");
     }
 
     /**

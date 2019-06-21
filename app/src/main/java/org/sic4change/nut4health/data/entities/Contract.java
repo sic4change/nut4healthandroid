@@ -7,6 +7,12 @@ import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
 import org.sic4change.nut4health.data.names.DataContractNames;
+import org.sic4change.nut4health.utils.time.Nut4HealthTimeUtil;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 @Entity(tableName = DataContractNames.TABLE_NAME)
 public class Contract {
@@ -54,6 +60,9 @@ public class Contract {
     @ColumnInfo(name = DataContractNames.COL_DATE)
     private String creationDate;
 
+    @ColumnInfo(name = DataContractNames.COL_DATE_MILI)
+    private long creationDateMiliseconds;
+
     @NonNull
     @ColumnInfo(name = DataContractNames.COL_PERCENTAGE)
     private int percentage;
@@ -68,19 +77,19 @@ public class Contract {
 
     public Contract() {
         this("", "", 0.0f, 0.0f, "", "", "",
-                "", "", Status.INIT.name(), "", "", "", 0, "");
+                "", "", Status.INIT.name(), "", "",0, "", 0, "");
     }
 
     @Ignore
     public Contract(@NonNull String id) {
         this(id, "", 0.0f, 0.0f, "", "", "",
-                "", "", Status.INIT.name(), "", "", "", 0, "");
+                "", "", Status.INIT.name(), "", "",0, "", 0, "");
     }
 
     @Ignore
     public Contract(@NonNull String photo, float latitude, float longitude, @NonNull String screener) {
         this("", photo, latitude, longitude, screener, "", "", "",
-                "", Status.INIT.name(), "", "", "", 0, "");
+                "", Status.INIT.name(), "", "",0, "", 0, "");
     }
 
     @Ignore
@@ -88,19 +97,19 @@ public class Contract {
                     String childName, String childSurname, String childAddress, String status, String creationDate,
                     String hash, int percentage) {
         this("", photo, latitude, longitude, screener, "", childName, childSurname,
-                childAddress, status, "", creationDate, hash, percentage, "");
+                childAddress, status, "", creationDate, Nut4HealthTimeUtil.convertCreationDateToTimeMilis(creationDate), hash, percentage, "");
     }
     @Ignore
     public Contract(@NonNull String id, @NonNull String photo, float latitude, float longitude,
                     @NonNull String screener, String childName, String childSurname,
                     String childAddress, String status, String creationDate, String hash, int percentage) {
         this(id, photo, latitude, longitude, screener, "", childName, childSurname,
-                childAddress, status, "", creationDate, hash, percentage, "");
+                childAddress, status, "", creationDate, Nut4HealthTimeUtil.convertCreationDateToTimeMilis(creationDate), hash, percentage, "");
     }
 
     public Contract(@NonNull String id, @NonNull String photo, float latitude, float longitude, @NonNull String screener,
                     String medical, String childName, String childSurname, String childAddress,
-                    String status, String diagnosis, String creationDate, String hash, int percentage, String medicalDate) {
+                    String status, String diagnosis, String creationDate, long creationDateMiliseconds, String hash, int percentage, String medicalDate) {
         this.id = id;
         this.photo = photo;
         this.latitude = latitude;
@@ -113,6 +122,7 @@ public class Contract {
         this.status = status;
         this.diagnosis = diagnosis;
         this.creationDate = creationDate;
+        this.creationDateMiliseconds = creationDateMiliseconds;
         this.hash = hash;
         this.percentage = percentage;
         this.medicalDate = medicalDate;
@@ -218,6 +228,14 @@ public class Contract {
         this.creationDate = creationDate;
     }
 
+    public long getCreationDateMiliseconds() {
+        return creationDateMiliseconds;
+    }
+
+    public void setCreationDateMiliseconds(long creationDateMiliseconds) {
+        this.creationDateMiliseconds = creationDateMiliseconds;
+    }
+
     @NonNull
     public String getHash() {
         return hash;
@@ -235,10 +253,6 @@ public class Contract {
         this.percentage = percentage;
     }
 
-    public enum Status {
-        INIT, DIAGNOSIS, NO_DIAGNOSIS, PAID, ALL
-    }
-
     @NonNull
     public String getMedicalDate() {
         return medicalDate;
@@ -247,5 +261,10 @@ public class Contract {
     public void setMedicalDate(@NonNull String medicalDate) {
         this.medicalDate = medicalDate;
     }
+
+    public enum Status {
+        INIT, DIAGNOSIS, NO_DIAGNOSIS, PAID, ALL
+    }
+
 
 }

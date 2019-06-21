@@ -41,6 +41,7 @@ import org.sic4change.nut4health.ui.main.payments.PaymentFragment;
 import org.sic4change.nut4health.ui.main.ranking.RankingFragment;
 import org.sic4change.nut4health.ui.profile.ProfileActivity;
 import org.sic4change.nut4health.ui.main.report.ReportFragment;
+import org.sic4change.nut4health.utils.time.Nut4HealthTimeUtil;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -107,13 +108,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     mMainViewModel.updateUser(user.getEmail());
                     created = true;
                 }
-                SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd yyyy hh:mm:ss", Locale.ENGLISH);
+                /*SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd yyyy hh:mm:ss", Locale.ENGLISH);
                 try {
                     Date date=formatter.parse(user.getCreationDate());
                     mMainViewModel.getNotifications(user.getId(), date.getTime());
                 } catch (ParseException e) {
                     e.printStackTrace();
-                }
+                }*/
+                mMainViewModel.getNotifications(user.getId(), Nut4HealthTimeUtil.convertCreationDateToTimeMilis(user.getCreationDate()));
             }
         });
         mMainViewModel.getNotifications().observe(this, notifications -> {

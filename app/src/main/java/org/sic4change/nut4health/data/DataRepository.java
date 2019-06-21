@@ -42,6 +42,7 @@ import org.sic4change.nut4health.data.names.DataNotificationNames;
 import org.sic4change.nut4health.data.names.DataPaymentNames;
 import org.sic4change.nut4health.data.names.DataRankingNames;
 import org.sic4change.nut4health.data.names.DataUserNames;
+import org.sic4change.nut4health.utils.time.Nut4HealthTimeUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -590,17 +591,7 @@ public class DataRepository {
                         && (queryDocumentSnapshots.getDocuments().size() > 0)) {
                     for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
                         Contract contract = document.toObject(Contract.class);
-                        /*SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd yyyy hh:mm:ss", Locale.ENGLISH);
-                        try {
-                            Date date = formatter.parse(contract.getCreationDate());
-                            if ((contract.getId() != null) && (!contract.getId().equals(date.getTime() + ""))) {
-                                nut4HealtDao.insert(contract);
-                                //Remove contract with false id saved in local database
-                                nut4HealtDao.deleteContract(date.getTime() + "", date.getTime());
-                            }
-                        } catch (ParseException e2) {
-                            Log.d(TAG, "Get contracts: " + "error parse date");
-                        }*/
+
                         if (contract.getId() != null && !contract.getId().isEmpty()) {
                             nut4HealtDao.insert(contract);
                         }
@@ -781,7 +772,9 @@ public class DataRepository {
                         && (queryDocumentSnapshots.getDocuments().size() > 0)) {
                     for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
                         Notification notification = document.toObject(Notification.class);
-                        if (((notification.getId() != null) && (!notification.getId().equals("")))) {
+                        notification.setCreationDateMiliseconds(Nut4HealthTimeUtil.convertCreationDateToTimeMilis(notification.getCreationDate()));
+                        if (((notification.getId() != null) && (!notification.getId().equals("")))
+                        && (Nut4HealthTimeUtil.convertCreationDateToTimeMilis(notification.getCreationDate()) > creationDate)) {
                             nut4HealtDao.insert(notification);
                         }
                     }
@@ -799,15 +792,10 @@ public class DataRepository {
                         && (queryDocumentSnapshots.getDocuments().size() > 0)) {
                     for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
                         Notification notification = document.toObject(Notification.class);
-                        SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd yyyy hh:mm:ss", Locale.ENGLISH);
-                        try {
-                            Date notificationDate = formatter.parse(notification.getCreationDate());
-                            if (((notification.getId() != null) && (!notification.getId().equals("")))
-                                    && (notificationDate.getTime() > creationDate)) {
-                                nut4HealtDao.insert(notification);
-                            }
-                        } catch (ParseException e2) {
-                            e2.printStackTrace();
+                        notification.setCreationDateMiliseconds(Nut4HealthTimeUtil.convertCreationDateToTimeMilis(notification.getCreationDate()));
+                        if (((notification.getId() != null) && (!notification.getId().equals("")))
+                                && (Nut4HealthTimeUtil.convertCreationDateToTimeMilis(notification.getCreationDate()) > creationDate)) {
+                            nut4HealtDao.insert(notification);
                         }
                     }
                 } else {

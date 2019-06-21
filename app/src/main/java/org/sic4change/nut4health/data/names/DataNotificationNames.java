@@ -23,6 +23,11 @@ public final class DataNotificationNames {
     public static final String COL_DATE = "date";
 
     /**
+     * Column date in miliseconds for Notification
+     */
+    public static final String COL_DATE_MILI = "date_mili";
+
+    /**
      * Column text for Notification
      */
     public static final String COL_TEXT = "text";
