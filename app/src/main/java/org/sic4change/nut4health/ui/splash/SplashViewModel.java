@@ -28,8 +28,12 @@ public class SplashViewModel extends ViewModel {
         return mUser;
     }
 
-    public void subscribeToTopic(String id) {
+    public void subscribeToTopicId(String id) {
         this.mRepository.subscribeToNotificationTopic(id);
+    }
+
+    public void subscribeToTopicUsername(String username) {
+        this.mRepository.subscribeToNotificationTopic(username);
     }
 
     public void subscribeToGlobalNotification() {

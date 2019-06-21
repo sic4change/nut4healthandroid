@@ -68,7 +68,7 @@ public class NotificationFragment extends Fragment implements SwipeRefreshLayout
                 SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd yyyy hh:mm:ss", Locale.ENGLISH);
                 try {
                     Date date = formatter.parse(user.getCreationDate());
-                    mMainViewModel.getNotifications(user.getId(), date.getTime());
+                    mMainViewModel.getNotifications(user, date.getTime());
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }

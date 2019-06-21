@@ -759,14 +759,14 @@ public class DataRepository {
 
     /**
      * Method to get notification from firebase
-     * @param userId
+     * @param user
      * @param creationDate
      */
-    public void getNotifications(String userId, long creationDate) {
+    public void getNotifications(User user, long creationDate) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference notificationRead = db.collection(DataNotificationNames.TABLE_FIREBASE_NAME);
-        Query query = notificationRead.whereEqualTo(DataNotificationNames.COL_USERID, userId);
-        query.addSnapshotListener(mIoExecutor, (queryDocumentSnapshots, e) -> {
+        Query queryId = notificationRead.whereEqualTo(DataNotificationNames.COL_USERID, user.getId());
+        queryId.addSnapshotListener(mIoExecutor, (queryDocumentSnapshots, e) -> {
             try {
                 if ((queryDocumentSnapshots != null) && (queryDocumentSnapshots.getDocuments() != null)
                         && (queryDocumentSnapshots.getDocuments().size() > 0)) {
@@ -775,6 +775,26 @@ public class DataRepository {
                         notification.setCreationDateMiliseconds(Nut4HealthTimeUtil.convertCreationDateToTimeMilis(notification.getCreationDate()));
                         if (((notification.getId() != null) && (!notification.getId().equals("")))
                         && (Nut4HealthTimeUtil.convertCreationDateToTimeMilis(notification.getCreationDate()) > creationDate)) {
+                            nut4HealtDao.insert(notification);
+                        }
+                    }
+                } else {
+                    Log.d(TAG, "Get notifications: " + "empty");
+                }
+            } catch (Exception error) {
+                Log.d(TAG, "Get notifications: " + "empty");
+            }
+        });
+        Query queryUsername = notificationRead.whereEqualTo(DataNotificationNames.COL_USERID, user.getUsername());
+        queryUsername.addSnapshotListener(mIoExecutor, (queryDocumentSnapshots, e) -> {
+            try {
+                if ((queryDocumentSnapshots != null) && (queryDocumentSnapshots.getDocuments() != null)
+                        && (queryDocumentSnapshots.getDocuments().size() > 0)) {
+                    for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
+                        Notification notification = document.toObject(Notification.class);
+                        notification.setCreationDateMiliseconds(Nut4HealthTimeUtil.convertCreationDateToTimeMilis(notification.getCreationDate()));
+                        if (((notification.getId() != null) && (!notification.getId().equals("")))
+                                && (Nut4HealthTimeUtil.convertCreationDateToTimeMilis(notification.getCreationDate()) > creationDate)) {
                             nut4HealtDao.insert(notification);
                         }
                     }

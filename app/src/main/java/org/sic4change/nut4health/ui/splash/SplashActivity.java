@@ -45,7 +45,8 @@ public class SplashActivity extends AppCompatActivity {
                     goToLoginActivity();
                 } else {
                     if ((user.getId() != null) && (!user.getId().isEmpty())) {
-                        mSplashViewModel.subscribeToTopic(user.getId());
+                        mSplashViewModel.subscribeToTopicId(user.getId());
+                        mSplashViewModel.subscribeToTopicUsername(user.getUsername());
                         mSplashViewModel.subscribeToGlobalNotification();
                     }
                     goToMainActivity();
