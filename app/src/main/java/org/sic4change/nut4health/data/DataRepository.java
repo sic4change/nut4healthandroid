@@ -774,9 +774,20 @@ public class DataRepository {
      */
     public void unsubscribeToNotificationTopic(String id) {
         if (id != null) {
-            FirebaseMessaging.getInstance().unsubscribeFromTopic(id)
-                    .addOnCompleteListener(task -> Log.d(TAG, "Unsubscribe to notification topic: " + id));
+            try {
+                String formattedId = id.replace(" ", "");
+                formattedId = formattedId.replace("ñ", "n");
+                formattedId = formattedId.replace("Ñ", "N");
+                formattedId = formattedId.toLowerCase();
+                String finalFormattedId = formattedId;
+                FirebaseMessaging.getInstance().unsubscribeFromTopic(finalFormattedId)
+                        .addOnCompleteListener(task -> Log.d(TAG, "Unsubscribe to notification topic: " + finalFormattedId));
+            } catch (Exception e) {
+                Log.d(TAG, "Error subscribing to topic");
+            }
         }
+
+
     }
 
     /**
