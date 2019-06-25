@@ -54,5 +54,9 @@ public class ProfileViewModel extends ViewModel {
 
     public void unsuscribeToNotification() {
         this.mRepository.unsubscribeToNotificationTopic(mUser.getValue().getId());
+        this.mRepository.unsubscribeToNotificationTopic(mUser.getValue().getUsername());
+        this.mRepository.unsubscribeToNotificationTopic(mUser.getValue().getCurrentCountry());
+        this.mRepository.unsubscribeToNotificationTopic(mUser.getValue().getCurrentState());
+        this.mRepository.unsubscribeToNotificationTopic(mUser.getValue().getCurrentCity());
     }
 }

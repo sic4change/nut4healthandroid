@@ -179,6 +179,33 @@ public class DataRepository {
         });
     }
 
+    public void updateCurrentLocation(String email, String currentCountryUser, String currentStateUser, String currentCityUser) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference userRef = db.collection(DataUserNames.TABLE_FIREBASE_NAME);
+        Query query = userRef.whereEqualTo(DataUserNames.COL_EMAIL, email).limit(1);
+        query.addSnapshotListener(mIoExecutor, (queryDocumentSnapshots, e) -> {
+            try {
+                if ((queryDocumentSnapshots != null) && (queryDocumentSnapshots.getDocuments() != null)
+                        && (queryDocumentSnapshots.getDocuments().size() > 0)) {
+                    User user = queryDocumentSnapshots.getDocuments().get(0).toObject(User.class);
+                    Log.d(TAG, "Get user from firebase: " + user.getEmail());
+                    user.setCurrentCountry(currentCountryUser);
+                    user.setCurrentState(currentStateUser);
+                    user.setCurrentCity(currentCityUser);
+                    queryDocumentSnapshots.getDocuments().get(0).getReference().set(user);
+                    nut4HealtDao.updateCurrentCountryUser(currentCountryUser, email);
+                    nut4HealtDao.updateCurrentStateUser(currentStateUser, email);
+                    nut4HealtDao.updateCurrentCityUser(currentCityUser, email);
+                    Log.d(TAG, "User updated in local database : " + user.getEmail());
+                } else {
+                    Log.d(TAG, "Get user from firebase: " + "empty");
+                }
+            } catch (Exception error) {
+                Log.d(TAG, "Get user: " + "empty");
+            }
+        });
+    }
+
     /**
      * Method to get user from local bd
      * @return
@@ -226,7 +253,6 @@ public class DataRepository {
                                 nut4HealtDao.insert(User.userEmpty);
                                 deleteAutenticatedUser(email, password);
                             } else {
-                                //user.setCreationDate(new Date().getTime() - 3600);
                                 userRef.add(user).addOnCompleteListener(mIoExecutor, task1 -> {
                                     DocumentReference docRef = task1.getResult();
                                     String key = docRef.getId();
@@ -236,7 +262,6 @@ public class DataRepository {
                                 });
                             }
                         } catch (Exception error) {
-                            //user.setCreationDate(new Date().getTime() - 3600);
                             userRef.add(user).addOnCompleteListener(mIoExecutor, task1 -> {
                                 nut4HealtDao.deleteEmptyUser();
                                 DocumentReference docRef = task1.getResult();
@@ -730,8 +755,17 @@ public class DataRepository {
      * @param id
      */
     public void subscribeToNotificationTopic(String id) {
-        FirebaseMessaging.getInstance().subscribeToTopic(id)
-                .addOnCompleteListener(task -> Log.d(TAG, "Subscribe to notification topic: " + id));
+        try {
+            String formattedId = id.replace(" ", "");
+            formattedId = formattedId.replace("ñ", "n");
+            formattedId = formattedId.replace("Ñ", "N");
+            formattedId = formattedId.toLowerCase();
+            String finalFormattedId = formattedId;
+            FirebaseMessaging.getInstance().subscribeToTopic(finalFormattedId)
+                    .addOnCompleteListener(task -> Log.d(TAG, "Subscribe to notification topic: " + finalFormattedId));
+        } catch (Exception e) {
+            Log.d(TAG, "Error subscribing to topic");
+        }
     }
 
     /**
@@ -787,6 +821,66 @@ public class DataRepository {
         });
         Query queryUsername = notificationRead.whereEqualTo(DataNotificationNames.COL_USERID, user.getUsername());
         queryUsername.addSnapshotListener(mIoExecutor, (queryDocumentSnapshots, e) -> {
+            try {
+                if ((queryDocumentSnapshots != null) && (queryDocumentSnapshots.getDocuments() != null)
+                        && (queryDocumentSnapshots.getDocuments().size() > 0)) {
+                    for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
+                        Notification notification = document.toObject(Notification.class);
+                        notification.setCreationDateMiliseconds(Nut4HealthTimeUtil.convertCreationDateToTimeMilis(notification.getCreationDate()));
+                        if (((notification.getId() != null) && (!notification.getId().equals("")))
+                                && (Nut4HealthTimeUtil.convertCreationDateToTimeMilis(notification.getCreationDate()) > creationDate)) {
+                            nut4HealtDao.insert(notification);
+                        }
+                    }
+                } else {
+                    Log.d(TAG, "Get notifications: " + "empty");
+                }
+            } catch (Exception error) {
+                Log.d(TAG, "Get notifications: " + "empty");
+            }
+        });
+        Query queryCountry = notificationRead.whereEqualTo(DataNotificationNames.COL_USERID, user.getCurrentCountry());
+        queryCountry.addSnapshotListener(mIoExecutor, (queryDocumentSnapshots, e) -> {
+            try {
+                if ((queryDocumentSnapshots != null) && (queryDocumentSnapshots.getDocuments() != null)
+                        && (queryDocumentSnapshots.getDocuments().size() > 0)) {
+                    for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
+                        Notification notification = document.toObject(Notification.class);
+                        notification.setCreationDateMiliseconds(Nut4HealthTimeUtil.convertCreationDateToTimeMilis(notification.getCreationDate()));
+                        if (((notification.getId() != null) && (!notification.getId().equals("")))
+                                && (Nut4HealthTimeUtil.convertCreationDateToTimeMilis(notification.getCreationDate()) > creationDate)) {
+                            nut4HealtDao.insert(notification);
+                        }
+                    }
+                } else {
+                    Log.d(TAG, "Get notifications: " + "empty");
+                }
+            } catch (Exception error) {
+                Log.d(TAG, "Get notifications: " + "empty");
+            }
+        });
+        Query queryState = notificationRead.whereEqualTo(DataNotificationNames.COL_USERID, user.getCurrentState());
+        queryState.addSnapshotListener(mIoExecutor, (queryDocumentSnapshots, e) -> {
+            try {
+                if ((queryDocumentSnapshots != null) && (queryDocumentSnapshots.getDocuments() != null)
+                        && (queryDocumentSnapshots.getDocuments().size() > 0)) {
+                    for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
+                        Notification notification = document.toObject(Notification.class);
+                        notification.setCreationDateMiliseconds(Nut4HealthTimeUtil.convertCreationDateToTimeMilis(notification.getCreationDate()));
+                        if (((notification.getId() != null) && (!notification.getId().equals("")))
+                                && (Nut4HealthTimeUtil.convertCreationDateToTimeMilis(notification.getCreationDate()) > creationDate)) {
+                            nut4HealtDao.insert(notification);
+                        }
+                    }
+                } else {
+                    Log.d(TAG, "Get notifications: " + "empty");
+                }
+            } catch (Exception error) {
+                Log.d(TAG, "Get notifications: " + "empty");
+            }
+        });
+        Query querCity = notificationRead.whereEqualTo(DataNotificationNames.COL_USERID, user.getCurrentCity());
+        querCity.addSnapshotListener(mIoExecutor, (queryDocumentSnapshots, e) -> {
             try {
                 if ((queryDocumentSnapshots != null) && (queryDocumentSnapshots.getDocuments() != null)
                         && (queryDocumentSnapshots.getDocuments().size() > 0)) {

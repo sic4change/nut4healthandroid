@@ -89,6 +89,24 @@ public interface Nut4HealtDao {
     void updatePointsUser(int points, String email);
 
     /**
+     * Update current country user
+     */
+    @Query("UPDATE user SET currentCountry =:currentCountry WHERE email=:email ")
+    void updateCurrentCountryUser(String currentCountry, String email);
+
+    /**
+     * Update current state user
+     */
+    @Query("UPDATE user SET currentState =:currentState WHERE email=:email ")
+    void updateCurrentStateUser(String currentState, String email);
+
+    /**
+     * Update current city user
+     */
+    @Query("UPDATE user SET currentCity =:currentCity WHERE email=:email ")
+    void updateCurrentCityUser(String currentCity, String email);
+
+    /**
      * Get all contract for Paging
      * @param query
      * @return

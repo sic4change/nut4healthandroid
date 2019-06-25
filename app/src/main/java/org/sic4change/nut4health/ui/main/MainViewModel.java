@@ -61,6 +61,9 @@ public class MainViewModel extends ViewModel {
         this.mRepository.updateUser(email);
     }
 
+    public void updateCurrentLocation(String email, String country, String state, String city) {
+        this.mRepository.updateCurrentLocation(email, country, state, city);
+    }
 
     public void getContracts(String email, String role) {
         this.mRepository.getContracts(email, role);
@@ -238,4 +241,17 @@ public class MainViewModel extends ViewModel {
         }
         return notificatonsNoRead;
     }
+
+    public void subscribeToTopicCountry(String country) {
+        this.mRepository.subscribeToNotificationTopic(country);
+    }
+
+    public void subscribeToTopicState(String state) {
+        this.mRepository.subscribeToNotificationTopic(state);
+    }
+
+    public void subscribeToTopicCity(String city) {
+        this.mRepository.subscribeToNotificationTopic(city);
+    }
+
 }

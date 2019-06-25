@@ -78,4 +78,19 @@ public final class DataUserNames {
      */
     public static final String COL_EMPTY_USER = "emptyUser";
 
+    /**
+     * Column current country for User
+     */
+    public static final String COL_CURRENT_COUNTRY = "currentCountry";
+
+    /**
+     * Column current state for User
+     */
+    public static final String COL_CURRENT_STATE = "currentState";
+
+    /**
+     * Column current city for User
+     */
+    public static final String COL_CURRENT_CITY = "currentCity";
+
 }

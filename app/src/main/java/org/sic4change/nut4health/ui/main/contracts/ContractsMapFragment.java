@@ -103,8 +103,6 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
                 showContracts(mMainViewModel.getContracts().getValue());
             }
         });
-
-
     }
 
     private void showContracts(PagedList<Contract> contracts) {

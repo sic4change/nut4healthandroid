@@ -1,16 +1,21 @@
 package org.sic4change.nut4health.ui.main;
 
+import android.Manifest;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
+import android.location.Address;
+import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -19,6 +24,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,8 +36,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.model.LatLng;
 
 import org.sic4change.nut4health.R;
+import org.sic4change.nut4health.data.entities.User;
 import org.sic4change.nut4health.ui.main.contracts.ContractFragment;
 import org.sic4change.nut4health.ui.main.contracts.ContractsListFragment;
 import org.sic4change.nut4health.ui.main.contracts.ContractsMapFragment;
@@ -41,11 +50,14 @@ import org.sic4change.nut4health.ui.main.payments.PaymentFragment;
 import org.sic4change.nut4health.ui.main.ranking.RankingFragment;
 import org.sic4change.nut4health.ui.profile.ProfileActivity;
 import org.sic4change.nut4health.ui.main.report.ReportFragment;
+import org.sic4change.nut4health.utils.location.Nut4HealthSingleShotLocationProvider;
 import org.sic4change.nut4health.utils.time.Nut4HealthTimeUtil;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -77,6 +89,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private MainViewModel mMainViewModel;
     private boolean created = false;
+    private boolean subscribedToTopics = false;
 
 
     @Override
@@ -109,6 +122,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     created = true;
                 }
                 mMainViewModel.getNotifications(user, Nut4HealthTimeUtil.convertCreationDateToTimeMilis(user.getCreationDate()));
+                if (!subscribedToTopics) {
+                    if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 101);
+                    } else {
+                        subscribeToCountryStateCity(mMainViewModel.getCurrentUser().getValue());
+                    }
+                    subscribedToTopics = true;
+                }
+
             }
         });
         mMainViewModel.getNotifications().observe(this, notifications -> {
@@ -272,5 +294,35 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         customType(MainActivity.this,"left-to-right");
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            subscribeToCountryStateCity(mMainViewModel.getCurrentUser().getValue());
+        }
+    }
+
+    private void subscribeToCountryStateCity(User user) {
+        if (user != null) {
+            Nut4HealthSingleShotLocationProvider.requestSingleUpdate(this,
+                    location -> {
+                        List<Address> addresses;
+                        Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
+                        try {
+                            addresses = geocoder.getFromLocation(location.latitude, location.longitude, 1);
+                            if (addresses != null) {
+                                if (addresses.get(0) != null) {
+                                    mMainViewModel.updateCurrentLocation(user.getEmail(), addresses.get(0).getCountryName(), addresses.get(0).getAdminArea(), addresses.get(0).getSubAdminArea());
+                                    mMainViewModel.subscribeToTopicCountry(addresses.get(0).getCountryName());
+                                    mMainViewModel.subscribeToTopicState(addresses.get(0).getAdminArea());
+                                    mMainViewModel.subscribeToTopicCity(addresses.get(0).getSubAdminArea());
+                                }
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    });
+        }
+
+    }
 
 }

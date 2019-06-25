@@ -31,6 +31,15 @@ public class User {
     @ColumnInfo(name = DataUserNames.COL_COUNTRY)
     private String country;
 
+    @ColumnInfo(name = DataUserNames.COL_CURRENT_COUNTRY)
+    private String currentCountry;
+
+    @ColumnInfo(name = DataUserNames.COL_CURRENT_STATE)
+    private String currentState;
+
+    @ColumnInfo(name = DataUserNames.COL_CURRENT_CITY)
+    private String currentCity;
+
     @ColumnInfo(name = DataUserNames.COL_COUNTRYCODE)
     private String countryCode;
 
@@ -56,24 +65,25 @@ public class User {
     public static final User userEmpty = new User(EMPTY_EMAIL, "", "", "", "", "", "", 0, "", true);
 
     public User() {
-        this("","","","","","","", "",0, "", false);
+        this("","","","","","","", "",0, "", false, "", "", "");
     }
 
     public User(String email) {
-        this(email, "", "", "", "", "", "", "", 0, "",  false);
+        this(email, "", "", "", "", "", "", "", 0, "",  false, "", "", "");
     }
 
     public User(String email, String username, String role) {
-        this(email, username, "", "", "", "", "", role, 0, "", false);
+        this(email, username, "", "", "", "", "", role, 0, "", false, "", "", "");
     }
 
     public User(String email, String username, String name, String surname, String country, String countryCode,
                 String role, int points, String creationDate, boolean emptyUser) {
-        this(email, username, name, surname, country, countryCode, "", role, points, creationDate, emptyUser);
+        this(email, username, name, surname, country, countryCode, "", role, points, creationDate, emptyUser, "", "", "");
     }
 
     public User(String email, String username, String name, String surname, String country, String countryCode,
-                String photo, String role, int points, String creationDate, boolean emptyUser) {
+                String photo, String role, int points, String creationDate, boolean emptyUser,
+                String currentCountry, String currentState, String currentCity) {
         this.email = email;
         this.username = username;
         this.name = name;
@@ -85,11 +95,14 @@ public class User {
         this.points = points;
         this.creationDate = creationDate;
         this.emptyUser = emptyUser;
+        this.currentCountry = currentCountry;
+        this.currentState = currentState;
+        this.currentCity = currentCity;
     }
 
     public User(@NonNull String id, @NonNull String email, String username, String name, String surname,
                 String country, String countryCode, String photo, String role, int points,
-                String creationDate) {
+                String creationDate, String currentCountry, String currentState, String currentCity) {
         this.id = id;
         this.email = email;
         this.username = username;
@@ -101,6 +114,9 @@ public class User {
         this.role = role;
         this.points = points;
         this.creationDate = creationDate;
+        this.currentCountry = currentCountry;
+        this.currentState = currentState;
+        this.currentCity = currentCity;
     }
 
     @NonNull
@@ -201,5 +217,29 @@ public class User {
 
     public void setCreationDate(@NonNull String creationDate) {
         this.creationDate = creationDate;
+    }
+
+    public String getCurrentCountry() {
+        return currentCountry;
+    }
+
+    public void setCurrentCountry(String currentCountry) {
+        this.currentCountry = currentCountry;
+    }
+
+    public String getCurrentState() {
+        return currentState;
+    }
+
+    public void setCurrentState(String currentState) {
+        this.currentState = currentState;
+    }
+
+    public String getCurrentCity() {
+        return currentCity;
+    }
+
+    public void setCurrentCity(String currentCity) {
+        this.currentCity = currentCity;
     }
 }
