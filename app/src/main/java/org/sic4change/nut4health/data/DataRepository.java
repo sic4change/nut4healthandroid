@@ -756,11 +756,7 @@ public class DataRepository {
      */
     public void subscribeToNotificationTopic(String id) {
         try {
-            String formattedId = id.replace(" ", "");
-            formattedId = formattedId.replace("ñ", "n");
-            formattedId = formattedId.replace("Ñ", "N");
-            formattedId = formattedId.toLowerCase();
-            String finalFormattedId = formattedId;
+            String finalFormattedId = formatTopic(id);
             FirebaseMessaging.getInstance().subscribeToTopic(finalFormattedId)
                     .addOnCompleteListener(task -> Log.d(TAG, "Subscribe to notification topic: " + finalFormattedId));
         } catch (Exception e) {
@@ -775,19 +771,31 @@ public class DataRepository {
     public void unsubscribeToNotificationTopic(String id) {
         if (id != null) {
             try {
-                String formattedId = id.replace(" ", "");
-                formattedId = formattedId.replace("ñ", "n");
-                formattedId = formattedId.replace("Ñ", "N");
-                formattedId = formattedId.toLowerCase();
-                String finalFormattedId = formattedId;
+                String finalFormattedId = formatTopic(id);
                 FirebaseMessaging.getInstance().unsubscribeFromTopic(finalFormattedId)
                         .addOnCompleteListener(task -> Log.d(TAG, "Unsubscribe to notification topic: " + finalFormattedId));
             } catch (Exception e) {
-                Log.d(TAG, "Error subscribing to topic");
+                Log.d(TAG, "Error unsubscribing to topic");
             }
         }
+    }
 
-
+    private static String formatTopic(String id) {
+        String formattedId = id.replace(" ", "");
+        formattedId = formattedId.replace("ñ", "n");
+        formattedId = formattedId.replace("Ñ", "N");
+        formattedId = formattedId.replace("Á", "A");
+        formattedId = formattedId.replace("á", "a");
+        formattedId = formattedId.replace("É", "E");
+        formattedId = formattedId.replace("é", "e");
+        formattedId = formattedId.replace("Í", "I");
+        formattedId = formattedId.replace("í", "i");
+        formattedId = formattedId.replace("Ó", "O");
+        formattedId = formattedId.replace("ó", "o");
+        formattedId = formattedId.replace("Ú", "U");
+        formattedId = formattedId.replace("ú", "u");
+        formattedId = formattedId.toLowerCase();
+        return formattedId;
     }
 
     /**
