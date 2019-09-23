@@ -151,6 +151,9 @@ dependencies {
     testImplementation 'org.mockito:mockito-core:2.19.0'
     androidTestImplementation 'org.mockito:mockito-android:2.19.0'
 
+    //Digital persona
+    implementation 'asia.kanopi.tools:fingerscan:0.1'
+
 }
 
 apply plugin: 'com.google.gms.google-services'
