@@ -46,6 +46,7 @@ import com.stepstone.stepper.VerificationError;
 
 import org.sic4change.animation_check.AnimatedCircleLoadingView;
 import org.sic4change.nut4health.R;
+import org.sic4change.nut4health.ui.fingerprint.ScanActivity;
 import org.sic4change.nut4health.ui.samphoto.SAMPhotoActivity;
 import org.sic4change.nut4health.utils.Nut4HealthKeyboard;
 import org.sic4change.nut4health.utils.location.Nut4HealthSingleShotLocationProvider;
@@ -74,9 +75,11 @@ public class StepCreateContractFragment extends Fragment implements Step{
     private EditText etChildLocation;
     private Button btnCheckMalnutrition;
     private AnimatedCircleLoadingView clView;
+    private ImageView ivAddFingerprint;
     private org.sic4change.nut4health.utils.view.Nut4HealthTextAwesome ivNewContract;
 
-    public static final int REQUEST_TAKE_PHOTO = 1;
+    public static final int REQUEST_TAKE_PHOTO       = 1;
+    public static final int REQUEST_TAKE_FINGERPRINT = 2;
 
     private static final long VERIFICATION_DELAY_MILISECONDS = 6000;
     private static final long VERIFICATION_TICK_MILISECONDS  = 1000;
@@ -143,6 +146,11 @@ public class StepCreateContractFragment extends Fragment implements Step{
         etChildName = v.findViewById(R.id.etChildName);
         etChildSurname = v.findViewById(R.id.etChildSurname);
         etChildLocation = v.findViewById(R.id.etChildLocation);
+        ivAddFingerprint = v.findViewById(R.id.ivAddFingerprint);
+        ivAddFingerprint.setOnClickListener(v13 -> {
+            Intent fingerPrintIntent = new Intent(getActivity(), ScanActivity.class);
+            startActivityForResult(fingerPrintIntent, REQUEST_TAKE_FINGERPRINT);
+        });
         clView = v.findViewById(R.id.clView);
             if (ActivityCompat.checkSelfPermission(getActivity().getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 requestPermissions(new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, LOCATION_REQUEST_CODE);
@@ -167,6 +175,9 @@ public class StepCreateContractFragment extends Fragment implements Step{
                         || (etChildName.getText() == null) || (etChildName.getText().toString() == null) || (etChildName.getText().toString().isEmpty())
                         || (etChildSurname.getText() == null) || (etChildSurname.getText().toString() == null) || (etChildSurname.getText().toString().isEmpty())) {
                     return new VerificationError(getString(R.string.error_child_data));
+                }
+                if ((mCreateContractViewModel.getFingerPrint() == null) || (mCreateContractViewModel.getFingerPrint().isEmpty())) {
+                    return new VerificationError(getString(R.string.error_fingerprint_data));
                 }
                 mCreateContractViewModel.setChildLocation(etChildLocation.getText().toString());
                 mCreateContractViewModel.setChildName(etChildName.getText().toString());
@@ -313,6 +324,15 @@ public class StepCreateContractFragment extends Fragment implements Step{
             boolean isGpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
             if (!isGpsEnabled) {
                 openGpsEnableSetting();
+            }
+        } else if (requestCode == REQUEST_TAKE_FINGERPRINT && resultCode == RESULT_OK){
+            String fingerfrint = data.getStringExtra(ScanActivity.FINGERPRINT);
+            if ((fingerfrint != null) || (!fingerfrint.isEmpty())) {
+                ivAddFingerprint.setImageResource(R.drawable.ic_finger_selected);
+                mCreateContractViewModel.setFingerPrint(fingerfrint);
+            } else {
+                ivAddFingerprint.setImageResource(R.drawable.ic_finger_no_selected);
+                mCreateContractViewModel.setFingerPrint(null);
             }
         }
     }

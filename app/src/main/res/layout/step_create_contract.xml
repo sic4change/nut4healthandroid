@@ -168,6 +168,21 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvLocation" />
 
+                <ImageView
+                    android:id="@+id/ivAddFingerprint"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    app:layout_constraintTop_toBottomOf="@+id/etChildLocation"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:layout_marginRight="@dimen/margin_medium"
+                    android:layout_marginBottom="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:src="@drawable/ic_finger_no_selected"/>
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </ScrollView>
@@ -206,8 +221,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <org.sic4change.animation_check.AnimatedCircleLoadingView
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <org.sic4change.animation_check.AnimatedCircleLoadingView xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/clView"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -222,7 +236,9 @@
         app:animCircleLoadingView_textColor="@color/colorPrimaryDark"
         app:layout_constraintBottom_toTopOf="@+id/btnCheckMalnutrition"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -83,7 +83,8 @@
     <string name="take_photo">Take photo</string>
     <string name="error_photo">You must take a picture</string>
     <string name="error_child_data">You must enter child data</string>
-    <string name="error_not_gps_position">You must activate geolocatlization</string>
+    <string name="error_fingerprint_data">You must enter child fingerprint</string>
+    <string name="error_not_gps_position">You must activate geolocalization</string>
     <string name="child_data">CHILD INFORMATION</string>
     <string name="name">Name</string>
     <string name="surname">Surname</string>
@@ -693,5 +694,21 @@
     <string name="fa_youtube">&#xf167;</string>
     <string name="fa_youtube_play">&#xf16a;</string>
     <string name="fa_youtube_square">&#xf166;</string>
+
+    <!--Fingerprint-->
+
+    <string name="read_child_finger">Read child index finger</string>
+    <string name="setting_up_reader">Setting up reader</string>
+    <string name="reader_powered_on">Reader powered on</string>
+    <string name="ready_to_scan_finger">Ready to scan finger</string>
+    <string name="finger_detected">Finger detected</string>
+    <string name="finger_has_been_lifted_off_reader">Finger has been lifted off reader</string>
+    <string name="reader_is_off">Reader is off</string>
+    <string name="fingerprint_successfully_captured">Fingerprint successfully captured</string>
+    <string name="receiving_image">Receiving image</string>
+
+
+
+
 
 </resources>

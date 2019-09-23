@@ -84,6 +84,7 @@
     <string name="take_photo">Tomar foto</string>
     <string name="error_photo">Debes tomar una foto</string>
     <string name="error_child_data">Debes introducir los datos del niño</string>
+    <string name="error_fingerprint_data">Debes introducir la huella dactilar del niño</string>
     <string name="error_not_gps_position">Debes activar la localización en tu dispositivo</string>
     <string name="child_data">DATOS DEL MENOR</string>
     <string name="name">Nombre</string>
@@ -694,5 +695,17 @@
     <string name="fa_youtube">&#xf167;</string>
     <string name="fa_youtube_play">&#xf16a;</string>
     <string name="fa_youtube_square">&#xf166;</string>
+
+    <!--Fingerprint-->
+    <string name="read_child_finger">Lectura del dedo indice del menor</string>
+    <string name="setting_up_reader">Configurando el lector</string>
+    <string name="reader_powered_on">Lector encendido</string>
+    <string name="ready_to_scan_finger">Listo para escanear el dedo</string>
+    <string name="finger_detected">Dedo detectado</string>
+    <string name="finger_has_been_lifted_off_reader">El dedo ha sido levantado del lector</string>
+    <string name="reader_is_off">Lector apagado</string>
+    <string name="fingerprint_successfully_captured">Huella capturada correctamente</string>
+    <string name="receiving_image">Recibiendo imagen</string>
+
 
 </resources>

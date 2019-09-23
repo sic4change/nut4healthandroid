@@ -22,6 +22,7 @@ public class CreateContractViewModel extends ViewModel {
     private String childName;
     private String childSurname;
     private String childLocation;
+    private String fingerPrint;
     private boolean imageSelected = false;
 
     public CreateContractViewModel(DataRepository repository) {
@@ -103,5 +104,13 @@ public class CreateContractViewModel extends ViewModel {
 
     public void setPercentage(int percentage) {
         this.percentage = percentage;
+    }
+
+    public String getFingerPrint() {
+        return fingerPrint;
+    }
+
+    public void setFingerPrint(String fingerPrint) {
+        this.fingerPrint = fingerPrint;
     }
 }

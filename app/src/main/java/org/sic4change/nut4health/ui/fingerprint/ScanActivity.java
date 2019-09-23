@@ -21,15 +21,14 @@ public class ScanActivity extends AppCompatActivity {
     private TextView tvError;
     private Fingerprint fingerprint;
 
+    public static String FINGERPRINT = "fingerprint";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ActionBar actionBar = getSupportActionBar();
         setContentView(R.layout.activity_scan);
         tvStatus = (TextView) findViewById(R.id.tvStatus);
         tvError = (TextView) findViewById(R.id.tvError);
-        actionBar.setHomeButtonEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(true);
         fingerprint = new Fingerprint();
 
     }
@@ -65,28 +64,28 @@ public class ScanActivity extends AppCompatActivity {
             tvError.setText("");
             switch (status) {
                 case Status.INITIALISED:
-                    tvStatus.setText("Setting up reader");
+                    tvStatus.setText(R.string.setting_up_reader);
                     break;
                 case Status.SCANNER_POWERED_ON:
-                    tvStatus.setText("Reader powered on");
+                    tvStatus.setText(R.string.reader_powered_on);
                     break;
                 case Status.READY_TO_SCAN:
-                    tvStatus.setText("Ready to scan finger");
+                    tvStatus.setText(R.string.ready_to_scan_finger);
                     break;
                 case Status.FINGER_DETECTED:
-                    tvStatus.setText("Finger detected");
+                    tvStatus.setText(R.string.finger_detected);
                     break;
                 case Status.RECEIVING_IMAGE:
-                    tvStatus.setText("Receiving image");
+                    tvStatus.setText(R.string.receiving_image);
                     break;
                 case Status.FINGER_LIFTED:
-                    tvStatus.setText("Finger has been lifted off reader");
+                    tvStatus.setText(R.string.finger_has_been_lifted_off_reader);
                     break;
                 case Status.SCANNER_POWERED_OFF:
-                    tvStatus.setText("Reader is off");
+                    tvStatus.setText(R.string.reader_is_off);
                     break;
                 case Status.SUCCESS:
-                    tvStatus.setText("Fingerprint successfully captured");
+                    tvStatus.setText(R.string.fingerprint_successfully_captured);
                     break;
                 case Status.ERROR:
                     tvStatus.setText("Error");
@@ -111,7 +110,7 @@ public class ScanActivity extends AppCompatActivity {
             intent.putExtra("status", status);
             if (status == Status.SUCCESS) {
                 image = msg.getData().getByteArray("img");
-                intent.putExtra("img", image);
+                intent.putExtra(FINGERPRINT, new String(image));
             } else {
                 errorMessage = msg.getData().getString("errorMessage");
                 intent.putExtra("errorMessage", errorMessage);

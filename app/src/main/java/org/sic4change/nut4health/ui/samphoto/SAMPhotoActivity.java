@@ -34,8 +34,8 @@ public class SAMPhotoActivity extends AppCompatActivity implements SurfaceHolder
 
     private final String tag = "VideoServer";
 
-    public static String PHOTO_PATH = "photo_path";
-    public static String PERCENTAGE = "percentage";
+    public static String PHOTO_PATH  = "photo_path";
+    public static String PERCENTAGE  = "percentage";
 
     private Camera camera;
     private SurfaceView surfaceView;
