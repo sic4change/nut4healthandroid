@@ -2,7 +2,8 @@ package org.sic4change.country_selector;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 public class Country implements Parcelable, Comparable<Country> {
   public String code;

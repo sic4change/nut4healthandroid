@@ -5,7 +5,8 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.ui.splash.SplashActivity;

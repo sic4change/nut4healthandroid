@@ -1,17 +1,14 @@
 package org.sic4change.nut4health.ui.main.notifications;
 
 import android.content.Context;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
+
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
 
 import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.data.entities.Notification;
-import org.sic4change.nut4health.data.entities.Payment;
-import org.sic4change.nut4health.ui.main.payments.PaymentAdapter;
-import org.sic4change.nut4health.ui.main.ranking.RankingAdapter;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

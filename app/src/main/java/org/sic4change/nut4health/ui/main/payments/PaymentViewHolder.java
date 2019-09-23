@@ -1,12 +1,12 @@
 package org.sic4change.nut4health.ui.main.payments;
 
 import android.content.Context;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
 
 import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.data.entities.Payment;

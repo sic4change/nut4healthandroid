@@ -1,17 +1,12 @@
 package org.sic4change.nut4health.data.entities;
 
-import android.arch.persistence.room.ColumnInfo;
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.Ignore;
-import android.arch.persistence.room.PrimaryKey;
-import android.support.annotation.NonNull;
-import org.sic4change.nut4health.data.names.DataNotificationNames;
-import org.sic4change.nut4health.utils.time.Nut4HealthTimeUtil;
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
+import org.sic4change.nut4health.data.names.DataNotificationNames;
+
 
 @Entity(tableName = DataNotificationNames.TABLE_NAME)
 public class Notification {

@@ -1,8 +1,9 @@
 package org.sic4change.nut4health.utils.view;
 
 import android.content.Context;
-import android.support.design.widget.Snackbar;
 import android.view.View;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import org.sic4change.nut4health.R;
 

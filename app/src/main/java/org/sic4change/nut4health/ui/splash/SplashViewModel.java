@@ -1,9 +1,11 @@
 package org.sic4change.nut4health.ui.splash;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.ViewModel;
+
 import android.content.Context;
 import android.content.SharedPreferences;
+
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.ViewModel;
 
 import org.sic4change.nut4health.data.DataRepository;
 import org.sic4change.nut4health.data.entities.User;

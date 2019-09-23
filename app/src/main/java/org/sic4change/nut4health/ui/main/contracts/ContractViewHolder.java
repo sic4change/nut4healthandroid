@@ -1,10 +1,11 @@
 package org.sic4change.nut4health.ui.main.contracts;
 
 import android.content.Context;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
+
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.curioustechizen.ago.RelativeTimeTextView;
 import com.github.pavlospt.CircleView;

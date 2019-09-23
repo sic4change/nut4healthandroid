@@ -1,6 +1,7 @@
 package org.sic4change.nut4health.data;
 
-import android.arch.persistence.db.SimpleSQLiteQuery;
+
+import androidx.sqlite.db.SimpleSQLiteQuery;
 
 import org.sic4change.nut4health.data.entities.Contract;
 import org.sic4change.nut4health.data.entities.Payment;

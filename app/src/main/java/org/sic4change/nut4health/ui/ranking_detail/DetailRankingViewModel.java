@@ -1,10 +1,11 @@
 package org.sic4change.nut4health.ui.ranking_detail;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.ViewModel;
+
+
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.ViewModel;
 
 import org.sic4change.nut4health.data.DataRepository;
-import org.sic4change.nut4health.data.entities.Contract;
 import org.sic4change.nut4health.data.entities.Ranking;
 
 public class DetailRankingViewModel extends ViewModel {

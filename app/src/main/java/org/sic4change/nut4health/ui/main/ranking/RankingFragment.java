@@ -1,34 +1,30 @@
 package org.sic4change.nut4health.ui.main.ranking;
 
 import android.annotation.SuppressLint;
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
-import android.arch.paging.PagedList;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import org.sic4change.nut4health.R;
-import org.sic4change.nut4health.data.entities.Ranking;
 import org.sic4change.nut4health.data.entities.User;
-import org.sic4change.nut4health.ui.contract_detail.ContractDetailActivity;
 import org.sic4change.nut4health.ui.main.MainViewModel;
 import org.sic4change.nut4health.ui.ranking_detail.RankingDetailActivity;
 import org.sic4change.nut4health.utils.Nut4HealthKeyboard;
@@ -42,7 +38,7 @@ public class RankingFragment extends Fragment implements SwipeRefreshLayout.OnRe
     private MainViewModel mMainViewModel;
     private RankingAdapter rankingAdapter;
     private RecyclerView rvRanking;
-    private android.support.v4.widget.SwipeRefreshLayout swipe_container;
+    private SwipeRefreshLayout swipe_container;
     private FloatingActionButton btnSearchUser;
     private CardView lyFilter;
     private EditText etSurname;

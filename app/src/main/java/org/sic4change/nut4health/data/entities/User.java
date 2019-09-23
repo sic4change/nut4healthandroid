@@ -1,11 +1,12 @@
 package org.sic4change.nut4health.data.entities;
 
-import android.arch.persistence.room.ColumnInfo;
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.PrimaryKey;
-import android.support.annotation.NonNull;
 
-import org.sic4change.nut4health.data.names.DataContractNames;
+
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import org.sic4change.nut4health.data.names.DataUserNames;
 
 @Entity(tableName = DataUserNames.TABLE_NAME)

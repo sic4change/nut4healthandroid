@@ -3,7 +3,8 @@ package org.sic4change.nut4health.notification;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.media.RingtoneManager;
-import android.support.v4.app.NotificationCompat;
+
+import androidx.core.app.NotificationCompat;
 
 import com.google.firebase.messaging.RemoteMessage;
 
