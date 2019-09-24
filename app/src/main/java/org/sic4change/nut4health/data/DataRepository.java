@@ -476,11 +476,12 @@ public class DataRepository {
      * @param childName
      * @param childUsername
      * @param childAddress
+     * @param fingerprint
      * @param percentage
      */
     public void createContract(String role, String email, float latitude, float longitude, Uri photo,
-                               String childName, String childUsername, String childAddress, int percentage,
-                               int userPoints) {
+                               String childName, String childUsername, String childAddress, String fingerprint,
+                               int percentage, int userPoints) {
         String hash = "";
         try {
             hash = Files.hash(new File(photo.getPath()), Hashing.sha512()).toString();
@@ -502,7 +503,7 @@ public class DataRepository {
                         // es mayor que la fecha medical en 30 dias
                         //1) pones ese contrato a INIT
                         //2) pones el hash a su propio Id
-                        //2) creas un nuevo contrato
+                        //3) creas un nuevo contrato
                         Date date = new Date();
                         SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd yyyy hh:mm:ss", Locale.ENGLISH);
                         try {
@@ -522,7 +523,8 @@ public class DataRepository {
                             } else {
                                 status = Contract.Status.NO_DIAGNOSIS.name();
                             }
-                            Contract contractNew = new Contract(photo.toString(), latitude, longitude, "", childName, childUsername, childAddress,
+                            Contract contractNew = new Contract(photo.toString(), latitude, longitude, "",
+                                    childName, childUsername, childAddress, fingerprint,
                                     status, "", finalHash, percentage);
                             if (role.equals("Screener")) {
                                 contractNew.setScreener(email);
@@ -553,7 +555,8 @@ public class DataRepository {
                                     } else {
                                         status = Contract.Status.NO_DIAGNOSIS.name();
                                     }
-                                    Contract contractScreener = new Contract(photo.toString(), latitude, longitude, "", childName, childUsername, childAddress,
+                                    Contract contractScreener = new Contract(photo.toString(), latitude,
+                                            longitude, "", childName, childUsername, childAddress, fingerprint,
                                             status, "", finalHash, percentage);
                                     contractScreener.setScreener(email);
                                     contractRef.add(contractScreener);
@@ -571,7 +574,8 @@ public class DataRepository {
                     } else {
                         status = Contract.Status.NO_DIAGNOSIS.name();
                     }
-                    Contract contract = new Contract(photo.toString(), latitude, longitude, "", childName, childUsername, childAddress,
+                    Contract contract = new Contract(photo.toString(), latitude, longitude, "",
+                            childName, childUsername, childAddress, fingerprint,
                             status, "", finalHash, percentage);
                     if (role.equals("Screener")) {
                         contract.setScreener(email);

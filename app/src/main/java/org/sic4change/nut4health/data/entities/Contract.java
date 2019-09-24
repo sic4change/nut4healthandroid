@@ -52,6 +52,9 @@ public class Contract {
     @ColumnInfo(name = DataContractNames.COL_CHILD_ADDRESS)
     private String childAddress;
 
+    @ColumnInfo(name = DataContractNames.COL_CHILD_FINGERPRINT)
+    private String fingerprint;
+
     @ColumnInfo(name = DataContractNames.COL_STATUS)
     private String status;
 
@@ -79,38 +82,38 @@ public class Contract {
 
     public Contract() {
         this("", "", 0.0f, 0.0f, "", "", "",
-                "", "", Status.INIT.name(), "", "",0, "", 0, "");
+                "", "", "", Status.INIT.name(), "", "",0, "", 0, "");
     }
 
     @Ignore
     public Contract(@NonNull String id) {
         this(id, "", 0.0f, 0.0f, "", "", "",
-                "", "", Status.INIT.name(), "", "",0, "", 0, "");
+                "", "", "", Status.INIT.name(), "", "",0, "", 0, "");
     }
 
     @Ignore
     public Contract(@NonNull String photo, float latitude, float longitude, @NonNull String screener) {
         this("", photo, latitude, longitude, screener, "", "", "",
-                "", Status.INIT.name(), "", "",0, "", 0, "");
+                "", "", Status.INIT.name(), "", "",0, "", 0, "");
     }
 
     @Ignore
     public Contract(@NonNull String photo, float latitude, float longitude, @NonNull String screener,
-                    String childName, String childSurname, String childAddress, String status, String creationDate,
+                    String childName, String childSurname, String childAddress, String fingerprint, String status, String creationDate,
                     String hash, int percentage) {
         this("", photo, latitude, longitude, screener, "", childName, childSurname,
-                childAddress, status, "", creationDate, Nut4HealthTimeUtil.convertCreationDateToTimeMilis(creationDate), hash, percentage, "");
+                childAddress, fingerprint, status, "", creationDate, Nut4HealthTimeUtil.convertCreationDateToTimeMilis(creationDate), hash, percentage, "");
     }
     @Ignore
     public Contract(@NonNull String id, @NonNull String photo, float latitude, float longitude,
                     @NonNull String screener, String childName, String childSurname,
-                    String childAddress, String status, String creationDate, String hash, int percentage) {
+                    String childAddress, String fingerprint, String status, String creationDate, String hash, int percentage) {
         this(id, photo, latitude, longitude, screener, "", childName, childSurname,
-                childAddress, status, "", creationDate, Nut4HealthTimeUtil.convertCreationDateToTimeMilis(creationDate), hash, percentage, "");
+                childAddress, fingerprint, status, "", creationDate, Nut4HealthTimeUtil.convertCreationDateToTimeMilis(creationDate), hash, percentage, "");
     }
 
     public Contract(@NonNull String id, @NonNull String photo, float latitude, float longitude, @NonNull String screener,
-                    String medical, String childName, String childSurname, String childAddress,
+                    String medical, String childName, String childSurname, String childAddress, String fingerprint,
                     String status, String diagnosis, String creationDate, long creationDateMiliseconds, String hash, int percentage, String medicalDate) {
         this.id = id;
         this.photo = photo;
@@ -121,6 +124,7 @@ public class Contract {
         this.childName = childName;
         this.childSurname = childSurname;
         this.childAddress = childAddress;
+        this.fingerprint = fingerprint;
         this.status = status;
         this.diagnosis = diagnosis;
         this.creationDate = creationDate;
@@ -195,6 +199,14 @@ public class Contract {
 
     public void setChildSurname(String childSurname) {
         this.childSurname = childSurname;
+    }
+
+    public String getFingerprint() {
+        return fingerprint;
+    }
+
+    public void setFingerprint(String fingerprint) {
+        this.fingerprint = fingerprint;
     }
 
     public String getChildAddress() {

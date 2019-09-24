@@ -58,6 +58,11 @@ public final class DataContractNames {
     public static final String COL_CHILD_ADDRESS = "child_address";
 
     /**
+     * Column child fingerprint for contract
+     */
+    public static final String COL_CHILD_FINGERPRINT= "fingerprint";
+
+    /**
      * Column status for contract
      */
     public static final String COL_STATUS = "status";
