@@ -697,7 +697,8 @@
     <string name="fa_youtube_square">&#xf166;</string>
 
     <!--Fingerprint-->
-    <string name="read_child_finger">Lectura del dedo indice del menor</string>
+    <string name="read_child_finger">Huella del menor</string>
+    <string name="read_child_finger_description">Introduce el dedo índice de la mano derecha del menor en el lector</string>
     <string name="setting_up_reader">Configurando el lector</string>
     <string name="reader_powered_on">Lector encendido</string>
     <string name="ready_to_scan_finger">Listo para escanear el dedo</string>

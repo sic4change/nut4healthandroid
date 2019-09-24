@@ -24,6 +24,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -176,7 +177,7 @@ public class StepCreateContractFragment extends Fragment implements Step{
                         || (etChildSurname.getText() == null) || (etChildSurname.getText().toString() == null) || (etChildSurname.getText().toString().isEmpty())) {
                     return new VerificationError(getString(R.string.error_child_data));
                 }
-                if ((mCreateContractViewModel.getFingerPrint() == null) || (mCreateContractViewModel.getFingerPrint().isEmpty())) {
+                if ((mCreateContractViewModel.getFingerPrint() == null) || (mCreateContractViewModel.getFingerPrint().length < 1)) {
                     return new VerificationError(getString(R.string.error_fingerprint_data));
                 }
                 mCreateContractViewModel.setChildLocation(etChildLocation.getText().toString());
@@ -326,10 +327,10 @@ public class StepCreateContractFragment extends Fragment implements Step{
                 openGpsEnableSetting();
             }
         } else if (requestCode == REQUEST_TAKE_FINGERPRINT && resultCode == RESULT_OK){
-            String fingerfrint = data.getStringExtra(ScanActivity.FINGERPRINT);
-            if ((fingerfrint != null) || (!fingerfrint.isEmpty())) {
-                ivAddFingerprint.setImageResource(R.drawable.ic_finger_selected);
-                mCreateContractViewModel.setFingerPrint(fingerfrint);
+            byte[] fingerprint = data.getByteArrayExtra(ScanActivity.FINGERPRINT);
+            if ((fingerprint != null) && (fingerprint.length > 0)) {
+                mCreateContractViewModel.setFingerPrint(fingerprint);
+                ivAddFingerprint.setImageBitmap(mCreateContractViewModel.getFingerPrintImage());
             } else {
                 ivAddFingerprint.setImageResource(R.drawable.ic_finger_no_selected);
                 mCreateContractViewModel.setFingerPrint(null);

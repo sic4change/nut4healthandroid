@@ -1,6 +1,10 @@
 package org.sic4change.nut4health.ui.create_contract;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import java.io.IOException;
+import java.nio.ByteBuffer;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
@@ -8,9 +12,13 @@ import androidx.lifecycle.ViewModel;
 import org.sic4change.nut4health.data.DataRepository;
 import org.sic4change.nut4health.data.entities.Contract;
 import org.sic4change.nut4health.data.entities.User;
+import org.sic4change.nut4health.utils.fingerprint.AndroidBmpUtil;
 import org.sic4change.nut4health.utils.location.Nut4HealthSingleShotLocationProvider;
 
 public class CreateContractViewModel extends ViewModel {
+
+    private static final int BMP_WIDTH_OF_TIMES = 4;
+    private static final int BYTE_PER_PIXEL = 3;
 
     private final DataRepository mRepository;
     private final LiveData<User> mUser;
@@ -22,7 +30,7 @@ public class CreateContractViewModel extends ViewModel {
     private String childName;
     private String childSurname;
     private String childLocation;
-    private String fingerPrint;
+    private byte[] fingerPrint;
     private boolean imageSelected = false;
 
     public CreateContractViewModel(DataRepository repository) {
@@ -106,11 +114,15 @@ public class CreateContractViewModel extends ViewModel {
         this.percentage = percentage;
     }
 
-    public String getFingerPrint() {
+    public byte[] getFingerPrint() {
         return fingerPrint;
     }
 
-    public void setFingerPrint(String fingerPrint) {
+    public void setFingerPrint(byte[] fingerPrint) {
         this.fingerPrint = fingerPrint;
+    }
+
+    public Bitmap getFingerPrintImage() {
+        return BitmapFactory.decodeByteArray(fingerPrint, 0, fingerPrint.length);
     }
 }

@@ -697,7 +697,8 @@
 
     <!--Fingerprint-->
 
-    <string name="read_child_finger">Read child index finger</string>
+    <string name="read_child_finger">Child fingerprint</string>
+    <string name="read_child_finger_description">Insert the index finger of the child right hand in the reader</string>
     <string name="setting_up_reader">Setting up reader</string>
     <string name="reader_powered_on">Reader powered on</string>
     <string name="ready_to_scan_finger">Ready to scan finger</string>

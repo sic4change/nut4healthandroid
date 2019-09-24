@@ -12,6 +12,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import org.sic4change.nut4health.R;
+import org.sic4change.nut4health.utils.fingerprint.AndroidBmpUtil;
 
 import asia.kanopi.fingerscan.Fingerprint;
 import asia.kanopi.fingerscan.Status;
@@ -27,8 +28,8 @@ public class ScanActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan);
-        tvStatus = (TextView) findViewById(R.id.tvStatus);
-        tvError = (TextView) findViewById(R.id.tvError);
+        tvStatus = findViewById(R.id.tvStatus);
+        tvError = findViewById(R.id.tvError);
         fingerprint = new Fingerprint();
 
     }
@@ -46,15 +47,15 @@ public class ScanActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart() {
+    protected void onResume() {
         fingerprint.scan(this, printHandler, updateHandler);
-        super.onStart();
+        super.onResume();
     }
 
     @Override
-    protected void onStop() {
+    protected void onPause() {
         fingerprint.turnOffReader();
-        super.onStop();
+        super.onPause();
     }
 
     Handler updateHandler = new Handler(Looper.getMainLooper()) {
@@ -109,8 +110,8 @@ public class ScanActivity extends AppCompatActivity {
             Intent intent = new Intent();
             intent.putExtra("status", status);
             if (status == Status.SUCCESS) {
-                image = msg.getData().getByteArray("img");
-                intent.putExtra(FINGERPRINT, new String(image));
+                image = AndroidBmpUtil.convertToBmp24bit(msg.getData().getByteArray("img"));
+                intent.putExtra(FINGERPRINT, image);
             } else {
                 errorMessage = msg.getData().getString("errorMessage");
                 intent.putExtra("errorMessage", errorMessage);
