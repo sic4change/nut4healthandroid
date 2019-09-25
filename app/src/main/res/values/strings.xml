@@ -101,6 +101,7 @@
     <string name="payments">Payments</string>
     <string name="report">Report</string>
     <string name="notifications">Notifications</string>
+    <string name="map_diagnostics">Diagnostics map</string>
 
     <!--Contract Detail-->
     <string name="contractDetail">Diagnosis patient</string>

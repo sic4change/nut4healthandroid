@@ -528,6 +528,7 @@ public class DataRepository {
                                 if (score >= 40) {
                                     contractIt.setStatus(Contract.Status.PAID.name());
                                     contractIt.setMedical(email);
+                                    contractIt.setPercentage(percentage);
                                     document.getReference().set(contractIt);
                                     listenerQuery.remove();
                                     updated = true;
@@ -537,13 +538,16 @@ public class DataRepository {
                             //Si no lo encuentra el medico debe añadirlo
                             if (!updated) {
                                 contract.setMedical(email);
-                                contractRef.add(contract);
+                                contract.setStatus(Contract.Status.PAID.name());
+                                contractRef.add(contract).addOnCompleteListener(task -> createGeoPoint(contractRef.getPath() + task.getResult().getId(), latitude, longitude));
                                 listenerQuery.remove();
                             }
                         } else {
                             //Por si el primer diagnostico es de un medico tambien debe añdirlo
+                            //o todos los diagnosticos han sido confirmados por un medico
                             contract.setMedical(email);
-                            contractRef.add(contract);
+                            contract.setStatus(Contract.Status.PAID.name());
+                            contractRef.add(contract).addOnCompleteListener(task -> createGeoPoint(contractRef.getPath() + task.getResult().getId(), latitude, longitude));
                             listenerQuery.remove();
                         }
                     } catch (Exception error) {

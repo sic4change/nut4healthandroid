@@ -102,6 +102,7 @@
     <string name="payments">Pagos</string>
     <string name="report">Reportar</string>
     <string name="notifications">Notificationes</string>
+    <string name="map_diagnostics">Mapa Diagnósticos</string>
 
     <!--Contract Detail-->
     <string name="contractDetail">Detalle del paciente</string>
