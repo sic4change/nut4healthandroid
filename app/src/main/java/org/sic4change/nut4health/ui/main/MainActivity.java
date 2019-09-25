@@ -206,7 +206,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             drawer.closeDrawer(GravityCompat.START);
         } else {
             if (doubleBackToExitPressedOnce) {
-                finish();
+                finishAffinity();
                 return;
             }
             this.doubleBackToExitPressedOnce = true;

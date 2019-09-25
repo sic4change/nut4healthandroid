@@ -153,6 +153,7 @@ dependencies {
 
     //Digital persona
     implementation 'asia.kanopi.tools:fingerscan:0.1'
+    implementation 'com.machinezoo.sourceafis:sourceafis:3.6.0'
 
 }
 

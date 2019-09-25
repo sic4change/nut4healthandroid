@@ -1,10 +1,16 @@
 package org.sic4change.nut4health.utils.fingerprint;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.ByteBuffer;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Environment;
 
 public class AndroidBmpUtil {
 
@@ -163,5 +169,40 @@ public class AndroidBmpUtil {
         b[1] = (byte)((value & 0xFF00) >> 8);
 
         return b;
+    }
+
+    public static void saveFile(byte[] bm) {
+        Bitmap bitmap = BitmapFactory.decodeByteArray(bm, 0, bm.length);
+        String root = Environment.getExternalStorageDirectory().toString();
+        File myDir = new File(root + "/req_images");
+        myDir.mkdirs();
+        String fname = "Nut4HealthFingerPrint-" +".jpg";
+        File file = new File(myDir, fname);
+        if (file.exists())
+            file.delete();
+        try {
+            FileOutputStream out = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
+            out.flush();
+            out.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static byte[] getByte(String path) {
+        byte[] getBytes = {};
+        try {
+            File file = new File(path);
+            getBytes = new byte[(int) file.length()];
+            InputStream is = new FileInputStream(file);
+            is.read(getBytes);
+            is.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return getBytes;
     }
 }

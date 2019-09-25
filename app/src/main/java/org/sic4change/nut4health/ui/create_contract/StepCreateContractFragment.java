@@ -123,7 +123,7 @@ public class StepCreateContractFragment extends Fragment implements Step{
                             mCreateContractViewModel.getUriPhoto(), mCreateContractViewModel.getChildName(),
                             mCreateContractViewModel.getChildSurname(), mCreateContractViewModel.getChildLocation(),
                             mCreateContractViewModel.getFingerPrintString(),
-                            mCreateContractViewModel.getPercentage(), user.getPoints());
+                            mCreateContractViewModel.getPercentage());
                     //mCreateContractViewModel.updatePointsUserLocal(user.getEmail());
                     mCreateContractViewModel = null;
                 }

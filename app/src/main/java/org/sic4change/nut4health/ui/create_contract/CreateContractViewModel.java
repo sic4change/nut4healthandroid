@@ -3,6 +3,9 @@ package org.sic4change.nut4health.ui.create_contract;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Environment;
+import android.util.Base64;
+
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
@@ -48,9 +51,9 @@ public class CreateContractViewModel extends ViewModel {
     }
 
     public void createContract(String role, String screener, float latitude, float longitude, Uri photo, String childName,
-                               String childSurname, String childAddress, String fingerprint, int percentage, int points) {
+                               String childSurname, String childAddress, String fingerprint, int percentage) {
         mRepository.createContract(role, screener, latitude, longitude, photo, childName, childSurname,
-                childAddress, fingerprint, percentage, points);
+                childAddress, fingerprint, percentage);
     }
 
     public void updatePointsUserLocal(String email) {
@@ -127,6 +130,8 @@ public class CreateContractViewModel extends ViewModel {
     }
 
     public String getFingerPrintString() {
-        return new String(this.fingerPrint);
+        String fname = Environment.getExternalStorageDirectory().toString() + "/req_images/Nut4HealthFingerPrint-" +".jpg";
+        byte[] image = AndroidBmpUtil.getByte(fname);
+        return new String(image);
     }
 }

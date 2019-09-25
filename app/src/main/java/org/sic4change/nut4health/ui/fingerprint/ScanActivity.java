@@ -110,7 +110,9 @@ public class ScanActivity extends AppCompatActivity {
             Intent intent = new Intent();
             intent.putExtra("status", status);
             if (status == Status.SUCCESS) {
-                image = AndroidBmpUtil.convertToBmp24bit(msg.getData().getByteArray("img"));
+                //image = AndroidBmpUtil.convertToBmp24bit(msg.getData().getByteArray("img"));
+                image = msg.getData().getByteArray("img");
+                AndroidBmpUtil.saveFile(image);
                 intent.putExtra(FINGERPRINT, image);
             } else {
                 errorMessage = msg.getData().getString("errorMessage");

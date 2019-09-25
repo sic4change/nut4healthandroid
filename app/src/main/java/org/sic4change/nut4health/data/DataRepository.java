@@ -2,6 +2,7 @@ package org.sic4change.nut4health.data;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -11,8 +12,6 @@ import androidx.paging.LivePagedListBuilder;
 import androidx.paging.PagedList;
 import androidx.sqlite.db.SimpleSQLiteQuery;
 
-import com.google.common.hash.Hashing;
-import com.google.common.io.Files;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
@@ -26,6 +25,8 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.machinezoo.sourceafis.FingerprintMatcher;
+import com.machinezoo.sourceafis.FingerprintTemplate;
 
 import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.data.entities.Contract;
@@ -39,10 +40,13 @@ import org.sic4change.nut4health.data.names.DataNotificationNames;
 import org.sic4change.nut4health.data.names.DataPaymentNames;
 import org.sic4change.nut4health.data.names.DataRankingNames;
 import org.sic4change.nut4health.data.names.DataUserNames;
+import org.sic4change.nut4health.utils.fingerprint.AndroidBmpUtil;
 import org.sic4change.nut4health.utils.time.Nut4HealthTimeUtil;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -481,119 +485,68 @@ public class DataRepository {
      */
     public void createContract(String role, String email, float latitude, float longitude, Uri photo,
                                String childName, String childUsername, String childAddress, String fingerprint,
-                               int percentage, int userPoints) {
-        String hash = "";
-        try {
-            hash = Files.hash(new File(photo.getPath()), Hashing.sha512()).toString();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        //hash = "55e0aaaa5c849aa153948d44ab45fbf7ae89eedce88dc73ced0a452bb8c2ad5d4aa08d3909e44e972ad04e2d9a7992528c51c8faa79a730ffd648957a00c4887";
+                               int percentage) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference contractRef = db.collection(DataContractNames.TABLE_FIREBASE_NAME);
-        Query query = contractRef.whereEqualTo(DataContractNames.COL_HASH, hash).orderBy(DataContractNames.COL_DATE);
-        String finalHash = hash;
-        listenerQuery = query.addSnapshotListener(mIoExecutor, (queryDocumentSnapshots, e) -> {
+        String status;
+        if (percentage > 49) {
+            status = Contract.Status.DIAGNOSIS.name();
+        } else {
+            status = Contract.Status.NO_DIAGNOSIS.name();
+        }
+        String fnameContract = Environment.getExternalStorageDirectory().toString() + "/req_images/Nut4HealthFingerPrint-" +".jpg";
+        byte[] imageContract = AndroidBmpUtil.getByte(fnameContract);
+        FingerprintTemplate fingerprintTemplateContract = new FingerprintTemplate().dpi(500).create(imageContract);
+        Contract contract = new Contract(photo.toString(), latitude, longitude, "",
+                childName, childUsername, childAddress, fingerprintTemplateContract.serialize(),
+                status, "", percentage);
+        if (role.equals("Screener")) {
+            contract.setScreener(email);
+            contractRef.add(contract);
+        } else {
             try {
-                if ((queryDocumentSnapshots != null) && (queryDocumentSnapshots.getDocuments() != null)
-                        && (queryDocumentSnapshots.getDocuments().size() > 0)) {
-                    for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
-                        Contract contract = document.toObject(Contract.class);
-                        //si el campo medical es distinto de null o vacio y la fecha actual
-                        // es mayor que la fecha medical en 30 dias
-                        //1) pones ese contrato a INIT
-                        //2) pones el hash a su propio Id
-                        //3) creas un nuevo contrato
-                        Date date = new Date();
-                        SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd yyyy hh:mm:ss", Locale.ENGLISH);
-                        try {
-                            date = formatter.parse(contract.getCreationDate());
-                        } catch (ParseException e3) {
-                            e3.printStackTrace();
-                        }
-                        if (((contract.getMedical() != null) && (!contract.getMedical().isEmpty())) &&
-                                date.getTime() != 0 && (new Date().getTime() > (30*24*3600*1000) + date.getTime())) {
-                            contract.setStatus(Contract.Status.INIT.name());
-                            contract.setHash(contract.getId());
-                            document.getReference().set(contract);
-                            mIoExecutor.execute(() -> nut4HealtDao.insert(contract));
-                            String status;
-                            if (percentage > 49) {
-                                status = Contract.Status.DIAGNOSIS.name();
-                            } else {
-                                status = Contract.Status.NO_DIAGNOSIS.name();
-                            }
-                            Contract contractNew = new Contract(photo.toString(), latitude, longitude, "",
-                                    childName, childUsername, childAddress, fingerprint,
-                                    status, "", finalHash, percentage);
-                            if (role.equals("Screener")) {
-                                contractNew.setScreener(email);
-                            } else {
-                                contractNew.setMedical(email);
-                                if (percentage > 49) {
-                                    contractNew.setStatus(Contract.Status.PAID.name());
-                                } else {
-                                    contractNew.setStatus(Contract.Status.NO_DIAGNOSIS.name());
+                String fname = Environment.getExternalStorageDirectory().toString() + "/req_images/Nut4HealthFingerPrint-" +".jpg";
+                byte[] image = AndroidBmpUtil.getByte(fname);
+                FingerprintTemplate fingerprintTemplate = new FingerprintTemplate().dpi(500).create(image);
+                Query query = contractRef.whereEqualTo(DataContractNames.COL_MEDICAL, "");
+                listenerQuery = query.addSnapshotListener(mIoExecutor, (queryDocumentSnapshots, e) -> {
+                    boolean updated = false;
+                    try {
+                        if ((queryDocumentSnapshots != null) && (queryDocumentSnapshots.getDocuments() != null)
+                                && (queryDocumentSnapshots.getDocuments().size() > 0)) {
+                            for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
+                                Contract contractIt = document.toObject(Contract.class);
+                                FingerprintTemplate fingerprintCandidate = new FingerprintTemplate().deserialize(contractIt.getFingerprint());
+                                double score = new FingerprintMatcher().index(fingerprintTemplate).match(fingerprintCandidate);
+                                if (score >= 40) {
+                                    contractIt.setStatus(Contract.Status.PAID.name());
+                                    contractIt.setMedical(email);
+                                    document.getReference().set(contractIt);
+                                    listenerQuery.remove();
+                                    updated = true;
+                                    break;
                                 }
                             }
-                            contractRef.add(contractNew);
-                            continue;
-                        } else {
-                            if (contract.getStatus().equals(Contract.Status.DIAGNOSIS.name()) && !role.equals("Screener")) {
+                            //Si no lo encuentra el medico debe añadirlo
+                            if (!updated) {
                                 contract.setMedical(email);
-                                contract.setStatus(Contract.Status.PAID.name());
-                                document.getReference().set(contract);
-                            } else if (contract.getStatus().equals(Contract.Status.NO_DIAGNOSIS.name()) && !role.equals("Screener")) {
-                                contract.setMedical(email);
-                                document.getReference().set(contract);
-                            } else {
-                                if (((contract.getMedical() == null) || (contract.getMedical().isEmpty())) && role.equals("Screener")
-                                        && (!email.equals(contract.getScreener()))) {
-                                    String status;
-                                    if (percentage > 49) {
-                                        status = Contract.Status.DIAGNOSIS.name();
-                                    } else {
-                                        status = Contract.Status.NO_DIAGNOSIS.name();
-                                    }
-                                    Contract contractScreener = new Contract(photo.toString(), latitude,
-                                            longitude, "", childName, childUsername, childAddress, fingerprint,
-                                            status, "", finalHash, percentage);
-                                    contractScreener.setScreener(email);
-                                    contractRef.add(contractScreener);
-                                } else {
-                                    Toast.makeText(mContext, R.string.error_create_contract_server, Toast.LENGTH_LONG).show();
-                                }
+                                contractRef.add(contract);
                             }
-                            break;
-                        }
-                    }
-                } else {
-                    String status;
-                    if (percentage > 49) {
-                        status = Contract.Status.DIAGNOSIS.name();
-                    } else {
-                        status = Contract.Status.NO_DIAGNOSIS.name();
-                    }
-                    Contract contract = new Contract(photo.toString(), latitude, longitude, "",
-                            childName, childUsername, childAddress, fingerprint,
-                            status, "", finalHash, percentage);
-                    if (role.equals("Screener")) {
-                        contract.setScreener(email);
-                    } else {
-                        contract.setMedical(email);
-                        if (percentage > 49) {
-                            contract.setStatus(Contract.Status.PAID.name());
                         } else {
-                            contract.setStatus(Contract.Status.NO_DIAGNOSIS.name());
+                            //Por si el primer diagnostico es de un medico tambien debe añdirlo
+                            contract.setMedical(email);
+                            contractRef.add(contract);
                         }
+                    } catch (Exception error) {
+                        Log.d(TAG, "Get contract: " + error);
                     }
-                    contractRef.add(contract);
-                }
-                listenerQuery.remove();
-            } catch (Exception error) {
-                Log.d(TAG, "Get contract: " + "error");
+                });
+            } catch (Exception e){
+                Log.d(TAG, "Get contract: " + e);
             }
-        });
+
+
+        }
 
     }
 

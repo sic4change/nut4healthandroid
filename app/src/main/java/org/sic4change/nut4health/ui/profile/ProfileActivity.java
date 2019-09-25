@@ -247,7 +247,7 @@ public class ProfileActivity extends AppCompatActivity {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
         customType(ProfileActivity.this,"right-to-left");
-        finish();
+        finishAffinity();
     }
 
     public void logout() {
