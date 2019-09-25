@@ -531,11 +531,13 @@ public class DataRepository {
                             if (!updated) {
                                 contract.setMedical(email);
                                 contractRef.add(contract);
+                                listenerQuery.remove();
                             }
                         } else {
                             //Por si el primer diagnostico es de un medico tambien debe añdirlo
                             contract.setMedical(email);
                             contractRef.add(contract);
+                            listenerQuery.remove();
                         }
                     } catch (Exception error) {
                         Log.d(TAG, "Get contract: " + error);
