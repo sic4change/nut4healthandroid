@@ -74,6 +74,9 @@ dependencies {
         transitive = true
     }*/
 
+    //GeoFire
+    implementation 'com.firebase:geofire-android:3.0.0'
+
     //Crashlitic
     implementation 'com.crashlytics.sdk.android:crashlytics:2.9.9'
 
