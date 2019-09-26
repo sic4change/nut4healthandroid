@@ -20,7 +20,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
 import org.sic4change.nut4health.R;
-import org.sic4change.nut4health.data.entities.Contract;
+import org.sic4change.nut4health.data.entities.Near;
 import org.sic4change.nut4health.ui.main.MainViewModel;
 import org.sic4change.nut4health.utils.Nut4HealthKeyboard;
 
@@ -209,7 +209,7 @@ public class NearFragment extends Fragment {
         tvMinRange.setText("0%");
         mMainViewModel.setName("");
         mMainViewModel.setSurname("");
-        mMainViewModel.setStatus(Contract.Status.ALL.name());
+        mMainViewModel.setStatus(Near.Status.ALL.name());
         timeRangeMin = 0;
         timeRangeMax = 0;
         mMainViewModel.setDateEnd(timeRangeMin);
@@ -223,22 +223,22 @@ public class NearFragment extends Fragment {
         mMainViewModel.setSurname(etSurname.getText().toString());
         switch (spStatus.getSelectedItemPosition()) {
             case 0:
-                mMainViewModel.setStatus(Contract.Status.ALL.name());
+                mMainViewModel.setStatus(Near.Status.ALL.name());
                 break;
             case 1:
-                mMainViewModel.setStatus(Contract.Status.INIT.name());
+                mMainViewModel.setStatus(Near.Status.INIT.name());
                 break;
             case 2:
-                mMainViewModel.setStatus(Contract.Status.DIAGNOSIS.name());
+                mMainViewModel.setStatus(Near.Status.DIAGNOSIS.name());
                 break;
             case 3:
-                mMainViewModel.setStatus(Contract.Status.NO_DIAGNOSIS.name());
+                mMainViewModel.setStatus(Near.Status.NO_DIAGNOSIS.name());
                 break;
             case 4:
-                mMainViewModel.setStatus(Contract.Status.PAID.name());
+                mMainViewModel.setStatus(Near.Status.PAID.name());
                 break;
             default:
-                mMainViewModel.setStatus(Contract.Status.ALL.name());
+                mMainViewModel.setStatus(Near.Status.ALL.name());
                 break;
         }
         if (timeRangeMin != 0) {

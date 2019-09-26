@@ -968,6 +968,12 @@ public class DataRepository {
         });
     }
 
+    /**
+     * Mehtod to remove al near contracts
+     */
+    public void removeAllNearContracts() {
+        mIoExecutor.submit(() -> nut4HealtDao.deleteAllNearContracts());
+    }
 
     /**
      * Method to get near contracts from firebase
@@ -975,21 +981,18 @@ public class DataRepository {
      * @param longitude
      * @param radius
      */
-    public void rerieveNearContracts(float latitude, float longitude, int radius) {
+    public void retrieveNearContracts(float latitude, float longitude, int radius) {
         CollectionReference collectionRef = FirebaseFirestore.getInstance().collection(DataContractNames.TABLE_FIREBASE_NAME);
         GeoFirestore geoFirestore = new GeoFirestore(collectionRef);
         geoFirestore.getAtLocation(new GeoPoint(latitude, longitude), radius, new GeoFirestore.SingleGeoQueryDataEventCallback() {
             @Override
             public void onComplete(List<? extends DocumentSnapshot> list, Exception e) {
-                mIoExecutor.submit(() -> nut4HealtDao.deleteAllNearContracts());
                 for (DocumentSnapshot documentSnapshot : list) {
                     Near near = documentSnapshot.toObject(Near.class);
                     mIoExecutor.submit(() -> nut4HealtDao.insert(near));
                 }
             }
         });
-        mIoExecutor.submit(() -> nut4HealtDao.deleteAllNearContracts());
-
     }
 
     /**

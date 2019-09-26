@@ -61,7 +61,7 @@ public class NearMapFragment extends Fragment implements OnMapReadyCallback {
     private RelativeTimeTextView nDate;
     private RelativeTimeTextView nConfirmationDate;
 
-    private static final int RADIUS = 50;
+    private static final int RADIUS = 1;
 
     private String id;
 
@@ -82,6 +82,7 @@ public class NearMapFragment extends Fragment implements OnMapReadyCallback {
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        initData();
         if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 101);
         } else {
@@ -93,17 +94,13 @@ public class NearMapFragment extends Fragment implements OnMapReadyCallback {
 
     private void initData() {
         mMainViewModel = ViewModelProviders.of(getActivity()).get(MainViewModel.class);
-        mMainViewModel.getNearContracts().observe(getActivity(), new Observer<PagedList<Near>>() {
-            @Override
-            public void onChanged(PagedList<Near> nears) {
-                showNearContracts(nears);
-            }
-        });
+        mMainViewModel.getNearContracts().observe(getActivity(), nears -> showNearContracts(nears));
         mMainViewModel.getIsFiltered().observe(getActivity(), filtered -> {
             if (filtered) {
                 showNearContracts(mMainViewModel.getNearContracts().getValue());
             }
         });
+        mMainViewModel.removeAllNearContracts();
     }
 
     private void showNearContracts(PagedList<Near> nears) {
@@ -152,7 +149,7 @@ public class NearMapFragment extends Fragment implements OnMapReadyCallback {
                 marker.setTitle(near.getPercentage() + "%");
                 id = near.getId();
             }
-            //markMyPosition();
+            markMyPosition();
             return false;
         });
         mMap.setOnMapClickListener(latLng -> cvContract.setVisibility(View.GONE));
@@ -204,12 +201,13 @@ public class NearMapFragment extends Fragment implements OnMapReadyCallback {
                 location -> {
                     Log.d("Location", "my location is " + location.latitude + ", " + location.longitude);
                     currentPosition = new LatLng(location.latitude, location.longitude);
-                    //markMyPosition();
+                    //currentPosition = new LatLng(0, 0);
+                    markMyPosition();
                     if (mMap != null) {
                         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPosition, DEFAULT_ZOOM));
                     }
-                    initData();
-                    mMainViewModel.rerieveNearContracts(location.latitude, location.longitude, RADIUS);
+                    mMainViewModel.retrieveNearContracts(location.latitude, location.longitude, RADIUS);
+                    //mMainViewModel.retrieveNearContracts(0, 0, RADIUS);
                 });
     }
 

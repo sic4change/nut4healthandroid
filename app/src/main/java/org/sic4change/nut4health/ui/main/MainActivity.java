@@ -256,6 +256,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     fragment = new ContractFragment();
                     setTitle(R.string.contracts);
                 } else if (id == R.id.nav_near) {
+                    mMainViewModel.removeAllNearContracts();
                     fragment = new NearFragment();
                     setTitle(R.string.map_diagnostics);
                 } else if (id == R.id.nav_ranking) {
