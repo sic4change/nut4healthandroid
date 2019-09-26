@@ -21,8 +21,8 @@ public class NearPagerFragmentAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position) {
         switch (position) {
-            case 0: return new NearListFragment();
-            case 1: return new NearMapFragment();
+            case 0: return new NearMapFragment();
+            //case 1: return new NearMapFragment();
             default: return null;
         }
     }

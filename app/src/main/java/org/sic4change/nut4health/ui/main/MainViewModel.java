@@ -10,6 +10,7 @@ import androidx.paging.PagedList;
 
 import org.sic4change.nut4health.data.DataRepository;
 import org.sic4change.nut4health.data.entities.Contract;
+import org.sic4change.nut4health.data.entities.Near;
 import org.sic4change.nut4health.data.entities.Notification;
 import org.sic4change.nut4health.data.entities.Payment;
 import org.sic4change.nut4health.data.entities.Ranking;
@@ -23,6 +24,7 @@ public class MainViewModel extends ViewModel {
     private final DataRepository mRepository;
     private final LiveData<User> mUser;
     private LiveData<PagedList<Contract>> mContracts;
+    private LiveData<PagedList<Near>> mNear;
     private LiveData<PagedList<Ranking>> mRanking;
     private LiveData<PagedList<Payment>> mPayments;
     private LiveData<PagedList<Notification>> mNotifications;
@@ -48,6 +50,7 @@ public class MainViewModel extends ViewModel {
         this.mRepository = repository;
         mUser = this.mRepository.getCurrentUser();
         mContracts = this.mRepository.getSortedContracts("DATE", name, surname, status, dateStart, dateEnd, percentageMin, percentageMax);
+        mNear = this.mRepository.getSortedNearContracts("DATE", name, surname, status, dateStart, dateEnd, percentageMin, percentageMax);
         mRanking = this.mRepository.getSortedRanking("POINTS", usernameRanking);
         mPayments = this.mRepository.getSortedPayments("DATE", statusPayment, dateStartPayment, dateEndPayment);
         mNotifications = this.mRepository.getSortedNotifications();
@@ -82,6 +85,10 @@ public class MainViewModel extends ViewModel {
 
     public LiveData<PagedList<Contract>> getContracts() {
         return mContracts;
+    }
+
+    public LiveData<PagedList<Near>> getNearContracts() {
+        return mNear;
     }
 
     public void getSortedPayments(String sort, String status, long dateStart, long dataEnd) {
@@ -241,6 +248,16 @@ public class MainViewModel extends ViewModel {
             System.out.println("notifications empty");
         }
         return notificatonsNoRead;
+    }
+
+    public void getNearContracts(float latitude, float longitude, int radius) {
+        this.mRepository.getNearContracts(latitude, longitude, radius);
+    }
+
+    public void getSortedNearContracts(String sort, String name, String surname, String status, long dateStart, long dataEnd,
+                                   int percentageMin, int percentageMax) {
+        mNear = this.mRepository.getSortedNearContracts(sort, name, surname, status, dateStart, dataEnd,
+                percentageMin, percentageMax);
     }
 
     public void subscribeToTopicCountry(String country) {

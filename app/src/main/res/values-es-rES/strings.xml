@@ -144,6 +144,9 @@
     <!--Error create contract server -->
     <string name="error_create_contract_server">Ya has diganosticado previamente al menor o ya ha recibido tratamiento recientemente</string>
 
+    <!--Diagnostic Map-->
+    <string name="near_me">Cerca de mí</string>
+
     <!--Font awasome -->
     <string name="fa_adjust">&#xf042;</string>
     <string name="fa_adn">&#xf170;</string>

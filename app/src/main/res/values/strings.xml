@@ -143,6 +143,9 @@
     <!--Error create contract server -->
     <string name="error_create_contract_server">You have previously diagnosed the child or have recently received treatment</string>
 
+    <!--Diagnostic Map-->
+    <string name="near_me">Near me</string>
+
     <!--Font awasome -->
     <string name="fa_adjust">&#xf042;</string>
     <string name="fa_adn">&#xf170;</string>

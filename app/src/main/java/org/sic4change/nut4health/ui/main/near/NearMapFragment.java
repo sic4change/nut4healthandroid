@@ -33,6 +33,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.data.entities.Contract;
+import org.sic4change.nut4health.data.entities.Near;
 import org.sic4change.nut4health.ui.contract_detail.ContractDetailActivity;
 import org.sic4change.nut4health.ui.main.MainViewModel;
 import org.sic4change.nut4health.utils.location.Nut4HealthSingleShotLocationProvider;
@@ -59,6 +60,8 @@ public class NearMapFragment extends Fragment implements OnMapReadyCallback {
     private CircleView nPercentage;
     private RelativeTimeTextView nDate;
     private RelativeTimeTextView nConfirmationDate;
+
+    private static final int RADIUS = 50;
 
     private String id;
 
@@ -91,34 +94,23 @@ public class NearMapFragment extends Fragment implements OnMapReadyCallback {
 
     private void initData() {
         mMainViewModel = ViewModelProviders.of(getActivity()).get(MainViewModel.class);
-        mMainViewModel.getCurrentUser().observe(getActivity(), user -> {
-            if (user != null) {
-                mMainViewModel.getContracts(user.getEmail(), user.getRole());
-            }
-        });
-        mMainViewModel.getContracts().observe(getActivity(), contracts -> showContracts(contracts));
-        mMainViewModel.getIsFiltered().observe(getActivity(), filtered -> {
-            if (filtered) {
-                showContracts(mMainViewModel.getContracts().getValue());
-            }
-        });
     }
 
-    private void showContracts(PagedList<Contract> contracts) {
+    private void showNearContracts(PagedList<Near> nears) {
         if (mMap != null) {
             mMap.clear();
-            for (Contract contract : contracts) {
+            for (Near near : nears) {
                 MarkerOptions markerOptions = new MarkerOptions();
-                markerOptions.position(new LatLng(contract.getLatitude(), contract.getLongitude()));
-                if (contract.getStatus().equals(Contract.Status.NO_DIAGNOSIS.name())) {
+                markerOptions.position(new LatLng(near.getLatitude(), near.getLongitude()));
+                if (near.getStatus().equals(Contract.Status.NO_DIAGNOSIS.name())) {
                     markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
-                } else if (contract.getStatus().equals(Contract.Status.DIAGNOSIS.name())) {
+                } else if (near.getStatus().equals(Contract.Status.DIAGNOSIS.name())) {
                     markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
                 } else {
                     markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
                 }
                 Marker marker = mMap.addMarker(markerOptions);
-                marker.setTag(contract);
+                marker.setTag(near);
             }
         }
         cvContract.setVisibility(View.GONE);
@@ -201,12 +193,23 @@ public class NearMapFragment extends Fragment implements OnMapReadyCallback {
         Nut4HealthSingleShotLocationProvider.requestSingleUpdate(getActivity(),
                 location -> {
                     Log.d("Location", "my location is " + location.toString());
+                    getNearContracts(location.latitude, location.longitude, RADIUS);
                     currentPosition = new LatLng(location.latitude, location.longitude);
                     markMyPosition();
                     if (mMap != null) {
                         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPosition, DEFAULT_ZOOM));
                     }
                 });
+    }
+
+    private void getNearContracts(float latitude, float longitude, int radius) {
+        mMainViewModel.getNearContracts(latitude, longitude, radius);
+        mMainViewModel.getNearContracts().observe(getActivity(), nears -> showNearContracts(nears));
+        mMainViewModel.getIsFiltered().observe(getActivity(), filtered -> {
+            if (filtered) {
+                showNearContracts(mMainViewModel.getNearContracts().getValue());
+            }
+        });
     }
 
     private void markMyPosition() {

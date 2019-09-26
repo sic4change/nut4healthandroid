@@ -44,7 +44,6 @@ import org.sic4change.nut4health.ui.main.contracts.ContractsListFragment;
 import org.sic4change.nut4health.ui.main.contracts.ContractsMapFragment;
 import org.sic4change.nut4health.ui.main.create_contract.CreateContractFragment;
 import org.sic4change.nut4health.ui.main.near.NearFragment;
-import org.sic4change.nut4health.ui.main.near.NearListFragment;
 import org.sic4change.nut4health.ui.main.near.NearMapFragment;
 import org.sic4change.nut4health.ui.main.notifications.NotificationFragment;
 import org.sic4change.nut4health.ui.main.payments.PaymentFragment;
@@ -68,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ContractsListFragment.OnFragmentInteractionListener, ContractsMapFragment.OnFragmentInteractionListener,
         RankingFragment.OnFragmentInteractionListener, PaymentFragment.OnFragmentInteractionListener,
         ReportFragment.OnFragmentInteractionListener, NotificationFragment.OnFragmentInteractionListener,
-        NearListFragment.OnFragmentInteractionListener, NearMapFragment.OnFragmentInteractionListener {
+        NearMapFragment.OnFragmentInteractionListener {
 
     private boolean doubleBackToExitPressedOnce = false;
 

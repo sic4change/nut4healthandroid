@@ -1,6 +1,5 @@
 package org.sic4change.nut4health.ui.main.near;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,7 +21,6 @@ import com.google.android.material.tabs.TabLayout;
 
 import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.data.entities.Contract;
-import org.sic4change.nut4health.ui.create_contract.CreateContractActivity;
 import org.sic4change.nut4health.ui.main.MainViewModel;
 import org.sic4change.nut4health.utils.Nut4HealthKeyboard;
 
@@ -30,7 +28,6 @@ import java.util.Calendar;
 
 import ru.slybeaver.slycalendarview.SlyCalendarDialog;
 
-import static maes.tech.intentanim.CustomIntent.customType;
 
 
 public class NearFragment extends Fragment {
@@ -67,10 +64,10 @@ public class NearFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_contract, container, false);
+        View view = inflater.inflate(R.layout.fragment_near, container, false);
         TabLayout tabLayout = view.findViewById(R.id.tab_layout);
-        tabLayout.addTab(tabLayout.newTab().setText(R.string.list));
-        tabLayout.addTab(tabLayout.newTab().setText(R.string.map));
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.near_me));
+        //tabLayout.addTab(tabLayout.newTab().setText(R.string.list));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         final ViewPager viewPager = view.findViewById(R.id.pager);
         final NearPagerFragmentAdapter adapter = new NearPagerFragmentAdapter
@@ -93,9 +90,10 @@ public class NearFragment extends Fragment {
             }
         });
         btnCreateContract = view.findViewById(R.id.btnCreateContract);
-        btnCreateContract.setOnClickListener(v -> {
+        btnCreateContract.setVisibility(View.GONE);
+        /*btnCreateContract.setOnClickListener(v -> {
             goToCreateContractActivity();
-        });
+        });*/
         btnFilterContracts = view.findViewById(R.id.btnFilterContracts);
         btnFilterContracts.setOnClickListener(v -> {
             showContractFilterMenu();
@@ -190,12 +188,6 @@ public class NearFragment extends Fragment {
         return view;
     }
 
-    private void goToCreateContractActivity() {
-        Intent intent = new Intent(getActivity(), CreateContractActivity.class);
-        startActivity(intent);
-        customType(getActivity(),"left-to-right");
-    }
-
     private void showContractFilterMenu() {
         if (lyFilter.getVisibility() == View.VISIBLE) {
             lyFilter.setVisibility(View.GONE);
@@ -269,7 +261,7 @@ public class NearFragment extends Fragment {
         mMainViewModel.setPercentageMin(Integer.parseInt(tvMinRange.getText().toString().substring(0, tvMinRange.getText().toString().length()-1)));
         mMainViewModel.getSortedContracts("DATE", mMainViewModel.getName(), mMainViewModel.getSurname(), mMainViewModel.getStatus(),
                 mMainViewModel.getDateStart(), mMainViewModel.getDateEnd(), mMainViewModel.getPercentageMin(), mMainViewModel.getPercentageMax());
-        mMainViewModel.getContracts().observe(getActivity(), contracts -> mMainViewModel.setIsFiltered(true));
+        mMainViewModel.getNearContracts().observe(getActivity(), contracts -> mMainViewModel.setIsFiltered(true));
     }
 
 }

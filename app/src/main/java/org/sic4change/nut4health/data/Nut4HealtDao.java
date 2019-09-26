@@ -12,6 +12,7 @@ import androidx.room.RawQuery;
 import androidx.sqlite.db.SupportSQLiteQuery;
 
 import org.sic4change.nut4health.data.entities.Contract;
+import org.sic4change.nut4health.data.entities.Near;
 import org.sic4change.nut4health.data.entities.Notification;
 import org.sic4change.nut4health.data.entities.Payment;
 import org.sic4change.nut4health.data.entities.Ranking;
@@ -268,4 +269,33 @@ public interface Nut4HealtDao {
      */
     @Query("UPDATE notification SET read =:read WHERE id=:id ")
     void updateNotificationRead(String id, String read);
+
+    /**
+     * Get all near contract for Paging
+     * @param query
+     * @return
+     */
+    @RawQuery(observedEntities = Near.class)
+    DataSource.Factory<Integer, Near> getNearContracts(SupportSQLiteQuery query);
+
+    /**
+     * Get a near contract based on the contract id
+     * @param id
+     * @return
+     */
+    @Query("SELECT * FROM near WHERE contractId =:id LIMIT 1")
+    LiveData<Near> getNearContract(String id);
+
+    /**
+     * Delete all near contracts
+     */
+    @Query("DELETE FROM near")
+    void deleteAllNearContracts();
+
+    /**
+     * Insert a near contract
+     * @param near
+     */
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insert(Near... near);
 }
