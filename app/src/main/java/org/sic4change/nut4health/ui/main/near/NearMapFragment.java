@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.paging.PagedList;
 
@@ -32,10 +33,9 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.sic4change.nut4health.R;
-import org.sic4change.nut4health.data.entities.Contract;
 import org.sic4change.nut4health.data.entities.Near;
-import org.sic4change.nut4health.ui.contract_detail.ContractDetailActivity;
 import org.sic4change.nut4health.ui.main.MainViewModel;
+import org.sic4change.nut4health.ui.near_detail.NearDetailActivity;
 import org.sic4change.nut4health.utils.location.Nut4HealthSingleShotLocationProvider;
 
 import java.text.ParseException;
@@ -82,7 +82,6 @@ public class NearMapFragment extends Fragment implements OnMapReadyCallback {
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        initData();
         if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 101);
         } else {
@@ -94,6 +93,17 @@ public class NearMapFragment extends Fragment implements OnMapReadyCallback {
 
     private void initData() {
         mMainViewModel = ViewModelProviders.of(getActivity()).get(MainViewModel.class);
+        mMainViewModel.getNearContracts().observe(getActivity(), new Observer<PagedList<Near>>() {
+            @Override
+            public void onChanged(PagedList<Near> nears) {
+                showNearContracts(nears);
+            }
+        });
+        mMainViewModel.getIsFiltered().observe(getActivity(), filtered -> {
+            if (filtered) {
+                showNearContracts(mMainViewModel.getNearContracts().getValue());
+            }
+        });
     }
 
     private void showNearContracts(PagedList<Near> nears) {
@@ -102,9 +112,9 @@ public class NearMapFragment extends Fragment implements OnMapReadyCallback {
             for (Near near : nears) {
                 MarkerOptions markerOptions = new MarkerOptions();
                 markerOptions.position(new LatLng(near.getLatitude(), near.getLongitude()));
-                if (near.getStatus().equals(Contract.Status.NO_DIAGNOSIS.name())) {
+                if (near.getStatus().equals(Near.Status.NO_DIAGNOSIS.name())) {
                     markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
-                } else if (near.getStatus().equals(Contract.Status.DIAGNOSIS.name())) {
+                } else if (near.getStatus().equals(Near.Status.DIAGNOSIS.name())) {
                     markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
                 } else {
                     markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
@@ -136,28 +146,28 @@ public class NearMapFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.setOnMarkerClickListener(marker -> {
-            Contract contract = (Contract) marker.getTag();
-            if (contract != null) {
-                showContractInformation(contract);
-                marker.setTitle(contract.getPercentage() + "%");
-                id = contract.getId();
+            Near near = (Near) marker.getTag();
+            if (near != null) {
+                showNearInformation(near);
+                marker.setTitle(near.getPercentage() + "%");
+                id = near.getId();
             }
-            markMyPosition();
+            //markMyPosition();
             return false;
         });
         mMap.setOnMapClickListener(latLng -> cvContract.setVisibility(View.GONE));
         mMap.setOnMapLongClickListener(latLng -> cvContract.setVisibility(View.GONE));
     }
 
-    private void showContractInformation(Contract contract) {
-        nChildName.setText(contract.getChildName() + " " + contract.getChildSurname());
-        nChildLocation.setText(contract.getChildAddress());
-        nPercentage.setTitleText(contract.getPercentage() + "%");
-        if (contract.getStatus().equals(Contract.Status.DIAGNOSIS.name())) {
+    private void showNearInformation(Near near) {
+        nChildName.setText(near.getChildName() + " " + near.getChildSurname());
+        nChildLocation.setText(near.getChildAddress());
+        nPercentage.setTitleText(near.getPercentage() + "%");
+        if (near.getStatus().equals(Near.Status.DIAGNOSIS.name())) {
             nPercentage.setFillColor(getActivity().getResources().getColor(R.color.ms_errorColor));
             nPercentage.setStrokeColor(getActivity().getResources().getColor(R.color.ms_errorColor));
             nConfirmationDate.setVisibility(View.GONE);
-        } else if (contract.getStatus().equals(Contract.Status.NO_DIAGNOSIS.name())) {
+        } else if (near.getStatus().equals(Near.Status.NO_DIAGNOSIS.name())) {
             nPercentage.setFillColor(getActivity().getResources().getColor(R.color.colorPrimaryDark));
             nPercentage.setStrokeColor(getActivity().getResources().getColor(R.color.colorPrimaryDark));
             nConfirmationDate.setVisibility(View.GONE);
@@ -166,7 +176,7 @@ public class NearMapFragment extends Fragment implements OnMapReadyCallback {
             nPercentage.setStrokeColor(getActivity().getResources().getColor(R.color.colorAccent));
             SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd yyyy hh:mm:ss", Locale.ENGLISH);
             try {
-                Date date = formatter.parse(contract.getMedicalDate());
+                Date date = formatter.parse(near.getMedicalDate());
                 nConfirmationDate.setReferenceTime(date.getTime());
             } catch (ParseException e) {
                 e.printStackTrace();
@@ -175,7 +185,7 @@ public class NearMapFragment extends Fragment implements OnMapReadyCallback {
         }
         SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd yyyy hh:mm:ss", Locale.ENGLISH);
         try {
-            Date date = formatter.parse(contract.getCreationDate());
+            Date date = formatter.parse(near.getCreationDate());
             nDate.setReferenceTime(date.getTime());
         } catch (ParseException e) {
             e.printStackTrace();
@@ -192,24 +202,15 @@ public class NearMapFragment extends Fragment implements OnMapReadyCallback {
     private void showMyPosition() {
         Nut4HealthSingleShotLocationProvider.requestSingleUpdate(getActivity(),
                 location -> {
-                    Log.d("Location", "my location is " + location.toString());
-                    getNearContracts(location.latitude, location.longitude, RADIUS);
+                    Log.d("Location", "my location is " + location.latitude + ", " + location.longitude);
                     currentPosition = new LatLng(location.latitude, location.longitude);
-                    markMyPosition();
+                    //markMyPosition();
                     if (mMap != null) {
                         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPosition, DEFAULT_ZOOM));
                     }
+                    initData();
+                    mMainViewModel.rerieveNearContracts(location.latitude, location.longitude, RADIUS);
                 });
-    }
-
-    private void getNearContracts(float latitude, float longitude, int radius) {
-        mMainViewModel.getNearContracts(latitude, longitude, radius);
-        mMainViewModel.getNearContracts().observe(getActivity(), nears -> showNearContracts(nears));
-        mMainViewModel.getIsFiltered().observe(getActivity(), filtered -> {
-            if (filtered) {
-                showNearContracts(mMainViewModel.getNearContracts().getValue());
-            }
-        });
     }
 
     private void markMyPosition() {
@@ -237,7 +238,7 @@ public class NearMapFragment extends Fragment implements OnMapReadyCallback {
     }
 
     private void goToContractDetailActivity(String id) {
-        Intent intent = new Intent(getActivity(), ContractDetailActivity.class);
+        Intent intent = new Intent(getActivity(), NearDetailActivity.class);
         intent.putExtra("CONTRACT_ID", id);
         startActivity(intent);
         customType(getActivity(),"left-to-right");

@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.paging.LivePagedListBuilder;
@@ -12,6 +13,8 @@ import androidx.paging.PagedList;
 import androidx.sqlite.db.SimpleSQLiteQuery;
 
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,6 +33,7 @@ import com.machinezoo.sourceafis.FingerprintMatcher;
 import com.machinezoo.sourceafis.FingerprintTemplate;
 
 import org.imperiumlabs.geofirestore.GeoFirestore;
+import org.imperiumlabs.geofirestore.listeners.GeoQueryDataEventListener;
 import org.imperiumlabs.geofirestore.listeners.GeoQueryEventListener;
 import org.sic4change.nut4health.data.entities.Contract;
 import org.sic4change.nut4health.data.entities.Near;
@@ -432,6 +436,7 @@ public class DataRepository {
         auth.signOut();
         mIoExecutor.submit(() -> nut4HealtDao.deleteAllUser());
         mIoExecutor.submit(() -> nut4HealtDao.deleteAllContract());
+        mIoExecutor.submit(() -> nut4HealtDao.deleteAllNearContracts());
         mIoExecutor.submit(() -> nut4HealtDao.deleteAllRanking());
         mIoExecutor.submit(() -> nut4HealtDao.deleteAllPayment());
         mIoExecutor.submit(() -> nut4HealtDao.deleteAllNotification());
@@ -498,7 +503,13 @@ public class DataRepository {
                 status, "", percentage);
         if (role.equals("Screener")) {
             contract.setScreener(email);
-            contractRef.add(contract).addOnCompleteListener(task -> createGeoPoint(DataContractNames.TABLE_FIREBASE_NAME + task.getResult().getId(), latitude, longitude));
+            contractRef.add(contract).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentReference> task) {
+                    listenerQuery.remove();
+                    createGeoPoint(task.getResult().getId(), latitude, longitude);
+                }
+            });
         } else {
             try {
                 String fname = Environment.getExternalStorageDirectory().toString() + "/req_images/Nut4HealthFingerPrint-" +".jpg";
@@ -528,16 +539,26 @@ public class DataRepository {
                             if (!updated) {
                                 contract.setMedical(email);
                                 contract.setStatus(Contract.Status.PAID.name());
-                                contractRef.add(contract).addOnCompleteListener(task -> createGeoPoint(DataContractNames.TABLE_FIREBASE_NAME + task.getResult().getId(), latitude, longitude));
-                                listenerQuery.remove();
+                                contractRef.add(contract).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentReference> task) {
+                                        listenerQuery.remove();
+                                        createGeoPoint(task.getResult().getId(), latitude, longitude);
+                                    }
+                                });
                             }
                         } else {
                             //Por si el primer diagnostico es de un medico tambien debe añdirlo
                             //o todos los diagnosticos han sido confirmados por un medico
                             contract.setMedical(email);
                             contract.setStatus(Contract.Status.PAID.name());
-                            contractRef.add(contract).addOnCompleteListener(task -> createGeoPoint(DataContractNames.TABLE_FIREBASE_NAME + task.getResult().getId(), latitude, longitude));
-                            listenerQuery.remove();
+                            contractRef.add(contract).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentReference> task) {
+                                    listenerQuery.remove();
+                                    createGeoPoint(task.getResult().getId(), latitude, longitude);
+                                }
+                            });
                         }
                     } catch (Exception error) {
                         Log.d(TAG, "Get contract: " + error);
@@ -552,10 +573,10 @@ public class DataRepository {
 
     }
 
-    private void createGeoPoint(String path, float latitude, float longitude) {
-        CollectionReference collectionReference = FirebaseFirestore.getInstance().collection(path);
+    private void createGeoPoint(String id, float latitude, float longitude) {
+        CollectionReference collectionReference = FirebaseFirestore.getInstance().collection(DataContractNames.TABLE_FIREBASE_NAME);
         GeoFirestore geoFirestore = new GeoFirestore(collectionReference);
-        geoFirestore.setLocation("latlang", new GeoPoint(latitude, longitude));
+        geoFirestore.setLocation(id, new GeoPoint(latitude, longitude));
     }
 
     /**
@@ -947,41 +968,27 @@ public class DataRepository {
         });
     }
 
+
     /**
      * Method to get near contracts from firebase
      * @param latitude
      * @param longitude
      * @param radius
      */
-    public void getNearContracts(float latitude, float longitude, int radius) {
+    public void rerieveNearContracts(float latitude, float longitude, int radius) {
         CollectionReference collectionRef = FirebaseFirestore.getInstance().collection(DataContractNames.TABLE_FIREBASE_NAME);
         GeoFirestore geoFirestore = new GeoFirestore(collectionRef);
-        geoFirestore.queryAtLocation(new GeoPoint(latitude, longitude), radius).addGeoQueryEventListener(new GeoQueryEventListener() {
+        geoFirestore.getAtLocation(new GeoPoint(latitude, longitude), radius, new GeoFirestore.SingleGeoQueryDataEventCallback() {
             @Override
-            public void onKeyEntered(String s, GeoPoint geoPoint) {
-                Log.d(TAG, "GeoFire: key entered");
-            }
-
-            @Override
-            public void onKeyExited(String s) {
-                Log.d(TAG, "GeoFire: key exited");
-            }
-
-            @Override
-            public void onKeyMoved(String s, GeoPoint geoPoint) {
-                Log.d(TAG, "GeoFire: key moved");
-            }
-
-            @Override
-            public void onGeoQueryReady() {
-                Log.d(TAG, "GeoFire: key ready");
-            }
-
-            @Override
-            public void onGeoQueryError(Exception e) {
-                Log.d(TAG, "GeoFire: key error");
+            public void onComplete(List<? extends DocumentSnapshot> list, Exception e) {
+                mIoExecutor.submit(() -> nut4HealtDao.deleteAllNearContracts());
+                for (DocumentSnapshot documentSnapshot : list) {
+                    Near near = documentSnapshot.toObject(Near.class);
+                    mIoExecutor.submit(() -> nut4HealtDao.insert(near));
+                }
             }
         });
+        mIoExecutor.submit(() -> nut4HealtDao.deleteAllNearContracts());
 
     }
 
@@ -1003,6 +1010,15 @@ public class DataRepository {
         SimpleSQLiteQuery query = SortUtils.getFilterContracts(sort, name, surname, status, dateStart, dateEnd,
                 percentageMin, percentageMax);
         return new LivePagedListBuilder<>(nut4HealtDao.getNearContracts(query), PAGE_SIZE).build();
+    }
+
+    /**
+     * Method to get a near contract
+     * @param id
+     * @return
+     */
+    public LiveData<Near> getNearContract(String id) {
+        return nut4HealtDao.getNearContract(id);
     }
 
 }

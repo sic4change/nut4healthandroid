@@ -250,8 +250,8 @@ public class MainViewModel extends ViewModel {
         return notificatonsNoRead;
     }
 
-    public void getNearContracts(float latitude, float longitude, int radius) {
-        this.mRepository.getNearContracts(latitude, longitude, radius);
+    public void rerieveNearContracts(float latitude, float longitude, int radius) {
+        this.mRepository.rerieveNearContracts(latitude, longitude, radius);
     }
 
     public void getSortedNearContracts(String sort, String name, String surname, String status, long dateStart, long dataEnd,

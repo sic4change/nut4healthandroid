@@ -286,6 +286,14 @@ public interface Nut4HealtDao {
     @Query("SELECT * FROM near WHERE contractId =:id LIMIT 1")
     LiveData<Near> getNearContract(String id);
 
+
+    /**
+     * Get all near contract
+     * @return
+     */
+    @Query("SELECT * FROM near")
+    LiveData<Near> getNearContracts();
+
     /**
      * Delete all near contracts
      */
@@ -298,4 +306,11 @@ public interface Nut4HealtDao {
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(Near... near);
+
+    /**
+     * Delete contract
+     * @param id
+     */
+    @Query("DELETE FROM near WHERE contractId =:id")
+    void deleteNear(String id);
 }
