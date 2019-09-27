@@ -485,7 +485,7 @@ public class DataRepository {
      * @param fingerprint
      * @param percentage
      */
-    public void createContract(String role, String email, float latitude, float longitude, Uri photo,
+    public void createContract(String role, String email, double latitude, double longitude, Uri photo,
                                String childName, String childUsername, String childAddress, String fingerprint,
                                int percentage) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -574,7 +574,7 @@ public class DataRepository {
 
     }
 
-    private void createGeoPoint(String id, float latitude, float longitude) {
+    private void createGeoPoint(String id, double latitude, double longitude) {
         CollectionReference collectionReference = FirebaseFirestore.getInstance().collection(DataContractNames.TABLE_FIREBASE_NAME);
         GeoFirestore geoFirestore = new GeoFirestore(collectionReference);
         geoFirestore.setLocation(id, new GeoPoint(latitude, longitude));

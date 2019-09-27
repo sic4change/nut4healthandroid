@@ -25,11 +25,11 @@ public class Near {
 
     @NonNull
     @ColumnInfo(name = DataNearNames.COL_LATITUDE)
-    private float latitude;
+    private double latitude;
 
     @NonNull
     @ColumnInfo(name = DataNearNames.COL_LONGITUDE)
-    private float longitude;
+    private double longitude;
 
     @NonNull
     @ColumnInfo(name = DataNearNames.COL_SCREENER)
@@ -83,27 +83,27 @@ public class Near {
     }
 
     @Ignore
-    public Near(@NonNull String photo, float latitude, float longitude, @NonNull String screener) {
+    public Near(@NonNull String photo, double latitude, double longitude, @NonNull String screener) {
         this("", photo, latitude, longitude, screener, "", "", "",
                 "", "", Status.INIT.name(), "", "",0,  0, "");
     }
 
     @Ignore
-    public Near(@NonNull String photo, float latitude, float longitude, @NonNull String screener,
+    public Near(@NonNull String photo, double latitude, double longitude, @NonNull String screener,
                 String childName, String childSurname, String childAddress, String fingerprint, String status, String creationDate,
                 int percentage) {
         this("", photo, latitude, longitude, screener, "", childName, childSurname,
                 childAddress, fingerprint, status, "", creationDate, Nut4HealthTimeUtil.convertCreationDateToTimeMilis(creationDate), percentage, "");
     }
     @Ignore
-    public Near(@NonNull String id, @NonNull String photo, float latitude, float longitude,
+    public Near(@NonNull String id, @NonNull String photo, double latitude, double longitude,
                 @NonNull String screener, String childName, String childSurname,
                 String childAddress, String fingerprint, String status, String creationDate, int percentage) {
         this(id, photo, latitude, longitude, screener, "", childName, childSurname,
                 childAddress, fingerprint, status, "", creationDate, Nut4HealthTimeUtil.convertCreationDateToTimeMilis(creationDate), percentage, "");
     }
 
-    public Near(@NonNull String id, @NonNull String photo, float latitude, float longitude, @NonNull String screener,
+    public Near(@NonNull String id, @NonNull String photo, double latitude, double longitude, @NonNull String screener,
                 String medical, String childName, String childSurname, String childAddress, String fingerprint,
                 String status, String diagnosis, String creationDate, long creationDateMiliseconds, int percentage, String medicalDate) {
         this.id = id;
@@ -143,19 +143,19 @@ public class Near {
         this.photo = photo;
     }
 
-    public float getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(float latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
-    public float getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(float longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 

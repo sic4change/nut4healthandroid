@@ -48,7 +48,7 @@ public class MainViewModel extends ViewModel {
     private long dateEndPayment = 0;
 
     private LatLng currentPosition = new LatLng(0.0, 0.0);
-    public static final double RADIUS_NEAR = 500.5;
+    public static final double RADIUS_NEAR = 30.0;
 
     public MainViewModel(Context context, DataRepository repository) {
         this.mContext = context;
@@ -267,7 +267,7 @@ public class MainViewModel extends ViewModel {
         this.mRepository.removeAllNearContracts();
     }
 
-    public void retrieveNearContracts(float latitude, float longitude) {
+    public void retrieveNearContracts(double latitude, double longitude) {
         this.mRepository.retrieveNearContracts(latitude, longitude, RADIUS_NEAR);
     }
 

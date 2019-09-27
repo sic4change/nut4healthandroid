@@ -93,7 +93,9 @@ public class NearMapFragment extends Fragment implements OnMapReadyCallback {
 
     private void initData() {
         mMainViewModel = ViewModelProviders.of(getActivity()).get(MainViewModel.class);
-        mMainViewModel.getNearContracts().observe(getActivity(), nears -> showNearContracts(nears));
+        mMainViewModel.getNearContracts().observe(getActivity(), nears -> {
+            showNearContracts(nears);
+        });
         mMainViewModel.getIsFiltered().observe(getActivity(), filtered -> {
             if (filtered) {
                 showNearContracts(mMainViewModel.getNearContracts().getValue());
@@ -118,6 +120,7 @@ public class NearMapFragment extends Fragment implements OnMapReadyCallback {
                 Marker marker = mMap.addMarker(markerOptions);
                 marker.setTag(near);
             }
+            markMyPosition();
         }
         cvContract.setVisibility(View.GONE);
     }
