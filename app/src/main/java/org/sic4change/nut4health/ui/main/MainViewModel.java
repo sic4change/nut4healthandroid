@@ -8,6 +8,8 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.paging.PagedList;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import org.sic4change.nut4health.data.DataRepository;
 import org.sic4change.nut4health.data.entities.Contract;
 import org.sic4change.nut4health.data.entities.Near;
@@ -45,6 +47,9 @@ public class MainViewModel extends ViewModel {
     private long dateStartPayment = 0;
     private long dateEndPayment = 0;
 
+    private LatLng currentPosition = new LatLng(0.0, 0.0);
+    public static final double RADIUS_NEAR = 500.5;
+
     public MainViewModel(Context context, DataRepository repository) {
         this.mContext = context;
         this.mRepository = repository;
@@ -55,6 +60,14 @@ public class MainViewModel extends ViewModel {
         mPayments = this.mRepository.getSortedPayments("DATE", statusPayment, dateStartPayment, dateEndPayment);
         mNotifications = this.mRepository.getSortedNotifications();
         isFiltered.setValue(false);
+    }
+
+    public LatLng getCurrentPosition() {
+        return currentPosition;
+    }
+
+    public void setCurrentPosition(LatLng currentPosition) {
+        this.currentPosition = currentPosition;
     }
 
     public LiveData<User> getCurrentUser() {
@@ -254,8 +267,8 @@ public class MainViewModel extends ViewModel {
         this.mRepository.removeAllNearContracts();
     }
 
-    public void retrieveNearContracts(float latitude, float longitude, int radius) {
-        this.mRepository.retrieveNearContracts(latitude, longitude, radius);
+    public void retrieveNearContracts(float latitude, float longitude) {
+        this.mRepository.retrieveNearContracts(latitude, longitude, RADIUS_NEAR);
     }
 
     public void getSortedNearContracts(String sort, String name, String surname, String status, long dateStart, long dataEnd,

@@ -53,6 +53,7 @@ import org.sic4change.nut4health.utils.time.Nut4HealthTimeUtil;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -972,7 +973,9 @@ public class DataRepository {
      * Mehtod to remove al near contracts
      */
     public void removeAllNearContracts() {
-        mIoExecutor.submit(() -> nut4HealtDao.deleteAllNearContracts());
+        mIoExecutor.submit(() -> {
+            nut4HealtDao.deleteAllNearContracts();
+        });
     }
 
     /**
@@ -981,7 +984,7 @@ public class DataRepository {
      * @param longitude
      * @param radius
      */
-    public void retrieveNearContracts(float latitude, float longitude, int radius) {
+    public void retrieveNearContracts(double latitude, double longitude, double radius) {
         CollectionReference collectionRef = FirebaseFirestore.getInstance().collection(DataContractNames.TABLE_FIREBASE_NAME);
         GeoFirestore geoFirestore = new GeoFirestore(collectionRef);
         geoFirestore.getAtLocation(new GeoPoint(latitude, longitude), radius, new GeoFirestore.SingleGeoQueryDataEventCallback() {
@@ -1010,7 +1013,7 @@ public class DataRepository {
     public LiveData<PagedList<Near>> getSortedNearContracts(String sort, String name, String surname,
                                                             String status, long dateStart, long dateEnd,
                                                             int percentageMin, int percentageMax) {
-        SimpleSQLiteQuery query = SortUtils.getFilterContracts(sort, name, surname, status, dateStart, dateEnd,
+        SimpleSQLiteQuery query = SortUtils.getFilterNearContracts(sort, name, surname, status, dateStart, dateEnd,
                 percentageMin, percentageMax);
         return new LivePagedListBuilder<>(nut4HealtDao.getNearContracts(query), PAGE_SIZE).build();
     }

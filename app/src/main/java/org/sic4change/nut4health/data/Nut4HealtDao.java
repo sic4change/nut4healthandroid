@@ -18,6 +18,8 @@ import org.sic4change.nut4health.data.entities.Payment;
 import org.sic4change.nut4health.data.entities.Ranking;
 import org.sic4change.nut4health.data.entities.User;
 
+import java.util.List;
+
 @Dao
 public interface Nut4HealtDao {
 
@@ -292,7 +294,7 @@ public interface Nut4HealtDao {
      * @return
      */
     @Query("SELECT * FROM near")
-    LiveData<Near> getNearContracts();
+    List<Near> getNearContracts();
 
     /**
      * Delete all near contracts

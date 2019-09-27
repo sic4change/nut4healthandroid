@@ -52,7 +52,7 @@ public class NearMapFragment extends Fragment implements OnMapReadyCallback {
     private MainViewModel mMainViewModel;
     private GoogleMap mMap;
     private static final int DEFAULT_ZOOM = 20;
-    private LatLng currentPosition;
+    //private LatLng currentPosition;
 
     private CardView cvContract;
     private TextView nChildName;
@@ -61,7 +61,6 @@ public class NearMapFragment extends Fragment implements OnMapReadyCallback {
     private RelativeTimeTextView nDate;
     private RelativeTimeTextView nConfirmationDate;
 
-    private static final int RADIUS = 1;
 
     private String id;
 
@@ -71,7 +70,7 @@ public class NearMapFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_contract_map, container, false);
+        View view = inflater.inflate(R.layout.fragment_near_map, container, false);
         cvContract = view.findViewById(R.id.cvContract);
         cvContract.setOnClickListener(v -> goToContractDetailActivity(id));
         nChildName = view.findViewById(R.id.tvNameItem);
@@ -200,22 +199,20 @@ public class NearMapFragment extends Fragment implements OnMapReadyCallback {
         Nut4HealthSingleShotLocationProvider.requestSingleUpdate(getActivity(),
                 location -> {
                     Log.d("Location", "my location is " + location.latitude + ", " + location.longitude);
-                    currentPosition = new LatLng(location.latitude, location.longitude);
-                    //currentPosition = new LatLng(0, 0);
+                    mMainViewModel.setCurrentPosition(new LatLng(location.latitude, location.longitude));
                     markMyPosition();
                     if (mMap != null) {
-                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPosition, DEFAULT_ZOOM));
+                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mMainViewModel.getCurrentPosition(), DEFAULT_ZOOM));
                     }
-                    mMainViewModel.retrieveNearContracts(location.latitude, location.longitude, RADIUS);
-                    //mMainViewModel.retrieveNearContracts(0, 0, RADIUS);
+                    mMainViewModel.retrieveNearContracts(location.latitude, location.longitude);
                 });
     }
 
     private void markMyPosition() {
         try {
-            if (currentPosition != null) {
+            if (mMainViewModel.getCurrentPosition() != null) {
                 MarkerOptions markerOptions = new MarkerOptions();
-                markerOptions.position(currentPosition);
+                markerOptions.position(mMainViewModel.getCurrentPosition());
                 markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
                 markerOptions.title(getString(R.string.your_position));
                 Marker marker = mMap.addMarker(markerOptions);

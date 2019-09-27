@@ -4,8 +4,10 @@ package org.sic4change.nut4health.data;
 import androidx.sqlite.db.SimpleSQLiteQuery;
 
 import org.sic4change.nut4health.data.entities.Contract;
+import org.sic4change.nut4health.data.entities.Near;
 import org.sic4change.nut4health.data.entities.Payment;
 import org.sic4change.nut4health.data.names.DataContractNames;
+import org.sic4change.nut4health.data.names.DataNearNames;
 import org.sic4change.nut4health.data.names.DataNotificationNames;
 import org.sic4change.nut4health.data.names.DataPaymentNames;
 import org.sic4change.nut4health.data.names.DataRankingNames;
@@ -58,6 +60,55 @@ public class SortUtils {
         }
         return new SimpleSQLiteQuery(query + " ORDER BY " + DataContractNames.COL_DATE_MILI
             +  " DESC");
+    }
+
+
+    /**
+     * A raw query at runtime to oder by column for getting filter and sorted near contracts.
+     * @param sortBy
+     * @param name
+     * @param surname
+     * @param status
+     * @param dateStart
+     * @param dataEnd
+     * @param percentageMin
+     * @param percentageMax
+     * @return
+     */
+    public static SimpleSQLiteQuery getFilterNearContracts(String sortBy, String name, String surname, String status, long dateStart, long dataEnd,
+                                                       int percentageMin, int percentageMax) {
+        String query = "SELECT * FROM " + DataNearNames.TABLE_NAME;
+        if ((name != null) && (!name.isEmpty())) {
+            query = query + " WHERE " + DataNearNames.COL_CHILD_NAME + " LIKE " + "'%" + name + "%'";
+        }
+        if ((surname != null) && (!surname.isEmpty())) {
+            if (query.contains("WHERE")) {
+                query = query + " AND " + DataNearNames.COL_CHILD_SURNAME + " LIKE " + "'%" + surname + "%'";
+            } else {
+                query = query + " WHERE " + DataNearNames.COL_CHILD_SURNAME + " LIKE " + "'%" + surname + "%'";
+            }
+        }
+        if (!status.equals(Near.Status.ALL.name())) {
+            if (query.contains("WHERE")) {
+                query = query + " AND " + DataNearNames.COL_STATUS + " = " + "'" + status + "'";
+            } else {
+                query = query + " WHERE " + DataNearNames.COL_STATUS + " = " + "'" + status + "'";
+            }
+        }
+        if (dateStart != 0 && dataEnd != 0) {
+            if (query.contains("WHERE")) {
+                query = query + " AND " + DataNearNames.COL_DATE + " >= " + dateStart + " AND " + DataNearNames.COL_DATE + " <= " + dataEnd;
+            } else {
+                query = query + " WHERE " + DataNearNames.COL_DATE + " >= " + dateStart + " AND " + DataNearNames.COL_DATE + " <= " + dataEnd;
+            }
+        }
+        if (query.contains("WHERE")) {
+            query = query + " AND " + DataNearNames.COL_PERCENTAGE + " >= " + percentageMin + " AND " + DataNearNames.COL_PERCENTAGE + " <= " + percentageMax;
+        } else {
+            query = query + " WHERE " + DataNearNames.COL_PERCENTAGE + " >= " + percentageMin + " AND " + DataNearNames.COL_PERCENTAGE + " <= " + percentageMax;
+        }
+        return new SimpleSQLiteQuery(query + " ORDER BY " + DataNearNames.COL_DATE_MILI
+                +  " DESC");
     }
 
     /**
