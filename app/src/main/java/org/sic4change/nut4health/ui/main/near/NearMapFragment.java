@@ -51,7 +51,7 @@ public class NearMapFragment extends Fragment implements OnMapReadyCallback {
     private OnFragmentInteractionListener mListener;
     private MainViewModel mMainViewModel;
     private GoogleMap mMap;
-    private static final int DEFAULT_ZOOM = 5;
+    private static final int DEFAULT_ZOOM = 20;
     //private LatLng currentPosition;
 
     private CardView cvContract;

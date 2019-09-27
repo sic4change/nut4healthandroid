@@ -507,7 +507,9 @@ public class DataRepository {
             contractRef.add(contract).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                 @Override
                 public void onComplete(@NonNull Task<DocumentReference> task) {
-                    listenerQuery.remove();
+                    if (listenerQuery != null) {
+                        listenerQuery.remove();
+                    }
                     createGeoPoint(task.getResult().getId(), latitude, longitude);
                 }
             });
@@ -527,11 +529,17 @@ public class DataRepository {
                                 FingerprintTemplate fingerprintCandidate = new FingerprintTemplate().deserialize(contractIt.getFingerprint());
                                 double score = new FingerprintMatcher().index(fingerprintTemplate).match(fingerprintCandidate);
                                 if (score >= 40) {
-                                    contractIt.setStatus(Contract.Status.PAID.name());
+                                    if (contractIt.getPercentage() < 50) {
+                                        contractIt.setStatus(status);
+                                    } else {
+                                        contractIt.setStatus(Contract.Status.PAID.name());
+                                    }
                                     contractIt.setMedical(email);
                                     contractIt.setPercentage(percentage);
                                     document.getReference().set(contractIt);
-                                    listenerQuery.remove();
+                                    if (listenerQuery != null) {
+                                        listenerQuery.remove();
+                                    }
                                     updated = true;
                                     break;
                                 }
