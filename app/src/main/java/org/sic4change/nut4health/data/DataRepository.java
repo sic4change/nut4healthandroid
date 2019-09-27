@@ -987,7 +987,38 @@ public class DataRepository {
     public void retrieveNearContracts(double latitude, double longitude, double radius) {
         CollectionReference collectionRef = FirebaseFirestore.getInstance().collection(DataContractNames.TABLE_FIREBASE_NAME);
         GeoFirestore geoFirestore = new GeoFirestore(collectionRef);
-        geoFirestore.getAtLocation(new GeoPoint(latitude, longitude), radius, new GeoFirestore.SingleGeoQueryDataEventCallback() {
+        geoFirestore.queryAtLocation(new GeoPoint(latitude, longitude), radius).addGeoQueryDataEventListener(new GeoQueryDataEventListener() {
+            @Override
+            public void onDocumentEntered(DocumentSnapshot documentSnapshot, GeoPoint geoPoint) {
+                Near near = documentSnapshot.toObject(Near.class);
+                mIoExecutor.submit(() -> nut4HealtDao.insert(near));
+            }
+
+            @Override
+            public void onDocumentExited(DocumentSnapshot documentSnapshot) {
+            }
+
+            @Override
+            public void onDocumentMoved(DocumentSnapshot documentSnapshot, GeoPoint geoPoint) {
+
+            }
+
+            @Override
+            public void onDocumentChanged(DocumentSnapshot documentSnapshot, GeoPoint geoPoint) {
+
+            }
+
+            @Override
+            public void onGeoQueryReady() {
+
+            }
+
+            @Override
+            public void onGeoQueryError(Exception e) {
+
+            }
+        });
+        /*geoFirestore.getAtLocation(new GeoPoint(latitude, longitude), radius, new GeoFirestore.SingleGeoQueryDataEventCallback() {
             @Override
             public void onComplete(List<? extends DocumentSnapshot> list, Exception e) {
                 for (DocumentSnapshot documentSnapshot : list) {
@@ -995,7 +1026,7 @@ public class DataRepository {
                     mIoExecutor.submit(() -> nut4HealtDao.insert(near));
                 }
             }
-        });
+        });*/
     }
 
     /**
