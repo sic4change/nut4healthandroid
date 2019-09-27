@@ -539,7 +539,7 @@ public class DataRepository {
                             //Si no lo encuentra el medico debe añadirlo
                             if (!updated) {
                                 contract.setMedical(email);
-                                contract.setStatus(Contract.Status.PAID.name());
+                                contract.setStatus(Contract.Status.FINISH.name());
                                 contractRef.add(contract).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                                     @Override
                                     public void onComplete(@NonNull Task<DocumentReference> task) {
@@ -552,7 +552,7 @@ public class DataRepository {
                             //Por si el primer diagnostico es de un medico tambien debe añdirlo
                             //o todos los diagnosticos han sido confirmados por un medico
                             contract.setMedical(email);
-                            contract.setStatus(Contract.Status.PAID.name());
+                            contract.setStatus(Contract.Status.FINISH.name());
                             contractRef.add(contract).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                                 @Override
                                 public void onComplete(@NonNull Task<DocumentReference> task) {
@@ -1018,15 +1018,6 @@ public class DataRepository {
 
             }
         });
-        /*geoFirestore.getAtLocation(new GeoPoint(latitude, longitude), radius, new GeoFirestore.SingleGeoQueryDataEventCallback() {
-            @Override
-            public void onComplete(List<? extends DocumentSnapshot> list, Exception e) {
-                for (DocumentSnapshot documentSnapshot : list) {
-                    Near near = documentSnapshot.toObject(Near.class);
-                    mIoExecutor.submit(() -> nut4HealtDao.insert(near));
-                }
-            }
-        });*/
     }
 
     /**

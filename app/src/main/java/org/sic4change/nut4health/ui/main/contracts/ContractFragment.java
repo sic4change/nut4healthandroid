@@ -164,7 +164,7 @@ public class ContractFragment extends Fragment {
                         ivStatus.setBackgroundColor(getResources().getColor(R.color.ms_black));
                         break;
                     case 1:
-                        ivStatus.setBackgroundColor(getResources().getColor(R.color.ms_material_grey_400));
+                        ivStatus.setBackgroundColor(getResources().getColor(R.color.orange));
                         break;
                     case 2:
                         ivStatus.setBackgroundColor(getResources().getColor(R.color.ms_errorColor));
@@ -217,7 +217,7 @@ public class ContractFragment extends Fragment {
         tvMinRange.setText("0%");
         mMainViewModel.setName("");
         mMainViewModel.setSurname("");
-        mMainViewModel.setStatus(Contract.Status.ALL.name());
+        mMainViewModel.setStatus(Contract.Status.EMPTY.name());
         timeRangeMin = 0;
         timeRangeMax = 0;
         mMainViewModel.setDateEnd(timeRangeMin);
@@ -231,10 +231,10 @@ public class ContractFragment extends Fragment {
         mMainViewModel.setSurname(etSurname.getText().toString());
         switch (spStatus.getSelectedItemPosition()) {
             case 0:
-                mMainViewModel.setStatus(Contract.Status.ALL.name());
+                mMainViewModel.setStatus(Contract.Status.EMPTY.name());
                 break;
             case 1:
-                mMainViewModel.setStatus(Contract.Status.INIT.name());
+                mMainViewModel.setStatus(Contract.Status.FINISH.name());
                 break;
             case 2:
                 mMainViewModel.setStatus(Contract.Status.DIAGNOSIS.name());
@@ -246,7 +246,7 @@ public class ContractFragment extends Fragment {
                 mMainViewModel.setStatus(Contract.Status.PAID.name());
                 break;
             default:
-                mMainViewModel.setStatus(Contract.Status.ALL.name());
+                mMainViewModel.setStatus(Contract.Status.EMPTY.name());
                 break;
         }
         if (timeRangeMin != 0) {

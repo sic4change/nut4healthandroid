@@ -59,9 +59,20 @@ private Context context;
             nPercentage.setFillColor(context.getResources().getColor(R.color.colorPrimaryDark));
             nPercentage.setStrokeColor(context.getResources().getColor(R.color.colorPrimaryDark));
             nConfirmationDate.setVisibility(View.GONE);
-        } else {
+        } else if (contract.getStatus().equals(Contract.Status.PAID.name())) {
             nPercentage.setFillColor(context.getResources().getColor(R.color.colorAccent));
             nPercentage.setStrokeColor(context.getResources().getColor(R.color.colorAccent));
+            SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd yyyy hh:mm:ss", Locale.ENGLISH);
+            try {
+                Date date = formatter.parse(contract.getMedicalDate());
+                nConfirmationDate.setReferenceTime(date.getTime());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            nConfirmationDate.setVisibility(View.VISIBLE);
+        } else if (contract.getStatus().equals(Contract.Status.FINISH.name())) {
+            nPercentage.setFillColor(context.getResources().getColor(R.color.orange));
+            nPercentage.setStrokeColor(context.getResources().getColor(R.color.orange));
             SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd yyyy hh:mm:ss", Locale.ENGLISH);
             try {
                 Date date = formatter.parse(contract.getMedicalDate());

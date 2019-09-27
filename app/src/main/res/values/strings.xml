@@ -110,7 +110,7 @@
     <!--Contract Filter-->
     <string-array name="array_status">
         <item>All</item>
-        <item>Init</item>
+        <item>Finished</item>
         <item>Malnourished</item>
         <item>No malnourished</item>
         <item>Paid</item>

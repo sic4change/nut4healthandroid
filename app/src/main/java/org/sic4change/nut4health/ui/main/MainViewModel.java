@@ -34,7 +34,7 @@ public class MainViewModel extends ViewModel {
 
     private String name = "";
     private String surname = "";
-    private String status = Contract.Status.ALL.name();
+    private String status = Contract.Status.EMPTY.name();
     private long dateStart = 0;
     private long dateEnd = 0;
     private int percentageMin = 0;

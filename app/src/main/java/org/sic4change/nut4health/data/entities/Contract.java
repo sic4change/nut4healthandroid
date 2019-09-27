@@ -11,11 +11,6 @@ import androidx.room.PrimaryKey;
 import org.sic4change.nut4health.data.names.DataContractNames;
 import org.sic4change.nut4health.utils.time.Nut4HealthTimeUtil;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-
 @Entity(tableName = DataContractNames.TABLE_NAME)
 public class Contract {
 
@@ -78,19 +73,19 @@ public class Contract {
 
     public Contract() {
         this("", "", 0.0f, 0.0f, "", "", "",
-                "", "", "", Status.INIT.name(), "", "",0, 0, "");
+                "", "", "", Status.EMPTY.name(), "", "",0, 0, "");
     }
 
     @Ignore
     public Contract(@NonNull String id) {
         this(id, "", 0.0f, 0.0f, "", "", "",
-                "", "", "", Status.INIT.name(), "", "",0,  0, "");
+                "", "", "", Status.EMPTY.name(), "", "",0,  0, "");
     }
 
     @Ignore
     public Contract(@NonNull String photo, double latitude, double longitude, @NonNull String screener) {
         this("", photo, latitude, longitude, screener, "", "", "",
-                "", "", Status.INIT.name(), "", "",0,  0, "");
+                "", "", Status.EMPTY.name(), "", "",0,  0, "");
     }
 
     @Ignore
@@ -264,7 +259,7 @@ public class Contract {
     }
 
     public enum Status {
-        INIT, DIAGNOSIS, NO_DIAGNOSIS, PAID, ALL
+        EMPTY, DIAGNOSIS, NO_DIAGNOSIS, PAID, FINISH
     }
 
 

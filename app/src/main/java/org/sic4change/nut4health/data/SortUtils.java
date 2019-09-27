@@ -39,7 +39,7 @@ public class SortUtils {
                 query = query + " WHERE " + DataContractNames.COL_CHILD_SURNAME + " LIKE " + "'%" + surname + "%'";
             }
         }
-        if (!status.equals(Contract.Status.ALL.name())) {
+        if (!status.equals(Contract.Status.EMPTY.name())) {
             if (query.contains("WHERE")) {
                 query = query + " AND " + DataContractNames.COL_STATUS + " = " + "'" + status + "'";
             } else {
@@ -88,7 +88,7 @@ public class SortUtils {
                 query = query + " WHERE " + DataNearNames.COL_CHILD_SURNAME + " LIKE " + "'%" + surname + "%'";
             }
         }
-        if (!status.equals(Near.Status.ALL.name())) {
+        if (!status.equals(Near.Status.EMPTY.name())) {
             if (query.contains("WHERE")) {
                 query = query + " AND " + DataNearNames.COL_STATUS + " = " + "'" + status + "'";
             } else {

@@ -50,9 +50,12 @@ public class ContractDetailActivity extends AppCompatActivity {
         } else if (contract.getStatus().equals(Contract.Status.NO_DIAGNOSIS.name())) {
             ivIcon.setFillColor(getApplicationContext().getResources().getColor(R.color.colorPrimaryDark));
             ivIcon.setStrokeColor(getApplicationContext().getResources().getColor(R.color.colorPrimaryDark));
-        } else {
+        } else if (contract.getStatus().equals(Contract.Status.PAID.name())) {
             ivIcon.setFillColor(getApplicationContext().getResources().getColor(R.color.colorAccent));
             ivIcon.setStrokeColor(getApplicationContext().getResources().getColor(R.color.colorAccent));
+        } else if (contract.getStatus().equals(Contract.Status.FINISH.name())) {
+            ivIcon.setFillColor(getApplicationContext().getResources().getColor(R.color.orange));
+            ivIcon.setStrokeColor(getApplicationContext().getResources().getColor(R.color.orange));
         }
         SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd yyyy hh:mm:ss", Locale.ENGLISH);
         try {

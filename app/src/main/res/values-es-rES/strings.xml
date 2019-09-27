@@ -111,7 +111,7 @@
     <!--Contract Filter-->
     <string-array name="array_status">
         <item>Todos</item>
-        <item>Iniciado</item>
+        <item>Finalizado</item>
         <item>Desnutrido</item>
         <item>No desnutrido</item>
         <item>Pagado</item>

@@ -73,19 +73,19 @@ public class Near {
 
     public Near() {
         this("", "", 0.0f, 0.0f, "", "", "",
-                "", "", "", Status.INIT.name(), "", "",0, 0, "");
+                "", "", "", Status.EMPTY.name(), "", "",0, 0, "");
     }
 
     @Ignore
     public Near(@NonNull String id) {
         this(id, "", 0.0f, 0.0f, "", "", "",
-                "", "", "", Status.INIT.name(), "", "",0,  0, "");
+                "", "", "", Status.EMPTY.name(), "", "",0,  0, "");
     }
 
     @Ignore
     public Near(@NonNull String photo, double latitude, double longitude, @NonNull String screener) {
         this("", photo, latitude, longitude, screener, "", "", "",
-                "", "", Status.INIT.name(), "", "",0,  0, "");
+                "", "", Status.EMPTY.name(), "", "",0,  0, "");
     }
 
     @Ignore
@@ -259,7 +259,7 @@ public class Near {
     }
 
     public enum Status {
-        INIT, DIAGNOSIS, NO_DIAGNOSIS, PAID, ALL
+        EMPTY, DIAGNOSIS, NO_DIAGNOSIS, PAID, FINISH
     }
 
 

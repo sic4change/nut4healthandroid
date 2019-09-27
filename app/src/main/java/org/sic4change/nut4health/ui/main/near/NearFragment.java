@@ -209,7 +209,7 @@ public class NearFragment extends Fragment {
         tvMinRange.setText("0%");
         mMainViewModel.setName("");
         mMainViewModel.setSurname("");
-        mMainViewModel.setStatus(Near.Status.ALL.name());
+        mMainViewModel.setStatus(Near.Status.EMPTY.name());
         timeRangeMin = 0;
         timeRangeMax = 0;
         mMainViewModel.setDateEnd(timeRangeMin);
@@ -223,10 +223,10 @@ public class NearFragment extends Fragment {
         mMainViewModel.setSurname(etSurname.getText().toString());
         switch (spStatus.getSelectedItemPosition()) {
             case 0:
-                mMainViewModel.setStatus(Near.Status.ALL.name());
+                mMainViewModel.setStatus(Near.Status.EMPTY.name());
                 break;
             case 1:
-                mMainViewModel.setStatus(Near.Status.INIT.name());
+                mMainViewModel.setStatus(Near.Status.FINISH.name());
                 break;
             case 2:
                 mMainViewModel.setStatus(Near.Status.DIAGNOSIS.name());
@@ -238,7 +238,7 @@ public class NearFragment extends Fragment {
                 mMainViewModel.setStatus(Near.Status.PAID.name());
                 break;
             default:
-                mMainViewModel.setStatus(Near.Status.ALL.name());
+                mMainViewModel.setStatus(Near.Status.EMPTY.name());
                 break;
         }
         if (timeRangeMin != 0) {

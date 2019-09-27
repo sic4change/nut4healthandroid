@@ -45,10 +45,10 @@ public class NearDetailActivity extends AppCompatActivity {
         etSurname.setText(contract.getChildSurname());
         etLocation.setText(contract.getChildAddress());
         ivIcon.setTitleText(contract.getPercentage() + "%");
-        if (contract.getStatus().equals(Contract.Status.DIAGNOSIS.name())) {
+        if (contract.getStatus().equals(Near.Status.DIAGNOSIS.name())) {
             ivIcon.setFillColor(getApplicationContext().getResources().getColor(R.color.ms_errorColor));
             ivIcon.setStrokeColor(getApplicationContext().getResources().getColor(R.color.ms_errorColor));
-        } else if (contract.getStatus().equals(Contract.Status.NO_DIAGNOSIS.name())) {
+        } else if (contract.getStatus().equals(Near.Status.NO_DIAGNOSIS.name())) {
             ivIcon.setFillColor(getApplicationContext().getResources().getColor(R.color.colorPrimaryDark));
             ivIcon.setStrokeColor(getApplicationContext().getResources().getColor(R.color.colorPrimaryDark));
         } else {
