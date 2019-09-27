@@ -12,7 +12,6 @@ import androidx.lifecycle.ViewModelProviders;
 import com.github.pavlospt.CircleView;
 
 import org.sic4change.nut4health.R;
-import org.sic4change.nut4health.data.entities.Contract;
 import org.sic4change.nut4health.data.entities.Near;
 
 import java.text.ParseException;
@@ -51,9 +50,12 @@ public class NearDetailActivity extends AppCompatActivity {
         } else if (contract.getStatus().equals(Near.Status.NO_DIAGNOSIS.name())) {
             ivIcon.setFillColor(getApplicationContext().getResources().getColor(R.color.colorPrimaryDark));
             ivIcon.setStrokeColor(getApplicationContext().getResources().getColor(R.color.colorPrimaryDark));
-        } else {
+        } else if (contract.getStatus().equals(Near.Status.PAID.name())) {
             ivIcon.setFillColor(getApplicationContext().getResources().getColor(R.color.colorAccent));
             ivIcon.setStrokeColor(getApplicationContext().getResources().getColor(R.color.colorAccent));
+        } else if (contract.getStatus().equals(Near.Status.FINISH.name())) {
+            ivIcon.setFillColor(getApplicationContext().getResources().getColor(R.color.orange));
+            ivIcon.setStrokeColor(getApplicationContext().getResources().getColor(R.color.orange));
         }
         SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd yyyy hh:mm:ss", Locale.ENGLISH);
         try {

@@ -162,7 +162,7 @@ public class NearFragment extends Fragment {
                         ivStatus.setBackgroundColor(getResources().getColor(R.color.ms_black));
                         break;
                     case 1:
-                        ivStatus.setBackgroundColor(getResources().getColor(R.color.ms_material_grey_400));
+                        ivStatus.setBackgroundColor(getResources().getColor(R.color.orange));
                         break;
                     case 2:
                         ivStatus.setBackgroundColor(getResources().getColor(R.color.ms_errorColor));
