@@ -518,7 +518,7 @@ public class DataRepository {
                 String fname = Environment.getExternalStorageDirectory().toString() + "/req_images/Nut4HealthFingerPrint-" +".jpg";
                 byte[] image = AndroidBmpUtil.getByte(fname);
                 FingerprintTemplate fingerprintTemplate = new FingerprintTemplate().dpi(500).create(image);
-                Query query = contractRef.whereEqualTo(DataContractNames.COL_MEDICAL, "");
+                Query query = contractRef.whereEqualTo(DataContractNames.COL_MEDICAL, "").orderBy(DataContractNames.COL_DATE_MILI_FIREBASE, Query.Direction.ASCENDING);
                 listenerQuery = query.addSnapshotListener(mIoExecutor, (queryDocumentSnapshots, e) -> {
                     boolean updated = false;
                     try {
@@ -529,20 +529,20 @@ public class DataRepository {
                                 FingerprintTemplate fingerprintCandidate = new FingerprintTemplate().deserialize(contractIt.getFingerprint());
                                 double score = new FingerprintMatcher().index(fingerprintTemplate).match(fingerprintCandidate);
                                 if (score >= 40) {
-                                    if (contractIt.getPercentage() < 50) {
+                                    if ((contractIt.getPercentage() < 50) || updated) {
                                         contractIt.setStatus(status);
                                     } else {
                                         contractIt.setStatus(Contract.Status.PAID.name());
+                                        contractIt.setPercentage(percentage);
+                                        updated = true;
                                     }
                                     contractIt.setMedical(email);
-                                    contractIt.setPercentage(percentage);
                                     document.getReference().set(contractIt);
-                                    if (listenerQuery != null) {
-                                        listenerQuery.remove();
-                                    }
-                                    updated = true;
-                                    break;
+                                    //break;
                                 }
+                            }
+                            if (listenerQuery != null) {
+                                listenerQuery.remove();
                             }
                             //Si no lo encuentra el medico debe añadirlo
                             if (!updated) {

@@ -63,6 +63,9 @@ public class Contract {
     @ColumnInfo(name = DataContractNames.COL_DATE_MILI)
     private long creationDateMiliseconds;
 
+    @ColumnInfo(name = DataContractNames.COL_MEDICAL_DATE_MILI)
+    private long medicalDateMiliseconds;
+
     @NonNull
     @ColumnInfo(name = DataContractNames.COL_PERCENTAGE)
     private int percentage;
@@ -73,19 +76,19 @@ public class Contract {
 
     public Contract() {
         this("", "", 0.0f, 0.0f, "", "", "",
-                "", "", "", Status.EMPTY.name(), "", "",0, 0, "");
+                "", "", "", Status.EMPTY.name(), "", "",0, 0, "", 0);
     }
 
     @Ignore
     public Contract(@NonNull String id) {
         this(id, "", 0.0f, 0.0f, "", "", "",
-                "", "", "", Status.EMPTY.name(), "", "",0,  0, "");
+                "", "", "", Status.EMPTY.name(), "", "",0,  0, "", 0);
     }
 
     @Ignore
     public Contract(@NonNull String photo, double latitude, double longitude, @NonNull String screener) {
         this("", photo, latitude, longitude, screener, "", "", "",
-                "", "", Status.EMPTY.name(), "", "",0,  0, "");
+                "", "", Status.EMPTY.name(), "", "",0,  0, "", 0);
     }
 
     @Ignore
@@ -93,19 +96,20 @@ public class Contract {
                     String childName, String childSurname, String childAddress, String fingerprint, String status, String creationDate,
                     int percentage) {
         this("", photo, latitude, longitude, screener, "", childName, childSurname,
-                childAddress, fingerprint, status, "", creationDate, Nut4HealthTimeUtil.convertCreationDateToTimeMilis(creationDate), percentage, "");
+                childAddress, fingerprint, status, "", creationDate, Nut4HealthTimeUtil.convertCreationDateToTimeMilis(creationDate), percentage, "", 0);
     }
     @Ignore
     public Contract(@NonNull String id, @NonNull String photo, double latitude, double longitude,
                     @NonNull String screener, String childName, String childSurname,
-                    String childAddress, String fingerprint, String status, String creationDate, int percentage) {
+                    String childAddress, String fingerprint, String status, String creationDate, long creationDateMiliseconds, int percentage) {
         this(id, photo, latitude, longitude, screener, "", childName, childSurname,
-                childAddress, fingerprint, status, "", creationDate, Nut4HealthTimeUtil.convertCreationDateToTimeMilis(creationDate), percentage, "");
+                childAddress, fingerprint, status, "", creationDate, creationDateMiliseconds, percentage, "", 0);
     }
 
     public Contract(@NonNull String id, @NonNull String photo, double latitude, double longitude, @NonNull String screener,
                     String medical, String childName, String childSurname, String childAddress, String fingerprint,
-                    String status, String diagnosis, String creationDate, long creationDateMiliseconds, int percentage, String medicalDate) {
+                    String status, String diagnosis, String creationDate, long creationDateMiliseconds, int percentage, String medicalDate,
+                    long medicalDateMiliseconds) {
         this.id = id;
         this.photo = photo;
         this.latitude = latitude;
@@ -120,9 +124,9 @@ public class Contract {
         this.diagnosis = diagnosis;
         this.creationDate = creationDate;
         this.creationDateMiliseconds = creationDateMiliseconds;
-        //this.hash = hash;
         this.percentage = percentage;
         this.medicalDate = medicalDate;
+        this.medicalDateMiliseconds = medicalDateMiliseconds;
     }
 
     @NonNull
@@ -256,6 +260,14 @@ public class Contract {
 
     public void setMedicalDate(@NonNull String medicalDate) {
         this.medicalDate = medicalDate;
+    }
+
+    public long getMedicalDateMiliseconds() {
+        return medicalDateMiliseconds;
+    }
+
+    public void setMedicalDateMiliseconds(long medicalDateMiliseconds) {
+        this.medicalDateMiliseconds = medicalDateMiliseconds;
     }
 
     public enum Status {

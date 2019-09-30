@@ -83,6 +83,16 @@ public final class DataContractNames {
     public static final String COL_DATE_MILI = "date_mili";
 
     /**
+     * Column date in miliseconds for contract in firebase
+     */
+    public static final String COL_DATE_MILI_FIREBASE = "creationDateMiliseconds";
+
+    /**
+     * Column date in miliseconds for contract
+     */
+    public static final String COL_MEDICAL_DATE_MILI = "_medical_date_mili";
+
+    /**
      * Column hash for contract
      */
     public static final String COL_HASH = "hash";

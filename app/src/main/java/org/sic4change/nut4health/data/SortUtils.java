@@ -48,9 +48,9 @@ public class SortUtils {
         }
         if (dateStart != 0 && dataEnd != 0) {
             if (query.contains("WHERE")) {
-                query = query + " AND " + DataContractNames.COL_DATE + " >= " + dateStart + " AND " + DataContractNames.COL_DATE + " <= " + dataEnd;
+                query = query + " AND " + DataContractNames.COL_DATE_MILI + " >= " + dateStart + " AND " + DataContractNames.COL_DATE_MILI + " <= " + dataEnd;
             } else {
-                query = query + " WHERE " + DataContractNames.COL_DATE + " >= " + dateStart + " AND " + DataContractNames.COL_DATE + " <= " + dataEnd;
+                query = query + " WHERE " + DataContractNames.COL_DATE_MILI + " >= " + dateStart + " AND " + DataContractNames.COL_DATE_MILI + " <= " + dataEnd;
             }
         }
         if (query.contains("WHERE")) {
@@ -97,9 +97,9 @@ public class SortUtils {
         }
         if (dateStart != 0 && dataEnd != 0) {
             if (query.contains("WHERE")) {
-                query = query + " AND " + DataNearNames.COL_DATE + " >= " + dateStart + " AND " + DataNearNames.COL_DATE + " <= " + dataEnd;
+                query = query + " AND " + DataNearNames.COL_DATE_MILI + " >= " + dateStart + " AND " + DataNearNames.COL_DATE_MILI + " <= " + dataEnd;
             } else {
-                query = query + " WHERE " + DataNearNames.COL_DATE + " >= " + dateStart + " AND " + DataNearNames.COL_DATE + " <= " + dataEnd;
+                query = query + " WHERE " + DataNearNames.COL_DATE_MILI + " >= " + dateStart + " AND " + DataNearNames.COL_DATE_MILI + " <= " + dataEnd;
             }
         }
         if (query.contains("WHERE")) {
