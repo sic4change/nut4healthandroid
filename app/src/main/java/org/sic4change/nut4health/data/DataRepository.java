@@ -504,7 +504,8 @@ public class DataRepository {
                 status, "", percentage);
         if (role.equals("Screener")) {
             try {
-                Query query = contractRef.whereEqualTo(DataContractNames.COL_SCREENER, email).orderBy(DataContractNames.COL_DATE_MILI_FIREBASE, Query.Direction.ASCENDING);
+                Query query = contractRef;
+                //.whereEqualTo(DataContractNames.COL_SCREENER, email).orderBy(DataContractNames.COL_DATE_MILI_FIREBASE, Query.Direction.ASCENDING);
                 listenerQuery = query.addSnapshotListener(mIoExecutor, (queryDocumentSnapshots, e) -> {
                     try {
                         if ((queryDocumentSnapshots != null) && (queryDocumentSnapshots.getDocuments() != null)
