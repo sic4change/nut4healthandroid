@@ -482,11 +482,10 @@ public class DataRepository {
      * @param childName
      * @param childSurname
      * @param childAddress
-     * @param fingerprint
      * @param percentage
      */
     public void createContract(String role, String email, double latitude, double longitude, Uri photo,
-                               String childName, String childSurname, String childAddress, String fingerprint,
+                               String childName, String childSurname, String childAddress,
                                int percentage) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference contractRef = db.collection(DataContractNames.TABLE_FIREBASE_NAME);
@@ -505,7 +504,6 @@ public class DataRepository {
         if (role.equals("Screener")) {
             try {
                 Query query = contractRef;
-                //.whereEqualTo(DataContractNames.COL_SCREENER, email).orderBy(DataContractNames.COL_DATE_MILI_FIREBASE, Query.Direction.ASCENDING);
                 listenerQuery = query.addSnapshotListener(mIoExecutor, (queryDocumentSnapshots, e) -> {
                     try {
                         if ((queryDocumentSnapshots != null) && (queryDocumentSnapshots.getDocuments() != null)
@@ -522,12 +520,9 @@ public class DataRepository {
                                     } else if (contractIt.getStatus().equals(Contract.Status.FINISH.name())) {
                                         contract.setScreener(email);
                                         contract.setStatus(status);
-                                        contractRef.add(contract).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<DocumentReference> task) {
-                                                listenerQuery.remove();
-                                                createGeoPoint(task.getResult().getId(), latitude, longitude);
-                                            }
+                                        contractRef.add(contract).addOnCompleteListener(task -> {
+                                            listenerQuery.remove();
+                                            createGeoPoint(task.getResult().getId(), latitude, longitude);
                                         });
                                         updated = true;
                                     } else {
@@ -551,24 +546,18 @@ public class DataRepository {
                                 //Si no lo encuentra debe añadirlo
                                 contract.setScreener(email);
                                 contract.setStatus(status);
-                                contractRef.add(contract).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<DocumentReference> task) {
-                                        listenerQuery.remove();
-                                        createGeoPoint(task.getResult().getId(), latitude, longitude);
-                                    }
+                                contractRef.add(contract).addOnCompleteListener(task -> {
+                                    listenerQuery.remove();
+                                    createGeoPoint(task.getResult().getId(), latitude, longitude);
                                 });
                             }
                         } else {
                             //Por si el primer diagnostico es de un screener tambien debe añdirlo
                             contract.setScreener(email);
                             contract.setStatus(status);
-                            contractRef.add(contract).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
-                                @Override
-                                public void onComplete(@NonNull Task<DocumentReference> task) {
-                                    listenerQuery.remove();
-                                    createGeoPoint(task.getResult().getId(), latitude, longitude);
-                                }
+                            contractRef.add(contract).addOnCompleteListener(task -> {
+                                listenerQuery.remove();
+                                createGeoPoint(task.getResult().getId(), latitude, longitude);
                             });
                         }
                     } catch (Exception error) {
@@ -610,12 +599,9 @@ public class DataRepository {
                             if (!updated) {
                                 contract.setMedical(email);
                                 contract.setStatus(Contract.Status.FINISH.name());
-                                contractRef.add(contract).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<DocumentReference> task) {
-                                        listenerQuery.remove();
-                                        createGeoPoint(task.getResult().getId(), latitude, longitude);
-                                    }
+                                contractRef.add(contract).addOnCompleteListener(task -> {
+                                    listenerQuery.remove();
+                                    createGeoPoint(task.getResult().getId(), latitude, longitude);
                                 });
                             }
                         } else {
@@ -623,12 +609,9 @@ public class DataRepository {
                             //o todos los diagnosticos han sido confirmados por un medico
                             contract.setMedical(email);
                             contract.setStatus(Contract.Status.FINISH.name());
-                            contractRef.add(contract).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
-                                @Override
-                                public void onComplete(@NonNull Task<DocumentReference> task) {
-                                    listenerQuery.remove();
-                                    createGeoPoint(task.getResult().getId(), latitude, longitude);
-                                }
+                            contractRef.add(contract).addOnCompleteListener(task -> {
+                                listenerQuery.remove();
+                                createGeoPoint(task.getResult().getId(), latitude, longitude);
                             });
                         }
                     } catch (Exception error) {
