@@ -480,13 +480,13 @@ public class DataRepository {
      * @param longitude
      * @param photo
      * @param childName
-     * @param childUsername
+     * @param childSurname
      * @param childAddress
      * @param fingerprint
      * @param percentage
      */
     public void createContract(String role, String email, double latitude, double longitude, Uri photo,
-                               String childName, String childUsername, String childAddress, String fingerprint,
+                               String childName, String childSurname, String childAddress, String fingerprint,
                                int percentage) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference contractRef = db.collection(DataContractNames.TABLE_FIREBASE_NAME);
@@ -500,24 +500,85 @@ public class DataRepository {
         byte[] imageContract = AndroidBmpUtil.getByte(fnameContract);
         FingerprintTemplate fingerprintTemplateContract = new FingerprintTemplate().dpi(500).create(imageContract);
         Contract contract = new Contract(photo.toString(), latitude, longitude, "",
-                childName, childUsername, childAddress, fingerprintTemplateContract.serialize(),
+                childName, childSurname, childAddress, fingerprintTemplateContract.serialize(),
                 status, "", percentage);
         if (role.equals("Screener")) {
-            contract.setScreener(email);
-            contractRef.add(contract).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
-                @Override
-                public void onComplete(@NonNull Task<DocumentReference> task) {
-                    if (listenerQuery != null) {
-                        listenerQuery.remove();
+            try {
+                Query query = contractRef.whereEqualTo(DataContractNames.COL_SCREENER, email).orderBy(DataContractNames.COL_DATE_MILI_FIREBASE, Query.Direction.ASCENDING);
+                listenerQuery = query.addSnapshotListener(mIoExecutor, (queryDocumentSnapshots, e) -> {
+                    try {
+                        if ((queryDocumentSnapshots != null) && (queryDocumentSnapshots.getDocuments() != null)
+                                && (queryDocumentSnapshots.getDocuments().size() > 0)) {
+                            boolean updated = false;
+                            for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
+                                Contract contractIt = document.toObject(Contract.class);
+                                FingerprintTemplate fingerprintCandidate = new FingerprintTemplate().deserialize(contractIt.getFingerprint());
+                                double score = new FingerprintMatcher().index(fingerprintTemplateContract).match(fingerprintCandidate);
+                                if (score >= 40) {
+                                    if (contractIt.getStatus().equals(Contract.Status.PAID.name())) {
+                                        System.out.println("Aqui dialogo al usuario para decirle que ya ese diagnóstico ha sido pagado");
+                                        updated = true;
+                                    } else if (contractIt.getStatus().equals(Contract.Status.FINISH.name())) {
+                                        contract.setScreener(email);
+                                        contract.setStatus(status);
+                                        contractRef.add(contract).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<DocumentReference> task) {
+                                                listenerQuery.remove();
+                                                createGeoPoint(task.getResult().getId(), latitude, longitude);
+                                            }
+                                        });
+                                        updated = true;
+                                    } else {
+                                        contractIt.setChildName(childName);
+                                        contractIt.setChildSurname(childSurname);
+                                        contractIt.setChildAddress(childAddress);
+                                        contractIt.setLatitude(latitude);
+                                        contractIt.setLongitude(longitude);
+                                        contractIt.setStatus(status);
+                                        contractIt.setPercentage(percentage);
+                                        updated = true;
+                                        document.getReference().set(contractIt);
+                                        createGeoPoint(contractIt.getId(), latitude, longitude);
+                                    }
+                                }
+                            }
+                            if (listenerQuery != null) {
+                                listenerQuery.remove();
+                            }
+                            if (!updated) {
+                                //Si no lo encuentra debe añadirlo
+                                contract.setScreener(email);
+                                contract.setStatus(status);
+                                contractRef.add(contract).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentReference> task) {
+                                        listenerQuery.remove();
+                                        createGeoPoint(task.getResult().getId(), latitude, longitude);
+                                    }
+                                });
+                            }
+                        } else {
+                            //Por si el primer diagnostico es de un screener tambien debe añdirlo
+                            contract.setScreener(email);
+                            contract.setStatus(status);
+                            contractRef.add(contract).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentReference> task) {
+                                    listenerQuery.remove();
+                                    createGeoPoint(task.getResult().getId(), latitude, longitude);
+                                }
+                            });
+                        }
+                    } catch (Exception error) {
+                        Log.d(TAG, "Get contract: " + error);
                     }
-                    createGeoPoint(task.getResult().getId(), latitude, longitude);
-                }
-            });
+                });
+            } catch (Exception e){
+                Log.d(TAG, "Get contract: " + e);
+            }
         } else {
             try {
-                String fname = Environment.getExternalStorageDirectory().toString() + "/req_images/Nut4HealthFingerPrint-" +".jpg";
-                byte[] image = AndroidBmpUtil.getByte(fname);
-                FingerprintTemplate fingerprintTemplate = new FingerprintTemplate().dpi(500).create(image);
                 Query query = contractRef.whereEqualTo(DataContractNames.COL_MEDICAL, "").orderBy(DataContractNames.COL_DATE_MILI_FIREBASE, Query.Direction.ASCENDING);
                 listenerQuery = query.addSnapshotListener(mIoExecutor, (queryDocumentSnapshots, e) -> {
                     boolean updated = false;
@@ -527,7 +588,7 @@ public class DataRepository {
                             for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
                                 Contract contractIt = document.toObject(Contract.class);
                                 FingerprintTemplate fingerprintCandidate = new FingerprintTemplate().deserialize(contractIt.getFingerprint());
-                                double score = new FingerprintMatcher().index(fingerprintTemplate).match(fingerprintCandidate);
+                                double score = new FingerprintMatcher().index(fingerprintTemplateContract).match(fingerprintCandidate);
                                 if (score >= 40) {
                                     if ((contractIt.getPercentage() < 50) || updated) {
                                         contractIt.setStatus(status);
@@ -576,10 +637,7 @@ public class DataRepository {
             } catch (Exception e){
                 Log.d(TAG, "Get contract: " + e);
             }
-
-
         }
-
     }
 
     private void createGeoPoint(String id, double latitude, double longitude) {
