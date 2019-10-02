@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
@@ -27,6 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
@@ -45,8 +47,11 @@ import com.google.android.gms.location.SettingsClient;
 import com.stepstone.stepper.Step;
 import com.stepstone.stepper.VerificationError;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.ThreadMode;
 import org.sic4change.animation_check.AnimatedCircleLoadingView;
 import org.sic4change.nut4health.R;
+import org.sic4change.nut4health.data.events.MessageEvent;
 import org.sic4change.nut4health.ui.fingerprint.ScanActivity;
 import org.sic4change.nut4health.ui.samphoto.SAMPhotoActivity;
 import org.sic4change.nut4health.utils.Nut4HealthKeyboard;
@@ -96,6 +101,8 @@ public class StepCreateContractFragment extends Fragment implements Step{
     private static final int REQUEST_CHECK_SETTINGS = 214;
     private static final int REQUEST_ENABLE_GPS = 516;
 
+    private String eventResult;
+
     public int getPosition() {
         return position;
     }
@@ -107,6 +114,7 @@ public class StepCreateContractFragment extends Fragment implements Step{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.step_create_contract, container, false);
+        eventResult = "";
         btnTakePhoto = v.findViewById(R.id.btnTakePhoto);
         btnTakePhoto.setVisibility(View.VISIBLE);
         btnCheckMalnutrition = v.findViewById(R.id.btnCheckMalnutrition);
@@ -135,7 +143,7 @@ public class StepCreateContractFragment extends Fragment implements Step{
                 }
 
                 public void onFinish() {
-                    goToMainActivity();
+                    showDialogCreateContractResult(eventResult);
                 }
             }.start();
 
@@ -169,6 +177,18 @@ public class StepCreateContractFragment extends Fragment implements Step{
         CreateContractViewModelFactory createContractViewModelFactory = CreateContractViewModelFactory.createFactory(getActivity());
         mCreateContractViewModel = ViewModelProviders.of(getActivity(), createContractViewModelFactory).get(CreateContractViewModel.class);
         return v;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -428,6 +448,27 @@ public class StepCreateContractFragment extends Fragment implements Step{
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void showDialogCreateContractResult(String text) {
+        new AlertDialog.Builder(getActivity())
+                .setTitle("Diagnóstico terminado")
+                .setMessage(text)
+                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        goToMainActivity();
+                    }
+                })
+                .setPositiveButton(R.string.ok, (dialog, which) -> getActivity().finish())
+                .setIcon(R.mipmap.icon)
+                .setCancelable(false)
+                .show();
+    }
+
+    @org.greenrobot.eventbus.Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(MessageEvent event) {
+        eventResult = event.getMessage();
     }
 
 

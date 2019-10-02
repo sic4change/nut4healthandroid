@@ -32,9 +32,11 @@ import com.google.firebase.storage.StorageReference;
 import com.machinezoo.sourceafis.FingerprintMatcher;
 import com.machinezoo.sourceafis.FingerprintTemplate;
 
+import org.greenrobot.eventbus.EventBus;
 import org.imperiumlabs.geofirestore.GeoFirestore;
 import org.imperiumlabs.geofirestore.listeners.GeoQueryDataEventListener;
 import org.imperiumlabs.geofirestore.listeners.GeoQueryEventListener;
+import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.data.entities.Contract;
 import org.sic4change.nut4health.data.entities.Near;
 import org.sic4change.nut4health.data.entities.Notification;
@@ -42,6 +44,7 @@ import org.sic4change.nut4health.data.entities.Payment;
 import org.sic4change.nut4health.data.entities.Ranking;
 import org.sic4change.nut4health.data.entities.Report;
 import org.sic4change.nut4health.data.entities.User;
+import org.sic4change.nut4health.data.events.MessageEvent;
 import org.sic4change.nut4health.data.names.DataContractNames;
 import org.sic4change.nut4health.data.names.DataNotificationNames;
 import org.sic4change.nut4health.data.names.DataPaymentNames;
@@ -515,7 +518,7 @@ public class DataRepository {
                                 double score = new FingerprintMatcher().index(fingerprintTemplateContract).match(fingerprintCandidate);
                                 if (score >= 40) {
                                     if (contractIt.getStatus().equals(Contract.Status.PAID.name())) {
-                                        System.out.println("Aqui dialogo al usuario para decirle que ya ese diagnóstico ha sido pagado");
+                                        EventBus.getDefault().post(new MessageEvent(mContext.getString(R.string.diagnosis_paying)));
                                         updated = true;
                                     } else if (contractIt.getStatus().equals(Contract.Status.FINISH.name())) {
                                         contract.setScreener(email);
@@ -524,18 +527,31 @@ public class DataRepository {
                                             listenerQuery.remove();
                                             createGeoPoint(task.getResult().getId(), latitude, longitude);
                                         });
+                                        EventBus.getDefault().post(new MessageEvent(mContext.getString(R.string.diagnosis_ok)));
                                         updated = true;
                                     } else {
-                                        contractIt.setChildName(childName);
-                                        contractIt.setChildSurname(childSurname);
-                                        contractIt.setChildAddress(childAddress);
-                                        contractIt.setLatitude(latitude);
-                                        contractIt.setLongitude(longitude);
-                                        contractIt.setStatus(status);
-                                        contractIt.setPercentage(percentage);
-                                        updated = true;
-                                        document.getReference().set(contractIt);
-                                        createGeoPoint(contractIt.getId(), latitude, longitude);
+                                        if (email.equals(contractIt.getScreener())) {
+                                            contractIt.setChildName(childName);
+                                            contractIt.setChildSurname(childSurname);
+                                            contractIt.setChildAddress(childAddress);
+                                            contractIt.setLatitude(latitude);
+                                            contractIt.setLongitude(longitude);
+                                            contractIt.setStatus(status);
+                                            contractIt.setPercentage(percentage);
+                                            updated = true;
+                                            document.getReference().set(contractIt);
+                                            createGeoPoint(contractIt.getId(), latitude, longitude);
+                                            EventBus.getDefault().post(new MessageEvent(mContext.getString(R.string.diagnosis_updated)));
+                                        } else {
+                                            contract.setScreener(email);
+                                            contract.setStatus(status);
+                                            contractRef.add(contract).addOnCompleteListener(task -> {
+                                                listenerQuery.remove();
+                                                createGeoPoint(task.getResult().getId(), latitude, longitude);
+                                            });
+                                            EventBus.getDefault().post(new MessageEvent(mContext.getString(R.string.diagnosis_ok)));
+                                            updated = true;
+                                        }
                                     }
                                 }
                             }
@@ -550,15 +566,8 @@ public class DataRepository {
                                     listenerQuery.remove();
                                     createGeoPoint(task.getResult().getId(), latitude, longitude);
                                 });
+                                EventBus.getDefault().post(new MessageEvent(mContext.getString(R.string.diagnosis_ok)));
                             }
-                        } else {
-                            //Por si el primer diagnostico es de un screener tambien debe añdirlo
-                            contract.setScreener(email);
-                            contract.setStatus(status);
-                            contractRef.add(contract).addOnCompleteListener(task -> {
-                                listenerQuery.remove();
-                                createGeoPoint(task.getResult().getId(), latitude, longitude);
-                            });
                         }
                     } catch (Exception error) {
                         Log.d(TAG, "Get contract: " + error);
@@ -569,7 +578,7 @@ public class DataRepository {
             }
         } else {
             try {
-                Query query = contractRef.whereEqualTo(DataContractNames.COL_MEDICAL, "").orderBy(DataContractNames.COL_DATE_MILI_FIREBASE, Query.Direction.ASCENDING);
+                Query query = contractRef.whereEqualTo(DataContractNames.COL_MEDICAL, "").orderBy(DataContractNames.COL_DATE_MILI_FIREBASE, Query.Direction.DESCENDING);
                 listenerQuery = query.addSnapshotListener(mIoExecutor, (queryDocumentSnapshots, e) -> {
                     boolean updated = false;
                     try {
@@ -581,11 +590,14 @@ public class DataRepository {
                                 double score = new FingerprintMatcher().index(fingerprintTemplateContract).match(fingerprintCandidate);
                                 if (score >= 40) {
                                     if ((contractIt.getPercentage() < 50) || updated) {
-                                        contractIt.setStatus(status);
+                                        //Nothing
                                     } else {
+                                        contractIt.setChildName(childName);
+                                        contractIt.setChildSurname(childSurname);
                                         contractIt.setStatus(Contract.Status.PAID.name());
                                         contractIt.setPercentage(percentage);
                                         updated = true;
+                                        EventBus.getDefault().post(new MessageEvent(mContext.getString(R.string.diagnosis_to_pay)));
                                     }
                                     contractIt.setMedical(email);
                                     document.getReference().set(contractIt);
@@ -603,16 +615,8 @@ public class DataRepository {
                                     listenerQuery.remove();
                                     createGeoPoint(task.getResult().getId(), latitude, longitude);
                                 });
+                                EventBus.getDefault().post(new MessageEvent(mContext.getString(R.string.diagnosis_ok)));
                             }
-                        } else {
-                            //Por si el primer diagnostico es de un medico tambien debe añdirlo
-                            //o todos los diagnosticos han sido confirmados por un medico
-                            contract.setMedical(email);
-                            contract.setStatus(Contract.Status.FINISH.name());
-                            contractRef.add(contract).addOnCompleteListener(task -> {
-                                listenerQuery.remove();
-                                createGeoPoint(task.getResult().getId(), latitude, longitude);
-                            });
                         }
                     } catch (Exception error) {
                         Log.d(TAG, "Get contract: " + error);

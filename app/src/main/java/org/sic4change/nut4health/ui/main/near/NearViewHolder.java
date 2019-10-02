@@ -54,11 +54,11 @@ private Context context;
         if (contract.getStatus().equals(Contract.Status.DIAGNOSIS.name())) {
             nPercentage.setFillColor(context.getResources().getColor(R.color.ms_errorColor));
             nPercentage.setStrokeColor(context.getResources().getColor(R.color.ms_errorColor));
-            nConfirmationDate.setVisibility(View.GONE);
+            nConfirmationDate.setVisibility(View.INVISIBLE);
         } else if (contract.getStatus().equals(Contract.Status.NO_DIAGNOSIS.name())) {
             nPercentage.setFillColor(context.getResources().getColor(R.color.colorPrimaryDark));
             nPercentage.setStrokeColor(context.getResources().getColor(R.color.colorPrimaryDark));
-            nConfirmationDate.setVisibility(View.GONE);
+            nConfirmationDate.setVisibility(View.INVISIBLE);
         } else if (contract.getStatus().equals(Contract.Status.PAID.name())) {
             nPercentage.setFillColor(context.getResources().getColor(R.color.colorAccent));
             nPercentage.setStrokeColor(context.getResources().getColor(R.color.colorAccent));

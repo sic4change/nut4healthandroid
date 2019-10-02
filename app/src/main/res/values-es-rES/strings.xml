@@ -153,6 +153,12 @@
     <string name="no_diagnosis">No diagnósticado</string>
     <string name="finished">Finalizado</string>
 
+    <!--Check messages-->
+    <string name="diagnosis_ok">Diagnóstico creado correctamente</string>
+    <string name="diagnosis_paying">Ese diagnóstico ya está en fase de pago. Debe esperar días para volver a diagnosticarlo</string>
+    <string name="diagnosis_updated">Diagnóstico creado anteriormente. Se han actualizado los datos</string>
+    <string name="diagnosis_to_pay">Caso de desnutrición comprobado. Efectuando pago</string>
+
     <!--Font awasome -->
     <string name="fa_adjust">&#xf042;</string>
     <string name="fa_adn">&#xf170;</string>

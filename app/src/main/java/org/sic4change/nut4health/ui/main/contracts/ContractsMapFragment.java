@@ -171,13 +171,13 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
             nPercentage.setStrokeColor(getActivity().getResources().getColor(R.color.ms_errorColor));
             nStatus.setText(getActivity().getResources().getString(R.string.diagnosis));
             nStatus.setTextColor(getActivity().getResources().getColor(R.color.ms_errorColor));
-            nConfirmationDate.setVisibility(View.GONE);
+            nConfirmationDate.setVisibility(View.INVISIBLE);
         } else if (contract.getStatus().equals(Contract.Status.NO_DIAGNOSIS.name())) {
             nPercentage.setFillColor(getActivity().getResources().getColor(R.color.colorPrimaryDark));
             nPercentage.setStrokeColor(getActivity().getResources().getColor(R.color.colorPrimaryDark));
             nStatus.setText(getActivity().getResources().getString(R.string.no_diagnosis));
             nStatus.setTextColor(getActivity().getResources().getColor(R.color.colorPrimaryDark));
-            nConfirmationDate.setVisibility(View.GONE);
+            nConfirmationDate.setVisibility(View.INVISIBLE);
         } else if (contract.getStatus().equals(Contract.Status.PAID.name())) {
             nPercentage.setFillColor(getActivity().getResources().getColor(R.color.colorAccent));
             nPercentage.setStrokeColor(getActivity().getResources().getColor(R.color.colorAccent));

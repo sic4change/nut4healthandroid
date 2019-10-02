@@ -152,6 +152,12 @@
     <string name="no_diagnosis">No Diagnosis</string>
     <string name="finished">Finished</string>
 
+    <!--Check messages-->
+    <string name="diagnosis_ok">Diagnosis created successfully</string>
+    <string name="diagnosis_paying">That diagnosis is already in the payment phase. You must wait days to diagnose it again</string>
+    <string name="diagnosis_updated">Diagnosis created previously. The data has been updated</string>
+    <string name="diagnosis_to_pay">Malnutrition checked. Paying</string>
+
     <!--Font awasome -->
     <string name="fa_adjust">&#xf042;</string>
     <string name="fa_adn">&#xf170;</string>
