@@ -162,6 +162,7 @@ public class PaymentFragment extends Fragment implements SwipeRefreshLayout.OnRe
         mMainViewModel = ViewModelProviders.of(getActivity()).get(MainViewModel.class);
         mMainViewModel.getCurrentUser().observe(getActivity(), user -> {
             if (user != null) {
+                mMainViewModel.getContracts(user.getEmail(), user.getRole());
                 mMainViewModel.getPayments(user.getEmail());
             }
         });
