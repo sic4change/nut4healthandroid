@@ -108,6 +108,7 @@ public class StepCreateContractFragment extends Fragment implements Step{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.step_create_contract, container, false);
         btnTakePhoto = v.findViewById(R.id.btnTakePhoto);
+        btnTakePhoto.setVisibility(View.VISIBLE);
         btnCheckMalnutrition = v.findViewById(R.id.btnCheckMalnutrition);
         ivNewContract = v.findViewById(R.id.ivNewContract);
         btnCheckMalnutrition.setOnClickListener(v12 -> {
@@ -139,8 +140,16 @@ public class StepCreateContractFragment extends Fragment implements Step{
             }.start();
 
         });
-        btnTakePhoto.setOnClickListener(v1 -> takePhoto());
+        btnTakePhoto.setOnClickListener(v14 -> {
+            takePhoto();
+            hideTakePhotoButton();
+        });
         ivTakePhoto = v.findViewById(R.id.ivTakePhoto);
+        ivTakePhoto.setOnClickListener(v1 -> {
+            if (mCreateContractViewModel.isImageSelected()) {
+                takePhoto();
+            }
+        });
         tvPercentage = v.findViewById(R.id.tvPercentage);
         cvChild = v.findViewById(R.id.cvChild);
         etChildName = v.findViewById(R.id.etChildName);
@@ -237,6 +246,11 @@ public class StepCreateContractFragment extends Fragment implements Step{
                         .into(ivTakePhoto);
                 ivTakePhoto.setBackgroundColor(getResources().getColor(android.R.color.transparent));
             }
+            if (mCreateContractViewModel.isImageSelected()) {
+                btnTakePhoto.setVisibility(View.GONE);
+            } else {
+                btnTakePhoto.setVisibility(View.VISIBLE);
+            }
         } else if (getPosition() == 1) {
             btnTakePhoto.setVisibility(View.GONE);
             ivTakePhoto.setVisibility(View.GONE);
@@ -283,6 +297,10 @@ public class StepCreateContractFragment extends Fragment implements Step{
            Intent takePictureIntent = new Intent(getActivity(), SAMPhotoActivity.class);
            startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
         }
+    }
+
+    private void hideTakePhotoButton() {
+        btnTakePhoto.setVisibility(View.GONE);
     }
 
     @Override
@@ -334,6 +352,11 @@ public class StepCreateContractFragment extends Fragment implements Step{
                 ivAddFingerprint.setImageResource(R.drawable.ic_finger_no_selected);
                 mCreateContractViewModel.setFingerPrint(null);
             }
+        }
+        if (mCreateContractViewModel.isImageSelected()) {
+            btnTakePhoto.setVisibility(View.GONE);
+        } else {
+            btnTakePhoto.setVisibility(View.VISIBLE);
         }
     }
 
