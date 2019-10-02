@@ -55,6 +55,7 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
     private LatLng currentPosition;
 
     private CardView cvContract;
+    private TextView nStatus;
     private TextView nChildName;
     private TextView nChildLocation;
     private CircleView nPercentage;
@@ -72,6 +73,7 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
         View view = inflater.inflate(R.layout.fragment_contract_map, container, false);
         cvContract = view.findViewById(R.id.cvContract);
         cvContract.setOnClickListener(v -> goToContractDetailActivity(id));
+        nStatus = view.findViewById(R.id.tvStatus);
         nChildName = view.findViewById(R.id.tvNameItem);
         nChildLocation = view.findViewById(R.id.tvLocationItem);
         nPercentage = view.findViewById(R.id.tvPercentageItem);
@@ -167,10 +169,14 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
         if (contract.getStatus().equals(Contract.Status.DIAGNOSIS.name())) {
             nPercentage.setFillColor(getActivity().getResources().getColor(R.color.ms_errorColor));
             nPercentage.setStrokeColor(getActivity().getResources().getColor(R.color.ms_errorColor));
+            nStatus.setText(getActivity().getResources().getString(R.string.diagnosis));
+            nStatus.setTextColor(getActivity().getResources().getColor(R.color.ms_errorColor));
             nConfirmationDate.setVisibility(View.GONE);
         } else if (contract.getStatus().equals(Contract.Status.NO_DIAGNOSIS.name())) {
             nPercentage.setFillColor(getActivity().getResources().getColor(R.color.colorPrimaryDark));
             nPercentage.setStrokeColor(getActivity().getResources().getColor(R.color.colorPrimaryDark));
+            nStatus.setText(getActivity().getResources().getString(R.string.no_diagnosis));
+            nStatus.setTextColor(getActivity().getResources().getColor(R.color.colorPrimaryDark));
             nConfirmationDate.setVisibility(View.GONE);
         } else if (contract.getStatus().equals(Contract.Status.PAID.name())) {
             nPercentage.setFillColor(getActivity().getResources().getColor(R.color.colorAccent));
@@ -182,6 +188,8 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
             } catch (ParseException e) {
                 e.printStackTrace();
             }
+            nStatus.setText(getActivity().getResources().getString(R.string.paid));
+            nStatus.setTextColor(getActivity().getResources().getColor(R.color.colorAccent));
             nConfirmationDate.setVisibility(View.VISIBLE);
         } else if (contract.getStatus().equals(Contract.Status.FINISH.name())) {
             nPercentage.setFillColor(getActivity().getResources().getColor(R.color.orange));
@@ -193,6 +201,8 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
             } catch (ParseException e) {
                 e.printStackTrace();
             }
+            nStatus.setText(getActivity().getResources().getString(R.string.finished));
+            nStatus.setTextColor(getActivity().getResources().getColor(R.color.orange));
             nConfirmationDate.setVisibility(View.VISIBLE);
         }
         SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd yyyy hh:mm:ss", Locale.ENGLISH);

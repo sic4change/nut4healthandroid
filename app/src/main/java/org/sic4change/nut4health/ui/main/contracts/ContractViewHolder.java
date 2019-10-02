@@ -24,6 +24,7 @@ public class ContractViewHolder extends RecyclerView.ViewHolder {
 private TextView nChildName;
 private TextView nChildLocation;
 private CircleView nPercentage;
+private TextView nStatus;
 private RelativeTimeTextView nDate;
 private RelativeTimeTextView nConfirmationDate;
 private CardView cvContract;
@@ -35,6 +36,7 @@ private Context context;
         super(itemView);
         this.context = context;
         nChildName = itemView.findViewById(R.id.tvNameItem);
+        nStatus = itemView.findViewById(R.id.tvStatus);
         nChildLocation = itemView.findViewById(R.id.tvLocationItem);
         nPercentage = itemView.findViewById(R.id.tvPercentageItem);
         cvContract = itemView.findViewById(R.id.cvContractItem);
@@ -54,10 +56,14 @@ private Context context;
         if (contract.getStatus().equals(Contract.Status.DIAGNOSIS.name())) {
             nPercentage.setFillColor(context.getResources().getColor(R.color.ms_errorColor));
             nPercentage.setStrokeColor(context.getResources().getColor(R.color.ms_errorColor));
+            nStatus.setText(context.getResources().getString(R.string.diagnosis));
+            nStatus.setTextColor(context.getResources().getColor(R.color.ms_errorColor));
             nConfirmationDate.setVisibility(View.GONE);
         } else if (contract.getStatus().equals(Contract.Status.NO_DIAGNOSIS.name())) {
             nPercentage.setFillColor(context.getResources().getColor(R.color.colorPrimaryDark));
             nPercentage.setStrokeColor(context.getResources().getColor(R.color.colorPrimaryDark));
+            nStatus.setText(context.getResources().getString(R.string.no_diagnosis));
+            nStatus.setTextColor(context.getResources().getColor(R.color.colorPrimaryDark));
             nConfirmationDate.setVisibility(View.GONE);
         } else if (contract.getStatus().equals(Contract.Status.PAID.name())) {
             nPercentage.setFillColor(context.getResources().getColor(R.color.colorAccent));
@@ -69,6 +75,8 @@ private Context context;
             } catch (ParseException e) {
                 e.printStackTrace();
             }
+            nStatus.setText(context.getResources().getString(R.string.paid));
+            nStatus.setTextColor(context.getResources().getColor(R.color.colorAccent));
             nConfirmationDate.setVisibility(View.VISIBLE);
         } else if (contract.getStatus().equals(Contract.Status.FINISH.name())) {
             nPercentage.setFillColor(context.getResources().getColor(R.color.orange));
@@ -80,6 +88,8 @@ private Context context;
             } catch (ParseException e) {
                 e.printStackTrace();
             }
+            nStatus.setText(context.getResources().getString(R.string.finished));
+            nStatus.setTextColor(context.getResources().getColor(R.color.orange));
             nConfirmationDate.setVisibility(View.VISIBLE);
         }
         SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd yyyy hh:mm:ss", Locale.ENGLISH);

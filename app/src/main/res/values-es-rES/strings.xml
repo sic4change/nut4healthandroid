@@ -147,6 +147,12 @@
     <!--Diagnostic Map-->
     <string name="near_me">Cerca de mí</string>
 
+    <!--Status-->
+    <string name="paid">Pagado</string>
+    <string name="diagnosis">Diagnósticado</string>
+    <string name="no_diagnosis">No diagnósticado</string>
+    <string name="finished">Finalizado</string>
+
     <!--Font awasome -->
     <string name="fa_adjust">&#xf042;</string>
     <string name="fa_adn">&#xf170;</string>

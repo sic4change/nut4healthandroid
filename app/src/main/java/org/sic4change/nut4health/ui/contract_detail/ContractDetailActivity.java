@@ -5,6 +5,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ScrollView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
@@ -43,6 +44,7 @@ public class ContractDetailActivity extends AppCompatActivity {
     private void showContractDetail(Contract contract) {
         if (contract != null) {
             CircleView ivIcon = findViewById(R.id.ivIcon);
+            TextView tvStatus = findViewById(R.id.tvStatus);
             EditText etName = findViewById(R.id.etName);
             EditText etSurname = findViewById(R.id.etSurname);
             EditText etLocation = findViewById(R.id.etLocation);
@@ -54,15 +56,23 @@ public class ContractDetailActivity extends AppCompatActivity {
             if (contract.getStatus().equals(Contract.Status.DIAGNOSIS.name())) {
                 ivIcon.setFillColor(getApplicationContext().getResources().getColor(R.color.ms_errorColor));
                 ivIcon.setStrokeColor(getApplicationContext().getResources().getColor(R.color.ms_errorColor));
+                tvStatus.setText(this.getResources().getString(R.string.diagnosis));
+                tvStatus.setTextColor(this.getResources().getColor(R.color.ms_errorColor));
             } else if (contract.getStatus().equals(Contract.Status.NO_DIAGNOSIS.name())) {
                 ivIcon.setFillColor(getApplicationContext().getResources().getColor(R.color.colorPrimaryDark));
                 ivIcon.setStrokeColor(getApplicationContext().getResources().getColor(R.color.colorPrimaryDark));
+                tvStatus.setText(this.getResources().getString(R.string.no_diagnosis));
+                tvStatus.setTextColor(this.getResources().getColor(R.color.colorPrimaryDark));
             } else if (contract.getStatus().equals(Contract.Status.PAID.name())) {
                 ivIcon.setFillColor(getApplicationContext().getResources().getColor(R.color.colorAccent));
                 ivIcon.setStrokeColor(getApplicationContext().getResources().getColor(R.color.colorAccent));
+                tvStatus.setText(this.getResources().getString(R.string.paid));
+                tvStatus.setTextColor(this.getResources().getColor(R.color.colorAccent));
             } else if (contract.getStatus().equals(Contract.Status.FINISH.name())) {
                 ivIcon.setFillColor(getApplicationContext().getResources().getColor(R.color.orange));
                 ivIcon.setStrokeColor(getApplicationContext().getResources().getColor(R.color.orange));
+                tvStatus.setText(this.getResources().getString(R.string.finished));
+                tvStatus.setTextColor(this.getResources().getColor(R.color.orange));
             }
             SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd yyyy hh:mm:ss", Locale.ENGLISH);
             try {

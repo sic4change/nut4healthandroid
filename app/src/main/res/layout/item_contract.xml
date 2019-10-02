@@ -25,25 +25,35 @@
             android:layout_height="wrap_content"
             android:background="@color/white">
 
-            <com.github.pavlospt.CircleView
-                xmlns:app="http://schemas.android.com/apk/res-auto"
+            <com.github.pavlospt.CircleView xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/tvPercentageItem"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                app:cv_titleText="50%"
-                app:cv_titleSize="30dp"
-                app:cv_subtitleSize="0dp"
-                app:cv_titleColor="@color/white"
-                app:cv_subtitleColor="@color/colorAccent"
-                app:cv_strokeColorValue="@color/ms_errorColor"
                 app:cv_backgroundColorValue="@color/white"
                 app:cv_fillColor="@color/white"
                 app:cv_fillRadius="0.9"
+                app:cv_strokeColorValue="@color/ms_errorColor"
                 app:cv_strokeWidthSize="5"
-                android:layout_marginLeft="@dimen/margin_default"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:cv_subtitleColor="@color/colorAccent"
+                app:cv_subtitleSize="0dp"
+                app:cv_titleColor="@color/white"
+                app:cv_titleSize="30dp"
+                app:cv_titleText="50%"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"/>
+
+            <TextView
+                android:id="@+id/tvStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Status"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="@+id/tvPercentageItem"
+                app:layout_constraintStart_toStartOf="@+id/tvPercentageItem"
+                app:layout_constraintTop_toBottomOf="@+id/tvPercentageItem" />
 
             <TextView
                 android:id="@+id/tvNameItem"
