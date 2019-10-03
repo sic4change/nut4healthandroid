@@ -598,16 +598,18 @@ public class DataRepository {
                                 double score = new FingerprintMatcher().index(fingerprintTemplateContract).match(fingerprintCandidate);
                                 if (score >= 40) {
                                     if ((contractIt.getPercentage() < 50) || updated) {
-                                        //Nothing
+                                        EventBus.getDefault().post(new MessageEvent(mContext.getString(R.string.diagnosis_updated)));
                                     } else {
                                         contractIt.setChildName(childName);
                                         contractIt.setChildSurname(childSurname);
                                         contractIt.setChildAddress(childAddress);
+                                        contractIt.setLatitude(latitude);
+                                        contractIt.setLongitude(longitude);
                                         contractIt.setStatus(Contract.Status.PAID.name());
                                         contractIt.setPercentage(percentage);
-                                        updated = true;
                                         EventBus.getDefault().post(new MessageEvent(mContext.getString(R.string.diagnosis_to_pay)));
                                     }
+                                    updated = true;
                                     contractIt.setMedical(email);
                                     document.getReference().set(contractIt).addOnCompleteListener(task -> createGeoPoint(contractIt.getId(), latitude, longitude));
                                 }
@@ -645,9 +647,14 @@ public class DataRepository {
     }
 
     private void createGeoPoint(String id, double latitude, double longitude) {
-        CollectionReference collectionReference = FirebaseFirestore.getInstance().collection(DataContractNames.TABLE_FIREBASE_NAME);
-        GeoFirestore geoFirestore = new GeoFirestore(collectionReference);
-        geoFirestore.setLocation(id, new GeoPoint(latitude, longitude));
+        try {
+            CollectionReference collectionReference = FirebaseFirestore.getInstance().collection(DataContractNames.TABLE_FIREBASE_NAME);
+            GeoFirestore geoFirestore = new GeoFirestore(collectionReference);
+            geoFirestore.setLocation(id, new GeoPoint(latitude, longitude));
+        } catch (Exception e) {
+            Log.d(TAG, "Impossible create geopoint " + e);
+        }
+
     }
 
     /**
