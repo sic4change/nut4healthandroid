@@ -157,6 +157,7 @@
     <string name="diagnosis_paying">That diagnosis is already in the payment phase. You must wait days to diagnose it again</string>
     <string name="diagnosis_updated">Diagnosis created previously. The data has been updated</string>
     <string name="diagnosis_to_pay">Malnutrition checked. Paying</string>
+    <string name="diagnosis_finished">Diagnosis completed</string>
 
     <!--Font awasome -->
     <string name="fa_adjust">&#xf042;</string>

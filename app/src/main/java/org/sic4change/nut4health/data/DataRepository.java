@@ -568,6 +568,14 @@ public class DataRepository {
                                 });
                                 EventBus.getDefault().post(new MessageEvent(mContext.getString(R.string.diagnosis_ok)));
                             }
+                        } else {
+                            contract.setScreener(email);
+                            contract.setStatus(status);
+                            contractRef.add(contract).addOnCompleteListener(task -> {
+                                listenerQuery.remove();
+                                createGeoPoint(task.getResult().getId(), latitude, longitude);
+                            });
+                            EventBus.getDefault().post(new MessageEvent(mContext.getString(R.string.diagnosis_ok)));
                         }
                     } catch (Exception error) {
                         Log.d(TAG, "Get contract: " + error);
@@ -594,14 +602,14 @@ public class DataRepository {
                                     } else {
                                         contractIt.setChildName(childName);
                                         contractIt.setChildSurname(childSurname);
+                                        contractIt.setChildAddress(childAddress);
                                         contractIt.setStatus(Contract.Status.PAID.name());
                                         contractIt.setPercentage(percentage);
                                         updated = true;
                                         EventBus.getDefault().post(new MessageEvent(mContext.getString(R.string.diagnosis_to_pay)));
                                     }
                                     contractIt.setMedical(email);
-                                    document.getReference().set(contractIt);
-                                    //break;
+                                    document.getReference().set(contractIt).addOnCompleteListener(task -> createGeoPoint(contractIt.getId(), latitude, longitude));
                                 }
                             }
                             if (listenerQuery != null) {
@@ -617,6 +625,14 @@ public class DataRepository {
                                 });
                                 EventBus.getDefault().post(new MessageEvent(mContext.getString(R.string.diagnosis_ok)));
                             }
+                        } else {
+                            contract.setMedical(email);
+                            contract.setStatus(Contract.Status.FINISH.name());
+                            contractRef.add(contract).addOnCompleteListener(task -> {
+                                listenerQuery.remove();
+                                createGeoPoint(task.getResult().getId(), latitude, longitude);
+                            });
+                            EventBus.getDefault().post(new MessageEvent(mContext.getString(R.string.diagnosis_ok)));
                         }
                     } catch (Exception error) {
                         Log.d(TAG, "Get contract: " + error);

@@ -452,7 +452,7 @@ public class StepCreateContractFragment extends Fragment implements Step{
 
     public void showDialogCreateContractResult(String text) {
         new AlertDialog.Builder(getActivity())
-                .setTitle("Diagnóstico terminado")
+                .setTitle(getString(R.string.diagnosis_finished))
                 .setMessage(text)
                 .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
