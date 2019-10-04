@@ -604,8 +604,6 @@ public class DataRepository {
                                         contractIt.setChildName(childName);
                                         contractIt.setChildSurname(childSurname);
                                         contractIt.setChildAddress(childAddress);
-                                        contractIt.setLatitude(latitude);
-                                        contractIt.setLongitude(longitude);
                                         contractIt.setStatus(Contract.Status.PAID.name());
                                         EventBus.getDefault().post(new MessageEvent(mContext.getString(R.string.diagnosis_to_pay)));
                                     }
