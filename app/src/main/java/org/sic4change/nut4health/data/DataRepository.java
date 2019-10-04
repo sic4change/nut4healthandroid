@@ -606,10 +606,10 @@ public class DataRepository {
                                         contractIt.setLatitude(latitude);
                                         contractIt.setLongitude(longitude);
                                         contractIt.setStatus(Contract.Status.PAID.name());
-                                        contractIt.setPercentage(percentage);
                                         EventBus.getDefault().post(new MessageEvent(mContext.getString(R.string.diagnosis_to_pay)));
                                     }
                                     updated = true;
+                                    contractIt.setPercentage(percentage);
                                     contractIt.setMedical(email);
                                     document.getReference().set(contractIt).addOnCompleteListener(task -> createGeoPoint(contractIt.getId(), latitude, longitude));
                                 }
@@ -654,7 +654,6 @@ public class DataRepository {
         } catch (Exception e) {
             Log.d(TAG, "Impossible create geopoint " + e);
         }
-
     }
 
     /**
