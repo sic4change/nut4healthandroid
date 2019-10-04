@@ -586,9 +586,10 @@ public class DataRepository {
             }
         } else {
             try {
-                Query query = contractRef.whereEqualTo(DataContractNames.COL_MEDICAL, "").orderBy(DataContractNames.COL_DATE_MILI_FIREBASE, Query.Direction.DESCENDING);
+                Query query = contractRef.whereEqualTo(DataContractNames.COL_MEDICAL, "").orderBy(DataContractNames.COL_DATE_MILI_FIREBASE, Query.Direction.ASCENDING);
                 listenerQuery = query.addSnapshotListener(mIoExecutor, (queryDocumentSnapshots, e) -> {
                     boolean updated = false;
+                    boolean paid = false;
                     try {
                         if ((queryDocumentSnapshots != null) && (queryDocumentSnapshots.getDocuments() != null)
                                 && (queryDocumentSnapshots.getDocuments().size() > 0)) {
@@ -597,15 +598,21 @@ public class DataRepository {
                                 FingerprintTemplate fingerprintCandidate = new FingerprintTemplate().deserialize(contractIt.getFingerprint());
                                 double score = new FingerprintMatcher().index(fingerprintTemplateContract).match(fingerprintCandidate);
                                 if (score >= 40) {
-                                    if ((contractIt.getPercentage() < 50) || updated) {
+                                    if (contractIt.getPercentage() < 50) {
                                         contractIt.setStatus(status);
                                         EventBus.getDefault().post(new MessageEvent(mContext.getString(R.string.diagnosis_updated)));
                                     } else {
-                                        contractIt.setChildName(childName);
-                                        contractIt.setChildSurname(childSurname);
-                                        contractIt.setChildAddress(childAddress);
-                                        contractIt.setStatus(Contract.Status.PAID.name());
-                                        EventBus.getDefault().post(new MessageEvent(mContext.getString(R.string.diagnosis_to_pay)));
+                                        if (!paid) {
+                                            contractIt.setChildName(childName);
+                                            contractIt.setChildSurname(childSurname);
+                                            contractIt.setChildAddress(childAddress);
+                                            contractIt.setStatus(Contract.Status.PAID.name());
+                                            paid = true;
+                                            EventBus.getDefault().post(new MessageEvent(mContext.getString(R.string.diagnosis_to_pay)));
+                                        } else {
+                                            contractIt.setStatus(status);
+                                            EventBus.getDefault().post(new MessageEvent(mContext.getString(R.string.diagnosis_updated)));
+                                        }
                                     }
                                     updated = true;
                                     contractIt.setPercentage(percentage);
