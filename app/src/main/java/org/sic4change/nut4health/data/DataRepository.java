@@ -598,6 +598,7 @@ public class DataRepository {
                                 double score = new FingerprintMatcher().index(fingerprintTemplateContract).match(fingerprintCandidate);
                                 if (score >= 40) {
                                     if ((contractIt.getPercentage() < 50) || updated) {
+                                        contractIt.setStatus(status);
                                         EventBus.getDefault().post(new MessageEvent(mContext.getString(R.string.diagnosis_updated)));
                                     } else {
                                         contractIt.setChildName(childName);
