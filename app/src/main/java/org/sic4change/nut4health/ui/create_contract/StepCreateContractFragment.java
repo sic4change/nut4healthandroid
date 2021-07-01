@@ -25,7 +25,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -56,6 +55,8 @@ import org.sic4change.nut4health.ui.fingerprint.ScanActivity;
 import org.sic4change.nut4health.ui.samphoto.SAMPhotoActivity;
 import org.sic4change.nut4health.utils.Nut4HealthKeyboard;
 import org.sic4change.nut4health.utils.location.Nut4HealthSingleShotLocationProvider;
+import org.sic4change.nut4health.utils.ruler_picker.RulerValuePicker;
+import org.sic4change.nut4health.utils.ruler_picker.RulerValuePickerListener;
 
 
 import java.io.File;
@@ -73,8 +74,10 @@ public class StepCreateContractFragment extends Fragment implements Step{
     private int position;
 
     private Button btnTakePhoto;
+    private RulerValuePicker rulerPicker;
     private ImageView ivTakePhoto;
     private TextView tvPercentage;
+    private TextView tvCm;
     private CardView cvChild;
     private EditText etChildName;
     private EditText etChildSurname;
@@ -116,7 +119,8 @@ public class StepCreateContractFragment extends Fragment implements Step{
         View v = inflater.inflate(R.layout.step_create_contract, container, false);
         eventResult = "";
         btnTakePhoto = v.findViewById(R.id.btnTakePhoto);
-        btnTakePhoto.setVisibility(View.VISIBLE);
+        rulerPicker = v.findViewById(R.id.ruler_picker);
+        btnTakePhoto.setVisibility(View.GONE);
         btnCheckMalnutrition = v.findViewById(R.id.btnCheckMalnutrition);
         ivNewContract = v.findViewById(R.id.ivNewContract);
         btnCheckMalnutrition.setOnClickListener(v12 -> {
@@ -152,6 +156,36 @@ public class StepCreateContractFragment extends Fragment implements Step{
             takePhoto();
             hideTakePhotoButton();
         });
+        rulerPicker.setValuePickerListener(new RulerValuePickerListener() {
+            @Override
+            public void onValueChange(final int selectedValue) {
+                tvCm.setText(selectedValue + " cm");
+                if (selectedValue < 11) {
+                    rulerPicker.setBackgroundColor(getResources().getColor(R.color.error));
+                    tvPercentage.setText("100%");
+                    tvPercentage.setTextColor(getResources().getColor(R.color.error));
+                    tvCm.setTextColor(getResources().getColor(R.color.error));
+                } else if (selectedValue >=11 && selectedValue <= 13) {
+                    rulerPicker.setBackgroundColor(getResources().getColor(R.color.orange));
+                    tvPercentage.setText("50%");
+                    tvPercentage.setTextColor(getResources().getColor(R.color.orange));
+                    tvCm.setTextColor(getResources().getColor(R.color.orange));
+                } else {
+                    rulerPicker.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+                    tvPercentage.setText("0%");
+                    tvPercentage.setTextColor(getResources().getColor(R.color.colorAccent));
+                    tvCm.setTextColor(getResources().getColor(R.color.colorAccent));
+                }
+                mCreateContractViewModel.setImageSelected(true);
+            }
+
+            @Override
+            public void onIntermediateValueChange(final int selectedValue) {
+                //Value changed but the user is still scrolling the ruler.
+                //This value is not final value. Application can utilize this value to display the current selected value.
+            }
+        });
+
         ivTakePhoto = v.findViewById(R.id.ivTakePhoto);
         ivTakePhoto.setOnClickListener(v1 -> {
             if (mCreateContractViewModel.isImageSelected()) {
@@ -159,6 +193,7 @@ public class StepCreateContractFragment extends Fragment implements Step{
             }
         });
         tvPercentage = v.findViewById(R.id.tvPercentage);
+        tvCm = v.findViewById(R.id.tvCm);
         cvChild = v.findViewById(R.id.cvChild);
         etChildName = v.findViewById(R.id.etChildName);
         etChildSurname = v.findViewById(R.id.etChildSurname);
@@ -250,27 +285,27 @@ public class StepCreateContractFragment extends Fragment implements Step{
     @Override
     public void onSelected() {
         if (getPosition() == 0) {
-            btnTakePhoto.setVisibility(View.VISIBLE);
-            ivTakePhoto.setVisibility(View.VISIBLE);
+            btnTakePhoto.setVisibility(View.GONE);
+            ivTakePhoto.setVisibility(View.GONE);
             tvPercentage.setVisibility(View.VISIBLE);
             cvChild.setVisibility(View.GONE);
             btnCheckMalnutrition.setVisibility(View.GONE);
             ivNewContract.setVisibility(View.GONE);
             clView.setVisibility(View.GONE);
-            if (mCreateContractViewModel.getChildLocation() != null) {
-                Glide.with(getActivity().getApplicationContext())
-                        .load(new File(mCreateContractViewModel.getUriPhoto().getPath()))
-                        .apply(new RequestOptions()
-                                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                                .skipMemoryCache(true))
-                        .into(ivTakePhoto);
-                ivTakePhoto.setBackgroundColor(getResources().getColor(android.R.color.transparent));
-            }
-            if (mCreateContractViewModel.isImageSelected()) {
-                btnTakePhoto.setVisibility(View.GONE);
-            } else {
-                btnTakePhoto.setVisibility(View.VISIBLE);
-            }
+//            if (mCreateContractViewModel.getChildLocation() != null) {
+//                Glide.with(getActivity().getApplicationContext())
+//                        .load(new File(mCreateContractViewModel.getUriPhoto().getPath()))
+//                        .apply(new RequestOptions()
+//                                .diskCacheStrategy(DiskCacheStrategy.NONE)
+//                                .skipMemoryCache(true))
+//                        .into(ivTakePhoto);
+//                ivTakePhoto.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+//            }
+//            if (mCreateContractViewModel.isImageSelected()) {
+//                btnTakePhoto.setVisibility(View.GONE);
+//            } else {
+//                btnTakePhoto.setVisibility(View.VISIBLE);
+//            }
         } else if (getPosition() == 1) {
             btnTakePhoto.setVisibility(View.GONE);
             ivTakePhoto.setVisibility(View.GONE);
