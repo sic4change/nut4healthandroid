@@ -88,6 +88,7 @@
     <string name="child_data">CHILD INFORMATION</string>
     <string name="name">Name</string>
     <string name="surname">Surname</string>
+    <string name="contact_phone">Contact phone</string>
     <string name="location">Location</string>
     <string name="check_malnutrition">Check malnutrition</string>
     <string name="capture">Start diagnosis</string>

@@ -485,10 +485,11 @@ public class DataRepository {
      * @param childName
      * @param childSurname
      * @param childAddress
+     * @param childPhoneContact
      * @param percentage
      */
     public void createContract(String role, String email, double latitude, double longitude, Uri photo,
-                               String childName, String childSurname, String childAddress,
+                               String childName, String childSurname, String childAddress, String childPhoneContact,
                                int percentage) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference contractRef = db.collection(DataContractNames.TABLE_FIREBASE_NAME);
@@ -500,10 +501,14 @@ public class DataRepository {
         }
         String fnameContract = Environment.getExternalStorageDirectory().toString() + "/req_images/Nut4HealthFingerPrint-" +".jpg";
         byte[] imageContract = AndroidBmpUtil.getByte(fnameContract);
-        FingerprintTemplate fingerprintTemplateContract = new FingerprintTemplate().dpi(500).create(imageContract);
-        Contract contract = new Contract(photo.toString(), latitude, longitude, "",
-                childName, childSurname, childAddress, fingerprintTemplateContract.serialize(),
+        Contract contract = new Contract("", latitude, longitude, "",
+                childName, childSurname, childAddress, childPhoneContact, "",
                 status, "", percentage);
+        imageContract = null;
+        if (imageContract != null) {
+            FingerprintTemplate fingerprintTemplateContract = new FingerprintTemplate().dpi(500).create(imageContract);
+            contract.setFingerprint(fingerprintTemplateContract.serialize());
+        }
         if (role.equals("Screener")) {
             try {
                 Query query = contractRef;
@@ -512,7 +517,7 @@ public class DataRepository {
                         if ((queryDocumentSnapshots != null) && (queryDocumentSnapshots.getDocuments() != null)
                                 && (queryDocumentSnapshots.getDocuments().size() > 0)) {
                             boolean updated = false;
-                            for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
+                        /*    for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
                                 Contract contractIt = document.toObject(Contract.class);
                                 FingerprintTemplate fingerprintCandidate = new FingerprintTemplate().deserialize(contractIt.getFingerprint());
                                 double score = new FingerprintMatcher().index(fingerprintTemplateContract).match(fingerprintCandidate);
@@ -534,6 +539,7 @@ public class DataRepository {
                                             contractIt.setChildName(childName);
                                             contractIt.setChildSurname(childSurname);
                                             contractIt.setChildAddress(childAddress);
+                                            contractIt.setChildPhoneContract(childPhoneContact);
                                             contractIt.setLatitude(latitude);
                                             contractIt.setLongitude(longitude);
                                             contractIt.setStatus(status);
@@ -554,7 +560,7 @@ public class DataRepository {
                                         }
                                     }
                                 }
-                            }
+                            }*/
                             if (listenerQuery != null) {
                                 listenerQuery.remove();
                             }
@@ -593,7 +599,7 @@ public class DataRepository {
                     try {
                         if ((queryDocumentSnapshots != null) && (queryDocumentSnapshots.getDocuments() != null)
                                 && (queryDocumentSnapshots.getDocuments().size() > 0)) {
-                            for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
+                            /*for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
                                 Contract contractIt = document.toObject(Contract.class);
                                 FingerprintTemplate fingerprintCandidate = new FingerprintTemplate().deserialize(contractIt.getFingerprint());
                                 double score = new FingerprintMatcher().index(fingerprintTemplateContract).match(fingerprintCandidate);
@@ -619,7 +625,7 @@ public class DataRepository {
                                     contractIt.setMedical(email);
                                     document.getReference().set(contractIt).addOnCompleteListener(task -> createGeoPoint(contractIt.getId(), latitude, longitude));
                                 }
-                            }
+                            }*/
                             if (listenerQuery != null) {
                                 listenerQuery.remove();
                             }

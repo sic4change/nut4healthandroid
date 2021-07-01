@@ -203,6 +203,31 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvLocation" />
 
+                <TextView
+                    android:id="@+id/tvContactPhone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_default"
+                    android:text="@string/contact_phone"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/etChildLocation" />
+
+                <EditText
+                    android:id="@+id/etContactPhone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:layout_marginRight="@dimen/margin_medium"
+                    android:ems="10"
+                    android:inputType="textCapWords"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvContactPhone" />
+
                 <ImageView
                     android:id="@+id/ivAddFingerprint"
                     android:layout_width="100dp"
@@ -216,7 +241,8 @@
                     android:layout_marginRight="@dimen/margin_medium"
                     android:layout_marginBottom="@dimen/margin_medium"
                     android:layout_marginTop="@dimen/margin_medium"
-                    android:src="@drawable/ic_finger_no_selected"/>
+                    android:src="@drawable/ic_finger_no_selected"
+                    android:visibility="gone"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

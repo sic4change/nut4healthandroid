@@ -82,6 +82,7 @@ public class StepCreateContractFragment extends Fragment implements Step{
     private EditText etChildName;
     private EditText etChildSurname;
     private EditText etChildLocation;
+    private EditText etChildContactPhone;
     private Button btnCheckMalnutrition;
     private AnimatedCircleLoadingView clView;
     private ImageView ivAddFingerprint;
@@ -135,6 +136,7 @@ public class StepCreateContractFragment extends Fragment implements Step{
                             mCreateContractViewModel.getLocation().latitude, mCreateContractViewModel.getLocation().longitude,
                             mCreateContractViewModel.getUriPhoto(), mCreateContractViewModel.getChildName(),
                             mCreateContractViewModel.getChildSurname(), mCreateContractViewModel.getChildLocation(),
+                            mCreateContractViewModel.getChildPhoneContact(),
                             mCreateContractViewModel.getPercentage());
                     mCreateContractViewModel = null;
                 }
@@ -160,21 +162,24 @@ public class StepCreateContractFragment extends Fragment implements Step{
             @Override
             public void onValueChange(final int selectedValue) {
                 tvCm.setText(selectedValue + " cm");
-                if (selectedValue < 11) {
+                if (selectedValue < 12) {
                     rulerPicker.setBackgroundColor(getResources().getColor(R.color.error));
                     tvPercentage.setText("100%");
                     tvPercentage.setTextColor(getResources().getColor(R.color.error));
                     tvCm.setTextColor(getResources().getColor(R.color.error));
-                } else if (selectedValue >=11 && selectedValue <= 13) {
+                    mCreateContractViewModel.setPercentage(100);
+                } else if (selectedValue >=12 && selectedValue <= 13) {
                     rulerPicker.setBackgroundColor(getResources().getColor(R.color.orange));
                     tvPercentage.setText("50%");
                     tvPercentage.setTextColor(getResources().getColor(R.color.orange));
                     tvCm.setTextColor(getResources().getColor(R.color.orange));
+                    mCreateContractViewModel.setPercentage(50);
                 } else {
                     rulerPicker.setBackgroundColor(getResources().getColor(R.color.colorAccent));
                     tvPercentage.setText("0%");
                     tvPercentage.setTextColor(getResources().getColor(R.color.colorAccent));
                     tvCm.setTextColor(getResources().getColor(R.color.colorAccent));
+                    mCreateContractViewModel.setPercentage(0);
                 }
                 mCreateContractViewModel.setImageSelected(true);
             }
@@ -197,6 +202,7 @@ public class StepCreateContractFragment extends Fragment implements Step{
         cvChild = v.findViewById(R.id.cvChild);
         etChildName = v.findViewById(R.id.etChildName);
         etChildSurname = v.findViewById(R.id.etChildSurname);
+        etChildContactPhone = v.findViewById(R.id.etContactPhone);
         etChildLocation = v.findViewById(R.id.etChildLocation);
         ivAddFingerprint = v.findViewById(R.id.ivAddFingerprint);
         ivAddFingerprint.setOnClickListener(v13 -> {
@@ -237,15 +243,17 @@ public class StepCreateContractFragment extends Fragment implements Step{
             } else {
                 if ((etChildLocation.getText() == null) || (etChildLocation.getText().toString() == null) || (etChildLocation.getText().toString().isEmpty())
                         || (etChildName.getText() == null) || (etChildName.getText().toString() == null) || (etChildName.getText().toString().isEmpty())
-                        || (etChildSurname.getText() == null) || (etChildSurname.getText().toString() == null) || (etChildSurname.getText().toString().isEmpty())) {
+                        || (etChildSurname.getText() == null) || (etChildSurname.getText().toString() == null) || (etChildSurname.getText().toString().isEmpty())
+                        || (etChildContactPhone.getText() == null) || (etChildContactPhone.getText().toString() == null) || (etChildContactPhone.getText().toString().isEmpty())) {
                     return new VerificationError(getString(R.string.error_child_data));
                 }
-                if ((mCreateContractViewModel.getFingerPrint() == null) || (mCreateContractViewModel.getFingerPrint().length < 1)) {
-                    return new VerificationError(getString(R.string.error_fingerprint_data));
-                }
+//                if ((mCreateContractViewModel.getFingerPrint() == null) || (mCreateContractViewModel.getFingerPrint().length < 1)) {
+//                    return new VerificationError(getString(R.string.error_fingerprint_data));
+//                }
                 mCreateContractViewModel.setChildLocation(etChildLocation.getText().toString());
                 mCreateContractViewModel.setChildName(etChildName.getText().toString());
                 mCreateContractViewModel.setChildSurname(etChildSurname.getText().toString());
+                mCreateContractViewModel.setChildPhoneContact(etChildContactPhone.getText().toString());
             }
 
             return null;
@@ -310,6 +318,8 @@ public class StepCreateContractFragment extends Fragment implements Step{
             btnTakePhoto.setVisibility(View.GONE);
             ivTakePhoto.setVisibility(View.GONE);
             tvPercentage.setVisibility(View.GONE);
+            rulerPicker.setVisibility(View.GONE);
+            tvCm.setVisibility(View.GONE);
             cvChild.setVisibility(View.VISIBLE);
             btnCheckMalnutrition.setVisibility(View.GONE);
             ivNewContract.setVisibility(View.GONE);
@@ -320,6 +330,9 @@ public class StepCreateContractFragment extends Fragment implements Step{
             if (mCreateContractViewModel.getChildSurname() != null) {
                 etChildSurname.setText(mCreateContractViewModel.getChildSurname());
             }
+            if (mCreateContractViewModel.getChildPhoneContact() != null) {
+                etChildContactPhone.setText(mCreateContractViewModel.getChildPhoneContact());
+            }
             if (mCreateContractViewModel.getChildLocation() != null) {
                 etChildLocation.setText(mCreateContractViewModel.getChildLocation());
             }
@@ -327,6 +340,8 @@ public class StepCreateContractFragment extends Fragment implements Step{
             btnTakePhoto.setVisibility(View.GONE);
             ivTakePhoto.setVisibility(View.GONE);
             tvPercentage.setVisibility(View.GONE);
+            rulerPicker.setVisibility(View.GONE);
+            tvCm.setVisibility(View.GONE);
             cvChild.setVisibility(View.GONE);
             btnCheckMalnutrition.setVisibility(View.VISIBLE);
             ivNewContract.setVisibility(View.VISIBLE);

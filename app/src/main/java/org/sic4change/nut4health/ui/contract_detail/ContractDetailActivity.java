@@ -48,10 +48,12 @@ public class ContractDetailActivity extends AppCompatActivity {
             EditText etName = findViewById(R.id.etName);
             EditText etSurname = findViewById(R.id.etSurname);
             EditText etLocation = findViewById(R.id.etLocation);
+            EditText etPhoneContact = findViewById(R.id.etPhoneContact);
             com.github.curioustechizen.ago.RelativeTimeTextView etDate = findViewById(R.id.etDate);
             etName.setText(contract.getChildName());
             etSurname.setText(contract.getChildSurname());
             etLocation.setText(contract.getChildAddress());
+            etPhoneContact.setText(contract.getChildPhoneContract());
             ivIcon.setTitleText(contract.getPercentage() + "%");
             if (contract.getStatus().equals(Contract.Status.DIAGNOSIS.name())) {
                 ivIcon.setFillColor(getApplicationContext().getResources().getColor(R.color.ms_errorColor));
