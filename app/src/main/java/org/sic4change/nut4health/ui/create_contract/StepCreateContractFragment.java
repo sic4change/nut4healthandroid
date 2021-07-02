@@ -55,12 +55,12 @@ import org.sic4change.nut4health.ui.fingerprint.ScanActivity;
 import org.sic4change.nut4health.ui.samphoto.SAMPhotoActivity;
 import org.sic4change.nut4health.utils.Nut4HealthKeyboard;
 import org.sic4change.nut4health.utils.location.Nut4HealthSingleShotLocationProvider;
-import org.sic4change.nut4health.utils.ruler_picker.RulerValuePicker;
-import org.sic4change.nut4health.utils.ruler_picker.RulerValuePickerListener;
+import org.sic4change.nut4health.utils.ruler_picker.SimpleRulerViewer;
 
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Locale;
 
@@ -69,12 +69,13 @@ import static maes.tech.intentanim.CustomIntent.customType;
 import static org.sic4change.nut4health.ui.samphoto.SAMPhotoActivity.PERCENTAGE;
 import static org.sic4change.nut4health.ui.samphoto.SAMPhotoActivity.PHOTO_PATH;
 
-public class StepCreateContractFragment extends Fragment implements Step{
+public class StepCreateContractFragment extends Fragment implements Step, SimpleRulerViewer.OnValueChangeListener{
 
     private int position;
 
     private Button btnTakePhoto;
-    private RulerValuePicker rulerPicker;
+    private View rulerBackground;
+    private SimpleRulerViewer ruler;
     private ImageView ivTakePhoto;
     private TextView tvPercentage;
     private TextView tvCm;
@@ -120,7 +121,9 @@ public class StepCreateContractFragment extends Fragment implements Step{
         View v = inflater.inflate(R.layout.step_create_contract, container, false);
         eventResult = "";
         btnTakePhoto = v.findViewById(R.id.btnTakePhoto);
-        rulerPicker = v.findViewById(R.id.ruler_picker);
+        rulerBackground = v.findViewById(R.id.rulerBackground);
+        ruler = v.findViewById(R.id.ruler);
+        ruler.setOnValueChangeListener(this);
         btnTakePhoto.setVisibility(View.GONE);
         btnCheckMalnutrition = v.findViewById(R.id.btnCheckMalnutrition);
         ivNewContract = v.findViewById(R.id.ivNewContract);
@@ -157,38 +160,6 @@ public class StepCreateContractFragment extends Fragment implements Step{
         btnTakePhoto.setOnClickListener(v14 -> {
             takePhoto();
             hideTakePhotoButton();
-        });
-        rulerPicker.setValuePickerListener(new RulerValuePickerListener() {
-            @Override
-            public void onValueChange(final int selectedValue) {
-                tvCm.setText(selectedValue + " cm");
-                if (selectedValue < 12) {
-                    rulerPicker.setBackgroundColor(getResources().getColor(R.color.error));
-                    tvPercentage.setText("100%");
-                    tvPercentage.setTextColor(getResources().getColor(R.color.error));
-                    tvCm.setTextColor(getResources().getColor(R.color.error));
-                    mCreateContractViewModel.setPercentage(100);
-                } else if (selectedValue >=12 && selectedValue <= 13) {
-                    rulerPicker.setBackgroundColor(getResources().getColor(R.color.orange));
-                    tvPercentage.setText("50%");
-                    tvPercentage.setTextColor(getResources().getColor(R.color.orange));
-                    tvCm.setTextColor(getResources().getColor(R.color.orange));
-                    mCreateContractViewModel.setPercentage(50);
-                } else {
-                    rulerPicker.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-                    tvPercentage.setText("0%");
-                    tvPercentage.setTextColor(getResources().getColor(R.color.colorAccent));
-                    tvCm.setTextColor(getResources().getColor(R.color.colorAccent));
-                    mCreateContractViewModel.setPercentage(0);
-                }
-                mCreateContractViewModel.setImageSelected(true);
-            }
-
-            @Override
-            public void onIntermediateValueChange(final int selectedValue) {
-                //Value changed but the user is still scrolling the ruler.
-                //This value is not final value. Application can utilize this value to display the current selected value.
-            }
         });
 
         ivTakePhoto = v.findViewById(R.id.ivTakePhoto);
@@ -318,7 +289,8 @@ public class StepCreateContractFragment extends Fragment implements Step{
             btnTakePhoto.setVisibility(View.GONE);
             ivTakePhoto.setVisibility(View.GONE);
             tvPercentage.setVisibility(View.GONE);
-            rulerPicker.setVisibility(View.GONE);
+            ruler.setVisibility(View.GONE);
+            rulerBackground.setVisibility(View.GONE);
             tvCm.setVisibility(View.GONE);
             cvChild.setVisibility(View.VISIBLE);
             btnCheckMalnutrition.setVisibility(View.GONE);
@@ -340,7 +312,8 @@ public class StepCreateContractFragment extends Fragment implements Step{
             btnTakePhoto.setVisibility(View.GONE);
             ivTakePhoto.setVisibility(View.GONE);
             tvPercentage.setVisibility(View.GONE);
-            rulerPicker.setVisibility(View.GONE);
+            ruler.setVisibility(View.GONE);
+            rulerBackground.setVisibility(View.GONE);
             tvCm.setVisibility(View.GONE);
             cvChild.setVisibility(View.GONE);
             btnCheckMalnutrition.setVisibility(View.VISIBLE);
@@ -522,4 +495,29 @@ public class StepCreateContractFragment extends Fragment implements Step{
     }
 
 
+    @Override
+    public void onChange(SimpleRulerViewer view, int position, float value) {
+        DecimalFormat df = new DecimalFormat("#.0");
+        tvCm.setText(df.format(value) + " cm");
+        if (value < 11.5) {
+            rulerBackground.setBackgroundColor(getResources().getColor(R.color.error));
+            tvPercentage.setText("100%");
+            tvPercentage.setTextColor(getResources().getColor(R.color.error));
+            tvCm.setTextColor(getResources().getColor(R.color.error));
+            mCreateContractViewModel.setPercentage(100);
+        } else if (value >=11.5 && value <= 12.5) {
+            rulerBackground.setBackgroundColor(getResources().getColor(R.color.orange));
+            tvPercentage.setText("50%");
+            tvPercentage.setTextColor(getResources().getColor(R.color.orange));
+            tvCm.setTextColor(getResources().getColor(R.color.orange));
+            mCreateContractViewModel.setPercentage(50);
+        } else {
+            rulerBackground.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+            tvPercentage.setText("0%");
+            tvPercentage.setTextColor(getResources().getColor(R.color.colorAccent));
+            tvCm.setTextColor(getResources().getColor(R.color.colorAccent));
+            mCreateContractViewModel.setPercentage(0);
+        }
+        mCreateContractViewModel.setImageSelected(true);
+    }
 }
