@@ -137,7 +137,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                         Nut4HealthSnackbar.showError(getApplicationContext(), findViewById(R.id.lyCreateAccount), getResources().getString(R.string.error_terms_and_conditios));
                     } else {
                         Nut4HealthKeyboard.closeKeyboard(etEmail, getApplicationContext());
-                        mCreateAccountViewModel.createUser(etEmail.getText().toString(), etUsername.getText().toString(), etRepeatPassword.getText().toString(),
+                        mCreateAccountViewModel.createUser(etEmail.getText().toString().trim().toLowerCase(), etUsername.getText().toString(), etRepeatPassword.getText().toString(),
                             spRole.getSelectedItem().toString());
                         disableView();
                     }

@@ -132,7 +132,7 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             if (EmailValidator.isValidEmail(etEmail.getText())) {
                 if (PasswordValidator.isValid(getApplicationContext(), etPassword.getText().toString(), etPassword.getText().toString())) {
-                    mLoginViewModel.login(etEmail.getText().toString().trim(), etPassword.getText().toString().trim());
+                    mLoginViewModel.login(etEmail.getText().toString().trim().toLowerCase(), etPassword.getText().toString().trim());
                     disableView();
                 } else {
                     Nut4HealthVibrator.vibrateError(getApplicationContext());
