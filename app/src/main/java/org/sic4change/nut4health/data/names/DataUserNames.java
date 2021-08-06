@@ -24,6 +24,11 @@ public final class DataUserNames {
     public static final String COL_EMAIL = "email";
 
     /**
+     * Column email for User phone
+     */
+    public static final String COL_PHONE = "phone";
+
+    /**
      * Column username for User username
      */
     public static final String COL_USERNAME = "username";
@@ -92,5 +97,10 @@ public final class DataUserNames {
      * Column current city for User
      */
     public static final String COL_CURRENT_CITY = "currentCity";
+
+    /**
+     * Column active for User
+     */
+    public static final String COL_ACTIVE = "active";
 
 }

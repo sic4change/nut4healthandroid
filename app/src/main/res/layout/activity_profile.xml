@@ -174,7 +174,8 @@
                 android:id="@+id/lyCountry"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:onClick="showDialogEditCountry">
+                android:onClick="showDialogEditCountry"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/tvCountry"
@@ -206,7 +207,8 @@
                 android:layout_height="2dip"
                 android:background="@color/disabled_color"
                 android:layout_marginLeft="@dimen/margin_medium"
-                android:layout_marginRight="@dimen/margin_medium" />
+                android:layout_marginRight="@dimen/margin_medium"
+                android:visibility="gone"/>
 
             <RelativeLayout
                 android:id="@+id/lyChangePassword"

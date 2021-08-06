@@ -132,7 +132,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/i_forgot_my_password"
-                app:layout_constraintTop_toBottomOf="@+id/etPassword"
+                app:layout_constraintTop_toBottomOf="@+id/btnLogin"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginStart="@dimen/margin_medium"
@@ -140,7 +140,8 @@
                 android:layout_marginEnd="@dimen/margin_medium"
                 android:layout_marginRight="@dimen/margin_medium"
                 android:layout_marginTop="@dimen/margin_medium"
-                android:layout_marginBottom="@dimen/margin_medium"
+                android:paddingBottom="8dp"
+                android:layout_marginBottom="@dimen/margin_card"
                 android:onClick="resetPassword"/>
 
             <Button
@@ -150,7 +151,7 @@
                 android:text="@string/sign_in"
                 android:background="@drawable/rounded_button"
                 android:textColor="@color/white"
-                app:layout_constraintTop_toBottomOf="@+id/tvResetPassword"
+                app:layout_constraintTop_toBottomOf="@id/etPassword"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginStart="@dimen/margin_medium"
@@ -172,6 +173,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_marginTop="@dimen/margin_medium"
                 android:layout_marginBottom="@dimen/margin_medium"
+                android:visibility="gone"
                 android:onClick="goToCreateAccount">
 
                 <TextView

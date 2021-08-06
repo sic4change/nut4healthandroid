@@ -26,6 +26,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -197,7 +198,10 @@ public class DataRepository {
                     user.setCurrentCountry(currentCountryUser);
                     user.setCurrentState(currentStateUser);
                     user.setCurrentCity(currentCityUser);
-                    queryDocumentSnapshots.getDocuments().get(0).getReference().set(user);
+                    //queryDocumentSnapshots.getDocuments().get(0).getReference().set(user, SetOptions.mergeFields("phone"));
+                    queryDocumentSnapshots.getDocuments().get(0).getReference().update("currentCountry", currentCountryUser);
+                    queryDocumentSnapshots.getDocuments().get(0).getReference().update("currentState", currentStateUser);
+                    queryDocumentSnapshots.getDocuments().get(0).getReference().update("currentCity", currentCityUser);
                     nut4HealtDao.updateCurrentCountryUser(currentCountryUser, email);
                     nut4HealtDao.updateCurrentStateUser(currentStateUser, email);
                     nut4HealtDao.updateCurrentCityUser(currentCityUser, email);
@@ -246,6 +250,7 @@ public class DataRepository {
                 if ((task != null) && (task.getResult() != null) && (task.getResult().getUser() != null)) {
                     Log.d(TAG, "Create user correct with firebase auth");
                     User user = new User(email, username, role);
+                    user.setActive(true);
                     FirebaseFirestore db = FirebaseFirestore.getInstance();
                     CollectionReference userRef = db.collection(DataUserNames.TABLE_FIREBASE_NAME);
                     Query query = userRef.whereEqualTo(DataUserNames.COL_USERNAME, username).limit(1);
@@ -325,7 +330,8 @@ public class DataRepository {
                     StorageReference storageRef = storage.getReference().child("avatars/" + username);
                     storageRef.putFile(Uri.fromFile(new File(urlPhoto))).addOnSuccessListener(taskSnapshot -> storageRef.getDownloadUrl().addOnCompleteListener(mIoExecutor, task -> {
                         user.setPhoto(task.getResult().toString());
-                        queryDocumentSnapshots.getDocuments().get(0).getReference().set(user);
+                        //queryDocumentSnapshots.getDocuments().get(0).getReference().set(user, SetOptions.mergeFields("photo"));
+                        queryDocumentSnapshots.getDocuments().get(0).getReference().update("photo", user.getPhoto());
                         nut4HealtDao.updatePhotoUser(task.getResult().toString(), email);
                         listenerQuery.remove();
                     }));
@@ -354,7 +360,8 @@ public class DataRepository {
                         && (queryDocumentSnapshots.getDocuments().size() > 0)) {
                     User user = queryDocumentSnapshots.getDocuments().get(0).toObject(User.class);
                     user.setName(name);
-                    queryDocumentSnapshots.getDocuments().get(0).getReference().set(user);
+                    //queryDocumentSnapshots.getDocuments().get(0).getReference().set(user, SetOptions.mergeFields("phone"));
+                    queryDocumentSnapshots.getDocuments().get(0).getReference().update("name", name);
                     nut4HealtDao.updateNameUser(name, email);
                     listenerQuery.remove();
                 } else {
@@ -390,7 +397,8 @@ public class DataRepository {
                         && (queryDocumentSnapshots.getDocuments().size() > 0)) {
                     User user = queryDocumentSnapshots.getDocuments().get(0).toObject(User.class);
                     user.setSurname(surname);
-                    queryDocumentSnapshots.getDocuments().get(0).getReference().set(user);
+                    //queryDocumentSnapshots.getDocuments().get(0).getReference().set(user, SetOptions.mergeFields("phone"));
+                    queryDocumentSnapshots.getDocuments().get(0).getReference().update("surname", surname);
                     nut4HealtDao.updateSurnameUser(surname, email);
                     listenerQuery.remove();
                 } else {
@@ -419,7 +427,9 @@ public class DataRepository {
                     User user = queryDocumentSnapshots.getDocuments().get(0).toObject(User.class);
                     user.setCountry(country);
                     user.setCountryCode(countryCode);
-                    queryDocumentSnapshots.getDocuments().get(0).getReference().set(user);
+                    //queryDocumentSnapshots.getDocuments().get(0).getReference().set(user, SetOptions.mergeFields("phone"));
+                    queryDocumentSnapshots.getDocuments().get(0).getReference().update("country", country);
+                    queryDocumentSnapshots.getDocuments().get(0).getReference().update("countryCode", countryCode);
                     nut4HealtDao.updateCountryUser(country, email);
                     nut4HealtDao.updateCountryCodeUser(countryCode, email);
                     listenerQuery.remove();
@@ -509,7 +519,7 @@ public class DataRepository {
             FingerprintTemplate fingerprintTemplateContract = new FingerprintTemplate().dpi(500).create(imageContract);
             contract.setFingerprint(fingerprintTemplateContract.serialize());
         }
-        if (role.equals("Screener")) {
+        if (role.equals("Agente Salud")) {
             try {
                 Query query = contractRef;
                 listenerQuery = query.addSnapshotListener(mIoExecutor, (queryDocumentSnapshots, e) -> {
@@ -545,7 +555,7 @@ public class DataRepository {
                                             contractIt.setStatus(status);
                                             contractIt.setPercentage(percentage);
                                             updated = true;
-                                            document.getReference().set(contractIt);
+                                            document.getReference().set(contractIt, SetOptions.merge());
                                             createGeoPoint(contractIt.getId(), latitude, longitude);
                                             EventBus.getDefault().post(new MessageEvent(mContext.getString(R.string.diagnosis_updated)));
                                         } else {
@@ -623,7 +633,7 @@ public class DataRepository {
                                     updated = true;
                                     contractIt.setPercentage(percentage);
                                     contractIt.setMedical(email);
-                                    document.getReference().set(contractIt).addOnCompleteListener(task -> createGeoPoint(contractIt.getId(), latitude, longitude));
+                                    document.getReference().set(contractIt, SetOptions.merge()).addOnCompleteListener(task -> createGeoPoint(contractIt.getId(), latitude, longitude));
                                 }
                             }*/
                             if (listenerQuery != null) {
@@ -677,7 +687,7 @@ public class DataRepository {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference contractRef = db.collection(DataContractNames.TABLE_FIREBASE_NAME);
         Query query;
-        if (role.equals("Screener")) {
+        if (role.equals("Agente Salud")) {
             query = contractRef.whereEqualTo(DataContractNames.COL_SCREENER, email);
         } else {
             query = contractRef.whereEqualTo(DataContractNames.COL_MEDICAL, email);
@@ -754,7 +764,7 @@ public class DataRepository {
                     List<User> users = new ArrayList<User>();
                     for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
                         User user = document.toObject(User.class);
-                        if (!user.getUsername().contains("anonymous") && user.getRole().equals("Screener")) {
+                        if (!user.getUsername().contains("anonymous") && user.getRole().equals("Agente Salud")) {
                             users.add(user);
                         }
                     }

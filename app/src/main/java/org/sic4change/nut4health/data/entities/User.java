@@ -61,30 +61,33 @@ public class User {
     @ColumnInfo(name = DataUserNames.COL_EMPTY_USER)
     private boolean emptyUser;
 
+    @ColumnInfo(name = DataUserNames.COL_ACTIVE)
+    private boolean active;
+
     public static final String EMPTY_EMAIL = "empty@emtpy.com";
 
-    public static final User userEmpty = new User(EMPTY_EMAIL, "", "", "", "", "", "", 0, "", true);
+    public static final User userEmpty = new User(EMPTY_EMAIL, "", "", "", "", "", "", 0, "", true, false);
 
     public User() {
-        this("","","","","","","", "",0, "", false, "", "", "");
+        this("","","","","","","", "",0, "", false, "", "", "", true);
     }
 
     public User(String email) {
-        this(email, "", "", "", "", "", "", "", 0, "",  false, "", "", "");
+        this(email, "", "", "", "", "", "", "", 0, "",  false, "", "", "", true);
     }
 
     public User(String email, String username, String role) {
-        this(email, username, "", "", "", "", "", role, 0, "", false, "", "", "");
+        this(email, username, "", "", "", "", "", role, 0, "", false, "", "", "", true);
     }
 
     public User(String email, String username, String name, String surname, String country, String countryCode,
-                String role, int points, String creationDate, boolean emptyUser) {
-        this(email, username, name, surname, country, countryCode, "", role, points, creationDate, emptyUser, "", "", "");
+                String role, int points, String creationDate, boolean emptyUser, boolean active) {
+        this(email, username, name, surname, country, countryCode, "", role, points, creationDate, emptyUser, "", "", "", active);
     }
 
     public User(String email, String username, String name, String surname, String country, String countryCode,
                 String photo, String role, int points, String creationDate, boolean emptyUser,
-                String currentCountry, String currentState, String currentCity) {
+                String currentCountry, String currentState, String currentCity, boolean active) {
         this.email = email;
         this.username = username;
         this.name = name;
@@ -99,11 +102,12 @@ public class User {
         this.currentCountry = currentCountry;
         this.currentState = currentState;
         this.currentCity = currentCity;
+        this.active = active;
     }
 
     public User(@NonNull String id, @NonNull String email, String username, String name, String surname,
                 String country, String countryCode, String photo, String role, int points,
-                String creationDate, String currentCountry, String currentState, String currentCity) {
+                String creationDate, String currentCountry, String currentState, String currentCity, boolean active) {
         this.id = id;
         this.email = email;
         this.username = username;
@@ -118,6 +122,7 @@ public class User {
         this.currentCountry = currentCountry;
         this.currentState = currentState;
         this.currentCity = currentCity;
+        this.active = active;
     }
 
     @NonNull
@@ -242,5 +247,13 @@ public class User {
 
     public void setCurrentCity(String currentCity) {
         this.currentCity = currentCity;
+    }
+
+    public boolean getActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

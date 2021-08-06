@@ -26,8 +26,8 @@
     <string name="sign_up_uppercase">SIGN UP</string>
     <string name="acept_terms_and_conditions">I accept the </string>
     <string-array name="array_role">
-        <item>Screener</item>
-        <item>Medical</item>
+        <item>Agente Salud</item>
+        <item>Servicio Salud</item>
     </string-array>
 
     <!--Error user login/create account-->
