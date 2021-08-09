@@ -126,14 +126,18 @@ dependencies {
     //Circle View
     implementation 'com.github.pavlospt:circleview:1.3'
 
-    //Location
-    implementation 'com.google.android.gms:play-services-location:16.0.0'
+    //Location picker
+    implementation project(':maplocationpicker')
 
     //Seekbar
     implementation 'com.crystal:crystalrangeseekbar:1.0.0'
 
     //Calendar
     implementation 'com.github.psinetron:slycalendarview:0.0.9'
+
+    //Location
+    implementation 'com.google.android.gms:play-services-location:16.0.0'
+
 
     //Test
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'

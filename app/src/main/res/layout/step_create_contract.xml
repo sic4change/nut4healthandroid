@@ -211,7 +211,8 @@
                     android:layout_marginRight="@dimen/margin_medium"
                     android:ems="10"
                     android:lines="5"
-                    android:inputType="textMultiLine|textCapSentences"
+                    android:inputType="none"
+                    android:focusable="false"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvLocation" />

@@ -43,6 +43,8 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.location.SettingsClient;
+import com.shivtechs.maplocationpicker.LocationPickerActivity;
+import com.shivtechs.maplocationpicker.MapUtility;
 import com.stepstone.stepper.Step;
 import com.stepstone.stepper.VerificationError;
 
@@ -105,6 +107,7 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
     private LocationSettingsRequest mLocationSettingsRequest;
     private static final int REQUEST_CHECK_SETTINGS = 214;
     private static final int REQUEST_ENABLE_GPS = 516;
+    private static final int ADDRESS_PICKER_REQUEST = 721;
 
     private String eventResult;
 
@@ -175,6 +178,11 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
         etChildSurname = v.findViewById(R.id.etChildSurname);
         etChildContactPhone = v.findViewById(R.id.etContactPhone);
         etChildLocation = v.findViewById(R.id.etChildLocation);
+        etChildLocation.setOnClickListener(v12 -> {
+            Intent i = new Intent(this.getActivity(), LocationPickerActivity.class);
+            startActivityForResult(i, ADDRESS_PICKER_REQUEST);
+
+        });
         ivAddFingerprint = v.findViewById(R.id.ivAddFingerprint);
         ivAddFingerprint.setOnClickListener(v13 -> {
             Intent fingerPrintIntent = new Intent(getActivity(), ScanActivity.class);
@@ -186,6 +194,7 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
             } else {
                 showMyPosition();
         }
+        MapUtility.apiKey = getResources().getString(R.string.google_maps_key);
         CreateContractViewModelFactory createContractViewModelFactory = CreateContractViewModelFactory.createFactory(getActivity());
         mCreateContractViewModel = ViewModelProviders.of(getActivity(), createContractViewModelFactory).get(CreateContractViewModel.class);
         return v;
@@ -395,6 +404,29 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
                 ivAddFingerprint.setImageResource(R.drawable.ic_finger_no_selected);
                 mCreateContractViewModel.setFingerPrint(null);
             }
+        } else if (requestCode == ADDRESS_PICKER_REQUEST && resultCode == RESULT_OK){
+            double currentLatitude = data.getDoubleExtra(MapUtility.LATITUDE, 0.0);
+            double currentLongitude = data.getDoubleExtra(MapUtility.LONGITUDE, 0.0);
+
+            mCreateContractViewModel.setLocation((new Nut4HealthSingleShotLocationProvider.GPSCoordinates(currentLatitude,currentLongitude)));
+            List<Address> addresses;
+            Geocoder geocoder = new Geocoder(getActivity().getApplicationContext(), Locale.getDefault());
+            try {
+                addresses = geocoder.getFromLocation(mCreateContractViewModel.getLocation().latitude, mCreateContractViewModel.getLocation().longitude, 1);
+                String address = addresses.get(0).getAddressLine(0);
+                if (address != null) {
+                    mCreateContractViewModel.setChildLocation(address);
+                    etChildLocation.setText(mCreateContractViewModel.getChildLocation());
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+//            Bundle completeAddress =data.getBundleExtra("fullAddress");
+//           etChildLocation.setText(new StringBuilder().append("addressline2: ").append
+//                   (completeAddress.getString("addressline2")).append("\ncity: ").append
+//                   (completeAddress.getString("city")).append("\npostalcode: ").append
+//                   (completeAddress.getString("postalcode")).append("\nstate: ").append
+//                   (completeAddress.getString("state")).toString());
         }
         if (mCreateContractViewModel.isImageSelected()) {
             btnTakePhoto.setVisibility(View.GONE);

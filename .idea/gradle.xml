@@ -13,10 +13,12 @@
             <option value="$PROJECT_DIR$/animation_check" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/country_selector" />
+            <option value="$PROJECT_DIR$/maplocationpicker" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
       </GradleProjectSettings>
     </option>
+    <option name="offlineMode" value="true" />
   </component>
 </project>
