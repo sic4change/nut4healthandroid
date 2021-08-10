@@ -63,6 +63,11 @@ public final class DataContractNames {
     public static final String COL_CHILD_PHONE_CONTRACT = "child_phone_contract";
 
     /**
+     * Column child point for contract
+     */
+    public static final String COL_POINT = "point";
+
+    /**
      * Column child fingerprint for contract
      */
     public static final String COL_CHILD_FINGERPRINT= "fingerprint";

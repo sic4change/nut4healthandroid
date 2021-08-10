@@ -42,6 +42,7 @@ import org.sic4change.nut4health.data.entities.Contract;
 import org.sic4change.nut4health.data.entities.Near;
 import org.sic4change.nut4health.data.entities.Notification;
 import org.sic4change.nut4health.data.entities.Payment;
+import org.sic4change.nut4health.data.entities.Point;
 import org.sic4change.nut4health.data.entities.Ranking;
 import org.sic4change.nut4health.data.entities.Report;
 import org.sic4change.nut4health.data.entities.User;
@@ -49,6 +50,7 @@ import org.sic4change.nut4health.data.events.MessageEvent;
 import org.sic4change.nut4health.data.names.DataContractNames;
 import org.sic4change.nut4health.data.names.DataNotificationNames;
 import org.sic4change.nut4health.data.names.DataPaymentNames;
+import org.sic4change.nut4health.data.names.DataPointNames;
 import org.sic4change.nut4health.data.names.DataRankingNames;
 import org.sic4change.nut4health.data.names.DataUserNames;
 import org.sic4change.nut4health.utils.fingerprint.AndroidBmpUtil;
@@ -499,8 +501,8 @@ public class DataRepository {
      * @param percentage
      */
     public void createContract(String role, String email, double latitude, double longitude, Uri photo,
-                               String childName, String childSurname, String childAddress, String childPhoneContact,
-                               int percentage) {
+                               String childName, String childSurname, String childAddress,
+                               String childPhoneContact, String point, int percentage) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference contractRef = db.collection(DataContractNames.TABLE_FIREBASE_NAME);
         String status;
@@ -512,7 +514,7 @@ public class DataRepository {
         String fnameContract = Environment.getExternalStorageDirectory().toString() + "/req_images/Nut4HealthFingerPrint-" +".jpg";
         byte[] imageContract = AndroidBmpUtil.getByte(fnameContract);
         Contract contract = new Contract("", latitude, longitude, "",
-                childName, childSurname, childAddress, childPhoneContact, "",
+                childName, childSurname, childAddress, childPhoneContact, point, "",
                 status, "", percentage);
         imageContract = null;
         if (imageContract != null) {
@@ -1145,6 +1147,38 @@ public class DataRepository {
      */
     public LiveData<Near> getNearContract(String id) {
         return nut4HealtDao.getNearContract(id);
+    }
+
+    /**
+     * Method to get points from firebase
+     */
+    public void getPoints() {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference pointRef = db.collection(DataPointNames.TABLE_FIREBASE_NAME);
+        Query query = pointRef.whereEqualTo("active", true);
+        query.addSnapshotListener(mIoExecutor, (queryDocumentSnapshots, e) -> {
+            try {
+                if ((queryDocumentSnapshots != null) && (queryDocumentSnapshots.getDocuments() != null)
+                        && (queryDocumentSnapshots.getDocuments().size() > 0)) {
+                    for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
+                        Point point = document.toObject(Point.class);
+                        nut4HealtDao.insert(point);
+                    }
+                } else {
+                    Log.d(TAG, "Get point from firebase: " + "empty");
+                }
+            } catch (Exception error) {
+                Log.d(TAG, "Get points: " + "empty");
+            }
+        });
+    }
+
+    /**
+     * Method to get points from local bd
+     * @return
+     */
+    public LiveData<List<Point>> getSortedPoints() {
+        return nut4HealtDao.getPoints();
     }
 
 }

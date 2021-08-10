@@ -86,6 +86,10 @@ public class MainViewModel extends ViewModel {
         this.mRepository.getContracts(email, role);
     }
 
+    public void getPoints() {
+        this.mRepository.getPoints();
+    }
+
     public void getSortedContracts(String sort, String name, String surname, String status, long dateStart, long dataEnd,
                                    int percentageMin, int percentageMax) {
         mContracts = this.mRepository.getSortedContracts(sort, name, surname, status, dateStart, dataEnd,

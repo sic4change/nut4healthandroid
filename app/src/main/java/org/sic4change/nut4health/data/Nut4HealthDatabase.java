@@ -11,10 +11,12 @@ import org.sic4change.nut4health.data.entities.Contract;
 import org.sic4change.nut4health.data.entities.Near;
 import org.sic4change.nut4health.data.entities.Notification;
 import org.sic4change.nut4health.data.entities.Payment;
+import org.sic4change.nut4health.data.entities.Point;
 import org.sic4change.nut4health.data.entities.Ranking;
 import org.sic4change.nut4health.data.entities.User;
 
-@Database(entities = {User.class, Contract.class, Near.class, Ranking.class, Payment.class, Notification.class},
+@Database(entities = {User.class, Contract.class, Near.class, Ranking.class, Payment.class,
+        Notification.class, Point.class},
         version = 12, exportSchema = false)
 public abstract  class Nut4HealthDatabase extends RoomDatabase {
 

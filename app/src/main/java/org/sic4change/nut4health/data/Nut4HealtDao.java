@@ -15,6 +15,7 @@ import org.sic4change.nut4health.data.entities.Contract;
 import org.sic4change.nut4health.data.entities.Near;
 import org.sic4change.nut4health.data.entities.Notification;
 import org.sic4change.nut4health.data.entities.Payment;
+import org.sic4change.nut4health.data.entities.Point;
 import org.sic4change.nut4health.data.entities.Ranking;
 import org.sic4change.nut4health.data.entities.User;
 
@@ -315,4 +316,18 @@ public interface Nut4HealtDao {
      */
     @Query("DELETE FROM near WHERE contractId =:id")
     void deleteNear(String id);
+
+    /**
+     * Returns all points
+     * @return
+     */
+    @Query("SELECT * FROM point")
+    LiveData<List<Point>> getPoints();
+
+    /**
+     * Insert a point
+     * @param point
+     */
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insert(Point... point);
 }

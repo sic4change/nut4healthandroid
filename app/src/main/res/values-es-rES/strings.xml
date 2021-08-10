@@ -90,6 +90,7 @@
     <string name="name">Nombre</string>
     <string name="surname">Apellidos</string>
     <string name="contact_phone">Teléfono de contacto</string>
+    <string name="medical_point">Servicio de Salud</string>
     <string name="location">Ubicación</string>
     <string name="check_malnutrition">Comprobar desnutrición</string>
     <string name="capture">Iniciar diagnóstico</string>

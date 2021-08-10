@@ -21,6 +21,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -52,9 +54,11 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.ThreadMode;
 import org.sic4change.animation_check.AnimatedCircleLoadingView;
 import org.sic4change.nut4health.R;
+import org.sic4change.nut4health.data.entities.Point;
 import org.sic4change.nut4health.data.events.MessageEvent;
 import org.sic4change.nut4health.ui.fingerprint.ScanActivity;
 import org.sic4change.nut4health.ui.samphoto.SAMPhotoActivity;
+import org.sic4change.nut4health.ui.serchablespinner.SearchableSpinner;
 import org.sic4change.nut4health.utils.Nut4HealthKeyboard;
 import org.sic4change.nut4health.utils.location.Nut4HealthSingleShotLocationProvider;
 import org.sic4change.nut4health.utils.ruler_picker.SimpleRulerViewer;
@@ -86,6 +90,7 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
     private EditText etChildSurname;
     private EditText etChildLocation;
     private EditText etChildContactPhone;
+    private SearchableSpinner spPoint;
     private Button btnCheckMalnutrition;
     private AnimatedCircleLoadingView clView;
     private ImageView ivAddFingerprint;
@@ -130,6 +135,29 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
         btnTakePhoto.setVisibility(View.GONE);
         btnCheckMalnutrition = v.findViewById(R.id.btnCheckMalnutrition);
         ivNewContract = v.findViewById(R.id.ivNewContract);
+        spPoint = v.findViewById(R.id.spPoint);
+        CreateContractViewModelFactory createContractViewModelFactory = CreateContractViewModelFactory.createFactory(getActivity());
+        mCreateContractViewModel = ViewModelProviders.of(getActivity(), createContractViewModelFactory).get(CreateContractViewModel.class);
+        mCreateContractViewModel.getPoints().observe(getActivity(), points -> {
+            spPoint.setTitle("Selecciona el Servicio de Salud");
+            spPoint.setPositiveButton("Aceptar");
+
+            ArrayAdapter<Point> adp1 = new ArrayAdapter<Point>(getActivity(),
+                    android.R.layout.simple_list_item_1, points);
+            adp1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spPoint.setAdapter(adp1);
+            spPoint.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    Point point = (Point) parent.getSelectedItem();
+                    mCreateContractViewModel.setPoint(point.getPointId());
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+                }
+            });
+        });
         btnCheckMalnutrition.setOnClickListener(v12 -> {
             Nut4HealthKeyboard.closeKeyboard(etChildLocation, getContext());
             clView.setVisibility(View.VISIBLE);
@@ -143,6 +171,7 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
                             mCreateContractViewModel.getUriPhoto(), mCreateContractViewModel.getChildName(),
                             mCreateContractViewModel.getChildSurname(), mCreateContractViewModel.getChildLocation(),
                             mCreateContractViewModel.getChildPhoneContact(),
+                            mCreateContractViewModel.getPoint(),
                             mCreateContractViewModel.getPercentage());
                     mCreateContractViewModel = null;
                 }
@@ -177,6 +206,7 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
         etChildName = v.findViewById(R.id.etChildName);
         etChildSurname = v.findViewById(R.id.etChildSurname);
         etChildContactPhone = v.findViewById(R.id.etContactPhone);
+
         etChildLocation = v.findViewById(R.id.etChildLocation);
         etChildLocation.setOnClickListener(v12 -> {
             Intent i = new Intent(this.getActivity(), LocationPickerActivity.class);
@@ -195,8 +225,6 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
                 showMyPosition();
         }
         MapUtility.apiKey = getResources().getString(R.string.google_maps_key);
-        CreateContractViewModelFactory createContractViewModelFactory = CreateContractViewModelFactory.createFactory(getActivity());
-        mCreateContractViewModel = ViewModelProviders.of(getActivity(), createContractViewModelFactory).get(CreateContractViewModel.class);
         return v;
     }
 

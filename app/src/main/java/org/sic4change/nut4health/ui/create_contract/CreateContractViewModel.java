@@ -8,12 +8,14 @@ import android.util.Base64;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.util.List;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import org.sic4change.nut4health.data.DataRepository;
 import org.sic4change.nut4health.data.entities.Contract;
+import org.sic4change.nut4health.data.entities.Point;
 import org.sic4change.nut4health.data.entities.User;
 import org.sic4change.nut4health.utils.fingerprint.AndroidBmpUtil;
 import org.sic4change.nut4health.utils.location.Nut4HealthSingleShotLocationProvider;
@@ -25,6 +27,7 @@ public class CreateContractViewModel extends ViewModel {
 
     private final DataRepository mRepository;
     private final LiveData<User> mUser;
+    private final LiveData<List<Point>> mPoints;
     private final LiveData<Contract> mContract;
 
     private Uri uriPhoto;
@@ -34,12 +37,15 @@ public class CreateContractViewModel extends ViewModel {
     private String childSurname;
     private String childLocation;
     private String childPhoneContact;
+    private String point;
     private byte[] fingerPrint;
     private boolean imageSelected = false;
 
     public CreateContractViewModel(DataRepository repository) {
         this.mRepository = repository;
         mUser = this.mRepository.getCurrentUser();
+        this.mRepository.getPoints();
+        mPoints = mRepository.getSortedPoints();
         mContract = null;
     }
 
@@ -47,14 +53,20 @@ public class CreateContractViewModel extends ViewModel {
         return mUser;
     }
 
+    public LiveData<List<Point>> getPoints() {
+        return mPoints;
+    }
+
     public LiveData<Contract> getContract() {
         return mContract;
     }
 
-    public void createContract(String role, String screener, float latitude, float longitude, Uri photo, String childName,
-                               String childSurname, String childAddress, String childPhoneContact, int percentage) {
+    public void createContract(String role, String screener, float latitude, float longitude, Uri photo,
+                               String childName, String childSurname, String childAddress,
+                               String childPhoneContact, String point,
+                               int percentage) {
         mRepository.createContract(role, screener, latitude, longitude, photo, childName, childSurname,
-                childAddress, childPhoneContact, percentage);
+                childAddress, childPhoneContact, point, percentage);
     }
 
     public void updatePointsUserLocal(String email) {
@@ -116,6 +128,14 @@ public class CreateContractViewModel extends ViewModel {
 
     public void setChildPhoneContact(String childPhoneContact) {
         this.childPhoneContact = childPhoneContact;
+    }
+
+    public String getPoint() {
+        return point;
+    }
+
+    public void setPoint(String point) {
+        this.point = point;
     }
 
     public int getPercentage() {
