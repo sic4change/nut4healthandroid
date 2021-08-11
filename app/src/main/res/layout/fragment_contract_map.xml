@@ -96,7 +96,7 @@
                 app:layout_constraintStart_toEndOf="@+id/tvPercentageItem"
                 app:layout_constraintTop_toBottomOf="@+id/tvNameItem"/>
 
-            <com.github.curioustechizen.ago.RelativeTimeTextView
+            <TextView
                 android:id="@+id/tvDateItem"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -112,7 +112,7 @@
                 app:layout_constraintStart_toEndOf="@+id/tvPercentageItem"
                 app:layout_constraintTop_toBottomOf="@+id/tvLocationItem" />
 
-            <com.github.curioustechizen.ago.RelativeTimeTextView
+            <TextView
                 android:id="@+id/tvDateConfirmationItem"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

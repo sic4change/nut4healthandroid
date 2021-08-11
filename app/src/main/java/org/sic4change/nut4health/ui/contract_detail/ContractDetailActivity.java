@@ -11,13 +11,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.github.marlonlom.utilities.timeago.TimeAgo;
+import com.github.marlonlom.utilities.timeago.TimeAgoMessages;
 import com.github.pavlospt.CircleView;
 
 import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.data.entities.Contract;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
+
 import java.util.Date;
 import java.util.Locale;
 
@@ -49,7 +51,7 @@ public class ContractDetailActivity extends AppCompatActivity {
             EditText etSurname = findViewById(R.id.etSurname);
             EditText etLocation = findViewById(R.id.etLocation);
             EditText etPhoneContact = findViewById(R.id.etPhoneContact);
-            com.github.curioustechizen.ago.RelativeTimeTextView etDate = findViewById(R.id.etDate);
+            TextView etDate = findViewById(R.id.etDate);
             etName.setText(contract.getChildName());
             etSurname.setText(contract.getChildSurname());
             etLocation.setText(contract.getChildAddress());
@@ -76,13 +78,11 @@ public class ContractDetailActivity extends AppCompatActivity {
                 tvStatus.setText(this.getResources().getString(R.string.finished));
                 tvStatus.setTextColor(this.getResources().getColor(R.color.orange));
             }
-            SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd yyyy hh:mm:ss", Locale.ENGLISH);
-            try {
-                Date date = formatter.parse(contract.getCreationDate());
-                etDate.setReferenceTime(date.getTime());
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+            Date date = new Date(contract.getCreationDate());
+            Locale LocaleBylanguageTag = Locale.forLanguageTag("es");
+            TimeAgoMessages messages = new TimeAgoMessages.Builder().withLocale(LocaleBylanguageTag).build();
+            String text = TimeAgo.using(date.getTime(), messages);
+            etDate.setText(text);
             ScrollView scrollView = findViewById(R.id.scrollView);
             scrollView.smoothScrollTo(0,0);
         }

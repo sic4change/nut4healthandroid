@@ -7,14 +7,14 @@ import android.widget.TextView;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.github.curioustechizen.ago.RelativeTimeTextView;
+import com.github.marlonlom.utilities.timeago.TimeAgo;
+import com.github.marlonlom.utilities.timeago.TimeAgoMessages;
 import com.github.pavlospt.CircleView;
 
 import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.data.entities.Contract;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
@@ -25,8 +25,8 @@ private TextView nChildName;
 private TextView nChildLocation;
 private CircleView nPercentage;
 private TextView nStatus;
-private RelativeTimeTextView nDate;
-private RelativeTimeTextView nConfirmationDate;
+private TextView nDate;
+private TextView nConfirmationDate;
 private CardView cvContract;
 private Contract mContract;
 private ContractsAdapter.ItemAction itemAction;
@@ -68,37 +68,32 @@ private Context context;
         } else if (contract.getStatus().equals(Contract.Status.PAID.name())) {
             nPercentage.setFillColor(context.getResources().getColor(R.color.colorAccent));
             nPercentage.setStrokeColor(context.getResources().getColor(R.color.colorAccent));
-            SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd yyyy hh:mm:ss", Locale.ENGLISH);
-            try {
-                Date date = formatter.parse(contract.getMedicalDate());
-                nConfirmationDate.setReferenceTime(date.getTime());
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+            Date date = new Date(contract.getMedicalDate());
+            Locale LocaleBylanguageTag = Locale.forLanguageTag("es");
+            TimeAgoMessages messages = new TimeAgoMessages.Builder().withLocale(LocaleBylanguageTag).build();
+            String text = TimeAgo.using(date.getTime(), messages);
+            nConfirmationDate.setText(text);
             nStatus.setText(context.getResources().getString(R.string.paid));
             nStatus.setTextColor(context.getResources().getColor(R.color.colorAccent));
             nConfirmationDate.setVisibility(View.VISIBLE);
         } else if (contract.getStatus().equals(Contract.Status.FINISH.name())) {
             nPercentage.setFillColor(context.getResources().getColor(R.color.orange));
             nPercentage.setStrokeColor(context.getResources().getColor(R.color.orange));
-            SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd yyyy hh:mm:ss", Locale.ENGLISH);
-            try {
-                Date date = formatter.parse(contract.getMedicalDate());
-                nConfirmationDate.setReferenceTime(date.getTime());
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+            Date date = new Date(contract.getMedicalDate());
+            Locale LocaleBylanguageTag = Locale.forLanguageTag("es");
+            TimeAgoMessages messages = new TimeAgoMessages.Builder().withLocale(LocaleBylanguageTag).build();
+            String text = TimeAgo.using(date.getTime(), messages);
+            nConfirmationDate.setText(text);
             nStatus.setText(context.getResources().getString(R.string.finished));
             nStatus.setTextColor(context.getResources().getColor(R.color.orange));
             nConfirmationDate.setVisibility(View.VISIBLE);
         }
-        SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd yyyy hh:mm:ss", Locale.ENGLISH);
-        try {
-            Date date = formatter.parse(contract.getCreationDate());
-            nDate.setReferenceTime(date.getTime());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        Date date = new Date(contract.getCreationDate());
+        Locale LocaleBylanguageTag = Locale.forLanguageTag("es");
+        TimeAgoMessages messages = new TimeAgoMessages.Builder().withLocale(LocaleBylanguageTag).build();
+        String text = TimeAgo.using(date.getTime(), messages);
+        nDate.setText(text);
+
         setClickAction(this.itemAction);
         cvContract.setOnClickListener(v -> itemAction.onClick(position, getContract().getId()));
     }

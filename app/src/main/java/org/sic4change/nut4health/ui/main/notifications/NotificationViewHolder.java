@@ -7,11 +7,13 @@ import android.widget.TextView;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.github.marlonlom.utilities.timeago.TimeAgo;
+import com.github.marlonlom.utilities.timeago.TimeAgoMessages;
+
 import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.data.entities.Notification;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
@@ -21,7 +23,7 @@ public class NotificationViewHolder extends RecyclerView.ViewHolder {
 
 private CardView cvNotification;
 private TextView tvTitle;
-private com.github.curioustechizen.ago.RelativeTimeTextView tvDate;
+private TextView tvDate;
 private Notification mNotification;
 private NotificationAdapter.ItemAction itemAction;
 private Context context;
@@ -50,14 +52,11 @@ private Context context;
         } catch (Exception e) {
             tvTitle.setTextColor(context.getResources().getColor(R.color.colorAccent));
         }
-        SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd yyyy hh:mm:ss", Locale.ENGLISH);
-        try {
-            Date notificationDate = formatter.parse(notification.getCreationDate());
-            tvDate.setReferenceTime(notificationDate.getTime());
-        } catch (ParseException e2) {
-            e2.printStackTrace();
-        }
-
+        Date date = new Date(notification.getCreationDate());
+        Locale LocaleBylanguageTag = Locale.forLanguageTag("es");
+        TimeAgoMessages messages = new TimeAgoMessages.Builder().withLocale(LocaleBylanguageTag).build();
+        String text = TimeAgo.using(date.getTime(), messages);
+        tvDate.setText(text);
         setClickAction(this.itemAction);
         cvNotification.setOnClickListener(v -> itemAction.onClick(getNotification().getId()));
     }

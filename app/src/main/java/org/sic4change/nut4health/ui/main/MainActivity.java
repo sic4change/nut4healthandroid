@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 tvDrawerEmail.setText(user.getEmail());
                 tvDrawerUsername.setText(user.getUsername());
                 tvDrawerRole.setText(user.getRole());
-                if (!user.getRole().equals("Screener")) {
+                if (!user.getRole().equals("Agente Salud")) {
                     tvDrawerPoints.setVisibility(View.GONE);
                     navigationView.getMenu().findItem(R.id.nav_ranking).setVisible(false);
                     navigationView.getMenu().findItem(R.id.nav_paids).setVisible(false);

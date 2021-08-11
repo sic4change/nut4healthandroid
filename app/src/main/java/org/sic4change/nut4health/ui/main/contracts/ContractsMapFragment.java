@@ -20,7 +20,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.paging.PagedList;
 
-import com.github.curioustechizen.ago.RelativeTimeTextView;
+import com.github.marlonlom.utilities.timeago.TimeAgo;
+import com.github.marlonlom.utilities.timeago.TimeAgoMessages;
 import com.github.pavlospt.CircleView;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -35,11 +36,9 @@ import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.data.entities.Contract;
 import org.sic4change.nut4health.ui.contract_detail.ContractDetailActivity;
 import org.sic4change.nut4health.ui.main.MainViewModel;
-import org.sic4change.nut4health.ui.main.MainViewModelFactory;
 import org.sic4change.nut4health.utils.location.Nut4HealthSingleShotLocationProvider;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
@@ -59,8 +58,8 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
     private TextView nChildName;
     private TextView nChildLocation;
     private CircleView nPercentage;
-    private RelativeTimeTextView nDate;
-    private RelativeTimeTextView nConfirmationDate;
+    private TextView nDate;
+    private TextView nConfirmationDate;
 
     private String id;
 
@@ -181,37 +180,31 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
         } else if (contract.getStatus().equals(Contract.Status.PAID.name())) {
             nPercentage.setFillColor(getActivity().getResources().getColor(R.color.colorAccent));
             nPercentage.setStrokeColor(getActivity().getResources().getColor(R.color.colorAccent));
-            SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd yyyy hh:mm:ss", Locale.ENGLISH);
-            try {
-                Date date = formatter.parse(contract.getMedicalDate());
-                nConfirmationDate.setReferenceTime(date.getTime());
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+            Date date = new Date(contract.getMedicalDate());
+            Locale LocaleBylanguageTag = Locale.forLanguageTag("es");
+            TimeAgoMessages messages = new TimeAgoMessages.Builder().withLocale(LocaleBylanguageTag).build();
+            String text = TimeAgo.using(date.getTime(), messages);
+            nConfirmationDate.setText(text);
             nStatus.setText(getActivity().getResources().getString(R.string.paid));
             nStatus.setTextColor(getActivity().getResources().getColor(R.color.colorAccent));
             nConfirmationDate.setVisibility(View.VISIBLE);
         } else if (contract.getStatus().equals(Contract.Status.FINISH.name())) {
             nPercentage.setFillColor(getActivity().getResources().getColor(R.color.orange));
             nPercentage.setStrokeColor(getActivity().getResources().getColor(R.color.orange));
-            SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd yyyy hh:mm:ss", Locale.ENGLISH);
-            try {
-                Date date = formatter.parse(contract.getMedicalDate());
-                nConfirmationDate.setReferenceTime(date.getTime());
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+            Date date = new Date(contract.getMedicalDate());
+            Locale LocaleBylanguageTag = Locale.forLanguageTag("es");
+            TimeAgoMessages messages = new TimeAgoMessages.Builder().withLocale(LocaleBylanguageTag).build();
+            String text = TimeAgo.using(date.getTime(), messages);
+            nConfirmationDate.setText(text);
             nStatus.setText(getActivity().getResources().getString(R.string.finished));
             nStatus.setTextColor(getActivity().getResources().getColor(R.color.orange));
             nConfirmationDate.setVisibility(View.VISIBLE);
         }
-        SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd yyyy hh:mm:ss", Locale.ENGLISH);
-        try {
-            Date date = formatter.parse(contract.getCreationDate());
-            nDate.setReferenceTime(date.getTime());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        Date date = new Date(contract.getCreationDate());
+        Locale LocaleBylanguageTag = Locale.forLanguageTag("es");
+        TimeAgoMessages messages = new TimeAgoMessages.Builder().withLocale(LocaleBylanguageTag).build();
+        String text = TimeAgo.using(date.getTime(), messages);
+        nDate.setText(text);
         cvContract.setVisibility(View.VISIBLE);
 
     }

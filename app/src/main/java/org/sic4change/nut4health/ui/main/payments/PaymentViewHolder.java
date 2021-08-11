@@ -8,12 +8,14 @@ import android.widget.TextView;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.github.marlonlom.utilities.timeago.TimeAgo;
+import com.github.marlonlom.utilities.timeago.TimeAgoMessages;
+
 import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.data.entities.Payment;
 import org.sic4change.nut4health.ui.main.ranking.RankingAdapter;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+
 import java.util.Date;
 import java.util.Locale;
 
@@ -25,7 +27,7 @@ private CardView cvPayment;
 private TextView tvTitle;
 private TextView tvQuantity;
 private Button btnContractDetail;
-private com.github.curioustechizen.ago.RelativeTimeTextView tvDate;
+private TextView tvDate;
 private Payment mPayment;
 private RankingAdapter.ItemAction itemAction;
 private Context context;
@@ -57,13 +59,11 @@ private Context context;
             btnContractDetail.setVisibility(View.VISIBLE);
         }
         tvQuantity.setText(mPayment.getQuantity() + " euro");
-        SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd yyyy hh:mm:ss", Locale.ENGLISH);
-        try {
-            Date date = formatter.parse(mPayment.getCreationDate());
-            tvDate.setReferenceTime(date.getTime());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        Date date = new Date(mPayment.getCreationDateMiliseconds());
+        Locale LocaleBylanguageTag = Locale.forLanguageTag("es");
+        TimeAgoMessages messages = new TimeAgoMessages.Builder().withLocale(LocaleBylanguageTag).build();
+        String text = TimeAgo.using(date.getTime(), messages);
+        tvDate.setText(text);
         setClickAction(this.itemAction);
         btnContractDetail.setOnClickListener(v -> itemAction.onClick(getPayment().getContractId()));
     }

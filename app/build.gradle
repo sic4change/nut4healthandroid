@@ -121,7 +121,7 @@ dependencies {
     implementation 'com.google.guava:guava:27.1-android'
 
     //Date view
-    implementation 'com.github.curioustechizen.android-ago:library:1.4.0'
+    implementation 'com.github.marlonlom:timeago:4.0.3'
 
     //Circle View
     implementation 'com.github.pavlospt:circleview:1.3'
