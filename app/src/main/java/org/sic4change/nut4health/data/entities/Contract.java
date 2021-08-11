@@ -53,6 +53,9 @@ public class Contract {
     @ColumnInfo(name = DataContractNames.COL_POINT)
     private String point;
 
+    @ColumnInfo(name = DataContractNames.COL_POINT_FULL_NAME)
+    private String pointFullName;
+
     @ColumnInfo(name = DataContractNames.COL_CHILD_FINGERPRINT)
     private String fingerprint;
 
@@ -82,42 +85,42 @@ public class Contract {
 
     public Contract() {
         this("", "", 0.0f, 0.0f, "", "", "",
-                "", "", "", "", "", Status.EMPTY.name(), "", "",0, 0, "", 0);
+                "", "", "", "", "", "", Status.EMPTY.name(), "", "",0, 0, "", 0);
     }
 
     @Ignore
     public Contract(@NonNull String id) {
         this(id, "", 0.0f, 0.0f, "", "", "",
-                "", "", "", "", "", Status.EMPTY.name(), "", "",0,  0, "", 0);
+                "", "", "", "", "", "", Status.EMPTY.name(), "", "",0,  0, "", 0);
     }
 
     @Ignore
     public Contract(@NonNull String photo, double latitude, double longitude, @NonNull String screener) {
         this("", photo, latitude, longitude, screener, "", "", "",
-                "", "", "", "", Status.EMPTY.name(), "", "",0,  0, "", 0);
+                "", "", "", "", "", Status.EMPTY.name(), "", "",0,  0, "", 0);
     }
 
     @Ignore
     public Contract(@NonNull String photo, double latitude, double longitude, @NonNull String screener,
                     String childName, String childSurname, String childAddress, String childPhoneContract,
-                    String point, String fingerprint, String status, String creationDate,
+                    String point, String pointFullName, String fingerprint, String status, String creationDate,
                     int percentage) {
         this("", photo, latitude, longitude, screener, "", childName, childSurname,
-                childAddress, childPhoneContract, point, fingerprint, status, "", creationDate, Nut4HealthTimeUtil.convertCreationDateToTimeMilis(creationDate), percentage, "", 0);
+                childAddress, childPhoneContract, point, pointFullName, fingerprint, status, "", creationDate, Nut4HealthTimeUtil.convertCreationDateToTimeMilis(creationDate), percentage, "", 0);
     }
     @Ignore
     public Contract(@NonNull String id, @NonNull String photo, double latitude, double longitude,
                     @NonNull String screener, String childName, String childSurname,
-                    String childAddress, String childPhoneContract,  String point, String fingerprint,
+                    String childAddress, String childPhoneContract,  String point, String pointFullName, String fingerprint,
                     String status, String creationDate, long creationDateMiliseconds, int percentage) {
         this(id, photo, latitude, longitude, screener, "", childName, childSurname,
-                childAddress, childPhoneContract, point, fingerprint, status, "", creationDate,
+                childAddress, childPhoneContract, point, pointFullName, fingerprint, status, "", creationDate,
                 creationDateMiliseconds, percentage, "", 0);
     }
 
     public Contract(@NonNull String id, @NonNull String photo, double latitude, double longitude,
                     @NonNull String screener, String medical, String childName, String childSurname,
-                    String childAddress, String childPhoneContract, String point, String fingerprint,
+                    String childAddress, String childPhoneContract, String point, String pointFullName, String fingerprint,
                     String status, String diagnosis, String creationDate, long creationDateMiliseconds, int percentage, String medicalDate,
                     long medicalDateMiliseconds) {
         this.id = id;
@@ -131,6 +134,7 @@ public class Contract {
         this.childAddress = childAddress;
         this.childPhoneContract = childPhoneContract;
         this.point = point;
+        this.pointFullName = pointFullName;
         this.fingerprint = fingerprint;
         this.status = status;
         this.diagnosis = diagnosis;
@@ -238,6 +242,14 @@ public class Contract {
 
     public void setPoint(String point) {
         this.point = point;
+    }
+
+    public String getPointFullName() {
+        return pointFullName;
+    }
+
+    public void setPointFullName(String pointFullName) {
+        this.pointFullName = pointFullName;
     }
 
     public String getStatus() {

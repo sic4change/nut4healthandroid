@@ -6,11 +6,13 @@ import androidx.lifecycle.ViewModel;
 
 import org.sic4change.nut4health.data.DataRepository;
 import org.sic4change.nut4health.data.entities.Contract;
+import org.sic4change.nut4health.data.entities.Point;
 
 public class DetailContractViewModel extends ViewModel {
 
     private final DataRepository mRepository;
     private LiveData<Contract> mContract = null;
+    private LiveData<Point> mPoint = null;
 
     public DetailContractViewModel(DataRepository repository, String id) {
         this.mRepository = repository;
@@ -23,6 +25,14 @@ public class DetailContractViewModel extends ViewModel {
 
     public void getContract(String id) {
         mRepository.getContract(id);
+    }
+
+    public LiveData<Point> getPoint() {
+        return mPoint;
+    }
+
+    public void getPoint(String id) {
+        mRepository.getPoint(id);
     }
 
     public DataRepository getRepository() {

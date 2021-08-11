@@ -151,8 +151,8 @@
 
     <!--Status-->
     <string name="paid">Pagado</string>
-    <string name="diagnosis">Diagnósticado</string>
-    <string name="no_diagnosis">No diagnósticado</string>
+    <string name="diagnosis">Diagnosticado</string>
+    <string name="no_diagnosis">No diagnosticado</string>
     <string name="finished">Finalizado</string>
 
     <!--Check messages-->

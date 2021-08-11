@@ -151,6 +151,7 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     Point point = (Point) parent.getSelectedItem();
                     mCreateContractViewModel.setPoint(point.getPointId());
+                    mCreateContractViewModel.setPointFullName(point.getFullName());
                 }
 
                 @Override
@@ -172,6 +173,7 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
                             mCreateContractViewModel.getChildSurname(), mCreateContractViewModel.getChildLocation(),
                             mCreateContractViewModel.getChildPhoneContact(),
                             mCreateContractViewModel.getPoint(),
+                            mCreateContractViewModel.getPointFullName(),
                             mCreateContractViewModel.getPercentage());
                     mCreateContractViewModel = null;
                 }

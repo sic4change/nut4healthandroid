@@ -1,5 +1,6 @@
 package org.sic4change.nut4health.ui.contract_detail;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -8,6 +9,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -17,8 +19,8 @@ import com.github.pavlospt.CircleView;
 
 import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.data.entities.Contract;
+import org.sic4change.nut4health.data.entities.Point;
 
-import java.text.ParseException;
 
 import java.util.Date;
 import java.util.Locale;
@@ -50,12 +52,14 @@ public class ContractDetailActivity extends AppCompatActivity {
             EditText etName = findViewById(R.id.etName);
             EditText etSurname = findViewById(R.id.etSurname);
             EditText etLocation = findViewById(R.id.etLocation);
+            EditText spPoint = findViewById(R.id.spPoint);
             EditText etPhoneContact = findViewById(R.id.etPhoneContact);
             TextView etDate = findViewById(R.id.etDate);
             etName.setText(contract.getChildName());
             etSurname.setText(contract.getChildSurname());
             etLocation.setText(contract.getChildAddress());
             etPhoneContact.setText(contract.getChildPhoneContract());
+            spPoint.setText(contract.getPointFullName());
             ivIcon.setTitleText(contract.getPercentage() + "%");
             if (contract.getStatus().equals(Contract.Status.DIAGNOSIS.name())) {
                 ivIcon.setFillColor(getApplicationContext().getResources().getColor(R.color.ms_errorColor));

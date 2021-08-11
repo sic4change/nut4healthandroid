@@ -8,6 +8,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 import androidx.paging.LivePagedListBuilder;
 import androidx.paging.PagedList;
 import androidx.sqlite.db.SimpleSQLiteQuery;
@@ -502,7 +503,7 @@ public class DataRepository {
      */
     public void createContract(String role, String email, double latitude, double longitude, Uri photo,
                                String childName, String childSurname, String childAddress,
-                               String childPhoneContact, String point, int percentage) {
+                               String childPhoneContact, String point, String pointFullName, int percentage) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference contractRef = db.collection(DataContractNames.TABLE_FIREBASE_NAME);
         String status;
@@ -514,7 +515,7 @@ public class DataRepository {
         String fnameContract = Environment.getExternalStorageDirectory().toString() + "/req_images/Nut4HealthFingerPrint-" +".jpg";
         byte[] imageContract = AndroidBmpUtil.getByte(fnameContract);
         Contract contract = new Contract("", latitude, longitude, "",
-                childName, childSurname, childAddress, childPhoneContact, point, "",
+                childName, childSurname, childAddress, childPhoneContact, point, pointFullName,  "",
                 status, "", percentage);
         imageContract = null;
         if (imageContract != null) {
@@ -1171,6 +1172,15 @@ public class DataRepository {
                 Log.d(TAG, "Get points: " + "empty");
             }
         });
+    }
+
+    /**
+     * Method to get a point
+     * @param id
+     * @return
+     */
+    public LiveData<Point> getPoint(String id) {
+        return nut4HealtDao.getPoint(id);
     }
 
     /**

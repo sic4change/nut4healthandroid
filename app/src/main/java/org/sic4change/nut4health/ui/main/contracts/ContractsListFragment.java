@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -19,7 +20,10 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.data.entities.Contract;
+import org.sic4change.nut4health.data.entities.Point;
 import org.sic4change.nut4health.ui.contract_detail.ContractDetailActivity;
+import org.sic4change.nut4health.ui.contract_detail.ContractDetailViewModelFactory;
+import org.sic4change.nut4health.ui.contract_detail.DetailContractViewModel;
 import org.sic4change.nut4health.ui.main.MainViewModel;
 
 import static maes.tech.intentanim.CustomIntent.customType;

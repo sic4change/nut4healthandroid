@@ -325,6 +325,14 @@ public interface Nut4HealtDao {
     LiveData<List<Point>> getPoints();
 
     /**
+     * Get a point based on the point id
+     * @param id
+     * @return
+     */
+    @Query("SELECT * FROM point WHERE pointId =:id LIMIT 1")
+    LiveData<Point> getPoint(String id);
+
+    /**
      * Insert a point
      * @param point
      */

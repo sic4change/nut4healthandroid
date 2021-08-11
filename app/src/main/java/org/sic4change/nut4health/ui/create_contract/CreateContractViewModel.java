@@ -38,6 +38,7 @@ public class CreateContractViewModel extends ViewModel {
     private String childLocation;
     private String childPhoneContact;
     private String point;
+    private String pointFullName;
     private byte[] fingerPrint;
     private boolean imageSelected = false;
 
@@ -63,10 +64,10 @@ public class CreateContractViewModel extends ViewModel {
 
     public void createContract(String role, String screener, float latitude, float longitude, Uri photo,
                                String childName, String childSurname, String childAddress,
-                               String childPhoneContact, String point,
+                               String childPhoneContact, String point, String pointFullName,
                                int percentage) {
         mRepository.createContract(role, screener, latitude, longitude, photo, childName, childSurname,
-                childAddress, childPhoneContact, point, percentage);
+                childAddress, childPhoneContact, point, pointFullName, percentage);
     }
 
     public void updatePointsUserLocal(String email) {
@@ -136,6 +137,14 @@ public class CreateContractViewModel extends ViewModel {
 
     public void setPoint(String point) {
         this.point = point;
+    }
+
+    public String getPointFullName() {
+        return pointFullName;
+    }
+
+    public void setPointFullName(String pointFullName) {
+        this.pointFullName = pointFullName;
     }
 
     public int getPercentage() {

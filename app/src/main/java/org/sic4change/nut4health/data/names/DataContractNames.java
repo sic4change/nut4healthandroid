@@ -68,6 +68,11 @@ public final class DataContractNames {
     public static final String COL_POINT = "point";
 
     /**
+     * Column child point full name for contract
+     */
+    public static final String COL_POINT_FULL_NAME = "pointfullname3";
+
+    /**
      * Column child fingerprint for contract
      */
     public static final String COL_CHILD_FINGERPRINT= "fingerprint";
