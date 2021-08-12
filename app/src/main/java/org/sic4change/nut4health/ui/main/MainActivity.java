@@ -106,13 +106,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     tvDrawerPoints.setVisibility(View.GONE);
                     navigationView.getMenu().findItem(R.id.nav_ranking).setVisible(false);
                     navigationView.getMenu().findItem(R.id.nav_paids).setVisible(false);
-                    navigationView.getMenu().findItem(R.id.nav_near).setVisible(true);
+                    //navigationView.getMenu().findItem(R.id.nav_near).setVisible(true);
                 } else {
                     tvDrawerPoints.setText(user.getPoints() + " " + getString(R.string.points));
                     tvDrawerPoints.setVisibility(View.VISIBLE);
                     navigationView.getMenu().findItem(R.id.nav_ranking).setVisible(true);
                     navigationView.getMenu().findItem(R.id.nav_paids).setVisible(true);
-                    navigationView.getMenu().findItem(R.id.nav_near).setVisible(false);
+                    //navigationView.getMenu().findItem(R.id.nav_near).setVisible(false);
                 }
                 Glide.with(getApplicationContext())
                         .load(user.getPhoto())
@@ -255,11 +255,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 } else if (id == R.id.nav_contracts) {
                     fragment = new ContractFragment();
                     setTitle(R.string.contracts);
-                } else if (id == R.id.nav_near) {
-                    mMainViewModel.removeAllNearContracts();
-                    fragment = new NearFragment();
-                    setTitle(R.string.map_diagnostics);
-                } else if (id == R.id.nav_ranking) {
+                }
+//                else if (id == R.id.nav_near) {
+//                    mMainViewModel.removeAllNearContracts();
+//                    fragment = new NearFragment();
+//                    setTitle(R.string.map_diagnostics);
+//                }
+                else if (id == R.id.nav_ranking) {
                     fragment = new RankingFragment();
                     setTitle(R.string.ranking);
                 } else if (id == R.id.nav_paids) {

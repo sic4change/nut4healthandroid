@@ -129,12 +129,15 @@
 
     <!--Payments -->
     <string name="confirmation_text">Confirmed diagnosis</string>
-    <string name="bonus_text">100 Diagnostics Bonus</string>
+    <string name="bonus_text">Diagnostics Bonus</string>
     <string-array name="array_status_payments">
         <item>All</item>
-        <item>Bonus</item>
+        <item>Diagnosis</item>
         <item>Confirmed</item>
     </string-array>
+    <string name="status_created">Created</string>
+    <string name="status_paid">Paid</string>
+    <string name="status_cancel">Cancel</string>
 
     <!--Report -->
     <string name="send_report">Send report</string>

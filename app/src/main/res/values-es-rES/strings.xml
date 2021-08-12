@@ -83,8 +83,8 @@
     <string name="third_step_title">Enviar</string>
     <string name="take_photo">Tomar foto</string>
     <string name="error_photo">Debes realizar la medida de la circunferencia del brazo superior</string>
-    <string name="error_child_data">Debes introducir los datos del niño</string>
-    <string name="error_fingerprint_data">Debes introducir la huella dactilar del niño</string>
+    <string name="error_child_data">Debes introducir los datos del niño/a</string>
+    <string name="error_fingerprint_data">Debes introducir la huella dactilar del niño/a</string>
     <string name="error_not_gps_position">Debes activar la localización en tu dispositivo</string>
     <string name="child_data">DATOS DEL MENOR</string>
     <string name="name">Nombre</string>
@@ -130,12 +130,15 @@
 
     <!--Payments -->
     <string name="confirmation_text">Diagnóstico confirmado</string>
-    <string name="bonus_text">Bonificación de 100 diagnósticos</string>
+    <string name="bonus_text">Bonificación por diagnóstico</string>
     <string-array name="array_status_payments">
         <item>Todos</item>
-        <item>Bonus</item>
+        <item>Diagnósticos</item>
         <item>Confirmaciones</item>
     </string-array>
+    <string name="status_created">Creado</string>
+    <string name="status_paid">Pagado</string>
+    <string name="status_cancel">Cancelado</string>
 
     <!--Report -->
     <string name="send_report">Enviar reporte</string>

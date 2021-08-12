@@ -26,6 +26,7 @@ public class PaymentViewHolder extends RecyclerView.ViewHolder {
 private CardView cvPayment;
 private TextView tvTitle;
 private TextView tvQuantity;
+private TextView tvStatus;
 private Button btnContractDetail;
 private TextView tvDate;
 private Payment mPayment;
@@ -37,6 +38,7 @@ private Context context;
         this.context = context;
         tvTitle = itemView.findViewById(R.id.tvTitle);
         tvQuantity = itemView.findViewById(R.id.tvQuantity);
+        tvStatus = itemView.findViewById(R.id.tvStatus);
         tvDate = itemView.findViewById(R.id.tvDate);
         btnContractDetail = itemView.findViewById(R.id.btnContractDetail);
         cvPayment = itemView.findViewById(R.id.cvRanking);
@@ -49,14 +51,24 @@ private Context context;
     void bindTo(Payment payment, final PaymentAdapter.ItemAction itemAction) {
         mPayment = payment;
 
-        if (mPayment.getType().equals(Payment.Status.Bonus.name())) {
+        if (mPayment.getType().equals("Diagnosis")) {
             tvTitle.setText(context.getResources().getString(R.string.bonus_text));
             tvTitle.setTextColor(context.getResources().getColor(R.color.colorPrimary));
             btnContractDetail.setVisibility(View.GONE);
         } else {
             tvTitle.setText(context.getResources().getString(R.string.confirmation_text));
-            tvTitle.setTextColor(context.getResources().getColor(R.color.ms_errorColor));
+            tvTitle.setTextColor(context.getResources().getColor(R.color.colorPrimary));
             btnContractDetail.setVisibility(View.VISIBLE);
+        }
+        if (mPayment.getStatus().equals("CREATED")) {
+            tvStatus.setText(context.getResources().getString(R.string.status_created));
+            tvStatus.setTextColor(context.getResources().getColor(R.color.orange));
+        } else if (mPayment.getStatus().equals("PAID")) {
+            tvStatus.setText(context.getResources().getString(R.string.status_paid));
+            tvStatus.setTextColor(context.getResources().getColor(R.color.colorAccent));
+        } else {
+            tvStatus.setText(context.getResources().getString(R.string.status_cancel));
+            tvStatus.setTextColor(context.getResources().getColor(R.color.error));
         }
         tvQuantity.setText(mPayment.getQuantity() + " euro");
         Date date = new Date(mPayment.getCreationDateMiliseconds());

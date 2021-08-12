@@ -55,6 +55,21 @@
                 app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
 
             <TextView
+                android:id="@+id/tvStatus"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginTop="4dp"
+                android:drawableLeft="@drawable/ic_money"
+                android:drawablePadding="2dp"
+                android:gravity="left|center"
+                android:text="1 euro"
+                android:textColor="@color/common_google_signin_btn_text_light_default"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvQuantity" />
+
+            <TextView
                 android:id="@+id/tvDate"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -69,7 +84,7 @@
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvQuantity" />
+                app:layout_constraintTop_toBottomOf="@+id/tvStatus" />
 
             <Button
                 android:id="@+id/btnContractDetail"

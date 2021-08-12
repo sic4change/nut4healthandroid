@@ -38,30 +38,35 @@ public class Payment {
     @ColumnInfo(name = DataPaymentNames.COL_TYPE)
     private String type;
 
+    @NonNull
+    @ColumnInfo(name = DataPaymentNames.COL_STATUS)
+    private String status;
+
     @ColumnInfo(name = DataPaymentNames.COL_CONTRACTID)
     private String contractId;
 
     public Payment() {
-        this("", "", 0, "", 0, "", "");
+        this("", "", 0, "", 0, "", "", "");
     }
 
     @Ignore
     public Payment(@NonNull String id) {
-        this(id, "", 0,"", 0, "", "");
+        this(id, "", 0,"", 0, "", "", "");
     }
 
     @Ignore
-    public Payment(@NonNull String id, String creationDate, @NonNull String screener, int quantity, @NonNull String type) {
-        this(id, creationDate, Nut4HealthTimeUtil.convertCreationDateToTimeMilis(creationDate), screener, quantity, type, "");
+    public Payment(@NonNull String id, String creationDate, @NonNull String screener, int quantity, @NonNull String type, @NonNull String status) {
+        this(id, creationDate, Nut4HealthTimeUtil.convertCreationDateToTimeMilis(creationDate), screener, quantity, type, status, "");
     }
 
-    public Payment(@NonNull String id, String creationDate, long creationDateMiliseconds, @NonNull String screener, int quantity, @NonNull String type, String contractId) {
+    public Payment(@NonNull String id, String creationDate, long creationDateMiliseconds, @NonNull String screener, int quantity, @NonNull String type, @NonNull String status, String contractId) {
         this.id = id;
         this.creationDate = creationDate;
         this.creationDateMiliseconds = creationDateMiliseconds;
         this.screener = screener;
         this.quantity = quantity;
         this.type = type;
+        this.status = status;
         this.contractId = contractId;
     }
 
@@ -118,6 +123,15 @@ public class Payment {
         this.type = type;
     }
 
+    @NonNull
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(@NonNull String status) {
+        this.status = status;
+    }
+
     public String getContractId() {
         return contractId;
     }
@@ -127,7 +141,7 @@ public class Payment {
     }
 
     public enum Status {
-        Bonus, Confirmation, ALL
+        Diagnosis, Confirmation, ALL
     }
 
 }

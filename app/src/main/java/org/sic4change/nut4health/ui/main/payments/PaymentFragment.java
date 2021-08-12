@@ -129,10 +129,10 @@ public class PaymentFragment extends Fragment implements SwipeRefreshLayout.OnRe
                         ivStatus.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
                         break;
                     case 2:
-                        ivStatus.setBackgroundColor(getResources().getColor(R.color.ms_errorColor));
+                        ivStatus.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
                         break;
                     default:
-                        ivStatus.setBackgroundColor(getResources().getColor(R.color.ms_black));
+                        ivStatus.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
                         break;
                 }
             }
@@ -250,7 +250,7 @@ public class PaymentFragment extends Fragment implements SwipeRefreshLayout.OnRe
                 mMainViewModel.setStatusPayment(Payment.Status.ALL.name());
                 break;
             case 1:
-                mMainViewModel.setStatusPayment(Payment.Status.Bonus.name());
+                mMainViewModel.setStatusPayment(Payment.Status.Diagnosis.name());
                 break;
             case 2:
                 mMainViewModel.setStatusPayment(Payment.Status.Confirmation.name());

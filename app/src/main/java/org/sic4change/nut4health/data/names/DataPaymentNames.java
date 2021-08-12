@@ -43,6 +43,11 @@ public final class DataPaymentNames {
     public static final String COL_TYPE = "type";
 
     /**
+     * Column status for Payment
+     */
+    public static final String COL_STATUS = "status";
+
+    /**
      * Column contractId for Payment
      */
     public static final String COL_CONTRACTID = "contractId";
