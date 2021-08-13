@@ -133,15 +133,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             }
         });
-        mMainViewModel.getNotifications().observe(this, notifications -> {
-            int notificationNoRead = mMainViewModel.getNotificationsNoRead();
-            if (notificationNoRead > 0) {
-                tvNotifications.setText(mMainViewModel.getNotificationsNoRead() + "");
-                tvNotifications.setVisibility(View.VISIBLE);
-            } else {
-                tvNotifications.setVisibility(View.GONE);
-            }
-        });
+//        mMainViewModel.getNotifications().observe(this, notifications -> {
+//            int notificationNoRead = mMainViewModel.getNotificationsNoRead();
+//            if (notificationNoRead > 0) {
+//                tvNotifications.setText(mMainViewModel.getNotificationsNoRead() + "");
+//                tvNotifications.setVisibility(View.VISIBLE);
+//            } else {
+//                tvNotifications.setVisibility(View.GONE);
+//            }
+//        });
         Fragment fragment = new CreateContractFragment();
         fragmentManager.beginTransaction()
                 .replace(R.id.lyMainContent, fragment)
@@ -198,10 +198,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         tvDrawerPoints = navigationView.getHeaderView(0).findViewById(R.id.tvPoints);
         this.navigationView.setCheckedItem(R.id.nav_ranking);
 
-        tvNotifications = (TextView) navigationView.getMenu().findItem(R.id.nav_notifications).getActionView();
-        tvNotifications.setTextColor(getResources().getColor(R.color.colorAccent));
-        tvNotifications.setGravity(Gravity.CENTER_VERTICAL);
-        tvNotifications.setTypeface(null, Typeface.BOLD);
+//        tvNotifications = (TextView) navigationView.getMenu().findItem(R.id.nav_notifications).getActionView();
+//        tvNotifications.setTextColor(getResources().getColor(R.color.colorAccent));
+//        tvNotifications.setGravity(Gravity.CENTER_VERTICAL);
+//        tvNotifications.setTypeface(null, Typeface.BOLD);
     }
 
     @Override
@@ -267,10 +267,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 } else if (id == R.id.nav_paids) {
                     fragment = new PaymentFragment();
                     setTitle(R.string.payments);
-                } else if (id == R.id.nav_notifications) {
-                    fragment = new NotificationFragment();
-                    setTitle(R.string.notifications);
-                } else if (id == R.id.nav_report) {
+                }
+//                else if (id == R.id.nav_notifications) {
+//                    fragment = new NotificationFragment();
+//                    setTitle(R.string.notifications);
+//                }
+                else if (id == R.id.nav_report) {
                     fragment = new ReportFragment();
                     setTitle(R.string.report);
                 } else if (id == R.id.nav_help) {
