@@ -39,6 +39,8 @@ public class ContractsListFragment extends Fragment implements SwipeRefreshLayou
     private SwipeRefreshLayout swipe_container;
     private RecyclerView rvContracts;
 
+    private String role= "";
+
     public ContractsListFragment() {
         // Required empty public constructor
     }
@@ -63,7 +65,7 @@ public class ContractsListFragment extends Fragment implements SwipeRefreshLayou
         rvContracts.setLayoutManager(new LinearLayoutManager(getActivity()));
         rvContracts.setAdapter(contractsAdapter);
         contractsAdapter.setItemOnClickAction((position, id) -> {
-            goToContractDetailActivity(id);
+            goToContractDetailActivity(id, role);
         });
         return view;
     }
@@ -73,6 +75,7 @@ public class ContractsListFragment extends Fragment implements SwipeRefreshLayou
         mMainViewModel.getCurrentUser().observe(getActivity(), user -> {
             if (user != null) {
                 mMainViewModel.getContracts(user.getEmail(), user.getRole());
+                role = user.getRole();
             }
         });
         mMainViewModel.getContracts().observe(getActivity(), contracts -> showContracts(contracts));
@@ -136,9 +139,10 @@ public class ContractsListFragment extends Fragment implements SwipeRefreshLayou
         void onFragmentInteraction(Uri uri);
     }
 
-    private void goToContractDetailActivity(String id) {
+    private void goToContractDetailActivity(String id, String role) {
         Intent intent = new Intent(getActivity(), ContractDetailActivity.class);
         intent.putExtra("CONTRACT_ID", id);
+        intent.putExtra("ROLE", role);
         startActivity(intent);
         customType(getActivity(),"left-to-right");
     }

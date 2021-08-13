@@ -13,10 +13,19 @@ public class DetailContractViewModel extends ViewModel {
     private final DataRepository mRepository;
     private LiveData<Contract> mContract = null;
     private LiveData<Point> mPoint = null;
+    private String role = "";
 
     public DetailContractViewModel(DataRepository repository, String id) {
         this.mRepository = repository;
         mContract = this.mRepository.getContract(id);
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public LiveData<Contract> getContract() {
@@ -37,6 +46,10 @@ public class DetailContractViewModel extends ViewModel {
 
     public DataRepository getRepository() {
         return mRepository;
+    }
+
+    public void validateDiagnosis(String id) {
+        mRepository.validateDiagnosis(id);
     }
 
 }

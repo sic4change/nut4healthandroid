@@ -79,11 +79,15 @@ private Context context;
         } else if (contract.getStatus().equals(Contract.Status.FINISH.name())) {
             nPercentage.setFillColor(context.getResources().getColor(R.color.orange));
             nPercentage.setStrokeColor(context.getResources().getColor(R.color.orange));
-            Date date = new Date(contract.getMedicalDate());
-            Locale LocaleBylanguageTag = Locale.forLanguageTag("es");
-            TimeAgoMessages messages = new TimeAgoMessages.Builder().withLocale(LocaleBylanguageTag).build();
-            String text = TimeAgo.using(date.getTime(), messages);
-            nConfirmationDate.setText(text);
+            try {
+                Date date = new Date(contract.getMedicalDate());
+                Locale LocaleBylanguageTag = Locale.forLanguageTag("es");
+                TimeAgoMessages messages = new TimeAgoMessages.Builder().withLocale(LocaleBylanguageTag).build();
+                String text = TimeAgo.using(date.getTime(), messages);
+                nConfirmationDate.setText(text);
+            } catch (Exception e) {
+                nConfirmationDate.setText("justo ahora");
+            }
             nStatus.setText(context.getResources().getString(R.string.finished));
             nStatus.setTextColor(context.getResources().getColor(R.color.orange));
             nConfirmationDate.setVisibility(View.VISIBLE);

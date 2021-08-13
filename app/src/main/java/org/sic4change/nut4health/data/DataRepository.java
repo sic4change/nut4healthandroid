@@ -59,6 +59,7 @@ import org.sic4change.nut4health.utils.time.Nut4HealthTimeUtil;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -1189,6 +1190,34 @@ public class DataRepository {
      */
     public LiveData<List<Point>> getSortedPoints() {
         return nut4HealtDao.getPoints();
+    }
+
+    /**
+     * Method to validate diagnosis
+     * @param contractId
+     */
+    public void validateDiagnosis(String contractId) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference contractRef = db.collection(DataContractNames.TABLE_FIREBASE_NAME);
+        Query query = contractRef.whereEqualTo(DataContractNames.COL_CONTRACT_ID, contractId).limit(1);
+        listenerQuery = query.addSnapshotListener(mIoExecutor, (queryDocumentSnapshots, e) -> {
+            try {
+                if ((queryDocumentSnapshots != null) && (queryDocumentSnapshots.getDocuments() != null)
+                        && (queryDocumentSnapshots.getDocuments().size() > 0)) {
+                    Contract contract = queryDocumentSnapshots.getDocuments().get(0).toObject(Contract.class);
+                    contract.setStatus("FINISH");
+                    //queryDocumentSnapshots.getDocuments().get(0).getReference().set(user, SetOptions.mergeFields("phone"));
+                    queryDocumentSnapshots.getDocuments().get(0).getReference().update("status", "FINISH");
+                    nut4HealtDao.updateContractStatus(contractId, "FINISH");
+                    nut4HealtDao.updateMedicalDate(contractId, new Date().toString());
+                    listenerQuery.remove();
+                } else {
+                    Log.d(TAG, "ValidateDiagnosis " + "error");
+                }
+            } catch (Exception error) {
+                Log.d(TAG, "ValidateDiagnosis " + "error");
+            }
+        });
     }
 
 }

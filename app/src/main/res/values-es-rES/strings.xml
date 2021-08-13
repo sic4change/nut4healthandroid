@@ -116,7 +116,6 @@
         <item>Finalizado</item>
         <item>Desnutrido</item>
         <item>No desnutrido</item>
-        <item>Pagado</item>
     </string-array>
     <string name="hintNameSearch">Nombre y/o apellido</string>
     <string name="dateRange">Rango de fechas</string>
@@ -729,6 +728,10 @@
     <string name="reader_is_off">Lector apagado</string>
     <string name="fingerprint_successfully_captured">Huella capturada correctamente</string>
     <string name="receiving_image">Recibiendo imagen</string>
+
+    <!--Confirm diagnosis-->
+    <string name="confirm_diagnosis_first_question">¿Estás seguro que quieres confirmar el diagnóstico?</string>
+    <string name="confirm_diagnosis_second_question">Esta acción no tiene vuelta atrás, ¿desea continuar?</string>
 
 
 </resources>

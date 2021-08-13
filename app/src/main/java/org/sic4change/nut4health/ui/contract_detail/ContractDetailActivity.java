@@ -1,15 +1,16 @@
 package org.sic4change.nut4health.ui.contract_detail;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -19,7 +20,7 @@ import com.github.pavlospt.CircleView;
 
 import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.data.entities.Contract;
-import org.sic4change.nut4health.data.entities.Point;
+import org.sic4change.nut4health.ui.main.MainViewModel;
 
 
 import java.util.Date;
@@ -37,15 +38,16 @@ public class ContractDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_contract_detail);
         ContractDetailViewModelFactory contractDetailViewModelFactory = ContractDetailViewModelFactory.createFactory(this, getIntent().getStringExtra("CONTRACT_ID"));
         mDetailContractViewModel = ViewModelProviders.of(this, contractDetailViewModelFactory).get(DetailContractViewModel.class);
+        mDetailContractViewModel.setRole(getIntent().getStringExtra("ROLE"));
         mDetailContractViewModel.getContract().observe(this, new Observer<Contract>() {
             @Override
             public void onChanged(Contract contract) {
-                showContractDetail(contract);
+                showContractDetail(contract, mDetailContractViewModel.getRole());
             }
         });
     }
 
-    private void showContractDetail(Contract contract) {
+    private void showContractDetail(Contract contract, String role) {
         if (contract != null) {
             CircleView ivIcon = findViewById(R.id.ivIcon);
             TextView tvStatus = findViewById(R.id.tvStatus);
@@ -55,6 +57,7 @@ public class ContractDetailActivity extends AppCompatActivity {
             EditText spPoint = findViewById(R.id.spPoint);
             EditText etPhoneContact = findViewById(R.id.etPhoneContact);
             TextView etDate = findViewById(R.id.etDate);
+            Button btnConfirm = findViewById(R.id.btnConfirm);
             etName.setText(contract.getChildName());
             etSurname.setText(contract.getChildSurname());
             etLocation.setText(contract.getChildAddress());
@@ -82,6 +85,15 @@ public class ContractDetailActivity extends AppCompatActivity {
                 tvStatus.setText(this.getResources().getString(R.string.finished));
                 tvStatus.setTextColor(this.getResources().getColor(R.color.orange));
             }
+            if (contract.getStatus().equals("DIAGNOSIS") && role.equals("Servicio Salud")) {
+                btnConfirm.setEnabled(true);
+                btnConfirm.setClickable(true);
+                btnConfirm.setBackgroundColor(this.getResources().getColor(R.color.colorAccent));
+            } else {
+                btnConfirm.setEnabled(false);
+                btnConfirm.setClickable(false);
+                btnConfirm.setBackgroundColor(this.getResources().getColor(R.color.ms_material_grey_400));
+            }
             Date date = new Date(contract.getCreationDate());
             Locale LocaleBylanguageTag = Locale.forLanguageTag("es");
             TimeAgoMessages messages = new TimeAgoMessages.Builder().withLocale(LocaleBylanguageTag).build();
@@ -89,7 +101,29 @@ public class ContractDetailActivity extends AppCompatActivity {
             etDate.setText(text);
             ScrollView scrollView = findViewById(R.id.scrollView);
             scrollView.smoothScrollTo(0,0);
+            btnConfirm.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showDialogConfirmDiagnosis(contract.getId());
+                }
+            });
         }
+    }
+
+    private void showDialogConfirmDiagnosis(String id) {
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.confirm_diagnosis_first_question)
+                .setPositiveButton(R.string.ok, (dialog, which) -> showDialogConfirmDiagnosisSecondQuestion(id))
+                .setIcon(R.mipmap.icon)
+                .show();
+    }
+
+    private void showDialogConfirmDiagnosisSecondQuestion(String id) {
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.confirm_diagnosis_second_question)
+                .setPositiveButton(R.string.ok, (dialog, which) -> mDetailContractViewModel.validateDiagnosis(id))
+                .setIcon(R.mipmap.icon)
+                .show();
     }
 
     @Override
