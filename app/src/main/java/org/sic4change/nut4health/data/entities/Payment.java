@@ -141,7 +141,7 @@ public class Payment {
     }
 
     public enum Status {
-        Diagnosis, Confirmation, ALL
+        Month, Diagnosis, Confirmation, ALL
     }
 
 }

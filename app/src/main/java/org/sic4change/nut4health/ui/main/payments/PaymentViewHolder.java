@@ -55,6 +55,10 @@ private Context context;
             tvTitle.setText(context.getResources().getString(R.string.bonus_text));
             tvTitle.setTextColor(context.getResources().getColor(R.color.colorPrimary));
             btnContractDetail.setVisibility(View.GONE);
+        } else if (mPayment.getType().equals("Month")) {
+            tvTitle.setText(context.getResources().getString(R.string.monthly_payment_text));
+            tvTitle.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+            btnContractDetail.setVisibility(View.GONE);
         } else {
             tvTitle.setText(context.getResources().getString(R.string.confirmation_text));
             tvTitle.setTextColor(context.getResources().getColor(R.color.colorPrimary));

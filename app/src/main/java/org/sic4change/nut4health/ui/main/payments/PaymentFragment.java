@@ -250,9 +250,12 @@ public class PaymentFragment extends Fragment implements SwipeRefreshLayout.OnRe
                 mMainViewModel.setStatusPayment(Payment.Status.ALL.name());
                 break;
             case 1:
-                mMainViewModel.setStatusPayment(Payment.Status.Diagnosis.name());
+                mMainViewModel.setStatusPayment(Payment.Status.Month.name());
                 break;
             case 2:
+                mMainViewModel.setStatusPayment(Payment.Status.Diagnosis.name());
+                break;
+            case 3:
                 mMainViewModel.setStatusPayment(Payment.Status.Confirmation.name());
                 break;
             default:

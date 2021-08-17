@@ -128,10 +128,12 @@
     <string name="ranking_position">Posición</string>
 
     <!--Payments -->
+    <string name="monthly_payment_text">Pago por mes</string>
     <string name="confirmation_text">Diagnóstico confirmado</string>
     <string name="bonus_text">Bonificación por diagnóstico</string>
     <string-array name="array_status_payments">
         <item>Todos</item>
+        <item>Mensual</item>
         <item>Diagnósticos</item>
         <item>Confirmaciones</item>
     </string-array>
