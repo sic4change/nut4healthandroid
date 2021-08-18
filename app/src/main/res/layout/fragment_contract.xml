@@ -257,10 +257,29 @@
             android:src="@drawable/ic_filter"
             app:backgroundTint="@color/colorPrimaryDark"
             app:fabCustomSize="50dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/btnExportContracts"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btnCreateContract" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btnExportContracts"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:clickable="true"
+            android:foregroundGravity="center"
+            android:src="@drawable/ic_export"
+            app:backgroundTint="@color/colorPrimaryDark"
+            app:fabCustomSize="50dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnFilterContracts" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btnCreateContract"
@@ -278,6 +297,26 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+       <!-- <org.sic4change.animation_check.AnimatedCircleLoadingView xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/clView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="@dimen/margin_card"
+            android:layout_marginTop="@dimen/margin_card"
+            android:layout_marginEnd="@dimen/margin_card"
+            android:layout_marginBottom="@dimen/margin_card"
+            android:visibility="visible"
+            app:animCircleLoadingView_mainColor="@color/colorPrimaryDark"
+            app:animCircleLoadingView_secondaryColor="@color/colorAccent"
+            app:animCircleLoadingView_textColor="@color/colorPrimaryDark"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintVertical_bias="0.0" />-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

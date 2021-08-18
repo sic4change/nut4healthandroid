@@ -165,6 +165,8 @@
     <string name="diagnosis_updated">Diagnóstico creado anteriormente. Se han actualizado los datos</string>
     <string name="diagnosis_to_pay">Caso de desnutrición comprobado. Efectuando pago</string>
     <string name="diagnosis_finished">Diagnóstico completdo</string>
+    <string name="contracts_exported_ok">Contratos exportados satisfactoriamente</string>
+    <string name="contracts_exported_error">Error exportando contratos</string>
 
     <!--Font awasome -->
     <string name="fa_adjust">&#xf042;</string>

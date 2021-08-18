@@ -67,6 +67,7 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
+
         <activity
             android:name=".ui.create_contract.CreateContractActivity"
             android:label="@string/createContract"

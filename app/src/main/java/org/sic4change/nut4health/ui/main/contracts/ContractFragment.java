@@ -1,7 +1,14 @@
 package org.sic4change.nut4health.ui.main.contracts;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.DocumentsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,11 +18,16 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 
+import com.ajts.androidmads.library.SQLiteToExcel;
 import com.crystal.crystalrangeseekbar.widgets.BubbleThumbRangeSeekbar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
@@ -26,6 +38,7 @@ import org.sic4change.nut4health.ui.create_contract.CreateContractActivity;
 import org.sic4change.nut4health.ui.main.MainViewModel;
 import org.sic4change.nut4health.utils.Nut4HealthKeyboard;
 
+import java.io.File;
 import java.util.Calendar;
 
 import ru.slybeaver.slycalendarview.SlyCalendarDialog;
@@ -33,10 +46,12 @@ import ru.slybeaver.slycalendarview.SlyCalendarDialog;
 import static maes.tech.intentanim.CustomIntent.customType;
 
 
-public class ContractFragment extends Fragment {
+public class ContractFragment extends Fragment  {
 
     private FloatingActionButton btnCreateContract;
     private FloatingActionButton btnFilterContracts;
+    private FloatingActionButton btnExportContract;
+    //private org.sic4change.animation_check.AnimatedCircleLoadingView clView;
     private CardView lyFilter;
     private EditText etName;
     private EditText etSurname;
@@ -92,6 +107,8 @@ public class ContractFragment extends Fragment {
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
+        //clView = view.findViewById(R.id.clView);
+        //clView.setVisibility(View.GONE);
         btnCreateContract = view.findViewById(R.id.btnCreateContract);
         btnCreateContract.setOnClickListener(v -> {
             goToCreateContractActivity();
@@ -99,6 +116,10 @@ public class ContractFragment extends Fragment {
         btnFilterContracts = view.findViewById(R.id.btnFilterContracts);
         btnFilterContracts.setOnClickListener(v -> {
             showContractFilterMenu();
+        });
+        btnExportContract = view.findViewById(R.id.btnExportContracts);
+        btnExportContract.setOnClickListener(v -> {
+            exportContractsToExcel();
         });
         btnClear = view.findViewById(R.id.btnClear);
         btnClear.setOnClickListener(v -> {
@@ -187,6 +208,7 @@ public class ContractFragment extends Fragment {
             }
         });
         mMainViewModel = ViewModelProviders.of(getActivity()).get(MainViewModel.class);
+
         return view;
     }
 
@@ -203,6 +225,69 @@ public class ContractFragment extends Fragment {
         } else if (lyFilter.getVisibility() == View.GONE) {
             lyFilter.setVisibility(View.VISIBLE);
         }
+    }
+
+    @SuppressLint("MissingPermission")
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED && requestCode == 105) {
+            exportContractsToExcel();
+        }  else if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED && requestCode == 106) {
+            openFile();
+        }
+    }
+
+    private void exportContractsToExcel() {
+        SQLiteToExcel sqliteToExcel = new SQLiteToExcel(getActivity().getApplicationContext(), "nut4health_database");
+        sqliteToExcel.exportSingleTable("contract", "contracts.xls", new SQLiteToExcel.ExportListener() {
+            @Override
+            public void onStart() {
+                
+            }
+            @Override
+            public void onCompleted(String filePath) {
+                showDialogExportContractsResult();
+            }
+            @Override
+            public void onError(Exception e) {
+                showDialogErrorExportContractsResult();
+            }
+        });
+    }
+
+    public void showDialogExportContractsResult() {
+        new AlertDialog.Builder(getActivity())
+                .setTitle(R.string.contracts_exported_ok)
+                .setPositiveButton(R.string.ok, (dialog, which) -> {
+                    dialog.dismiss();
+                    if (ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                        requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 106);
+                    } else {
+                        openFile();
+                    }
+                })
+                .setIcon(R.mipmap.icon)
+                .setCancelable(false)
+                .show();
+    }
+
+    public void showDialogErrorExportContractsResult() {
+        new AlertDialog.Builder(getActivity())
+                .setTitle(R.string.contracts_exported_error)
+                .setPositiveButton(R.string.ok, (dialog, which) -> dialog.dismiss())
+                .setIcon(R.mipmap.icon)
+                .setCancelable(false)
+                .show();
+    }
+
+    private void openFile() {
+        File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath()
+                + "/contracts.xls");
+        Uri uri = FileProvider.getUriForFile(getActivity(), "org.sic4change.nut4health.android.fileprovider", file);
+        Intent in = new Intent(Intent.ACTION_VIEW);
+        in.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        in.setDataAndType(uri, "text/html");
+        getActivity().startActivity(in);
     }
 
     private void clear() {
@@ -271,5 +356,4 @@ public class ContractFragment extends Fragment {
                 mMainViewModel.getDateStart(), mMainViewModel.getDateEnd(), mMainViewModel.getPercentageMin(), mMainViewModel.getPercentageMax());
         mMainViewModel.getContracts().observe(getActivity(), contracts -> mMainViewModel.setIsFiltered(true));
     }
-
 }

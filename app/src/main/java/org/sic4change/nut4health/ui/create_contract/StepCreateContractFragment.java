@@ -221,10 +221,10 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
             startActivityForResult(fingerPrintIntent, REQUEST_TAKE_FINGERPRINT);
         });
         clView = v.findViewById(R.id.clView);
-            if (ActivityCompat.checkSelfPermission(getActivity().getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, LOCATION_REQUEST_CODE);
-            } else {
-                showMyPosition();
+        if (ActivityCompat.checkSelfPermission(getActivity().getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, LOCATION_REQUEST_CODE);
+        } else {
+            showMyPosition();
         }
         MapUtility.apiKey = getResources().getString(R.string.google_maps_key);
         return v;
