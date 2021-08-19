@@ -242,7 +242,7 @@ public class ContractFragment extends Fragment  {
         sqliteToExcel.exportSingleTable("contract", "contracts.xls", new SQLiteToExcel.ExportListener() {
             @Override
             public void onStart() {
-                
+
             }
             @Override
             public void onCompleted(String filePath) {

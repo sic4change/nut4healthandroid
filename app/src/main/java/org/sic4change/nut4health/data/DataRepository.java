@@ -43,6 +43,7 @@ import org.sic4change.nut4health.data.entities.Contract;
 import org.sic4change.nut4health.data.entities.Near;
 import org.sic4change.nut4health.data.entities.Notification;
 import org.sic4change.nut4health.data.entities.Payment;
+import org.sic4change.nut4health.data.entities.PaymentFirebase;
 import org.sic4change.nut4health.data.entities.Point;
 import org.sic4change.nut4health.data.entities.Ranking;
 import org.sic4change.nut4health.data.entities.Report;
@@ -806,21 +807,29 @@ public class DataRepository {
         CollectionReference paymentsRef = db.collection(DataPaymentNames.TABLE_FIREBASE_NAME);
         Query query = paymentsRef.whereEqualTo(DataPaymentNames.COL_SCREENER, email);
         query.addSnapshotListener(mIoExecutor, (queryDocumentSnapshots, e) -> {
-            try {
                 if ((queryDocumentSnapshots != null) && (queryDocumentSnapshots.getDocuments() != null)
                         && (queryDocumentSnapshots.getDocuments().size() > 0)) {
                     for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
-                        Payment payment = document.toObject(Payment.class);
-                        if (((payment.getId() != null) && (!payment.getId().equals("")))) {
-                            nut4HealtDao.insert(payment);
+                        try {
+                            Payment payment = document.toObject(Payment.class);
+                            if (((payment.getId() != null) && (!payment.getId().equals("")))) {
+                                nut4HealtDao.insert(payment);
+                            }
+                        } catch (Exception eFirebase) {
+                            PaymentFirebase paymentFirebase = document.toObject(PaymentFirebase.class);
+                            Payment payment = new Payment(paymentFirebase.getId(),
+                                    paymentFirebase.getCreationDate(), Long.parseLong(paymentFirebase.getCreationDateMiliseconds()),
+                                    paymentFirebase.getScreener(), Integer.parseInt(paymentFirebase.getQuantity()),
+                                    paymentFirebase.getType(), paymentFirebase.getStatus(), paymentFirebase.getContractId());
+                            if (((payment.getId() != null) && (!payment.getId().equals("")))) {
+                                nut4HealtDao.insert(payment);
+                            }
                         }
+
                     }
                 } else {
                     Log.d(TAG, "Get payments: " + "empty");
                 }
-            } catch (Exception error) {
-                Log.d(TAG, "Get payments: " + "empty");
-            }
         });
     }
 
