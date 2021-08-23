@@ -63,6 +63,8 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
 
     private String id;
 
+    private String role= "";
+
     public ContractsMapFragment() {
         // Required empty public constructor
     }
@@ -71,7 +73,7 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_contract_map, container, false);
         cvContract = view.findViewById(R.id.cvContract);
-        cvContract.setOnClickListener(v -> goToContractDetailActivity(id));
+        cvContract.setOnClickListener(v -> goToContractDetailActivity(id, role));
         nStatus = view.findViewById(R.id.tvStatus);
         nChildName = view.findViewById(R.id.tvNameItem);
         nChildLocation = view.findViewById(R.id.tvLocationItem);
@@ -96,6 +98,7 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
         mMainViewModel.getCurrentUser().observe(getActivity(), user -> {
             if (user != null) {
                 mMainViewModel.getContracts(user.getEmail(), user.getRole());
+                role = user.getRole();
             }
         });
         mMainViewModel.getContracts().observe(getActivity(), contracts -> showContracts(contracts));
@@ -250,9 +253,10 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
         }
     }
 
-    private void goToContractDetailActivity(String id) {
+    private void goToContractDetailActivity(String id, String role) {
         Intent intent = new Intent(getActivity(), ContractDetailActivity.class);
         intent.putExtra("CONTRACT_ID", id);
+        intent.putExtra("ROLE", role);
         startActivity(intent);
         customType(getActivity(),"left-to-right");
     }
