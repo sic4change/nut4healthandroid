@@ -2,13 +2,11 @@ package org.sic4change.nut4health.ui.main.contracts;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.DocumentsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -27,11 +26,14 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 
-import com.ajts.androidmads.library.SQLiteToExcel;
 import com.crystal.crystalrangeseekbar.widgets.BubbleThumbRangeSeekbar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.data.entities.Contract;
 import org.sic4change.nut4health.ui.create_contract.CreateContractActivity;
@@ -39,6 +41,9 @@ import org.sic4change.nut4health.ui.main.MainViewModel;
 import org.sic4change.nut4health.utils.Nut4HealthKeyboard;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Calendar;
 
 import ru.slybeaver.slycalendarview.SlyCalendarDialog;
@@ -46,7 +51,7 @@ import ru.slybeaver.slycalendarview.SlyCalendarDialog;
 import static maes.tech.intentanim.CustomIntent.customType;
 
 
-public class ContractFragment extends Fragment  {
+public class ContractFragment extends Fragment {
 
     private FloatingActionButton btnCreateContract;
     private FloatingActionButton btnFilterContracts;
@@ -238,20 +243,55 @@ public class ContractFragment extends Fragment  {
     }
 
     private void exportContractsToExcel() {
-        SQLiteToExcel sqliteToExcel = new SQLiteToExcel(getActivity().getApplicationContext(), "nut4health_database");
-        sqliteToExcel.exportSingleTable("contract", "contracts.xls", new SQLiteToExcel.ExportListener() {
-            @Override
-            public void onStart() {
-
+        mMainViewModel.getContracts().observe(getActivity(), contracts -> {
+            Workbook workbook = new XSSFWorkbook();
+            Sheet sheet = workbook.createSheet("Contracts");
+            Row rowHeader = sheet.createRow(0);
+            rowHeader.createCell(0).setCellValue("Nombre");
+            rowHeader.createCell(1).setCellValue("Apellidos");
+            rowHeader.createCell(2).setCellValue("Dirección");
+            rowHeader.createCell(3).setCellValue("Teléfono");
+            rowHeader.createCell(4).setCellValue("Fecha");
+            rowHeader.createCell(5).setCellValue("Fecha milis");
+            rowHeader.createCell(6).setCellValue("Porcentage");
+            rowHeader.createCell(7).setCellValue("Estado");
+            rowHeader.createCell(8).setCellValue("Agente salud");
+            rowHeader.createCell(9).setCellValue("Centro salud");
+            rowHeader.createCell(10).setCellValue("Fecha alta médica");
+            rowHeader.createCell(11).setCellValue("Fecha alta medica milis");
+            rowHeader.createCell(12).setCellValue("Localización centro médico");
+            for(int  i=0; i<contracts.size(); i++){
+                Row row = sheet.createRow(i+1);
+                row.createCell(0).setCellValue(contracts.get(i).getChildName());
+                row.createCell(1).setCellValue(contracts.get(i).getChildSurname());
+                row.createCell(2).setCellValue(contracts.get(i).getChildAddress());
+                row.createCell(3).setCellValue(contracts.get(i).getChildPhoneContract());
+                row.createCell(4).setCellValue(contracts.get(i).getCreationDate());
+                row.createCell(5).setCellValue(contracts.get(i).getCreationDateMiliseconds());
+                row.createCell(6).setCellValue(contracts.get(i).getPercentage());
+                row.createCell(7).setCellValue(contracts.get(i).getStatus());
+                row.createCell(8).setCellValue(contracts.get(i).getScreener());
+                row.createCell(9).setCellValue(contracts.get(i).getMedical());
+                row.createCell(10).setCellValue(contracts.get(i).getMedicalDate());
+                row.createCell(11).setCellValue(contracts.get(i).getMedicalDateMiliseconds());
+                row.createCell(12).setCellValue(contracts.get(i).getPointFullName());
             }
-            @Override
-            public void onCompleted(String filePath) {
-                showDialogExportContractsResult();
+            File file = new File(getActivity().getExternalFilesDir(null), "contracts.xlsx");
+            try {
+                file.createNewFile();
+            } catch (IOException e1) {
+                e1.printStackTrace();
             }
-            @Override
-            public void onError(Exception e) {
+            try {
+                FileOutputStream fileOut = new FileOutputStream(file);
+                workbook.write(fileOut);
+                fileOut.close();
+            } catch (FileNotFoundException e) {
+                showDialogErrorExportContractsResult();
+            } catch (IOException e) {
                 showDialogErrorExportContractsResult();
             }
+            showDialogExportContractsResult();
         });
     }
 
@@ -281,8 +321,8 @@ public class ContractFragment extends Fragment  {
     }
 
     private void openFile() {
-        File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath()
-                + "/contracts.xls");
+        ////storage/emulated/0/Android/data/org.sic4change.nut4health/files/contracts.xlsx
+        File file = new File(getActivity().getExternalFilesDir(null), "contracts.xlsx");
         Uri uri = FileProvider.getUriForFile(getActivity(), "org.sic4change.nut4health.android.fileprovider", file);
         Intent in = new Intent(Intent.ACTION_VIEW);
         in.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
@@ -356,4 +396,7 @@ public class ContractFragment extends Fragment  {
                 mMainViewModel.getDateStart(), mMainViewModel.getDateEnd(), mMainViewModel.getPercentageMin(), mMainViewModel.getPercentageMax());
         mMainViewModel.getContracts().observe(getActivity(), contracts -> mMainViewModel.setIsFiltered(true));
     }
+
+
+
 }

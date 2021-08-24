@@ -1,5 +1,6 @@
 package org.sic4change.nut4health.ui.profile;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -14,6 +15,7 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,15 +23,13 @@ import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.bumptech.glide.Glide;
-import com.theartofdev.edmodo.cropper.CropImage;
-import com.theartofdev.edmodo.cropper.CropImageView;
+import com.github.dhaval2404.imagepicker.ImagePicker;
 
 
 import org.sic4change.country_selector.CountryPicker;
 import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.data.entities.User;
 import org.sic4change.nut4health.ui.login.LoginActivity;
-import org.sic4change.nut4health.ui.splash.SplashActivity;
 import org.sic4change.nut4health.utils.view.Nut4HealthSnackbar;
 import org.sic4change.nut4health.utils.view.Nut4HealthTextAwesome;
 
@@ -138,27 +138,26 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     public void changePhoto(View view) {
-        CropImage.activity()
-                .setGuidelines(CropImageView.Guidelines.ON)
-                .setCropShape(CropImageView.CropShape.OVAL)
-                .setOutputCompressFormat(Bitmap.CompressFormat.JPEG)
-                .setOutputCompressQuality(IMAGE_COMPRESS_QUALITY)
-                .setAspectRatio(IMAGE_ASPECT_RATIO_X_Y, IMAGE_ASPECT_RATIO_X_Y)
-                .start(this);
+        ImagePicker.with(this)
+                .crop()	    			//Crop image(Optional), Check Customization for more option
+                .compress(1024)			//Final image size will be less than 1 MB(Optional)
+                .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
+                .start();
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-            CropImage.ActivityResult result = CropImage.getActivityResult(data);
-            if (resultCode == RESULT_OK) {
-                Uri resultUri = result.getUri();
-                Glide.with(getApplicationContext())
-                        .load(resultUri)
-                        .into(ivUser);
-                mProfileViewModel.changePhoto(tvEmail.getText().toString(), tvUsername.getText().toString(), resultUri.getPath());
-
-            }
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+            Uri uri = data.getData();
+            Glide.with(getApplicationContext())
+                    .load(uri)
+                    .into(ivUser);
+            mProfileViewModel.changePhoto(tvEmail.getText().toString(), tvUsername.getText().toString(), uri.getPath());
+        } else if (resultCode == ImagePicker.RESULT_ERROR) {
+            Toast.makeText(this, ImagePicker.getError(data), Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Task Cancelled", Toast.LENGTH_SHORT).show();
         }
     }
 
