@@ -155,6 +155,9 @@ dependencies {
     implementation 'javax.xml.stream:stax-api:1.0'
     implementation 'com.fasterxml:aalto-xml:1.2.2'
 
+    //ArcLayout
+    implementation 'com.github.rezaiyan:arclayout:1.0.1'
+
 
     //Test
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'

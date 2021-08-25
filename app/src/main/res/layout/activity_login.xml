@@ -9,12 +9,36 @@
     android:layout_height="match_parent"
     tools:context=".ui.login.LoginActivity">
 
-    <View
+
+
+<!--    <View-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:background="@color/colorPrimary"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintBottom_toTopOf="@id/ivIcon"/>-->
+
+    <ir.alirezaiyan.arclayout.ArcRelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/ivIcon"/>
+        app:layout_constraintBottom_toTopOf="@id/ivIcon">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimaryDark"
+            android:orientation="vertical"
+            android:gravity="center_vertical"
+            android:paddingStart="15dp"
+            android:paddingTop="20dp"
+            android:paddingEnd="15dp"
+            android:weightSum="5">
+
+        </LinearLayout>
+
+
+    </ir.alirezaiyan.arclayout.ArcRelativeLayout>
 
     <de.hdodenhof.circleimageview.CircleImageView
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -197,19 +221,52 @@
 
     </androidx.cardview.widget.CardView>
 
-    <TextView
-        android:id="@+id/tvTermsAndConditions"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_medium"
-        android:layout_marginLeft="@dimen/margin_medium"
-        android:layout_marginEnd="@dimen/margin_medium"
-        android:layout_marginRight="@dimen/margin_medium"
-        android:layout_marginBottom="@dimen/margin_medium"
-        android:text="@string/terms_and_conditions"
+
+
+    <ir.alirezaiyan.arclayout.ArcRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:onClick="showDialogTermsAndConditions"/>
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
+        app:arc_bottom_cropCurve="cropConvex"
+        app:arc_bottom_height="10dp"
+        app:arc_bottom_position="false"
+        app:arc_top_position="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimaryDark"
+            android:orientation="vertical"
+            android:gravity="center_vertical"
+            android:paddingStart="15dp"
+            android:paddingTop="20dp"
+            android:paddingEnd="15dp"
+            android:weightSum="5">
+
+            <TextView
+                android:id="@+id/tvTermsAndConditions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:text="@string/terms_and_conditions"
+                android:onClick="showDialogTermsAndConditions"/>
+
+            <TextView
+                android:id="@+id/version"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:text="Versión - " />
+
+        </LinearLayout>
+
+    </ir.alirezaiyan.arclayout.ArcRelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

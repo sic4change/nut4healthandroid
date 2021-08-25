@@ -2,6 +2,8 @@ package org.sic4change.nut4health.ui.login;
 
 
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -43,6 +45,7 @@ public class LoginActivity extends AppCompatActivity {
     private LinearLayout lyCreateAccount;
     private TextView tvNewUser;
     private TextView tvSignUp;
+    private TextView tvVersion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +81,8 @@ public class LoginActivity extends AppCompatActivity {
             }
             return false;
         });
+        tvVersion = findViewById(R.id.version);
+        showCurrentVersion();
     }
 
     private void hasUser(User user) {
@@ -189,6 +194,18 @@ public class LoginActivity extends AppCompatActivity {
         Intent i = new Intent(Intent.ACTION_VIEW);
         i.setData(Uri.parse(url));
         startActivity(i);
+    }
+
+    private void showCurrentVersion() {
+        PackageManager manager = this.getPackageManager();
+        PackageInfo info = null;
+        try {
+            info = manager.getPackageInfo(this.getPackageName(), PackageManager.GET_ACTIVITIES);
+            TextView tvVersion = findViewById(R.id.version);
+            tvVersion.setText("Version - " + info.versionName);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
 }
