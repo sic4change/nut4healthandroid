@@ -17,13 +17,15 @@ import org.sic4change.nut4health.utils.view.Nut4HealthTextAwesome;
 
 import static maes.tech.intentanim.CustomIntent.customType;
 
+import com.airbnb.lottie.LottieAnimationView;
+
 
 public class CreateContractFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    private Nut4HealthTextAwesome ivCreateContract;
-    private Button btnCheckMalnutrition;
+    private LottieAnimationView ivCreateContract;
+    private Button btnStartCreateContract;
 
     public CreateContractFragment() {
         // Required empty public constructor
@@ -39,9 +41,9 @@ public class CreateContractFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_create_contract, container, false);
         ivCreateContract = view.findViewById(R.id.ivCreateContract);
-        btnCheckMalnutrition = view.findViewById(R.id.btnCheckMalnutrition);
+        btnStartCreateContract = view.findViewById(R.id.btnStartCreateContract);
         ivCreateContract.setOnClickListener(v -> goToCreateContractActivity());
-        btnCheckMalnutrition.setOnClickListener(v -> goToCreateContractActivity());
+        btnStartCreateContract.setOnClickListener(v -> goToCreateContractActivity());
         return view;
     }
 

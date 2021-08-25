@@ -158,6 +158,9 @@ dependencies {
     //ArcLayout
     implementation 'com.github.rezaiyan:arclayout:1.0.1'
 
+    //Lotie
+    implementation "com.airbnb.android:lottie:4.1.0"
+
 
     //Test
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
