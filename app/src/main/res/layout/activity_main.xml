@@ -23,7 +23,41 @@
         app:headerLayout="@layout/nav_header_main"
         app:menu="@menu/activity_main_drawer">
 
-        <LinearLayout
+        <ir.alirezaiyan.arclayout.ArcRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:clickable="true"
+            android:orientation="vertical"
+            app:arc_bottom_cropCurve="cropConvex"
+            app:arc_bottom_height="10dp"
+            app:arc_bottom_position="false"
+            app:arc_top_position="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:clickable="true"
+                android:background="@color/colorPrimary"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/version"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingBottom="@dimen/margin_default"
+                    android:paddingTop="@dimen/margin_default"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textColor="@color/ms_white"
+                    android:text="Versión - " />
+
+            </LinearLayout>
+
+        </ir.alirezaiyan.arclayout.ArcRelativeLayout>
+
+       <!-- <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
@@ -47,7 +81,7 @@
                 android:textColor="@color/colorPrimaryDark"
                 android:layout_marginBottom="4dp"/>
 
-        </LinearLayout>
+        </LinearLayout>-->
 
     </com.google.android.material.navigation.NavigationView>
 
