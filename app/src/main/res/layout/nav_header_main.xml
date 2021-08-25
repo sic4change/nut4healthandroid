@@ -1,23 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/lyHeader"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/colorPrimary"
     android:gravity="bottom"
     android:orientation="vertical"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingTop="48dp"
-    android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
+
+    <ir.alirezaiyan.arclayout.ArcRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:arc_bottom_cropCurve="cropConvex"
+        app:arc_bottom_height="10dp"
+        app:arc_bottom_position="true"
+        app:arc_top_position="false"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimaryDark"
+            android:orientation="vertical"
+            android:gravity="center_vertical"
+            android:paddingStart="15dp"
+            android:paddingTop="20dp"
+            android:paddingEnd="15dp"
+            android:weightSum="5">
+
+        </LinearLayout>
+
+    </ir.alirezaiyan.arclayout.ArcRelativeLayout>
 
     <de.hdodenhof.circleimageview.CircleImageView
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/ivUser"
         android:layout_width="80dp"
         android:layout_height="80dp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="@dimen/margin_default"
+        app:layout_constraintTop_toTopOf="parent"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         android:src="@mipmap/icon"
         android:background="@drawable/ic_account"
@@ -29,6 +56,9 @@
         android:id="@+id/tvDrawerUsername"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ivUser"
+        android:layout_marginStart="@dimen/margin_default"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         android:text="@string/nav_header_title"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
@@ -37,18 +67,34 @@
         android:id="@+id/tvDrawerEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_default"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvDrawerUsername"
         android:text="@string/nav_header_subtitle" />
 
     <TextView
         android:id="@+id/tvDrawerRole"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_default"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvDrawerEmail"
         android:text="@string/role" />
 
     <TextView
         android:id="@+id/tvPoints"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_default"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvDrawerRole"
         android:text="@string/points" />
 
-</LinearLayout>
+    <View
+        android:id="@+id/tvHide"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvPoints" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
