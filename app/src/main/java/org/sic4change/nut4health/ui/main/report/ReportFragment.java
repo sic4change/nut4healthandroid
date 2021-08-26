@@ -16,6 +16,8 @@ import android.widget.EditText;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeSuccessDialog;
+
 import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.data.entities.Report;
 import org.sic4change.nut4health.ui.main.MainViewModel;
@@ -77,11 +79,11 @@ public class ReportFragment extends Fragment {
                 }
 
                 public void onFinish() {
-                    new AlertDialog.Builder(getContext())
-                            .setTitle(R.string.reportSend)
-                            .setMessage(R.string.reportSendDescription)
-                            .setCancelable(false)
-                            .setPositiveButton(R.string.ok, (dialog, which) -> {
+                    new AwesomeSuccessDialog(getActivity())
+                            .setTitle(getResources().getString(R.string.reportSend))
+                            .setMessage(getResources().getString(R.string.reportSendDescription))
+                            .setPositiveButtonText(getResources().getString(R.string.ok))
+                            .setPositiveButtonClick(() -> {
                                 etReport.setEnabled(true);
                                 etReport.setClickable(true);
                                 etReport.setText("");
@@ -89,8 +91,21 @@ public class ReportFragment extends Fragment {
                                 btnSendReport.setClickable(true);
                                 cancel();
                             })
-                            .setIcon(R.mipmap.ic_launcher)
                             .show();
+//                    new AlertDialog.Builder(getContext())
+//                            .setTitle(R.string.reportSend)
+//                            .setMessage(R.string.reportSendDescription)
+//                            .setCancelable(false)
+//                            .setPositiveButton(R.string.ok, (dialog, which) -> {
+//                                etReport.setEnabled(true);
+//                                etReport.setClickable(true);
+//                                etReport.setText("");
+//                                btnSendReport.setEnabled(true);
+//                                btnSendReport.setClickable(true);
+//                                cancel();
+//                            })
+//                            .setIcon(R.mipmap.ic_launcher)
+//                            .show();
                 }
             }.start();
 
