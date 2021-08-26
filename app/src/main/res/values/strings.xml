@@ -85,9 +85,9 @@
     <string name="error_child_data">You must enter child data</string>
     <string name="error_fingerprint_data">You must enter child fingerprint</string>
     <string name="error_not_gps_position">You must activate geolocalization</string>
-    <string name="child_data">CHILD INFORMATION</string>
-    <string name="name">Name</string>
-    <string name="surname">Surname</string>
+    <string name="child_data">Information</string>
+    <string name="name">Child Name</string>
+    <string name="surname">Child Surname</string>
     <string name="contact_phone">Contact phone</string>
     <string name="medical_point">Health Service</string>
     <string name="location">Location</string>

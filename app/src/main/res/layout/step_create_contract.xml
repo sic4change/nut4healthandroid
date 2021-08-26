@@ -124,32 +124,16 @@
                 android:focusableInTouchMode="true">
 
                 <TextView
-                    android:id="@+id/tvChildData"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_medium"
-                    android:layout_marginLeft="@dimen/margin_medium"
-                    android:layout_marginTop="@dimen/margin_medium"
-                    android:layout_marginEnd="@dimen/margin_medium"
-                    android:layout_marginRight="@dimen/margin_medium"
-                    android:text="@string/child_data"
-                    android:textColor="@color/colorAccent"
-                    android:textSize="18dp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
                     android:id="@+id/tvChildName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_medium"
                     android:layout_marginLeft="@dimen/margin_medium"
                     android:layout_marginTop="@dimen/margin_card"
+                    android:textColor="@color/colorPrimary"
                     android:text="@string/name"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvChildData" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <EditText
                     android:id="@+id/etChildName"
@@ -169,6 +153,7 @@
                     android:id="@+id/tvChildSurname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimary"
                     android:layout_marginStart="@dimen/margin_medium"
                     android:layout_marginLeft="@dimen/margin_medium"
                     android:layout_marginTop="@dimen/margin_default"
@@ -194,6 +179,7 @@
                     android:id="@+id/tvLocation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimary"
                     android:layout_marginStart="@dimen/margin_medium"
                     android:layout_marginLeft="@dimen/margin_medium"
                     android:layout_marginTop="@dimen/margin_default"
@@ -221,6 +207,7 @@
                     android:id="@+id/tvContactPhone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimary"
                     android:layout_marginStart="@dimen/margin_medium"
                     android:layout_marginLeft="@dimen/margin_medium"
                     android:layout_marginTop="@dimen/margin_default"
@@ -246,6 +233,7 @@
                     android:id="@+id/tvPoint"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimary"
                     android:layout_marginStart="@dimen/margin_medium"
                     android:layout_marginLeft="@dimen/margin_medium"
                     android:layout_marginTop="@dimen/margin_default"
@@ -260,8 +248,9 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvPoint"
-                    android:layout_marginStart="@dimen/margin_medium"
-                    android:layout_marginLeft="@dimen/margin_medium"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginLeft="2dp"
                     android:layout_marginEnd="@dimen/margin_medium"
                     android:layout_marginRight="@dimen/margin_medium"
                     android:layout_marginBottom="@dimen/margin_medium"/>
@@ -289,22 +278,38 @@
 
     </androidx.cardview.widget.CardView>
 
-    <org.sic4change.nut4health.utils.view.Nut4HealthTextAwesome
+    <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/ivNewContract"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
         android:layout_marginStart="@dimen/margin_card"
         android:layout_marginTop="@dimen/margin_card"
         android:layout_marginEnd="@dimen/margin_card"
         android:layout_marginBottom="@dimen/margin_card"
-        android:text="@string/fa_file"
-        android:textSize="200sp"
-        android:gravity="center"
-        android:textColor="@color/colorPrimaryDark"
+        app:lottie_rawRes="@raw/registration"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="false"
         app:layout_constraintBottom_toTopOf="@+id/btnCheckMalnutrition"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"/>
+
+<!--    <org.sic4change.nut4health.utils.view.Nut4HealthTextAwesome-->
+<!--        android:id="@+id/ivNewContract"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="0dp"-->
+<!--        android:layout_marginStart="@dimen/margin_card"-->
+<!--        android:layout_marginTop="@dimen/margin_card"-->
+<!--        android:layout_marginEnd="@dimen/margin_card"-->
+<!--        android:layout_marginBottom="@dimen/margin_card"-->
+<!--        android:text="@string/fa_file"-->
+<!--        android:textSize="200sp"-->
+<!--        android:gravity="center"-->
+<!--        android:textColor="@color/colorPrimaryDark"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/btnCheckMalnutrition"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
 
     <Button
         android:id="@+id/btnCheckMalnutrition"

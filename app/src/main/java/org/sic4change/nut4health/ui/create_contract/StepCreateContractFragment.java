@@ -35,6 +35,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
@@ -94,7 +95,7 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
     private Button btnCheckMalnutrition;
     private AnimatedCircleLoadingView clView;
     private ImageView ivAddFingerprint;
-    private org.sic4change.nut4health.utils.view.Nut4HealthTextAwesome ivNewContract;
+    private LottieAnimationView ivNewContract;
 
     public static final int REQUEST_TAKE_PHOTO       = 1;
     public static final int REQUEST_TAKE_FINGERPRINT = 2;
