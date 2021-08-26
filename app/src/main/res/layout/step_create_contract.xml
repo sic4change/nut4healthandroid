@@ -14,8 +14,9 @@
         android:layout_marginTop="@dimen/margin_card"
         android:textColor="@color/colorPrimaryDark"
         android:textStyle="bold"
-        android:textSize="20sp"
+        android:textSize="30sp"
         android:text="0%"
+        android:fontFamily="@font/bariol_bold"
         android:visibility="gone"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -27,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_card"
         android:textColor="@color/error"
-        android:textStyle="bold"
+        android:fontFamily="@font/bariol_regular"
         android:textSize="20sp"
         android:text=""
         app:layout_constraintEnd_toEndOf="parent"
@@ -108,8 +109,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        card_view:cardCornerRadius="3dp"
-        card_view:cardElevation="3dp"
+        android:foreground="?selectableItemBackground"
+        app:cardBackgroundColor="@android:color/white"
+        app:cardCornerRadius="@dimen/card_radius"
+        app:cardElevation=".1dp"
+        app:cardPreventCornerOverlap="true"
         android:visibility="gone">
 
         <ScrollView
@@ -131,7 +135,9 @@
                     android:layout_marginLeft="@dimen/margin_medium"
                     android:layout_marginTop="@dimen/margin_card"
                     android:textColor="@color/colorPrimary"
+                    android:fontFamily="@font/bariol_bold"
                     android:text="@string/name"
+                    android:textSize="18dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -145,6 +151,7 @@
                     android:layout_marginRight="@dimen/margin_medium"
                     android:ems="10"
                     android:inputType="textCapWords"
+                    android:fontFamily="@font/bariol_regular"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvChildName" />
@@ -154,6 +161,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorPrimary"
+                    android:fontFamily="@font/bariol_bold"
+                    android:textSize="18dp"
                     android:layout_marginStart="@dimen/margin_medium"
                     android:layout_marginLeft="@dimen/margin_medium"
                     android:layout_marginTop="@dimen/margin_default"
@@ -171,6 +180,7 @@
                     android:layout_marginRight="@dimen/margin_medium"
                     android:ems="10"
                     android:inputType="textCapWords"
+                    android:fontFamily="@font/bariol_regular"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvChildSurname" />
@@ -183,6 +193,8 @@
                     android:layout_marginStart="@dimen/margin_medium"
                     android:layout_marginLeft="@dimen/margin_medium"
                     android:layout_marginTop="@dimen/margin_default"
+                    android:fontFamily="@font/bariol_bold"
+                    android:textSize="18dp"
                     android:text="@string/location"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/etChildSurname" />
@@ -199,6 +211,7 @@
                     android:lines="5"
                     android:inputType="none"
                     android:focusable="false"
+                    android:fontFamily="@font/bariol_regular"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvLocation" />
@@ -212,6 +225,8 @@
                     android:layout_marginLeft="@dimen/margin_medium"
                     android:layout_marginTop="@dimen/margin_default"
                     android:text="@string/contact_phone"
+                    android:textSize="18dp"
+                    android:fontFamily="@font/bariol_bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/etChildLocation" />
 
@@ -225,6 +240,7 @@
                     android:layout_marginRight="@dimen/margin_medium"
                     android:ems="10"
                     android:inputType="textCapWords"
+                    android:fontFamily="@font/bariol_regular"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvContactPhone" />
@@ -238,6 +254,8 @@
                     android:layout_marginLeft="@dimen/margin_medium"
                     android:layout_marginTop="@dimen/margin_default"
                     android:text="@string/medical_point"
+                    android:textSize="18dp"
+                    android:fontFamily="@font/bariol_bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/etContactPhone" />
 
@@ -249,6 +267,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvPoint"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    android:fontFamily="@font/bariol_regular"
                     android:layout_marginStart="2dp"
                     android:layout_marginLeft="2dp"
                     android:layout_marginEnd="@dimen/margin_medium"
@@ -278,38 +297,57 @@
 
     </androidx.cardview.widget.CardView>
 
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/ivNewContract"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:layout_marginStart="@dimen/margin_card"
-        android:layout_marginTop="@dimen/margin_card"
-        android:layout_marginEnd="@dimen/margin_card"
-        android:layout_marginBottom="@dimen/margin_card"
-        app:lottie_rawRes="@raw/registration"
-        app:lottie_autoPlay="true"
-        app:lottie_loop="false"
-        app:layout_constraintBottom_toTopOf="@+id/btnCheckMalnutrition"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
-
-<!--    <org.sic4change.nut4health.utils.view.Nut4HealthTextAwesome-->
+<!--    <com.airbnb.lottie.LottieAnimationView-->
 <!--        android:id="@+id/ivNewContract"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="0dp"-->
+<!--        android:layout_width="300dp"-->
+<!--        android:layout_height="300dp"-->
 <!--        android:layout_marginStart="@dimen/margin_card"-->
 <!--        android:layout_marginTop="@dimen/margin_card"-->
 <!--        android:layout_marginEnd="@dimen/margin_card"-->
 <!--        android:layout_marginBottom="@dimen/margin_card"-->
-<!--        android:text="@string/fa_file"-->
-<!--        android:textSize="200sp"-->
-<!--        android:gravity="center"-->
-<!--        android:textColor="@color/colorPrimaryDark"-->
+<!--        app:lottie_rawRes="@raw/registration"-->
+<!--        app:lottie_autoPlay="true"-->
+<!--        app:lottie_loop="false"-->
 <!--        app:layout_constraintBottom_toTopOf="@+id/btnCheckMalnutrition"-->
 <!--        app:layout_constraintEnd_toEndOf="parent"-->
 <!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent" />-->
+<!--        app:layout_constraintTop_toTopOf="parent"/>-->
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:foreground="?selectableItemBackground"
+        app:cardBackgroundColor="@android:color/white"
+        app:cardCornerRadius="@dimen/card_radius"
+        app:cardElevation=".1dp"
+        app:cardPreventCornerOverlap="true"
+        android:layout_marginStart="@dimen/margin_card"
+        android:layout_marginLeft="@dimen/margin_card"
+        android:layout_marginTop="@dimen/margin_card"
+        android:layout_marginEnd="@dimen/margin_card"
+        android:layout_marginRight="@dimen/margin_card"
+        android:layout_marginBottom="@dimen/margin_card"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/ivNewContract"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_card"
+            android:layout_marginTop="@dimen/margin_card"
+            android:layout_marginEnd="@dimen/margin_card"
+            android:layout_marginBottom="@dimen/margin_card"
+            android:gravity="center"
+            android:src="@drawable/course_design_whatisthisshit"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="200sp"
+            android:visibility="visible" />
+
+    </androidx.cardview.widget.CardView>
 
     <Button
         android:id="@+id/btnCheckMalnutrition"
@@ -321,11 +359,13 @@
         android:background="@drawable/rounded_button"
         android:text="@string/registerContract"
         android:textColor="@color/white"
+        android:fontFamily="@font/bariol_bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <org.sic4change.animation_check.AnimatedCircleLoadingView xmlns:app="http://schemas.android.com/apk/res-auto"
+    <org.sic4change.animation_check.AnimatedCircleLoadingView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/clView"
         android:layout_width="0dp"
         android:layout_height="0dp"

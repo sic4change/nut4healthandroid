@@ -36,6 +36,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeSuccessDialog;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
@@ -95,7 +96,7 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
     private Button btnCheckMalnutrition;
     private AnimatedCircleLoadingView clView;
     private ImageView ivAddFingerprint;
-    private LottieAnimationView ivNewContract;
+    private ImageView ivNewContract;
 
     public static final int REQUEST_TAKE_PHOTO       = 1;
     public static final int REQUEST_TAKE_FINGERPRINT = 2;
@@ -537,19 +538,27 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
     }
 
     public void showDialogCreateContractResult(String text) {
-        new AlertDialog.Builder(getActivity())
-                .setTitle(getString(R.string.diagnosis_finished))
-                .setMessage(text)
-                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        goToMainActivity();
-                    }
+        new AwesomeSuccessDialog(getActivity())
+                .setTitle(getResources().getString(R.string.app_name))
+                .setMessage(getResources().getString(R.string.diagnosis_finished))
+                .setPositiveButtonText(getResources().getString(R.string.ok))
+                .setPositiveButtonClick(() -> {
+                    goToMainActivity();
                 })
-                .setPositiveButton(R.string.ok, (dialog, which) -> getActivity().finish())
-                .setIcon(R.mipmap.icon)
-                .setCancelable(false)
                 .show();
+//        new AlertDialog.Builder(getActivity())
+//                .setTitle(getString(R.string.diagnosis_finished))
+//                .setMessage(text)
+//                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        goToMainActivity();
+//                    }
+//                })
+//                .setPositiveButton(R.string.ok, (dialog, which) -> getActivity().finish())
+//                .setIcon(R.mipmap.icon)
+//                .setCancelable(false)
+//                .show();
     }
 
     @org.greenrobot.eventbus.Subscribe(threadMode = ThreadMode.MAIN)

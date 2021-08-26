@@ -23,6 +23,7 @@
         android:drawablePadding="5dp"
         android:gravity="start|center_vertical"
         android:hint="Search Location"
+        android:fontFamily="@font/bariol_bold"
         android:maxLines="1"
         android:padding="5dp"
         android:textColorHint="@color/colorPrimary"
@@ -69,6 +70,7 @@
             android:minLines="1"
             android:enabled="false"
             android:visibility="gone"
+            android:fontFamily="@font/bariol_regular"
             android:inputType="textCapSentences|textMultiLine"
             />
         <EditText
@@ -80,6 +82,7 @@
             android:enabled="false"
             android:lines="3"
             android:paddingTop="3dp"
+            android:fontFamily="@font/bariol_regular"
             android:minLines="1"
             android:textSize="16sp"
             android:inputType="textCapSentences|textMultiLine"
@@ -90,6 +93,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="city pincode state"
+            android:fontFamily="@font/bariol_regular"
             android:enabled="false"
             android:paddingLeft="4dp"
             android:textSize="16sp"
@@ -100,6 +104,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:text="Continuar"
+            android:fontFamily="@font/bariol_bold"
             android:textColor="@color/quantum_white_100"
             android:background="@color/colorPrimaryDark"
             >
