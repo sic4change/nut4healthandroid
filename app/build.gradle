@@ -161,6 +161,9 @@ dependencies {
     //Lotie
     implementation "com.airbnb.android:lottie:4.1.0"
 
+    //Dialogs
+    implementation 'com.github.salehyarahmadi:AndExAlertDialog:v1.0.1'
+
 
     //Test
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'

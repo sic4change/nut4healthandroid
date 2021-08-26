@@ -34,6 +34,8 @@ import org.sic4change.nut4health.utils.view.Nut4HealthSnackbar;
 import org.sic4change.nut4health.utils.view.Nut4HealthTextAwesome;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import ir.androidexception.andexalertdialog.AndExAlertDialog;
+import ir.androidexception.andexalertdialog.AndExAlertDialogListener;
 
 import static maes.tech.intentanim.CustomIntent.customType;
 
@@ -125,7 +127,6 @@ public class ProfileActivity extends AppCompatActivity {
         return true;
     }
 
-
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -162,67 +163,37 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     public void showDialogEditName(View view) {
-        AlertDialog.Builder adb = new AlertDialog.Builder(this);
-        final EditText input = new EditText(this);
-        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        lp.setMargins(10, 10, 10, 10);
-        input.setLayoutParams(lp);
-        input.setHint(getString(R.string.edit_name));
-        if (!tvName.getText().toString().equals(getString(R.string.edit_name))) {
-            input.setText(tvName.getText().toString());
-        }
-        adb.setView(input);
-        adb.setTitle(getString(R.string.edit_name));
-        adb.setIcon(R.mipmap.icon);
-        adb.setPositiveButton(getString(R.string.ok), (dialog, which) -> {
-            if (input.getText() != null && !input.getText().toString().isEmpty()) {
-                mProfileViewModel.updateName(tvEmail.getText().toString(), input.getText().toString());
-            }
-        });
-        AlertDialog dialog = adb.show();
-        input.setOnKeyListener((v, keyCode, event) -> {
-            if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                if (input.getText() != null && !input.getText().toString().isEmpty()) {
-                    mProfileViewModel.updateName(tvEmail.getText().toString(), input.getText().toString());
-                }
-                dialog.dismiss();
-                return true;
-            }
-            return false;
-        });
+        new AndExAlertDialog.Builder(this)
+                .setMessage(getString(R.string.edit_name))
+                .setPositiveBtnText(getString(R.string.ok))
+                .setCancelableOnTouchOutside(true)
+                .OnPositiveClicked(input -> {
+                    if (input != null && !input.isEmpty()) {
+                         mProfileViewModel.updateName(tvEmail.getText().toString(), input.substring(0, 1).toUpperCase() + input.substring(1).toLowerCase());
+                    }
+                })
+                .setImage(R.mipmap.ic_launcher, 15)
+                .setEditText(true, false, tvName.getText().toString(), ir.androidexception.andexalertdialog.InputType.TEXT_SINGLE_LINE)
+                .setMessageTextColor(getResources().getColor(R.color.ms_black_38_opacity))
+                .setButtonTextColor(getResources().getColor(R.color.colorPrimaryDark))
+                .build();
     }
 
     public void showDialogEditSurname(View view) {
-        AlertDialog.Builder adb = new AlertDialog.Builder(this);
-        final EditText input = new EditText(this);
-        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        lp.setMargins(10, 10, 10, 10);
-        input.setLayoutParams(lp);
-        input.setHint(getString(R.string.edit_surname));
-        if (!tvSurname.getText().toString().equals(getString(R.string.edit_surname))) {
-            input.setText(tvSurname.getText().toString());
-        }
-        adb.setView(input);
-        adb.setTitle(getString(R.string.edit_surname));
-        adb.setIcon(R.mipmap.icon);
-        adb.setPositiveButton(getString(R.string.ok), (dialog, which) -> {
-            if (input.getText() != null && !input.getText().toString().isEmpty()) {
-                mProfileViewModel.updateSurname(tvEmail.getText().toString(), input.getText().toString());
-            }
-        });
-        AlertDialog dialog = adb.show();
-        input.setOnKeyListener((v, keyCode, event) -> {
-            if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                if (input.getText() != null && !input.getText().toString().isEmpty()) {
-                    mProfileViewModel.updateSurname(tvEmail.getText().toString(), input.getText().toString());
-                }
-                dialog.dismiss();
-                return true;
-            }
-            return false;
-        });
+        new AndExAlertDialog.Builder(this)
+                .setMessage(getString(R.string.edit_surname))
+                .setPositiveBtnText(getString(R.string.ok))
+                .setCancelableOnTouchOutside(true)
+                .OnPositiveClicked(input -> {
+                    if (input != null && !input.isEmpty()) {
+                        mProfileViewModel.updateSurname(tvEmail.getText().toString(), input.substring(0, 1).toUpperCase() + input.substring(1).toLowerCase());
+                    }
+                })
+                .setImage(R.mipmap.ic_launcher, 15)
+                .setEditText(true, false, tvSurname.getText().toString(), ir.androidexception.andexalertdialog.InputType.TEXT_SINGLE_LINE)
+                .setMessageTextColor(getResources().getColor(R.color.ms_black_38_opacity))
+                .setButtonTextColor(getResources().getColor(R.color.colorPrimaryDark))
+                .build();
     }
 
     public void showDialogEditCountry(View view) {
