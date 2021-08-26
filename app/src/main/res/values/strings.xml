@@ -143,7 +143,8 @@
 
     <!--Report -->
     <string name="send_report">Send report</string>
-    <string name="hintSugerencia">Do you have any idea to improve the application? Do you want to report an error? \n\nLeave us your comments here</string>
+    <string name="reportQuestion">Do you have any idea to improve the application? Do you want to report an error? \n\nLeave us your comments here</string>
+    <string name="reportHint">Write here</string>
     <string name="reportSend">Report sent correctly</string>
     <string name="reportSendDescription">Thank you!! Soon we can contact you.</string>
 

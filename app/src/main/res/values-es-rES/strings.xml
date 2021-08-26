@@ -144,7 +144,8 @@
 
     <!--Report -->
     <string name="send_report">Enviar reporte</string>
-    <string name="hintSugerencia">¿Tienes alguna idea para mejorar la aplicación? ¿Quieres reportarnos algún error? \n\nDeja tus comentarios aquí:</string>
+    <string name="reportQuestion">¿Tienes alguna idea para mejorar la aplicación? ¿Quieres repotarnos algún error?</string>
+    <string name="reportHint">Escribe aquí</string>
     <string name="reportSend">Reporte enviado correctamente</string>
     <string name="reportSendDescription">Gracias!! Pronto nos podremos en contacto contigo.</string>
 
