@@ -32,6 +32,9 @@ import org.sic4change.nut4health.utils.view.Nut4HealthSnackbar;
 
 import static maes.tech.intentanim.CustomIntent.customType;
 
+import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeInfoDialog;
+import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeSuccessDialog;
+
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -173,13 +176,30 @@ public class LoginActivity extends AppCompatActivity {
             }
         } else {
             if (EmailValidator.isValidEmail(etEmail.getText())) {
-                Nut4HealthSnackbar.showError(getApplicationContext(), findViewById(R.id.lyLogin), getResources().getString(R.string.sent_instructions_to_change_password));
-                mLoginViewModel.resetPassword(etEmail.getText().toString());
+                showToastChangePassword();
             } else {
                 Nut4HealthVibrator.vibrateError(getApplicationContext());
                 Nut4HealthSnackbar.showError(getApplicationContext(), findViewById(R.id.lyLogin), getResources().getString(R.string.invalid_email));
             }
         }
+    }
+
+    public void showToastChangePassword() {
+        new AwesomeInfoDialog(this)
+                .setTitle(getResources().getString(R.string.app_name))
+                .setMessage(getResources().getString(R.string.sent_instructions_to_change_password))
+                .setPositiveButtonText(getResources().getString(R.string.ok))
+                .setPositiveButtonClick(() -> {
+                    mLoginViewModel.resetPassword(etEmail.getText().toString());
+                    new AwesomeSuccessDialog(this)
+                            .setTitle(getResources().getString(R.string.app_name))
+                            .setMessage(getResources().getString(R.string.sent_instructions_to_change_password_ok))
+                            .setPositiveButtonText(getResources().getString(R.string.ok))
+                            .setPositiveButtonClick(() -> {
+
+                            })
+                            .show();
+                }).show();
     }
 
     public void goToCreateAccount(View view) {
