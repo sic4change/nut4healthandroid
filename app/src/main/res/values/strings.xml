@@ -58,7 +58,8 @@
     <string name="ok">Ok</string>
     <string name="cancel">Cancel</string>
     <string name="search">Search...</string>
-    <string name="sent_instructions_to_change_password">We have sent to your email instructions to change your password</string>
+    <string name="sent_instructions_to_change_password">If you accept, we will send you the instructions to change the password.</string>
+    <string name="sent_instructions_to_change_password_ok">Sent. Check your email. If you can not find it, look in the Spam folder</string>
     <string name="logout_question">Are you sure you want to logout?</string>
     <string name="delete_account_first_question">Are you sure you want to delete the account?</string>
     <string name="delete_account_second_question">This removes all your data permanently, do you want to continue?</string>

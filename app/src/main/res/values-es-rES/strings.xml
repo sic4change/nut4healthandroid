@@ -59,7 +59,8 @@
     <string name="ok">Aceptar</string>
     <string name="cancel">Cancelar</string>
     <string name="search">Buscar...</string>
-    <string name="sent_instructions_to_change_password">Hemos enviado a tu correo las instrucciones para cambiar la contraseña</string>
+    <string name="sent_instructions_to_change_password">Si aceptas enviaremos a tu correo las instrucciones para cambiar la contraseña</string>
+    <string name="sent_instructions_to_change_password_ok">Enviado. Revisa tu correo. Si no lo encuentras busca en la carpeta de Spam o No Deseado</string>
     <string name="logout_question">¿Estás seguro que quieres salir?</string>
     <string name="delete_account_first_question">¿Estás seguro que quieres eliminar la cuenta?</string>
     <string name="delete_account_second_question">Esto elimina todos sus datos de forma permanente, ¿desea continuar?</string>

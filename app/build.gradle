@@ -163,7 +163,7 @@ dependencies {
 
     //Dialogs
     implementation 'com.github.salehyarahmadi:AndExAlertDialog:v1.0.1'
-
+    implementation 'com.github.blennerSilva:AwesomeDialog:2.0.5'
 
     //Test
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'

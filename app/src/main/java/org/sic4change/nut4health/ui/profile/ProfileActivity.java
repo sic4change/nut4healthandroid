@@ -22,6 +22,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeErrorDialog;
+import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeInfoDialog;
+import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeSuccessDialog;
+import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeWarningDialog;
+import com.awesomedialog.blennersilva.awesomedialoglibrary.interfaces.Closure;
 import com.bumptech.glide.Glide;
 import com.github.dhaval2404.imagepicker.ImagePicker;
 
@@ -209,8 +214,21 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     public void showToastChangePassword(View view) {
-        mProfileViewModel.resetPassword(tvEmail.getText().toString());
-        Nut4HealthSnackbar.showError(getApplicationContext(), findViewById(R.id.lyProfile), getResources().getString(R.string.sent_instructions_to_change_password));
+        new AwesomeInfoDialog(this)
+                .setTitle(getResources().getString(R.string.app_name))
+                .setMessage(getResources().getString(R.string.sent_instructions_to_change_password))
+                .setPositiveButtonText(getResources().getString(R.string.ok))
+                .setPositiveButtonClick(() -> {
+                    mProfileViewModel.resetPassword(tvEmail.getText().toString());
+                    new AwesomeSuccessDialog(this)
+                            .setTitle(getResources().getString(R.string.app_name))
+                            .setMessage(getResources().getString(R.string.sent_instructions_to_change_password_ok))
+                            .setPositiveButtonText(getResources().getString(R.string.ok))
+                            .setPositiveButtonClick(() -> {
+
+                            })
+                            .show();
+                }).show();
     }
 
     private void goToLoginActivity() {
@@ -226,11 +244,13 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     public void showDialogToLogout(View view) {
-        new AlertDialog.Builder(this)
-                .setTitle(R.string.logout_question)
-                .setPositiveButton(R.string.ok, (dialog, which) -> logout())
-                .setIcon(R.mipmap.icon)
-                .show();
+        new AwesomeWarningDialog(this)
+                .setTitle(getResources().getString(R.string.app_name))
+                .setMessage(getResources().getString(R.string.logout_question))
+                .setButtonText(getResources().getString(R.string.logout))
+                .setWarningButtonClick(() -> {
+                   logout();
+                }).show();
     }
 
     public void showDialogTermsAndConditions(View view) {
@@ -241,19 +261,23 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     public void showDialogRemoveAccount(View view) {
-        new AlertDialog.Builder(this)
-                .setTitle(R.string.delete_account_first_question)
-                .setPositiveButton(R.string.ok, (dialog, which) -> showDialogRemoveAccountSecondQuestion())
-                .setIcon(R.mipmap.icon)
-                .show();
+        new AwesomeErrorDialog(this)
+                .setTitle(getResources().getString(R.string.app_name))
+                .setMessage(getResources().getString(R.string.delete_account_first_question))
+                .setButtonText(getResources().getString(R.string.delete_account))
+                .setErrorButtonClick(() -> {
+                    showDialogRemoveAccountSecondQuestion();
+                }).show();
     }
 
     private void showDialogRemoveAccountSecondQuestion() {
-        new AlertDialog.Builder(this)
-                .setTitle(R.string.delete_account_second_question)
-                .setPositiveButton(R.string.ok, (dialog, which) -> removeAccount())
-                .setIcon(R.mipmap.icon)
-                .show();
+        new AwesomeErrorDialog(this)
+                .setTitle(getResources().getString(R.string.app_name))
+                .setMessage(getResources().getString(R.string.delete_account_second_question))
+                .setButtonText(getResources().getString(R.string.delete_account))
+                .setErrorButtonClick(() -> {
+                    removeAccount();
+                }).show();
     }
 
     public void removeAccount() {
