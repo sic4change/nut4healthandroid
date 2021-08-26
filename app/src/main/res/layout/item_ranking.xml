@@ -55,35 +55,34 @@
                 app:layout_constraintStart_toEndOf="@id/tvPosition"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/tvUsername"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                app:layout_constraintTop_toTopOf="@+id/ivUserImage"
+                app:layout_constraintBottom_toBottomOf="@+id/ivUserImage"
+                app:layout_constraintStart_toEndOf="@id/ivUserImage"
                 android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:gravity="left|center"
-                android:text="Name"
-                android:textColor="@color/common_google_signin_btn_text_light_default"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toStartOf="@+id/ivPositionRanking"
-                app:layout_constraintStart_toEndOf="@+id/ivUserImage"
-                app:layout_constraintTop_toTopOf="@+id/ivUserImage" />
+                android:layout_marginEnd="8dp">
 
-            <TextView
-                android:id="@+id/tvPoints"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="4dp"
-                android:drawableLeft="@drawable/ic_points"
-                android:drawablePadding="2dp"
-                android:gravity="left|center"
-                android:text="24 points"
-                android:textColor="@color/common_google_signin_btn_text_light_default"
-                android:textSize="12sp"
-                app:layout_constraintStart_toEndOf="@+id/ivUserImage"
-                app:layout_constraintTop_toBottomOf="@+id/tvUsername" />
+                <TextView
+                    android:id="@+id/tvUsername"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Name"
+                    android:textColor="@color/common_google_signin_btn_text_light_default"
+                    android:textSize="18sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/tvPoints"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="24 points"
+                    android:textColor="@color/common_google_signin_btn_text_light_default"
+                    android:textSize="12sp"/>
+
+            </LinearLayout>
 
             <ImageView
                 android:id="@+id/ivPositionRanking"
