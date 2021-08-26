@@ -8,7 +8,7 @@
         <item
             android:id="@+id/nav_start_diagnosis"
             android:icon="@drawable/ic_action_add"
-            android:title="@string/capture" />
+            android:title="@string/capture"/>
         <item
             android:id="@+id/nav_contracts"
             android:icon="@drawable/ic_contract"

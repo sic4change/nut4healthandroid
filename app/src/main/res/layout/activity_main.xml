@@ -20,6 +20,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
+        app:theme="@style/NavigationViewStyle"
         app:headerLayout="@layout/nav_header_main"
         app:menu="@menu/activity_main_drawer">
 
@@ -49,6 +50,7 @@
                     android:gravity="center"
                     android:paddingBottom="@dimen/margin_default"
                     android:paddingTop="@dimen/margin_default"
+                    android:fontFamily="@font/bariol_regular"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                     android:textColor="@color/ms_white"
                     android:text="Versión - " />

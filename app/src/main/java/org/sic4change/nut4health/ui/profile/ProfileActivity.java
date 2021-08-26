@@ -3,6 +3,7 @@ package org.sic4change.nut4health.ui.profile;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
@@ -184,7 +186,9 @@ public class ProfileActivity extends AppCompatActivity {
                 .build();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void showDialogEditSurname(View view) {
+        Typeface typeface = getResources().getFont(R.font.bariol_regular);
         new AndExAlertDialog.Builder(this)
                 .setMessage(getString(R.string.edit_surname))
                 .setPositiveBtnText(getString(R.string.ok))

@@ -58,6 +58,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ivUser"
+        android:fontFamily="@font/bariol_bold"
         android:layout_marginStart="@dimen/margin_default"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         android:text="@string/nav_header_title"
@@ -70,6 +71,7 @@
         android:layout_marginStart="@dimen/margin_default"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvDrawerUsername"
+        android:fontFamily="@font/bariol_regular"
         android:text="@string/nav_header_subtitle" />
 
     <TextView
@@ -77,6 +79,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_default"
+        android:fontFamily="@font/bariol_regular"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvDrawerEmail"
         android:text="@string/role" />
@@ -86,6 +89,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_default"
+        android:fontFamily="@font/bariol_regular"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvDrawerRole"
         android:text="@string/points" />

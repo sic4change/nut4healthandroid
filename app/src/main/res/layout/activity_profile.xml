@@ -23,6 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/nav_header_title"
+            android:fontFamily="@font/bariol_bold"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="20sp" />
@@ -31,12 +32,14 @@
             android:id="@+id/tvProfileEmail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/bariol_regular"
             android:text="@string/nav_header_subtitle" />
 
         <TextView
             android:id="@+id/tvRole"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/bariol_regular"
             android:text="@string/role" />
 
     </LinearLayout>
@@ -89,7 +92,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-
             <RelativeLayout
                 android:id="@+id/lyName"
                 android:layout_width="match_parent"
@@ -103,6 +105,7 @@
                     android:gravity="center"
                     android:padding="@dimen/margin_medium"
                     android:text="@string/edit_name"
+                    android:fontFamily="@font/bariol_regular"
                     android:textSize="16sp"
                     android:onClick="showDialogEditName"/>
 
@@ -143,6 +146,7 @@
                     android:gravity="center"
                     android:padding="@dimen/margin_medium"
                     android:text="@string/edit_surname"
+                    android:fontFamily="@font/bariol_regular"
                     android:textSize="16sp"
                     android:onClick="showDialogEditSurname"/>
 
@@ -182,6 +186,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
+                    android:fontFamily="@font/bariol_regular"
                     android:padding="@dimen/margin_medium"
                     android:text="@string/edit_country"
                     android:textSize="16sp" />
@@ -221,6 +226,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
+                    android:fontFamily="@font/bariol_regular"
                     android:padding="@dimen/margin_medium"
                     android:text="@string/edit_password"
                     android:textSize="16sp" />
@@ -260,6 +266,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:padding="@dimen/margin_medium"
+                    android:fontFamily="@font/bariol_regular"
                     android:text="@string/logout"
                     android:textSize="16sp" />
 
@@ -297,6 +304,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
+                    android:fontFamily="@font/bariol_regular"
                     android:padding="@dimen/margin_medium"
                     android:text="@string/delete_account"
                     android:textSize="16sp" />
@@ -336,6 +344,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:padding="@dimen/margin_medium"
+                    android:fontFamily="@font/bariol_regular"
                     android:text="@string/terms_and_conditions"
                     android:textSize="16sp" />
 

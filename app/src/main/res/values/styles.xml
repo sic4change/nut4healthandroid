@@ -21,4 +21,8 @@
         <item name="android:textSize">12sp</item>
     </style>
 
+    <style name="NavigationViewStyle">
+        <item name="android:fontFamily">@font/bariol_bold</item>
+    </style>
+
 </resources>
