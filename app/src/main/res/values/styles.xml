@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:fontFamily">@font/bariol_regular</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -19,6 +20,7 @@
 
     <style name="spinnerItemStyle" parent="@android:style/Widget.Holo.DropDownItem.Spinner">
         <item name="android:textSize">12sp</item>
+        <item name="android:fontFamily">@font/bariol_regular</item>
     </style>
 
     <style name="NavigationViewStyle">

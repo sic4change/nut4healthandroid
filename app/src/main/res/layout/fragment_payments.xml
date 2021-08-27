@@ -41,6 +41,7 @@
                 android:layout_marginStart="@dimen/margin_default"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="@dimen/margin_default"
+                android:fontFamily="@font/bariol_bold"
                 android:entries="@array/array_status_payments"
                 android:theme="@style/spinnerItemStyle"
                 app:layout_constraintEnd_toStartOf="@id/dividerStatus"
@@ -70,6 +71,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="@dimen/margin_default"
                 android:drawableLeft="@drawable/ic_date"
+                android:fontFamily="@font/bariol_regular"
                 android:drawablePadding="4dp"
                 android:editable="false"
                 android:focusable="false"
@@ -91,6 +93,7 @@
                 android:minWidth="80dp"
                 android:minHeight="40dp"
                 android:text="@string/filter"
+                android:fontFamily="@font/bariol_bold"
                 android:textColor="@color/white"
                 android:layout_marginTop="@dimen/margin_default"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -104,6 +107,7 @@
                 android:layout_marginEnd="@dimen/margin_default"
                 android:layout_marginBottom="@dimen/margin_default"
                 android:background="@drawable/rounded_button_gray"
+                android:fontFamily="@font/bariol_bold"
                 android:text="@string/clear"
                 android:minHeight="40dp"
                 android:minWidth="80dp"
@@ -143,7 +147,6 @@
             android:id="@+id/rvPayments"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:background="@color/white"
             tools:itemCount="10">
 
         </androidx.recyclerview.widget.RecyclerView>
