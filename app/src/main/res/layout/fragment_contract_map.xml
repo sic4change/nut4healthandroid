@@ -44,7 +44,7 @@
                 app:cv_subtitleColor="@color/colorAccent"
                 app:cv_subtitleSize="0dp"
                 app:cv_titleColor="@color/white"
-                app:cv_titleSize="30dp"
+                app:cv_titleSize="25dp"
                 app:cv_titleText="50%"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
