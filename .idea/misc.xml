@@ -19,6 +19,7 @@
         <entry key="app/src/main/res/layout/fragment_contract.xml" value="0.22606837606837607" />
         <entry key="app/src/main/res/layout/fragment_contract_list.xml" value="0.22606837606837607" />
         <entry key="app/src/main/res/layout/fragment_create_contract.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_empty.xml" value="0.2111111111111111" />
         <entry key="app/src/main/res/layout/fragment_ranking.xml" value="0.20170940170940171" />
         <entry key="app/src/main/res/layout/fragment_report.xml" value="0.1" />
         <entry key="app/src/main/res/layout/item_ranking.xml" value="0.1" />
