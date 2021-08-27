@@ -26,6 +26,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 
+import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeErrorDialog;
+import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeSuccessDialog;
 import com.crystal.crystalrangeseekbar.widgets.BubbleThumbRangeSeekbar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
@@ -73,6 +75,7 @@ public class ContractFragment extends Fragment {
     private long timeRangeMax;
 
     private MainViewModel mMainViewModel;
+    private boolean exportContract = false;
 
     public ContractFragment() {
         // Required empty public constructor
@@ -82,6 +85,12 @@ public class ContractFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        exportContract = false;
     }
 
     @Override
@@ -124,6 +133,7 @@ public class ContractFragment extends Fragment {
         });
         btnExportContract = view.findViewById(R.id.btnExportContracts);
         btnExportContract.setOnClickListener(v -> {
+            exportContract = true;
             exportContractsToExcel();
         });
         btnClear = view.findViewById(R.id.btnClear);
@@ -232,92 +242,87 @@ public class ContractFragment extends Fragment {
         }
     }
 
-    @SuppressLint("MissingPermission")
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED && requestCode == 105) {
-            exportContractsToExcel();
-        }  else if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED && requestCode == 106) {
-            openFile();
-        }
-    }
-
     private void exportContractsToExcel() {
-        mMainViewModel.getContracts().observe(getActivity(), contracts -> {
-            Workbook workbook = new XSSFWorkbook();
-            Sheet sheet = workbook.createSheet("Contracts");
-            Row rowHeader = sheet.createRow(0);
-            rowHeader.createCell(0).setCellValue("Nombre");
-            rowHeader.createCell(1).setCellValue("Apellidos");
-            rowHeader.createCell(2).setCellValue("Dirección");
-            rowHeader.createCell(3).setCellValue("Teléfono");
-            rowHeader.createCell(4).setCellValue("Fecha");
-            rowHeader.createCell(5).setCellValue("Fecha milis");
-            rowHeader.createCell(6).setCellValue("Porcentage");
-            rowHeader.createCell(7).setCellValue("Estado");
-            rowHeader.createCell(8).setCellValue("Agente salud");
-            rowHeader.createCell(9).setCellValue("Centro salud");
-            rowHeader.createCell(10).setCellValue("Fecha alta médica");
-            rowHeader.createCell(11).setCellValue("Fecha alta medica milis");
-            rowHeader.createCell(12).setCellValue("Localización centro médico");
-            for(int  i=0; i<contracts.size(); i++){
-                Row row = sheet.createRow(i+1);
-                row.createCell(0).setCellValue(contracts.get(i).getChildName());
-                row.createCell(1).setCellValue(contracts.get(i).getChildSurname());
-                row.createCell(2).setCellValue(contracts.get(i).getChildAddress());
-                row.createCell(3).setCellValue(contracts.get(i).getChildPhoneContract());
-                row.createCell(4).setCellValue(contracts.get(i).getCreationDate());
-                row.createCell(5).setCellValue(contracts.get(i).getCreationDateMiliseconds());
-                row.createCell(6).setCellValue(contracts.get(i).getPercentage());
-                row.createCell(7).setCellValue(contracts.get(i).getStatus());
-                row.createCell(8).setCellValue(contracts.get(i).getScreener());
-                row.createCell(9).setCellValue(contracts.get(i).getMedical());
-                row.createCell(10).setCellValue(contracts.get(i).getMedicalDate());
-                row.createCell(11).setCellValue(contracts.get(i).getMedicalDateMiliseconds());
-                row.createCell(12).setCellValue(contracts.get(i).getPointFullName());
-            }
-            File file = new File(getActivity().getExternalFilesDir(null), "contracts.xlsx");
-            try {
-                file.createNewFile();
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
-            try {
-                FileOutputStream fileOut = new FileOutputStream(file);
-                workbook.write(fileOut);
-                fileOut.close();
-            } catch (FileNotFoundException e) {
-                showDialogErrorExportContractsResult();
-            } catch (IOException e) {
-                showDialogErrorExportContractsResult();
-            }
-            showDialogExportContractsResult();
-        });
+            mMainViewModel.getContracts().observe(getActivity(), contracts -> {
+                if (exportContract) {
+                    Workbook workbook = new XSSFWorkbook();
+                    Sheet sheet = workbook.createSheet("Contracts");
+                    Row rowHeader = sheet.createRow(0);
+                    rowHeader.createCell(0).setCellValue("Nombre");
+                    rowHeader.createCell(1).setCellValue("Apellidos");
+                    rowHeader.createCell(2).setCellValue("Dirección");
+                    rowHeader.createCell(3).setCellValue("Teléfono");
+                    rowHeader.createCell(4).setCellValue("Fecha");
+                    rowHeader.createCell(5).setCellValue("Fecha milis");
+                    rowHeader.createCell(6).setCellValue("Porcentage");
+                    rowHeader.createCell(7).setCellValue("Estado");
+                    rowHeader.createCell(8).setCellValue("Agente salud");
+                    rowHeader.createCell(9).setCellValue("Centro salud");
+                    rowHeader.createCell(10).setCellValue("Fecha alta médica");
+                    rowHeader.createCell(11).setCellValue("Fecha alta medica milis");
+                    rowHeader.createCell(12).setCellValue("Localización centro médico");
+                    for(int  i=0; i<contracts.size(); i++){
+                        Row row = sheet.createRow(i+1);
+                        row.createCell(0).setCellValue(contracts.get(i).getChildName());
+                        row.createCell(1).setCellValue(contracts.get(i).getChildSurname());
+                        row.createCell(2).setCellValue(contracts.get(i).getChildAddress());
+                        row.createCell(3).setCellValue(contracts.get(i).getChildPhoneContract());
+                        row.createCell(4).setCellValue(contracts.get(i).getCreationDate());
+                        row.createCell(5).setCellValue(contracts.get(i).getCreationDateMiliseconds());
+                        row.createCell(6).setCellValue(contracts.get(i).getPercentage());
+                        row.createCell(7).setCellValue(contracts.get(i).getStatus());
+                        row.createCell(8).setCellValue(contracts.get(i).getScreener());
+                        row.createCell(9).setCellValue(contracts.get(i).getMedical());
+                        row.createCell(10).setCellValue(contracts.get(i).getMedicalDate());
+                        row.createCell(11).setCellValue(contracts.get(i).getMedicalDateMiliseconds());
+                        row.createCell(12).setCellValue(contracts.get(i).getPointFullName());
+                    }
+                    File file = new File(getActivity().getExternalFilesDir(null), "contracts.xlsx");
+                    try {
+                        file.createNewFile();
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
+                    try {
+                        FileOutputStream fileOut = new FileOutputStream(file);
+                        workbook.write(fileOut);
+                        fileOut.close();
+                    } catch (FileNotFoundException e) {
+                        showDialogErrorExportContractsResult();
+                    } catch (IOException e) {
+                        showDialogErrorExportContractsResult();
+                    }
+                    exportContract = false;
+                    showDialogExportContractsResult();
+                }
+
+            });
     }
 
     public void showDialogExportContractsResult() {
-        new AlertDialog.Builder(getActivity())
-                .setTitle(R.string.contracts_exported_ok)
-                .setPositiveButton(R.string.ok, (dialog, which) -> {
-                    dialog.dismiss();
-                    if (ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+        new AwesomeSuccessDialog(getActivity())
+                .setTitle(getResources().getString(R.string.app_name))
+                .setMessage(getResources().getString(R.string.contracts_exported_ok))
+                .setPositiveButtonText(getResources().getString(R.string.ok))
+                .setPositiveButtonClick(() -> {
+                    /*if (ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                         requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 106);
                     } else {
                         openFile();
-                    }
+                    }*/
+                    openFile();
                 })
-                .setIcon(R.mipmap.icon)
-                .setCancelable(false)
                 .show();
     }
 
     public void showDialogErrorExportContractsResult() {
-        new AlertDialog.Builder(getActivity())
-                .setTitle(R.string.contracts_exported_error)
-                .setPositiveButton(R.string.ok, (dialog, which) -> dialog.dismiss())
-                .setIcon(R.mipmap.icon)
-                .setCancelable(false)
-                .show();
+        new AwesomeErrorDialog(getActivity())
+                .setTitle(getResources().getString(R.string.app_name))
+                .setMessage(getResources().getString(R.string.contracts_exported_error))
+                .setButtonText(getResources().getString(R.string.ok))
+                .setErrorButtonClick(() -> {
+
+                }).show();
     }
 
     private void openFile() {

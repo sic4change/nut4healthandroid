@@ -188,7 +188,6 @@ public class ProfileActivity extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void showDialogEditSurname(View view) {
-        Typeface typeface = getResources().getFont(R.font.bariol_regular);
         new AndExAlertDialog.Builder(this)
                 .setMessage(getString(R.string.edit_surname))
                 .setPositiveBtnText(getString(R.string.ok))
