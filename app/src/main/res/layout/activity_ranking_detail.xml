@@ -42,8 +42,10 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            card_view:cardCornerRadius="3dp"
-            card_view:cardElevation="3dp">
+            app:cardBackgroundColor="@android:color/white"
+            app:cardCornerRadius="@dimen/card_radius"
+            app:cardElevation=".1dp"
+            app:cardPreventCornerOverlap="true">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -60,6 +62,7 @@
                     android:layout_marginTop="@dimen/margin_medium"
                     android:layout_marginEnd="@dimen/margin_medium"
                     android:layout_marginRight="@dimen/margin_medium"
+                    android:fontFamily="@font/bariol_bold"
                     android:text="@string/contractDetail"
                     android:textColor="@color/colorAccent"
                     android:textSize="18dp"
@@ -76,6 +79,7 @@
                     android:layout_marginLeft="@dimen/margin_medium"
                     android:layout_marginTop="@dimen/margin_medium"
                     android:text="@string/ranking_position"
+                    android:fontFamily="@font/bariol_bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvUsername" />
 
@@ -87,6 +91,7 @@
                     android:layout_marginTop="@dimen/margin_default"
                     android:layout_marginEnd="@dimen/margin_medium"
                     android:layout_marginBottom="@dimen/margin_default"
+                    android:fontFamily="@font/bariol_regular"
                     android:editable="false"
                     android:enabled="false"
                     android:focusable="false"
@@ -102,6 +107,7 @@
                     android:layout_marginStart="@dimen/margin_medium"
                     android:layout_marginLeft="@dimen/margin_medium"
                     android:layout_marginTop="@dimen/margin_medium"
+                    android:fontFamily="@font/bariol_bold"
                     android:text="@string/ranking_points"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/etPosition" />
@@ -114,6 +120,7 @@
                     android:layout_marginTop="@dimen/margin_default"
                     android:layout_marginEnd="@dimen/margin_medium"
                     android:layout_marginBottom="@dimen/margin_default"
+                    android:fontFamily="@font/bariol_regular"
                     android:editable="false"
                     android:enabled="false"
                     android:focusable="false"
