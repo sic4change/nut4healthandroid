@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white">
+    android:background="@color/browser_actions_bg_grey">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cvContractItem"
@@ -18,6 +18,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:cardBackgroundColor="@android:color/white"
+        app:cardCornerRadius="@dimen/card_radius"
+        app:cardElevation=".1dp"
+        app:cardPreventCornerOverlap="true"
         android:background="@color/white">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -51,6 +55,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="Status"
+                android:fontFamily="@font/bariol_bold"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="@+id/tvPercentageItem"
                 app:layout_constraintStart_toStartOf="@+id/tvPercentageItem"
@@ -65,6 +70,7 @@
                 android:layout_marginEnd="@dimen/margin_default"
                 android:text="Name"
                 android:gravity="left|center"
+                android:fontFamily="@font/bariol_bold"
                 android:textColor="@color/common_google_signin_btn_text_light_default"
                 android:textSize="18sp"
                 android:textStyle="bold"
@@ -80,6 +86,7 @@
                 android:layout_marginEnd="@dimen/margin_default"
                 android:layout_marginBottom="@dimen/margin_default"
                 android:layout_marginTop="@dimen/margin_default"
+                android:fontFamily="@font/bariol_regular"
                 android:gravity="left|center"
                 android:text="sdafoj alsdjf alsjfd alsjdf alsfj aslofj alsfj alsfdj alsfjals fjalsfj aslfja slfjaslfj alsjfalsfj alsfj alsfj lasf"
                 android:textColor="@color/common_google_signin_btn_text_light_default"
@@ -97,6 +104,7 @@
                 android:layout_marginStart="@dimen/margin_default"
                 android:layout_marginTop="4dp"
                 android:layout_marginBottom="@dimen/margin_default"
+                android:fontFamily="@font/bariol_regular"
                 android:drawableLeft="@drawable/ic_time"
                 android:drawablePadding="2dp"
                 android:gravity="left|center"
@@ -114,6 +122,7 @@
                 android:layout_marginTop="4dp"
                 android:layout_marginBottom="@dimen/margin_default"
                 android:drawableLeft="@drawable/ic_check_date"
+                android:fontFamily="@font/bariol_regular"
                 android:drawablePadding="2dp"
                 android:gravity="left|center"
                 android:text="Date"

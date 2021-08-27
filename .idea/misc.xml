@@ -14,6 +14,8 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.17435897435897435" />
         <entry key="app/src/main/res/layout/app_bar_main.xml" value="0.17393162393162392" />
         <entry key="app/src/main/res/layout/content_main.xml" value="0.17393162393162392" />
+        <entry key="app/src/main/res/layout/fragment_contract.xml" value="0.22606837606837607" />
+        <entry key="app/src/main/res/layout/fragment_contract_list.xml" value="0.22606837606837607" />
         <entry key="app/src/main/res/layout/fragment_create_contract.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_ranking.xml" value="0.20170940170940171" />
         <entry key="app/src/main/res/layout/fragment_report.xml" value="0.1" />
