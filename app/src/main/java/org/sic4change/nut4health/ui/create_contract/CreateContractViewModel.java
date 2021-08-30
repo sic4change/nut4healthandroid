@@ -62,11 +62,11 @@ public class CreateContractViewModel extends ViewModel {
         return mContract;
     }
 
-    public void createContract(String role, String screener, float latitude, float longitude, Uri photo,
+    public void createContract(String id, String role, String screener, float latitude, float longitude, Uri photo,
                                String childName, String childSurname, String childAddress,
                                String childPhoneContact, String point, String pointFullName,
                                int percentage) {
-        mRepository.createContract(role, screener, latitude, longitude, photo, childName, childSurname,
+        mRepository.createContract(id, role, screener, latitude, longitude, photo, childName, childSurname,
                 childAddress, childPhoneContact, point, pointFullName, percentage);
     }
 

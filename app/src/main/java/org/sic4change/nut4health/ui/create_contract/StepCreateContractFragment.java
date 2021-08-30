@@ -169,7 +169,7 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
             clView.startDeterminate();
             mCreateContractViewModel.getUser().observe(getActivity(), user -> {
                 if ((mCreateContractViewModel != null) && (user != null)) {
-                    mCreateContractViewModel.createContract(user.getRole(), user.getEmail(),
+                    mCreateContractViewModel.createContract(user.getId(), user.getRole(), user.getEmail(),
                             mCreateContractViewModel.getLocation().latitude, mCreateContractViewModel.getLocation().longitude,
                             mCreateContractViewModel.getUriPhoto(), mCreateContractViewModel.getChildName(),
                             mCreateContractViewModel.getChildSurname(), mCreateContractViewModel.getChildLocation(),
@@ -212,11 +212,11 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
         etChildContactPhone = v.findViewById(R.id.etContactPhone);
 
         etChildLocation = v.findViewById(R.id.etChildLocation);
-        etChildLocation.setOnClickListener(v12 -> {
+        /*etChildLocation.setOnClickListener(v12 -> {
             Intent i = new Intent(this.getActivity(), LocationPickerActivity.class);
             startActivityForResult(i, ADDRESS_PICKER_REQUEST);
 
-        });
+        });*/
         ivAddFingerprint = v.findViewById(R.id.ivAddFingerprint);
         ivAddFingerprint.setOnClickListener(v13 -> {
             Intent fingerPrintIntent = new Intent(getActivity(), ScanActivity.class);

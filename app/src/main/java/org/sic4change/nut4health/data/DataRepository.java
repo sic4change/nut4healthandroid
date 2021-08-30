@@ -492,6 +492,7 @@ public class DataRepository {
 
     /**
      * Method to create a contract
+     * @param id
      * @param role
      * @param email
      * @param latitude
@@ -503,7 +504,7 @@ public class DataRepository {
      * @param childPhoneContact
      * @param percentage
      */
-    public void createContract(String role, String email, double latitude, double longitude, Uri photo,
+    public void createContract(String id, String role, String email, double latitude, double longitude, Uri photo,
                                String childName, String childSurname, String childAddress,
                                String childPhoneContact, String point, String pointFullName, int percentage) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -519,6 +520,10 @@ public class DataRepository {
         Contract contract = new Contract("", latitude, longitude, "",
                 childName, childSurname, childAddress, childPhoneContact, point, pointFullName,  "",
                 status, "", percentage);
+        String newId = id + "_" + new Date().getTime();
+        contract.setId(newId);
+        contract.setCreationDate(new Date().toString());
+        contract.setCreationDateMiliseconds(new Date().getTime());
         imageContract = null;
         if (imageContract != null) {
             FingerprintTemplate fingerprintTemplateContract = new FingerprintTemplate().dpi(500).create(imageContract);
@@ -583,18 +588,18 @@ public class DataRepository {
                                 //Si no lo encuentra debe añadirlo
                                 contract.setScreener(email);
                                 contract.setStatus(status);
-                                contractRef.add(contract).addOnCompleteListener(task -> {
+                                contractRef.document(newId).set(contract).addOnCompleteListener(task -> {
                                     listenerQuery.remove();
-                                    createGeoPoint(task.getResult().getId(), latitude, longitude);
+                                    createGeoPoint(newId, latitude, longitude);
                                 });
                                 EventBus.getDefault().post(new MessageEvent(mContext.getString(R.string.diagnosis_ok)));
                             }
                         } else {
                             contract.setScreener(email);
                             contract.setStatus(status);
-                            contractRef.add(contract).addOnCompleteListener(task -> {
+                            contractRef.document(newId).set(contract).addOnCompleteListener(task -> {
                                 listenerQuery.remove();
-                                createGeoPoint(task.getResult().getId(), latitude, longitude);
+                                createGeoPoint(newId, latitude, longitude);
                             });
                             EventBus.getDefault().post(new MessageEvent(mContext.getString(R.string.diagnosis_ok)));
                         }
@@ -648,18 +653,18 @@ public class DataRepository {
                             if (!updated) {
                                 contract.setMedical(email);
                                 contract.setStatus(Contract.Status.FINISH.name());
-                                contractRef.add(contract).addOnCompleteListener(task -> {
+                                contractRef.document(newId).set(contract).addOnCompleteListener(task -> {
                                     listenerQuery.remove();
-                                    createGeoPoint(task.getResult().getId(), latitude, longitude);
+                                    createGeoPoint(newId, latitude, longitude);
                                 });
                                 EventBus.getDefault().post(new MessageEvent(mContext.getString(R.string.diagnosis_ok)));
                             }
                         } else {
                             contract.setMedical(email);
                             contract.setStatus(Contract.Status.FINISH.name());
-                            contractRef.add(contract).addOnCompleteListener(task -> {
+                            contractRef.document(newId).set(contract).addOnCompleteListener(task -> {
                                 listenerQuery.remove();
-                                createGeoPoint(task.getResult().getId(), latitude, longitude);
+                                createGeoPoint(newId, latitude, longitude);
                             });
                             EventBus.getDefault().post(new MessageEvent(mContext.getString(R.string.diagnosis_ok)));
                         }
@@ -898,8 +903,8 @@ public class DataRepository {
      */
     public void sendReport(MutableLiveData<Report> mutableReport) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        CollectionReference contractRef = db.collection("reports");
-        contractRef.add(mutableReport.getValue()).addOnCompleteListener(task -> {
+        CollectionReference reportRef = db.collection("reports");
+        reportRef.add(mutableReport.getValue()).addOnCompleteListener(task -> {
             mutableReport.getValue().setSent(true);
         });
     }
