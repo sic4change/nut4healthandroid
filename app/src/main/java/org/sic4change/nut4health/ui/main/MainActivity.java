@@ -34,12 +34,20 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.work.Constraints;
+import androidx.work.ExistingPeriodicWorkPolicy;
+import androidx.work.NetworkType;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
+import androidx.work.WorkRequest;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.navigation.NavigationView;
 
 import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.data.entities.User;
+import org.sic4change.nut4health.service.FirebaseDataUploadWorker;
 import org.sic4change.nut4health.ui.main.contracts.ContractFragment;
 import org.sic4change.nut4health.ui.main.contracts.ContractsListFragment;
 import org.sic4change.nut4health.ui.main.contracts.ContractsMapFragment;
@@ -57,6 +65,7 @@ import org.sic4change.nut4health.utils.time.Nut4HealthTimeUtil;
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -131,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     }
                     subscribedToTopics = true;
                 }
-
+                startFirebaseUploadWorker();
             }
         });
 //        mMainViewModel.getNotifications().observe(this, notifications -> {
@@ -332,6 +341,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     });
         }
 
+    }
+
+    private void startFirebaseUploadWorker() {
+        Constraints constraints = new Constraints.Builder()
+                .setRequiredNetworkType(NetworkType.CONNECTED)
+                .build();
+
+        PeriodicWorkRequest firebaseDataUploadWorker = new PeriodicWorkRequest.Builder(FirebaseDataUploadWorker.class, 15, TimeUnit.MINUTES)
+                .setConstraints(constraints)
+                .build();
+        WorkManager.getInstance(this).enqueue(firebaseDataUploadWorker);
     }
 
 }

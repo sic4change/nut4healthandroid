@@ -4,10 +4,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
-import android.util.Base64;
-
-import java.io.IOException;
-import java.nio.ByteBuffer;
 import java.util.List;
 
 import androidx.lifecycle.LiveData;
@@ -22,9 +18,6 @@ import org.sic4change.nut4health.utils.location.Nut4HealthSingleShotLocationProv
 
 public class CreateContractViewModel extends ViewModel {
 
-    private static final int BMP_WIDTH_OF_TIMES = 4;
-    private static final int BYTE_PER_PIXEL = 3;
-
     private final DataRepository mRepository;
     private final LiveData<User> mUser;
     private final LiveData<List<Point>> mPoints;
@@ -32,7 +25,7 @@ public class CreateContractViewModel extends ViewModel {
 
     private Uri uriPhoto;
     private int percentage;
-    private Nut4HealthSingleShotLocationProvider.GPSCoordinates location;
+    private Nut4HealthSingleShotLocationProvider.GPSCoordinates location = new Nut4HealthSingleShotLocationProvider.GPSCoordinates(0,0);
     private String childName;
     private String childSurname;
     private String childLocation;

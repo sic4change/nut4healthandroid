@@ -32,8 +32,8 @@ android {
         applicationId "org.sic4change.nut4health"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 5
-        versionName "1.4"
+        versionCode 6
+        versionName "1.5"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
@@ -164,6 +164,9 @@ dependencies {
     //Dialogs
     implementation 'com.github.salehyarahmadi:AndExAlertDialog:v1.0.1'
     implementation 'com.github.blennerSilva:AwesomeDialog:2.0.5'
+
+    //Worker
+    implementation "androidx.work:work-runtime:2.5.0"
 
     //Test
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
