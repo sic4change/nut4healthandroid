@@ -95,7 +95,7 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
     private SearchableSpinner spPoint;
     private Button btnCheckMalnutrition;
     private AnimatedCircleLoadingView clView;
-    private ImageView ivAddFingerprint;
+    //private ImageView ivAddFingerprint;
     private ImageView ivNewContract;
 
     public static final int REQUEST_TAKE_PHOTO       = 1;
@@ -207,11 +207,11 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
             startActivityForResult(i, ADDRESS_PICKER_REQUEST);
 
         });*/
-        ivAddFingerprint = v.findViewById(R.id.ivAddFingerprint);
-        ivAddFingerprint.setOnClickListener(v13 -> {
-            Intent fingerPrintIntent = new Intent(getActivity(), ScanActivity.class);
-            startActivityForResult(fingerPrintIntent, REQUEST_TAKE_FINGERPRINT);
-        });
+//        ivAddFingerprint = v.findViewById(R.id.ivAddFingerprint);
+//        ivAddFingerprint.setOnClickListener(v13 -> {
+//            Intent fingerPrintIntent = new Intent(getActivity(), ScanActivity.class);
+//            startActivityForResult(fingerPrintIntent, REQUEST_TAKE_FINGERPRINT);
+//        });
         clView = v.findViewById(R.id.clView);
         if (ActivityCompat.checkSelfPermission(getActivity().getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, LOCATION_REQUEST_CODE);
@@ -430,9 +430,9 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
             byte[] fingerprint = data.getByteArrayExtra(ScanActivity.FINGERPRINT);
             if ((fingerprint != null) && (fingerprint.length > 0)) {
                 mCreateContractViewModel.setFingerPrint(fingerprint);
-                ivAddFingerprint.setImageBitmap(mCreateContractViewModel.getFingerPrintImage());
+                //ivAddFingerprint.setImageBitmap(mCreateContractViewModel.getFingerPrintImage());
             } else {
-                ivAddFingerprint.setImageResource(R.drawable.ic_finger_no_selected);
+                //ivAddFingerprint.setImageResource(R.drawable.ic_finger_no_selected);
                 mCreateContractViewModel.setFingerPrint(null);
             }
         } else if (requestCode == ADDRESS_PICKER_REQUEST && resultCode == RESULT_OK){

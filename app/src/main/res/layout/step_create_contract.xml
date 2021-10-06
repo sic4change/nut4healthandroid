@@ -274,20 +274,20 @@
                     android:layout_marginRight="@dimen/margin_medium"
                     android:layout_marginBottom="@dimen/margin_medium"/>
 
-                <ImageView
-                    android:id="@+id/ivAddFingerprint"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    app:layout_constraintTop_toBottomOf="@+id/spPoint"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginStart="@dimen/margin_medium"
-                    android:layout_marginLeft="@dimen/margin_medium"
-                    android:layout_marginEnd="@dimen/margin_medium"
-                    android:layout_marginRight="@dimen/margin_medium"
-                    android:layout_marginBottom="@dimen/margin_medium"
-                    android:layout_marginTop="@dimen/margin_medium"
-                    android:src="@drawable/ic_finger_no_selected"/>
+<!--                <ImageView-->
+<!--                    android:id="@+id/ivAddFingerprint"-->
+<!--                    android:layout_width="100dp"-->
+<!--                    android:layout_height="100dp"-->
+<!--                    app:layout_constraintTop_toBottomOf="@+id/spPoint"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    android:layout_marginStart="@dimen/margin_medium"-->
+<!--                    android:layout_marginLeft="@dimen/margin_medium"-->
+<!--                    android:layout_marginEnd="@dimen/margin_medium"-->
+<!--                    android:layout_marginRight="@dimen/margin_medium"-->
+<!--                    android:layout_marginBottom="@dimen/margin_medium"-->
+<!--                    android:layout_marginTop="@dimen/margin_medium"-->
+<!--                    android:src="@drawable/ic_finger_no_selected"/>-->
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
