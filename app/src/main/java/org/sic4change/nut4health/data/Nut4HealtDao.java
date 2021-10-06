@@ -329,7 +329,7 @@ public interface Nut4HealtDao {
      * Returns all points
      * @return
      */
-    @Query("SELECT * FROM point")
+    @Query("SELECT * FROM point ORDER BY fullname")
     LiveData<List<Point>> getPoints();
 
     /**
@@ -346,4 +346,10 @@ public interface Nut4HealtDao {
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(Point... point);
+
+    /**
+     * Delete all points
+     */
+    @Query("DELETE FROM point")
+    void deleteAllPoint();
 }

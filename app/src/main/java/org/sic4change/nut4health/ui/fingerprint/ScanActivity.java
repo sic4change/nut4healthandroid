@@ -19,7 +19,7 @@ import asia.kanopi.fingerscan.Status;
 
 public class ScanActivity extends AppCompatActivity {
     private TextView tvStatus;
-    private TextView tvError;
+    //private TextView tvError;
     private Fingerprint fingerprint;
 
     public static String FINGERPRINT = "fingerprint";
@@ -29,7 +29,7 @@ public class ScanActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan);
         tvStatus = findViewById(R.id.tvStatus);
-        tvError = findViewById(R.id.tvError);
+        //tvError = findViewById(R.id.tvError);
         fingerprint = new Fingerprint();
 
     }
@@ -62,7 +62,7 @@ public class ScanActivity extends AppCompatActivity {
         @Override
         public void handleMessage(Message msg) {
             int status = msg.getData().getInt("status");
-            tvError.setText("");
+            //tvError.setText("");
             switch (status) {
                 case Status.INITIALISED:
                     tvStatus.setText(R.string.setting_up_reader);
@@ -89,12 +89,12 @@ public class ScanActivity extends AppCompatActivity {
                     tvStatus.setText(R.string.fingerprint_successfully_captured);
                     break;
                 case Status.ERROR:
-                    tvStatus.setText("Error");
-                    tvError.setText(msg.getData().getString("errorMessage"));
+                    //tvStatus.setText("Error");
+                    tvStatus.setText(msg.getData().getString("errorMessage"));
                     break;
                 default:
-                    tvStatus.setText(String.valueOf(status));
-                    tvError.setText(msg.getData().getString("errorMessage"));
+                    //tvStatus.setText(String.valueOf(status));
+                    tvStatus.setText(msg.getData().getString("errorMessage"));
                     break;
 
             }

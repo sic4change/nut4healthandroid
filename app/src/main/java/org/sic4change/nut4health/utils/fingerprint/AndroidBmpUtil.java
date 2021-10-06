@@ -176,7 +176,7 @@ public class AndroidBmpUtil {
         String root = Environment.getExternalStorageDirectory().toString();
         File myDir = new File(root + "/req_images");
         myDir.mkdirs();
-        String fname = "Nut4HealthFingerPrint-" +".jpg";
+        String fname = "Nut4HealthFingerPrint" +".jpg";
         File file = new File(myDir, fname);
         if (file.exists())
             file.delete();

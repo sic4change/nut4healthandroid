@@ -2,20 +2,14 @@ package org.sic4change.nut4health.data;
 
 import android.content.Context;
 import android.net.Uri;
-import android.os.Environment;
 import android.util.Log;
-
-import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
 import androidx.paging.LivePagedListBuilder;
 import androidx.paging.PagedList;
 import androidx.sqlite.db.SimpleSQLiteQuery;
 
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
@@ -37,7 +31,6 @@ import com.machinezoo.sourceafis.FingerprintTemplate;
 import org.greenrobot.eventbus.EventBus;
 import org.imperiumlabs.geofirestore.GeoFirestore;
 import org.imperiumlabs.geofirestore.listeners.GeoQueryDataEventListener;
-import org.imperiumlabs.geofirestore.listeners.GeoQueryEventListener;
 import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.data.entities.Contract;
 import org.sic4change.nut4health.data.entities.Near;
@@ -55,14 +48,12 @@ import org.sic4change.nut4health.data.names.DataPaymentNames;
 import org.sic4change.nut4health.data.names.DataPointNames;
 import org.sic4change.nut4health.data.names.DataRankingNames;
 import org.sic4change.nut4health.data.names.DataUserNames;
-import org.sic4change.nut4health.utils.fingerprint.AndroidBmpUtil;
 import org.sic4change.nut4health.utils.time.Nut4HealthTimeUtil;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -506,7 +497,8 @@ public class DataRepository {
      */
     public void createContract(String id, String role, String email, double latitude, double longitude, Uri photo,
                                String childName, String childSurname, String childAddress,
-                               String childPhoneContact, String point, String pointFullName, int percentage) {
+                               String childPhoneContact, String point, String pointFullName, int percentage,
+                               String fingerprint) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference contractRef = db.collection(DataContractNames.TABLE_FIREBASE_NAME);
         String status;
@@ -515,8 +507,6 @@ public class DataRepository {
         } else {
             status = Contract.Status.NO_DIAGNOSIS.name();
         }
-        String fnameContract = Environment.getExternalStorageDirectory().toString() + "/req_images/Nut4HealthFingerPrint-" +".jpg";
-        byte[] imageContract = AndroidBmpUtil.getByte(fnameContract);
         Contract contract = new Contract("", latitude, longitude, "",
                 childName, childSurname, childAddress, childPhoneContact, point, pointFullName,  "",
                 status, "", percentage);
@@ -524,10 +514,8 @@ public class DataRepository {
         contract.setId(newId);
         contract.setCreationDate(new Date().toString());
         contract.setCreationDateMiliseconds(new Date().getTime());
-        imageContract = null;
-        if (imageContract != null) {
-            FingerprintTemplate fingerprintTemplateContract = new FingerprintTemplate().dpi(500).create(imageContract);
-            contract.setFingerprint(fingerprintTemplateContract.serialize());
+        if (fingerprint != null && fingerprint != "") {
+            contract.setFingerprint(fingerprint);
         }
         if (role.equals("Agente Salud")) {
             try {
@@ -537,38 +525,16 @@ public class DataRepository {
                         if ((queryDocumentSnapshots != null) && (queryDocumentSnapshots.getDocuments() != null)
                                 && (queryDocumentSnapshots.getDocuments().size() > 0)) {
                             boolean updated = false;
-                        /*    for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
+                            for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
                                 Contract contractIt = document.toObject(Contract.class);
-                                FingerprintTemplate fingerprintCandidate = new FingerprintTemplate().deserialize(contractIt.getFingerprint());
-                                double score = new FingerprintMatcher().index(fingerprintTemplateContract).match(fingerprintCandidate);
-                                if (score >= 40) {
-                                    if (contractIt.getStatus().equals(Contract.Status.PAID.name())) {
-                                        EventBus.getDefault().post(new MessageEvent(mContext.getString(R.string.diagnosis_paying)));
-                                        updated = true;
-                                    } else if (contractIt.getStatus().equals(Contract.Status.FINISH.name())) {
-                                        contract.setScreener(email);
-                                        contract.setStatus(status);
-                                        contractRef.add(contract).addOnCompleteListener(task -> {
-                                            listenerQuery.remove();
-                                            createGeoPoint(task.getResult().getId(), latitude, longitude);
-                                        });
-                                        EventBus.getDefault().post(new MessageEvent(mContext.getString(R.string.diagnosis_ok)));
-                                        updated = true;
-                                    } else {
-                                        if (email.equals(contractIt.getScreener())) {
-                                            contractIt.setChildName(childName);
-                                            contractIt.setChildSurname(childSurname);
-                                            contractIt.setChildAddress(childAddress);
-                                            contractIt.setChildPhoneContract(childPhoneContact);
-                                            contractIt.setLatitude(latitude);
-                                            contractIt.setLongitude(longitude);
-                                            contractIt.setStatus(status);
-                                            contractIt.setPercentage(percentage);
+                                if (contractIt.getFingerprint() != null && contractIt.getFingerprint() != "" && fingerprint != "") {
+                                    FingerprintTemplate fingerprintCandidate = new FingerprintTemplate().deserialize(contractIt.getFingerprint());
+                                    double score = new FingerprintMatcher().index(new FingerprintTemplate().deserialize(fingerprint)).match(fingerprintCandidate);
+                                    if (score >= 40) {
+                                        if (contractIt.getStatus().equals(Contract.Status.PAID.name())) {
+                                            EventBus.getDefault().post(new MessageEvent(mContext.getString(R.string.diagnosis_paying)));
                                             updated = true;
-                                            document.getReference().set(contractIt, SetOptions.merge());
-                                            createGeoPoint(contractIt.getId(), latitude, longitude);
-                                            EventBus.getDefault().post(new MessageEvent(mContext.getString(R.string.diagnosis_updated)));
-                                        } else {
+                                        } else if (contractIt.getStatus().equals(Contract.Status.FINISH.name())) {
                                             contract.setScreener(email);
                                             contract.setStatus(status);
                                             contractRef.add(contract).addOnCompleteListener(task -> {
@@ -577,10 +543,35 @@ public class DataRepository {
                                             });
                                             EventBus.getDefault().post(new MessageEvent(mContext.getString(R.string.diagnosis_ok)));
                                             updated = true;
+                                        } else {
+                                            if (email.equals(contractIt.getScreener())) {
+                                                contractIt.setChildName(childName);
+                                                contractIt.setChildSurname(childSurname);
+                                                contractIt.setChildAddress(childAddress);
+                                                contractIt.setChildPhoneContract(childPhoneContact);
+                                                contractIt.setLatitude(latitude);
+                                                contractIt.setLongitude(longitude);
+                                                contractIt.setStatus(status);
+                                                contractIt.setPercentage(percentage);
+                                                updated = true;
+                                                document.getReference().set(contractIt, SetOptions.merge());
+                                                createGeoPoint(contractIt.getId(), latitude, longitude);
+                                                EventBus.getDefault().post(new MessageEvent(mContext.getString(R.string.diagnosis_updated)));
+                                            } else {
+                                                contract.setScreener(email);
+                                                contract.setStatus(status);
+                                                contractRef.document(newId).set(contract).addOnCompleteListener(task -> {
+                                                    listenerQuery.remove();
+                                                    createGeoPoint(newId, latitude, longitude);
+                                                });
+                                                EventBus.getDefault().post(new MessageEvent(mContext.getString(R.string.diagnosis_ok)));
+                                                updated = true;
+                                            }
                                         }
                                     }
                                 }
-                            }*/
+
+                            }
                             if (listenerQuery != null) {
                                 listenerQuery.remove();
                             }
@@ -612,40 +603,45 @@ public class DataRepository {
             }
         } else {
             try {
-                Query query = contractRef.whereEqualTo(DataContractNames.COL_MEDICAL, "").orderBy(DataContractNames.COL_DATE_MILI_FIREBASE, Query.Direction.ASCENDING);
+                Query query = contractRef.whereEqualTo(DataContractNames.COL_POINT, point).orderBy(DataContractNames.COL_DATE_MILI_FIREBASE, Query.Direction.ASCENDING);
                 listenerQuery = query.addSnapshotListener(mIoExecutor, (queryDocumentSnapshots, e) -> {
                     boolean updated = false;
-                    boolean paid = false;
+                    //boolean paid = false;
                     try {
                         if ((queryDocumentSnapshots != null) && (queryDocumentSnapshots.getDocuments() != null)
                                 && (queryDocumentSnapshots.getDocuments().size() > 0)) {
-                            /*for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
+                            for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
                                 Contract contractIt = document.toObject(Contract.class);
-                                FingerprintTemplate fingerprintCandidate = new FingerprintTemplate().deserialize(contractIt.getFingerprint());
-                                double score = new FingerprintMatcher().index(fingerprintTemplateContract).match(fingerprintCandidate);
-                                if (score >= 40) {
-                                    if (contractIt.getPercentage() < 50) {
-                                        contractIt.setStatus(status);
-                                        EventBus.getDefault().post(new MessageEvent(mContext.getString(R.string.diagnosis_updated)));
-                                    } else {
-                                        if (!paid) {
-                                            contractIt.setChildName(childName);
-                                            contractIt.setChildSurname(childSurname);
-                                            contractIt.setChildAddress(childAddress);
-                                            contractIt.setStatus(Contract.Status.PAID.name());
-                                            paid = true;
-                                            EventBus.getDefault().post(new MessageEvent(mContext.getString(R.string.diagnosis_to_pay)));
-                                        } else {
+                                if (contractIt.getFingerprint() != null && contractIt.getFingerprint() != "" && fingerprint != "") {
+                                    FingerprintTemplate fingerprintCandidate = new FingerprintTemplate().deserialize(contractIt.getFingerprint());
+                                    double score = new FingerprintMatcher().index(new FingerprintTemplate().deserialize(fingerprint)).match(fingerprintCandidate);
+                                    if (score >= 40) {
+                                        if (contractIt.getPercentage() < 50) {
                                             contractIt.setStatus(status);
                                             EventBus.getDefault().post(new MessageEvent(mContext.getString(R.string.diagnosis_updated)));
+                                        } else {
+                                            //if (!paid) {
+                                                contractIt.setChildName(childName);
+                                                contractIt.setChildSurname(childSurname);
+                                                contractIt.setChildAddress(childAddress);
+                                                contractIt.setChildPhoneContract(childPhoneContact);
+                                                contractIt.setStatus(Contract.Status.FINISH.name());
+                                                //paid = true;
+                                                EventBus.getDefault().post(new MessageEvent(mContext.getString(R.string.diagnosis_to_pay)));
+                                            //}
+                                            /*else {
+                                                contractIt.setStatus(status);
+                                                EventBus.getDefault().post(new MessageEvent(mContext.getString(R.string.diagnosis_updated)));
+                                            }*/
                                         }
+                                        updated = true;
+                                        contractIt.setPercentage(percentage);
+                                        contractIt.setMedical(email);
+                                        document.getReference().set(contractIt, SetOptions.merge()).addOnCompleteListener(task -> createGeoPoint(contractIt.getId(), latitude, longitude));
                                     }
-                                    updated = true;
-                                    contractIt.setPercentage(percentage);
-                                    contractIt.setMedical(email);
-                                    document.getReference().set(contractIt, SetOptions.merge()).addOnCompleteListener(task -> createGeoPoint(contractIt.getId(), latitude, longitude));
                                 }
-                            }*/
+//
+                            }
                             if (listenerQuery != null) {
                                 listenerQuery.remove();
                             }
@@ -706,6 +702,9 @@ public class DataRepository {
             try {
                 if ((queryDocumentSnapshots != null) && (queryDocumentSnapshots.getDocuments() != null)
                         && (queryDocumentSnapshots.getDocuments().size() > 0)) {
+                    if (!queryDocumentSnapshots.getDocuments().get(0).getMetadata().isFromCache()) {
+                        nut4HealtDao.deleteAllContract();
+                    }
                     for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
                         Contract contract = document.toObject(Contract.class);
                         if (contract.getId() != null && !contract.getId().isEmpty()) {
@@ -713,6 +712,7 @@ public class DataRepository {
                         }
                     }
                 } else {
+                    nut4HealtDao.deleteAllContract();
                     Log.d(TAG, "Get contracts: " + "empty");
                 }
             } catch (Exception error) {
@@ -772,6 +772,9 @@ public class DataRepository {
                 if ((queryDocumentSnapshots != null) && (queryDocumentSnapshots.getDocuments() != null)
                         && (queryDocumentSnapshots.getDocuments().size() > 0)) {
                     List<User> users = new ArrayList<User>();
+//                    if (!queryDocumentSnapshots.getDocuments().get(0).getMetadata().isFromCache()) {
+//                        nut4HealtDao.deleteAllRanking();
+//                    }
                     for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
                         User user = document.toObject(User.class);
                         if (!user.getUsername().contains("anonymous") && user.getRole().equals("Agente Salud")) {
@@ -814,6 +817,9 @@ public class DataRepository {
         query.addSnapshotListener(mIoExecutor, (queryDocumentSnapshots, e) -> {
                 if ((queryDocumentSnapshots != null) && (queryDocumentSnapshots.getDocuments() != null)
                         && (queryDocumentSnapshots.getDocuments().size() > 0)) {
+                    if (!queryDocumentSnapshots.getDocuments().get(0).getMetadata().isFromCache()) {
+                        nut4HealtDao.deleteAllPayment();
+                    }
                     for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
                         try {
                             Payment payment = document.toObject(Payment.class);
@@ -833,6 +839,7 @@ public class DataRepository {
 
                     }
                 } else {
+                    nut4HealtDao.deleteAllPayment();
                     Log.d(TAG, "Get payments: " + "empty");
                 }
         });
@@ -1176,11 +1183,15 @@ public class DataRepository {
             try {
                 if ((queryDocumentSnapshots != null) && (queryDocumentSnapshots.getDocuments() != null)
                         && (queryDocumentSnapshots.getDocuments().size() > 0)) {
+                    if (!queryDocumentSnapshots.getDocuments().get(0).getMetadata().isFromCache()) {
+                        nut4HealtDao.deleteAllPoint();
+                    }
                     for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
                         Point point = document.toObject(Point.class);
                         nut4HealtDao.insert(point);
                     }
                 } else {
+                    nut4HealtDao.deleteAllPoint();
                     Log.d(TAG, "Get point from firebase: " + "empty");
                 }
             } catch (Exception error) {

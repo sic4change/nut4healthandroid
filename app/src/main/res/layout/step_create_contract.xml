@@ -267,7 +267,6 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvPoint"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     android:fontFamily="@font/bariol_regular"
                     android:layout_marginStart="2dp"
                     android:layout_marginLeft="2dp"
@@ -288,8 +287,7 @@
                     android:layout_marginRight="@dimen/margin_medium"
                     android:layout_marginBottom="@dimen/margin_medium"
                     android:layout_marginTop="@dimen/margin_medium"
-                    android:src="@drawable/ic_finger_no_selected"
-                    android:visibility="gone"/>
+                    android:src="@drawable/ic_finger_no_selected"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

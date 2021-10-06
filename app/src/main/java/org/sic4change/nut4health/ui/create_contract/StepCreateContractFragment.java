@@ -181,16 +181,6 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
                 }
             });
             clView.stopOk();
-            new CountDownTimer(VERIFICATION_DELAY_MILISECONDS, VERIFICATION_TICK_MILISECONDS) {
-
-                public void onTick(long millisUntilFinished) {
-
-                }
-
-                public void onFinish() {
-                    showDialogCreateContractResult(eventResult);
-                }
-            }.start();
 
         });
         btnTakePhoto.setOnClickListener(v14 -> {
@@ -546,33 +536,27 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
         }
     }
 
-    public void showDialogCreateContractResult(String text) {
-        new AwesomeSuccessDialog(getActivity())
-                .setTitle(getResources().getString(R.string.app_name))
-                .setMessage(getResources().getString(R.string.diagnosis_finished))
-                .setPositiveButtonText(getResources().getString(R.string.ok))
-                .setPositiveButtonClick(() -> {
-                    goToMainActivity();
-                })
-                .show();
-//        new AlertDialog.Builder(getActivity())
-//                .setTitle(getString(R.string.diagnosis_finished))
-//                .setMessage(text)
-//                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        goToMainActivity();
-//                    }
-//                })
-//                .setPositiveButton(R.string.ok, (dialog, which) -> getActivity().finish())
-//                .setIcon(R.mipmap.icon)
-//                .setCancelable(false)
-//                .show();
-    }
-
     @org.greenrobot.eventbus.Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(MessageEvent event) {
         eventResult = event.getMessage();
+        new CountDownTimer(VERIFICATION_DELAY_MILISECONDS, VERIFICATION_TICK_MILISECONDS) {
+
+            public void onTick(long millisUntilFinished) {
+
+            }
+
+            public void onFinish() {
+                new AwesomeSuccessDialog(getActivity())
+                        .setTitle(getResources().getString(R.string.app_name))
+                        .setMessage(eventResult)
+                        .setPositiveButtonText(getResources().getString(R.string.ok))
+                        .setPositiveButtonClick(() -> {
+                            goToMainActivity();
+                        })
+                        .show();
+            }
+        }.start();
+
     }
 
 

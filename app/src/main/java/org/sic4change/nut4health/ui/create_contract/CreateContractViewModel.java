@@ -9,6 +9,8 @@ import java.util.List;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.machinezoo.sourceafis.FingerprintTemplate;
+
 import org.sic4change.nut4health.data.DataRepository;
 import org.sic4change.nut4health.data.entities.Contract;
 import org.sic4change.nut4health.data.entities.Point;
@@ -59,8 +61,15 @@ public class CreateContractViewModel extends ViewModel {
                                String childName, String childSurname, String childAddress,
                                String childPhoneContact, String point, String pointFullName,
                                int percentage) {
-        mRepository.createContract(id, role, screener, latitude, longitude, photo, childName, childSurname,
-                childAddress, childPhoneContact, point, pointFullName, percentage);
+        if (fingerPrint != null) {
+            FingerprintTemplate fingerprintTemplateContract = new FingerprintTemplate().dpi(500).create(fingerPrint);
+            mRepository.createContract(id, role, screener, latitude, longitude, photo, childName, childSurname,
+                    childAddress, childPhoneContact, point, pointFullName, percentage, fingerprintTemplateContract.serialize());
+        } else {
+            mRepository.createContract(id, role, screener, latitude, longitude, photo, childName, childSurname,
+                    childAddress, childPhoneContact, point, pointFullName, percentage, "");
+        }
+
     }
 
     public void updatePointsUserLocal(String email) {
@@ -161,7 +170,7 @@ public class CreateContractViewModel extends ViewModel {
     }
 
     public String getFingerPrintString() {
-        String fname = Environment.getExternalStorageDirectory().toString() + "/req_images/Nut4HealthFingerPrint-" +".jpg";
+        String fname = Environment.getExternalStorageDirectory().toString() + "/req_images/Nut4HealthFingerPrint" +".jpg";
         byte[] image = AndroidBmpUtil.getByte(fname);
         return new String(image);
     }
