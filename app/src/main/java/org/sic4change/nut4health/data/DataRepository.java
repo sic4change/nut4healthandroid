@@ -775,9 +775,9 @@ public class DataRepository {
                 if ((queryDocumentSnapshots != null) && (queryDocumentSnapshots.getDocuments() != null)
                         && (queryDocumentSnapshots.getDocuments().size() > 0)) {
                     List<User> users = new ArrayList<User>();
-//                    if (!queryDocumentSnapshots.getDocuments().get(0).getMetadata().isFromCache()) {
-//                        nut4HealtDao.deleteAllRanking();
-//                    }
+                    if (!queryDocumentSnapshots.getDocuments().get(0).getMetadata().isFromCache()) {
+                        nut4HealtDao.deleteAllRanking();
+                    }
                     for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
                         User user = document.toObject(User.class);
                         if (!user.getUsername().contains("anonymous") && user.getRole().equals("Agente Salud")) {
