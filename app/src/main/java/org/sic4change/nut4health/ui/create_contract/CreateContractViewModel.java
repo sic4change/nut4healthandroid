@@ -30,6 +30,7 @@ public class CreateContractViewModel extends ViewModel {
     private Nut4HealthSingleShotLocationProvider.GPSCoordinates location = new Nut4HealthSingleShotLocationProvider.GPSCoordinates(0,0);
     private String childName;
     private String childSurname;
+    private String childTutor;
     private String childLocation;
     private String childPhoneContact;
     private String point;
@@ -58,15 +59,15 @@ public class CreateContractViewModel extends ViewModel {
     }
 
     public void createContract(String id, String role, String screener, float latitude, float longitude, Uri photo,
-                               String childName, String childSurname, String childAddress,
+                               String childName, String childSurname, String childTutor, String childAddress,
                                String childPhoneContact, String point, String pointFullName,
                                int percentage) {
         if (fingerPrint != null) {
             FingerprintTemplate fingerprintTemplateContract = new FingerprintTemplate().dpi(500).create(fingerPrint);
-            mRepository.createContract(id, role, screener, latitude, longitude, photo, childName, childSurname,
+            mRepository.createContract(id, role, screener, latitude, longitude, photo, childName, childSurname, childTutor,
                     childAddress, childPhoneContact, point, pointFullName, percentage, fingerprintTemplateContract.serialize());
         } else {
-            mRepository.createContract(id, role, screener, latitude, longitude, photo, childName, childSurname,
+            mRepository.createContract(id, role, screener, latitude, longitude, photo, childName, childSurname, childTutor,
                     childAddress, childPhoneContact, point, pointFullName, percentage, "");
         }
 
@@ -115,6 +116,14 @@ public class CreateContractViewModel extends ViewModel {
 
     public void setChildSurname(String childSurname) {
         this.childSurname = childSurname;
+    }
+
+    public String getChildTutor() {
+        return childTutor;
+    }
+
+    public void setChildTutor(String childTutor) {
+        this.childTutor = childTutor;
     }
 
     public String getChildLocation() {

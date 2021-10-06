@@ -53,6 +53,11 @@ public final class DataContractNames {
     public static final String COL_CHILD_SURNAME = "child_surname";
 
     /**
+     * Column child tutor for contract
+     */
+    public static final String COL_CHILD_TUTOR = "child_tutor";
+
+    /**
      * Column child address for contract
      */
     public static final String COL_CHILD_ADDRESS = "child_address";

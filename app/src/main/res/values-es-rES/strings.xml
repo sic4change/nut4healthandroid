@@ -84,12 +84,13 @@
     <string name="third_step_title">Enviar</string>
     <string name="take_photo">Tomar foto</string>
     <string name="error_photo">Debes realizar la medida de la circunferencia del brazo superior</string>
-    <string name="error_child_data">Debes introducir los datos del niño/a</string>
-    <string name="error_fingerprint_data">Debes introducir la huella dactilar del niño/a</string>
+    <string name="error_child_data">Debes introducir los datos del niñ@</string>
+    <string name="error_fingerprint_data">Debes introducir la huella dactilar del niñ@</string>
     <string name="error_not_gps_position">Debes activar la localización en tu dispositivo</string>
     <string name="child_data">DATOS DEL MENOR</string>
     <string name="name">Nombre del niñ@</string>
     <string name="surname">Apellidos del niñ@</string>
+    <string name="tutor">Madre o padre del niñ@</string>
     <string name="contact_phone">Teléfono de contacto</string>
     <string name="medical_point">Servicio de Salud</string>
     <string name="location">Ubicación</string>

@@ -90,6 +90,7 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
     private CardView cvChild;
     private EditText etChildName;
     private EditText etChildSurname;
+    private EditText etChildTutor;
     private EditText etChildLocation;
     private EditText etChildContactPhone;
     private SearchableSpinner spPoint;
@@ -172,7 +173,9 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
                     mCreateContractViewModel.createContract(user.getId(), user.getRole(), user.getEmail(),
                             mCreateContractViewModel.getLocation().latitude, mCreateContractViewModel.getLocation().longitude,
                             mCreateContractViewModel.getUriPhoto(), mCreateContractViewModel.getChildName(),
-                            mCreateContractViewModel.getChildSurname(), mCreateContractViewModel.getChildLocation(),
+                            mCreateContractViewModel.getChildSurname(),
+                            mCreateContractViewModel.getChildTutor(),
+                            mCreateContractViewModel.getChildLocation(),
                             mCreateContractViewModel.getChildPhoneContact(),
                             mCreateContractViewModel.getPoint(),
                             mCreateContractViewModel.getPointFullName(),
@@ -199,6 +202,7 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
         cvChild = v.findViewById(R.id.cvChild);
         etChildName = v.findViewById(R.id.etChildName);
         etChildSurname = v.findViewById(R.id.etChildSurname);
+        etChildTutor = v.findViewById(R.id.etChildTutor);
         etChildContactPhone = v.findViewById(R.id.etContactPhone);
 
         etChildLocation = v.findViewById(R.id.etChildLocation);
@@ -260,12 +264,14 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
             if ((etChildLocation.getText() == null) || (etChildLocation.getText().toString() == null) || (etChildLocation.getText().toString().isEmpty())
                     || (etChildName.getText() == null) || (etChildName.getText().toString() == null) || (etChildName.getText().toString().isEmpty())
                     || (etChildSurname.getText() == null) || (etChildSurname.getText().toString() == null) || (etChildSurname.getText().toString().isEmpty())
+                    || (etChildTutor.getText() == null) || (etChildTutor.getText().toString() == null) || (etChildTutor.getText().toString().isEmpty())
                     || (etChildContactPhone.getText() == null) || (etChildContactPhone.getText().toString() == null) || (etChildContactPhone.getText().toString().isEmpty())) {
                 return new VerificationError(getString(R.string.error_child_data));
             }
             mCreateContractViewModel.setChildLocation(etChildLocation.getText().toString());
             mCreateContractViewModel.setChildName(etChildName.getText().toString());
             mCreateContractViewModel.setChildSurname(etChildSurname.getText().toString());
+            mCreateContractViewModel.setChildTutor(etChildTutor.getText().toString());
             mCreateContractViewModel.setChildPhoneContact(etChildContactPhone.getText().toString());
             return null;
         }
@@ -341,6 +347,9 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
             }
             if (mCreateContractViewModel.getChildSurname() != null) {
                 etChildSurname.setText(mCreateContractViewModel.getChildSurname());
+            }
+            if (mCreateContractViewModel.getChildTutor() != null) {
+                etChildTutor.setText(mCreateContractViewModel.getChildTutor());
             }
             if (mCreateContractViewModel.getChildPhoneContact() != null) {
                 etChildContactPhone.setText(mCreateContractViewModel.getChildPhoneContact());

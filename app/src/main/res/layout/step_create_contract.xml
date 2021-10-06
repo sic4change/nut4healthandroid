@@ -186,6 +186,35 @@
                     app:layout_constraintTop_toBottomOf="@+id/tvChildSurname" />
 
                 <TextView
+                    android:id="@+id/tvChildTutor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimary"
+                    android:fontFamily="@font/bariol_bold"
+                    android:textSize="18dp"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_default"
+                    android:text="@string/tutor"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/etChildSurname" />
+
+                <EditText
+                    android:id="@+id/etChildTutor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:layout_marginRight="@dimen/margin_medium"
+                    android:ems="10"
+                    android:inputType="textCapWords"
+                    android:fontFamily="@font/bariol_regular"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvChildTutor" />
+
+                <TextView
                     android:id="@+id/tvLocation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -197,7 +226,7 @@
                     android:textSize="18dp"
                     android:text="@string/location"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/etChildSurname" />
+                    app:layout_constraintTop_toBottomOf="@+id/etChildTutor" />
 
                 <EditText
                     android:id="@+id/etChildLocation"
