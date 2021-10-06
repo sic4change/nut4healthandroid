@@ -53,6 +53,7 @@ public class ContractDetailActivity extends AppCompatActivity {
             TextView tvStatus = findViewById(R.id.tvStatus);
             EditText etName = findViewById(R.id.etName);
             EditText etSurname = findViewById(R.id.etSurname);
+            EditText etTutor = findViewById(R.id.etTutor);
             EditText etLocation = findViewById(R.id.etLocation);
             EditText spPoint = findViewById(R.id.spPoint);
             EditText etPhoneContact = findViewById(R.id.etPhoneContact);
@@ -60,6 +61,7 @@ public class ContractDetailActivity extends AppCompatActivity {
             Button btnConfirm = findViewById(R.id.btnConfirm);
             etName.setText(contract.getChildName());
             etSurname.setText(contract.getChildSurname());
+            etTutor.setText(contract.getChildTutor());
             etLocation.setText(contract.getChildAddress());
             etPhoneContact.setText(contract.getChildPhoneContract());
             spPoint.setText(contract.getPointFullName());

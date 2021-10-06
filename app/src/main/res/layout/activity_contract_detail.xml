@@ -157,6 +157,38 @@
                     android:focusable="false"/>
 
                 <TextView
+                    android:id="@+id/tvTutor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:textColor="@color/colorPrimary"
+                    android:fontFamily="@font/bariol_bold"
+                    android:text="@string/tutor"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/etSurname" />
+
+                <EditText
+                    android:id="@+id/etTutor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:layout_marginRight="@dimen/margin_medium"
+                    android:layout_marginBottom="@dimen/margin_medium"
+                    android:fontFamily="@font/bariol_regular"
+                    android:editable="false"
+                    android:enabled="false"
+                    android:inputType="textPersonName"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvTutor"
+                    android:focusable="false"/>
+
+                <TextView
                     android:id="@+id/tvLocation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -167,7 +199,7 @@
                     android:textColor="@color/colorPrimary"
                     android:text="@string/location"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/etSurname" />
+                    app:layout_constraintTop_toBottomOf="@+id/etTutor" />
 
                 <EditText
                     android:id="@+id/etLocation"
