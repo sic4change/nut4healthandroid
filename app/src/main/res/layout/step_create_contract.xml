@@ -128,18 +128,45 @@
                 android:focusableInTouchMode="true">
 
                 <TextView
+                    android:id="@+id/tvPoint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_default"
+                    android:text="@string/medical_point"
+                    android:textSize="18dp"
+                    android:fontFamily="@font/bariol_bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <org.sic4change.nut4health.ui.serchablespinner.SearchableSpinner
+                    android:id="@+id/spPoint"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvPoint"
+                    android:fontFamily="@font/bariol_regular"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:layout_marginRight="@dimen/margin_medium"/>
+
+                <TextView
                     android:id="@+id/tvChildName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_medium"
                     android:layout_marginLeft="@dimen/margin_medium"
-                    android:layout_marginTop="@dimen/margin_card"
+                    android:layout_marginTop="@dimen/margin_medium"
                     android:textColor="@color/colorPrimary"
                     android:fontFamily="@font/bariol_bold"
                     android:text="@string/name"
                     android:textSize="18dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toBottomOf="@+id/spPoint"  />
 
                 <EditText
                     android:id="@+id/etChildName"
@@ -304,33 +331,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvContactPhone" />
 
-                <TextView
-                    android:id="@+id/tvPoint"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/colorPrimary"
-                    android:layout_marginStart="@dimen/margin_medium"
-                    android:layout_marginLeft="@dimen/margin_medium"
-                    android:layout_marginTop="@dimen/margin_default"
-                    android:text="@string/medical_point"
-                    android:textSize="18dp"
-                    android:fontFamily="@font/bariol_bold"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/etContactPhone" />
 
-                <org.sic4change.nut4health.ui.serchablespinner.SearchableSpinner
-                    android:id="@+id/spPoint"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvPoint"
-                    android:fontFamily="@font/bariol_regular"
-                    android:layout_marginStart="2dp"
-                    android:layout_marginLeft="2dp"
-                    android:layout_marginEnd="@dimen/margin_medium"
-                    android:layout_marginRight="@dimen/margin_medium"
-                    android:layout_marginBottom="@dimen/margin_medium"/>
 
 <!--                <ImageView-->
 <!--                    android:id="@+id/ivAddFingerprint"-->
