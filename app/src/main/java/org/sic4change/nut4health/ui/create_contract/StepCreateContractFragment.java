@@ -338,8 +338,6 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
 //                btnTakePhoto.setVisibility(View.VISIBLE);
 //            }
         } else if (getPosition() == 1) {
-            //Aqui de esta forma debes comprobar si hay que pintar o no esa caja de texto
-            // mCreateContractViewModel.getPercentage()
             if (mCreateContractViewModel.getPercentage() > 49) {
                 etChildDNI.setVisibility(View.VISIBLE);
                 tvChildDNI.setVisibility(View.VISIBLE);
