@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.stepstone.stepper.StepperLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/stepperLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:ms_backButtonText="@string/back_step"
+    app:ms_completeButtonText="@string/complete_step"
+    app:ms_nextButtonText="@string/next_step"
+    app:ms_showErrorStateOnBackEnabled="true"
+    app:ms_showErrorStateEnabled="true"
+    app:ms_stepperType="tabs" />

@@ -1,0 +1,446 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:seek="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tvPercentage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_card"
+        android:textColor="@color/colorPrimaryDark"
+        android:textStyle="bold"
+        android:textSize="30sp"
+        android:text="0%"
+        android:fontFamily="@font/bariol_bold"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/tvCm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_card"
+        android:textColor="@color/error"
+        android:fontFamily="@font/bariol_regular"
+        android:textSize="20sp"
+        android:text=""
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvPercentage"/>
+
+    <View
+        android:id="@+id/rulerBackground"
+        android:layout_width="match_parent"
+        android:layout_height="190dp"
+        android:layout_marginStart="@dimen/margin_card"
+        android:layout_marginTop="@dimen/margin_card"
+        android:layout_marginEnd="@dimen/margin_card"
+        android:layout_marginBottom="@dimen/margin_card"
+        android:background="@color/error"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvCm"/>
+
+    <org.sic4change.nut4health.utils.ruler_picker.SimpleRulerViewer
+        android:id="@+id/ruler"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:layout_marginStart="@dimen/margin_card"
+        android:layout_marginTop="@dimen/margin_card"
+        android:layout_marginEnd="@dimen/margin_card"
+        android:layout_marginBottom="@dimen/margin_card"
+        seek:minValue ="6.0"
+        seek:maxValue ="28.0"
+        seek:intervalValue="0.1"
+        seek:retainLength ="5"
+        seek:rulerColor="@color/ms_black"
+        seek:textColor ="@color/ms_black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvCm"
+        />
+
+    <Button
+        android:id="@+id/btnTakePhoto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_card"
+        android:layout_marginEnd="@dimen/margin_card"
+        android:layout_marginBottom="@dimen/margin_card"
+        android:background="@drawable/rounded_button"
+        android:text="@string/take_photo"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:visibility="gone"/>
+
+    <ImageView
+        android:id="@+id/ivTakePhoto"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/margin_card"
+        android:layout_marginTop="@dimen/margin_card"
+        android:layout_marginEnd="@dimen/margin_card"
+        android:layout_marginBottom="@dimen/margin_card"
+        app:layout_constraintBottom_toTopOf="@+id/btnTakePhoto"
+        android:background="@drawable/dash_rectangle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvPercentage"
+        android:visibility="gone"/>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvChild"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/margin_card"
+        android:layout_marginTop="@dimen/margin_card"
+        android:layout_marginEnd="@dimen/margin_card"
+        android:layout_marginBottom="@dimen/margin_card"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:foreground="?selectableItemBackground"
+        app:cardBackgroundColor="@android:color/white"
+        app:cardCornerRadius="@dimen/card_radius"
+        app:cardElevation=".1dp"
+        app:cardPreventCornerOverlap="true"
+        android:visibility="gone">
+
+        <ScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="true"
+                android:focusableInTouchMode="true">
+
+                <TextView
+                    android:id="@+id/tvPoint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_default"
+                    android:text="@string/medical_point"
+                    android:textSize="18dp"
+                    android:fontFamily="@font/bariol_bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <org.sic4change.nut4health.ui.serchablespinner.SearchableSpinner
+                    android:id="@+id/spPoint"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvPoint"
+                    android:fontFamily="@font/bariol_regular"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:layout_marginRight="@dimen/margin_medium"/>
+
+                <TextView
+                    android:id="@+id/tvChildName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:textColor="@color/colorPrimary"
+                    android:fontFamily="@font/bariol_bold"
+                    android:text="@string/name"
+                    android:textSize="18dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/spPoint"  />
+
+                <EditText
+                    android:id="@+id/etChildName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:layout_marginRight="@dimen/margin_medium"
+                    android:ems="10"
+                    android:inputType="textCapWords"
+                    android:fontFamily="@font/bariol_regular"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvChildName" />
+
+                <TextView
+                    android:id="@+id/tvChildSurname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimary"
+                    android:fontFamily="@font/bariol_bold"
+                    android:textSize="18dp"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_default"
+                    android:text="@string/surname"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/etChildName" />
+
+                <EditText
+                    android:id="@+id/etChildSurname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:layout_marginRight="@dimen/margin_medium"
+                    android:ems="10"
+                    android:inputType="textCapWords"
+                    android:fontFamily="@font/bariol_regular"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvChildSurname" />
+
+                <TextView
+                    android:id="@+id/tvChildDNI"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimary"
+                    android:fontFamily="@font/bariol_bold"
+                    android:textSize="18dp"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_default"
+                    android:text="@string/dni"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/etChildSurname" />
+
+                <EditText
+                    android:id="@+id/etChildDNI"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:layout_marginRight="@dimen/margin_medium"
+                    android:ems="10"
+                    android:inputType="textCapWords"
+                    android:fontFamily="@font/bariol_regular"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvChildDNI" />
+
+                <TextView
+                    android:id="@+id/tvChildTutor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimary"
+                    android:fontFamily="@font/bariol_bold"
+                    android:textSize="18dp"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_default"
+                    android:text="@string/tutor"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/etChildDNI" />
+
+                <EditText
+                    android:id="@+id/etChildTutor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:layout_marginRight="@dimen/margin_medium"
+                    android:ems="10"
+                    android:inputType="textCapWords"
+                    android:fontFamily="@font/bariol_regular"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvChildTutor" />
+
+                <TextView
+                    android:id="@+id/tvLocation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_default"
+                    android:fontFamily="@font/bariol_bold"
+                    android:textSize="18dp"
+                    android:text="@string/location"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/etChildTutor" />
+
+                <EditText
+                    android:id="@+id/etChildLocation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginRight="@dimen/margin_medium"
+                    android:ems="10"
+                    android:lines="3"
+                    android:maxLines="5"
+                    android:inputType="none"
+                    android:fontFamily="@font/bariol_regular"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvLocation" />
+
+                <TextView
+                    android:id="@+id/tvContactPhone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_default"
+                    android:text="@string/contact_phone"
+                    android:textSize="18dp"
+                    android:fontFamily="@font/bariol_bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/etChildLocation" />
+
+                <EditText
+                    android:id="@+id/etContactPhone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:layout_marginRight="@dimen/margin_medium"
+                    android:ems="10"
+                    android:inputType="textCapWords"
+                    android:fontFamily="@font/bariol_regular"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvContactPhone" />
+
+
+
+<!--                <ImageView-->
+<!--                    android:id="@+id/ivAddFingerprint"-->
+<!--                    android:layout_width="100dp"-->
+<!--                    android:layout_height="100dp"-->
+<!--                    app:layout_constraintTop_toBottomOf="@+id/spPoint"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    android:layout_marginStart="@dimen/margin_medium"-->
+<!--                    android:layout_marginLeft="@dimen/margin_medium"-->
+<!--                    android:layout_marginEnd="@dimen/margin_medium"-->
+<!--                    android:layout_marginRight="@dimen/margin_medium"-->
+<!--                    android:layout_marginBottom="@dimen/margin_medium"-->
+<!--                    android:layout_marginTop="@dimen/margin_medium"-->
+<!--                    android:src="@drawable/ic_finger_no_selected"/>-->
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
+
+
+    </androidx.cardview.widget.CardView>
+
+<!--    <com.airbnb.lottie.LottieAnimationView-->
+<!--        android:id="@+id/ivNewContract"-->
+<!--        android:layout_width="300dp"-->
+<!--        android:layout_height="300dp"-->
+<!--        android:layout_marginStart="@dimen/margin_card"-->
+<!--        android:layout_marginTop="@dimen/margin_card"-->
+<!--        android:layout_marginEnd="@dimen/margin_card"-->
+<!--        android:layout_marginBottom="@dimen/margin_card"-->
+<!--        app:lottie_rawRes="@raw/registration"-->
+<!--        app:lottie_autoPlay="true"-->
+<!--        app:lottie_loop="false"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/btnCheckMalnutrition"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"/>-->
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:foreground="?selectableItemBackground"
+        app:cardBackgroundColor="@android:color/white"
+        app:cardCornerRadius="@dimen/card_radius"
+        app:cardElevation=".1dp"
+        app:cardPreventCornerOverlap="true"
+        android:layout_marginStart="@dimen/margin_card"
+        android:layout_marginLeft="@dimen/margin_card"
+        android:layout_marginTop="@dimen/margin_card"
+        android:layout_marginEnd="@dimen/margin_card"
+        android:layout_marginRight="@dimen/margin_card"
+        android:layout_marginBottom="@dimen/margin_card"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/ivNewContract"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_card"
+            android:layout_marginTop="@dimen/margin_card"
+            android:layout_marginEnd="@dimen/margin_card"
+            android:layout_marginBottom="@dimen/margin_card"
+            android:gravity="center"
+            android:src="@drawable/course_design_whatisthisshit"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="200sp"
+            android:visibility="visible" />
+
+    </androidx.cardview.widget.CardView>
+
+    <Button
+        android:id="@+id/btnCheckMalnutrition"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_card"
+        android:layout_marginEnd="@dimen/margin_card"
+        android:layout_marginBottom="@dimen/margin_card"
+        android:background="@drawable/rounded_button"
+        android:text="@string/registerContract"
+        android:textColor="@color/white"
+        android:fontFamily="@font/bariol_bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <org.sic4change.animation_check.AnimatedCircleLoadingView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/clView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="@dimen/margin_card"
+        android:layout_marginTop="@dimen/margin_card"
+        android:layout_marginEnd="@dimen/margin_card"
+        android:layout_marginBottom="@dimen/margin_card"
+        android:visibility="visible"
+        app:animCircleLoadingView_mainColor="@color/colorPrimaryDark"
+        app:animCircleLoadingView_secondaryColor="@color/colorAccent"
+        app:animCircleLoadingView_textColor="@color/colorPrimaryDark"
+        app:layout_constraintBottom_toTopOf="@+id/btnCheckMalnutrition"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
