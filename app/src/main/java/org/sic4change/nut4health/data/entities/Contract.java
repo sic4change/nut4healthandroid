@@ -44,6 +44,9 @@ public class Contract {
     @ColumnInfo(name = DataContractNames.COL_CHILD_SURNAME)
     private String childSurname;
 
+    @ColumnInfo(name = DataContractNames.COL_CHILD_DNI)
+    private String childDNI;
+
     @ColumnInfo(name = DataContractNames.COL_CHILD_TUTOR)
     private String childTutor;
 
@@ -87,42 +90,42 @@ public class Contract {
     private String medicalDate;
 
     public Contract() {
-        this("", "", 0.0f, 0.0f, "", "", "",
+        this("", "", 0.0f, 0.0f, "", "", "", "",
                 "", "", "", "", "", "", "", Status.EMPTY.name(), "", "",0, 0, "", 0);
     }
 
     @Ignore
     public Contract(@NonNull String id) {
         this(id, "", 0.0f, 0.0f, "", "", "",
-                "", "", "", "", "", "", "", Status.EMPTY.name(), "", "",0,  0, "", 0);
+                "", "", "", "", "", "", "", "", Status.EMPTY.name(), "", "",0,  0, "", 0);
     }
 
     @Ignore
     public Contract(@NonNull String photo, double latitude, double longitude, @NonNull String screener) {
-        this("", photo, latitude, longitude, screener, "", "", "","",
+        this("", photo, latitude, longitude, screener, "", "", "", "","",
                 "", "", "", "", "", Status.EMPTY.name(), "", "",0,  0, "", 0);
     }
 
     @Ignore
     public Contract(@NonNull String photo, double latitude, double longitude, @NonNull String screener,
-                    String childName, String childSurname, String childTutor, String childAddress, String childPhoneContract,
+                    String childName, String childSurname, String childDNI, String childTutor, String childAddress, String childPhoneContract,
                     String point, String pointFullName, String fingerprint, String status, String creationDate,
                     int percentage) {
-        this("", photo, latitude, longitude, screener, "", childName, childSurname, childTutor,
+        this("", photo, latitude, longitude, screener, "", childName, childSurname, childDNI, childTutor,
                 childAddress, childPhoneContract, point, pointFullName, fingerprint, status, "", creationDate, Nut4HealthTimeUtil.convertCreationDateToTimeMilis(creationDate), percentage, "", 0);
     }
     @Ignore
     public Contract(@NonNull String id, @NonNull String photo, double latitude, double longitude,
-                    @NonNull String screener, String childName, String childSurname, String childTutor,
+                    @NonNull String screener, String childName, String childSurname, String childDNI, String childTutor,
                     String childAddress, String childPhoneContract,  String point, String pointFullName, String fingerprint,
                     String status, String creationDate, long creationDateMiliseconds, int percentage) {
-        this(id, photo, latitude, longitude, screener, "", childName, childSurname, childTutor,
+        this(id, photo, latitude, longitude, screener, "", childName, childSurname, childDNI, childTutor,
                 childAddress, childPhoneContract, point, pointFullName, fingerprint, status, "", creationDate,
                 creationDateMiliseconds, percentage, "", 0);
     }
 
     public Contract(@NonNull String id, @NonNull String photo, double latitude, double longitude,
-                    @NonNull String screener, String medical, String childName, String childSurname, String childTutor,
+                    @NonNull String screener, String medical, String childName, String childSurname, String childDNI, String childTutor,
                     String childAddress, String childPhoneContract, String point, String pointFullName, String fingerprint,
                     String status, String diagnosis, String creationDate, long creationDateMiliseconds, int percentage, String medicalDate,
                     long medicalDateMiliseconds) {
@@ -134,6 +137,7 @@ public class Contract {
         this.medical = medical;
         this.childName = childName;
         this.childSurname = childSurname;
+        this.childDNI = childDNI;
         this.childTutor = childTutor;
         this.childAddress = childAddress;
         this.childPhoneContract = childPhoneContract;
@@ -214,6 +218,14 @@ public class Contract {
 
     public void setChildSurname(String childSurname) {
         this.childSurname = childSurname;
+    }
+
+    public String getChildDNI() {
+        return childDNI;
+    }
+
+    public void setChildDNI(String childDNI) {
+        this.childDNI = childDNI;
     }
 
     public String getChildTutor() {

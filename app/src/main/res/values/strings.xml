@@ -90,6 +90,7 @@
     <string name="name">Child Name</string>
     <string name="surname">Child Surname</string>
     <string name="tutor">Mother or father of the child</string>
+    <string name="dni">Identification document of the child</string>
     <string name="contact_phone">Contact phone</string>
     <string name="medical_point">Health Service</string>
     <string name="location">Location</string>

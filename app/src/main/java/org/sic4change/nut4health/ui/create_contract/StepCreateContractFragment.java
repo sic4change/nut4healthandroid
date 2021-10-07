@@ -90,6 +90,8 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
     private CardView cvChild;
     private EditText etChildName;
     private EditText etChildSurname;
+    private TextView tvChildDNI;
+    private EditText etChildDNI;
     private EditText etChildTutor;
     private EditText etChildLocation;
     private EditText etChildContactPhone;
@@ -174,6 +176,7 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
                             mCreateContractViewModel.getLocation().latitude, mCreateContractViewModel.getLocation().longitude,
                             mCreateContractViewModel.getUriPhoto(), mCreateContractViewModel.getChildName(),
                             mCreateContractViewModel.getChildSurname(),
+                            mCreateContractViewModel.getChildDNI(),
                             mCreateContractViewModel.getChildTutor(),
                             mCreateContractViewModel.getChildLocation(),
                             mCreateContractViewModel.getChildPhoneContact(),
@@ -202,6 +205,8 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
         cvChild = v.findViewById(R.id.cvChild);
         etChildName = v.findViewById(R.id.etChildName);
         etChildSurname = v.findViewById(R.id.etChildSurname);
+        etChildDNI = v.findViewById(R.id.etChildDNI);
+        tvChildDNI = v.findViewById(R.id.tvChildDNI);
         etChildTutor = v.findViewById(R.id.etChildTutor);
         etChildContactPhone = v.findViewById(R.id.etContactPhone);
 
@@ -271,6 +276,7 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
             mCreateContractViewModel.setChildLocation(etChildLocation.getText().toString());
             mCreateContractViewModel.setChildName(etChildName.getText().toString());
             mCreateContractViewModel.setChildSurname(etChildSurname.getText().toString());
+            mCreateContractViewModel.setChildDNI(etChildDNI.getText().toString());
             mCreateContractViewModel.setChildTutor(etChildTutor.getText().toString());
             mCreateContractViewModel.setChildPhoneContact(etChildContactPhone.getText().toString());
             return null;
@@ -332,6 +338,15 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
 //                btnTakePhoto.setVisibility(View.VISIBLE);
 //            }
         } else if (getPosition() == 1) {
+            //Aqui de esta forma debes comprobar si hay que pintar o no esa caja de texto
+            // mCreateContractViewModel.getPercentage()
+            if (mCreateContractViewModel.getPercentage() > 49) {
+                etChildDNI.setVisibility(View.VISIBLE);
+                tvChildDNI.setVisibility(View.VISIBLE);
+            } else {
+                etChildDNI.setVisibility(View.GONE);
+                tvChildDNI.setVisibility(View.GONE);
+            }
             btnTakePhoto.setVisibility(View.GONE);
             ivTakePhoto.setVisibility(View.GONE);
             tvPercentage.setVisibility(View.GONE);
@@ -347,6 +362,9 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
             }
             if (mCreateContractViewModel.getChildSurname() != null) {
                 etChildSurname.setText(mCreateContractViewModel.getChildSurname());
+            }
+            if (mCreateContractViewModel.getChildDNI() != null) {
+                etChildDNI.setText(mCreateContractViewModel.getChildDNI());
             }
             if (mCreateContractViewModel.getChildTutor() != null) {
                 etChildTutor.setText(mCreateContractViewModel.getChildTutor());
