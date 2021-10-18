@@ -79,11 +79,11 @@
     <string name="next_step">Siguiente</string>
     <string name="back_step">Anterior</string>
     <string name="complete_step"></string>
-    <string name="first_step_title">Medida del brazo</string>
+    <string name="first_step_title">Diagnóstico SAMPhoto</string>
     <string name="second_step_title">Información</string>
     <string name="third_step_title">Enviar</string>
     <string name="take_photo">Tomar foto</string>
-    <string name="error_photo">Debes realizar la medida de la circunferencia del brazo superior</string>
+    <string name="error_photo">Debes tomar la fotografía del brazo del menor primero</string>
     <string name="error_child_data">Debes introducir los datos del niñ@</string>
     <string name="error_fingerprint_data">Debes introducir la huella dactilar del niñ@</string>
     <string name="error_not_gps_position">Debes activar la localización en tu dispositivo</string>

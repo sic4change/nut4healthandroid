@@ -78,11 +78,11 @@
     <string name="next_step">Next</string>
     <string name="back_step">Back</string>
     <string name="complete_step"></string>
-    <string name="first_step_title">Arm Measure</string>
+    <string name="first_step_title">SAMPhoto diagnosis</string>
     <string name="second_step_title">Child</string>
     <string name="third_step_title">Send</string>
     <string name="take_photo">Take photo</string>
-    <string name="error_photo">You must measure the circumference of the upper arm</string>
+    <string name="error_photo">You must take photo before</string>
     <string name="error_child_data">You must enter child data</string>
     <string name="error_fingerprint_data">You must enter child fingerprint</string>
     <string name="error_not_gps_position">You must activate geolocalization</string>

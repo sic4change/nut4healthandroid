@@ -3,6 +3,7 @@ package org.sic4change.nut4health.ui.create_contract;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -28,6 +29,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
@@ -40,6 +45,7 @@ import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeSuccessDialog;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.github.pavlospt.CircleView;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.LocationRequest;
@@ -81,11 +87,13 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
 
     private int position;
 
+    private int LAUNCH_SAMPhoto = 567;
+
     private Button btnTakePhoto;
     private View rulerBackground;
     private SimpleRulerViewer ruler;
     private ImageView ivTakePhoto;
-    private TextView tvPercentage;
+    private CircleView tvPercentage;
     private TextView tvCm;
     private CardView cvChild;
     private EditText etChildName;
@@ -137,7 +145,6 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
         rulerBackground = v.findViewById(R.id.rulerBackground);
         ruler = v.findViewById(R.id.ruler);
         ruler.setOnValueChangeListener(this);
-        btnTakePhoto.setVisibility(View.GONE);
         btnCheckMalnutrition = v.findViewById(R.id.btnCheckMalnutrition);
         ivNewContract = v.findViewById(R.id.ivNewContract);
         spPoint = v.findViewById(R.id.spPoint);
@@ -191,7 +198,7 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
         });
         btnTakePhoto.setOnClickListener(v14 -> {
             takePhoto();
-            hideTakePhotoButton();
+            //hideTakePhotoButton();
         });
 
         ivTakePhoto = v.findViewById(R.id.ivTakePhoto);
@@ -201,6 +208,8 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
             }
         });
         tvPercentage = v.findViewById(R.id.tvPercentage);
+        tvPercentage.setStrokeColor(getResources().getColor(R.color.colorPrimaryDark));
+        tvPercentage.setFillColor(getResources().getColor(R.color.colorPrimaryDark));
         tvCm = v.findViewById(R.id.tvCm);
         cvChild = v.findViewById(R.id.cvChild);
         etChildName = v.findViewById(R.id.etChildName);
@@ -313,16 +322,19 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
                 .addOnCanceledListener(() -> Log.e("GPS", "checkLocationSettings -> onCanceled"));
     }
 
+
     @Override
     public void onSelected() {
         if (getPosition() == 0) {
-            btnTakePhoto.setVisibility(View.GONE);
+            //btnTakePhoto.setVisibility(View.GONE);
             ivTakePhoto.setVisibility(View.GONE);
             tvPercentage.setVisibility(View.VISIBLE);
+            tvPercentage.setTitleText(mCreateContractViewModel.getPercentage() + " %");
             cvChild.setVisibility(View.GONE);
             btnCheckMalnutrition.setVisibility(View.GONE);
             ivNewContract.setVisibility(View.GONE);
             clView.setVisibility(View.GONE);
+            btnTakePhoto.setVisibility(View.VISIBLE);
 //            if (mCreateContractViewModel.getChildLocation() != null) {
 //                Glide.with(getActivity().getApplicationContext())
 //                        .load(new File(mCreateContractViewModel.getUriPhoto().getPath()))
@@ -394,17 +406,20 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
     }
 
     private void takePhoto() {
-        if (ActivityCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_REQUEST_CODE);
-        } else if (ActivityCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_STORAGE_REQUEST_CODE);
-        } else if (ActivityCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, READ_EXTERNAL_STORAGE_REQUEST_CODE);
-        }
-        else {
-           Intent takePictureIntent = new Intent(getActivity(), SAMPhotoActivity.class);
-           startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
-        }
+        Intent intentSAMPhoto = new Intent();
+        intentSAMPhoto.setComponent(new ComponentName("org.sic4change.samphotoprueba","org.sic4change.samphotoprueba.MainActivity"));
+        startActivityForResult(intentSAMPhoto, LAUNCH_SAMPhoto);
+//        if (ActivityCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+//            requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_REQUEST_CODE);
+//        } else if (ActivityCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+//            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_STORAGE_REQUEST_CODE);
+//        } else if (ActivityCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+//            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, READ_EXTERNAL_STORAGE_REQUEST_CODE);
+//        }
+//        else {
+//           Intent takePictureIntent = new Intent(getActivity(), SAMPhotoActivity.class);
+//           startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
+//        }
     }
 
     private void hideTakePhotoButton() {
@@ -424,7 +439,7 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
                             .skipMemoryCache(true))
                     .into(ivTakePhoto);
             ivTakePhoto.setBackgroundColor(getResources().getColor(android.R.color.transparent));
-            tvPercentage.setText(mCreateContractViewModel.getPercentage() + " %");
+            tvPercentage.setTitleText(mCreateContractViewModel.getPercentage() + " %");
             mCreateContractViewModel.setImageSelected(true);
         } else if (requestCode == REQUEST_CHECK_SETTINGS) {
             switch (resultCode) {
@@ -483,6 +498,24 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
 //                   (completeAddress.getString("city")).append("\npostalcode: ").append
 //                   (completeAddress.getString("postalcode")).append("\nstate: ").append
 //                   (completeAddress.getString("state")).toString());
+        } else if (requestCode ==  LAUNCH_SAMPhoto && resultCode == RESULT_OK){
+            System.out.println("Aqui on Activity result");
+            System.out.println(data.getData());
+            Integer value = Integer.parseInt(data.getData().toString());
+            tvPercentage.setTitleText(value.toString() + " %");
+            //btnTakePhoto.setVisibility(View.VISIBLE);
+            if (value < 50) {
+                tvPercentage.setStrokeColor(getResources().getColor(R.color.colorPrimaryDark));
+                tvPercentage.setFillColor(getResources().getColor(R.color.colorPrimaryDark));
+            } else if (value == 50) {
+                tvPercentage.setStrokeColor(getResources().getColor(R.color.orange));
+                tvPercentage.setFillColor(getResources().getColor(R.color.orange));
+            } else {
+                tvPercentage.setStrokeColor(getResources().getColor(R.color.error));
+                tvPercentage.setFillColor(getResources().getColor(R.color.error));
+            }
+            mCreateContractViewModel.setPercentage(value);
+            mCreateContractViewModel.setImageSelected(true);
         }
         if (mCreateContractViewModel.isImageSelected()) {
             btnTakePhoto.setVisibility(View.GONE);
@@ -591,20 +624,20 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
         tvCm.setText(df.format(value) + " cm");
         if (value < 11.5) {
             rulerBackground.setBackgroundColor(getResources().getColor(R.color.error));
-            tvPercentage.setText("100%");
-            tvPercentage.setTextColor(getResources().getColor(R.color.error));
+            tvPercentage.setTitleText("100%");
+            tvPercentage.setBackgroundColor(getResources().getColor(R.color.error));
             tvCm.setTextColor(getResources().getColor(R.color.error));
             mCreateContractViewModel.setPercentage(100);
         } else if (value >=11.5 && value <= 12.5) {
             rulerBackground.setBackgroundColor(getResources().getColor(R.color.orange));
-            tvPercentage.setText("50%");
-            tvPercentage.setTextColor(getResources().getColor(R.color.orange));
+            tvPercentage.setTitleText("50%");
+            tvPercentage.setBackgroundColor(getResources().getColor(R.color.orange));
             tvCm.setTextColor(getResources().getColor(R.color.orange));
             mCreateContractViewModel.setPercentage(50);
         } else {
             rulerBackground.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-            tvPercentage.setText("0%");
-            tvPercentage.setTextColor(getResources().getColor(R.color.colorAccent));
+            tvPercentage.setTitleText("0%");
+            tvPercentage.setBackgroundColor(getResources().getColor(R.color.colorAccent));
             tvCm.setTextColor(getResources().getColor(R.color.colorAccent));
             mCreateContractViewModel.setPercentage(0);
         }
