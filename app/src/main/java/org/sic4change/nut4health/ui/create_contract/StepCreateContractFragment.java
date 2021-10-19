@@ -25,6 +25,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -103,6 +104,7 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
     private EditText etChildTutor;
     private EditText etChildLocation;
     private EditText etChildContactPhone;
+    private CheckBox cbVerification;
     private SearchableSpinner spPoint;
     private Button btnCheckMalnutrition;
     private AnimatedCircleLoadingView clView;
@@ -218,6 +220,7 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
         tvChildDNI = v.findViewById(R.id.tvChildDNI);
         etChildTutor = v.findViewById(R.id.etChildTutor);
         etChildContactPhone = v.findViewById(R.id.etContactPhone);
+        cbVerification = v.findViewById(R.id.cbVerification);
 
         etChildLocation = v.findViewById(R.id.etChildLocation);
         /*etChildLocation.setOnClickListener(v12 -> {
@@ -279,7 +282,8 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
                     || (etChildName.getText() == null) || (etChildName.getText().toString() == null) || (etChildName.getText().toString().isEmpty())
                     || (etChildSurname.getText() == null) || (etChildSurname.getText().toString() == null) || (etChildSurname.getText().toString().isEmpty())
                     || (etChildTutor.getText() == null) || (etChildTutor.getText().toString() == null) || (etChildTutor.getText().toString().isEmpty())
-                    || (etChildContactPhone.getText() == null) || (etChildContactPhone.getText().toString() == null) || (etChildContactPhone.getText().toString().isEmpty())) {
+                    || (etChildContactPhone.getText() == null) || (etChildContactPhone.getText().toString() == null) || (etChildContactPhone.getText().toString().isEmpty())
+                    || (!cbVerification.isChecked())) {
                 return new VerificationError(getString(R.string.error_child_data));
             }
             mCreateContractViewModel.setChildLocation(etChildLocation.getText().toString());
@@ -288,6 +292,7 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
             mCreateContractViewModel.setChildDNI(etChildDNI.getText().toString());
             mCreateContractViewModel.setChildTutor(etChildTutor.getText().toString());
             mCreateContractViewModel.setChildPhoneContact(etChildContactPhone.getText().toString());
+            mCreateContractViewModel.setChildVerification(cbVerification.isChecked());
             return null;
         }
         return null;
@@ -382,6 +387,7 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
             if (mCreateContractViewModel.getChildPhoneContact() != null) {
                 etChildContactPhone.setText(mCreateContractViewModel.getChildPhoneContact());
             }
+            cbVerification.setChecked(mCreateContractViewModel.getVerification());
             if (mCreateContractViewModel.getChildLocation() != null) {
                 etChildLocation.setText(mCreateContractViewModel.getChildLocation());
             }

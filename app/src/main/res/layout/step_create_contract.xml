@@ -356,9 +356,27 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvContactPhone" />
 
+                <CheckBox
+                    android:id="@+id/cbVerification"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:layout_marginRight="@dimen/margin_medium"
+                    android:layout_marginBottom="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:fontFamily="@font/bariol_regular"
+                    android:textColor="@color/colorPrimaryDark"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:text="@string/check_verification"
+                    app:layout_constraintTop_toBottomOf="@+id/etContactPhone"/>
 
 
-<!--                <ImageView-->
+
+                <!--                <ImageView-->
 <!--                    android:id="@+id/ivAddFingerprint"-->
 <!--                    android:layout_width="100dp"-->
 <!--                    android:layout_height="100dp"-->
