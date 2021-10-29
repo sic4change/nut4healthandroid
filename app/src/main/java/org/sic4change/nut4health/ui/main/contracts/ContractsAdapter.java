@@ -61,7 +61,7 @@ public class ContractsAdapter extends PagedListAdapter<Contract, ContractViewHol
 
                 @Override
                 public boolean areContentsTheSame(@NonNull Contract oldItem, @NonNull Contract newItem) {
-                    return oldItem == newItem;
+                    return oldItem.getId().equals(newItem.getId());
                 }
             };
 

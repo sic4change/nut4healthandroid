@@ -44,6 +44,8 @@ public class CreateAccountActivity extends AppCompatActivity {
     private Button btnCreateAccount;
     private TextView tvTermsAndConditions;
     private CheckBox cbTermsAndConditions;
+    private TextView tvTermsAndConditionsSAM;
+    private CheckBox cbTermsAndConditionsSAM;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +88,8 @@ public class CreateAccountActivity extends AppCompatActivity {
         btnCreateAccount = findViewById(R.id.btnCreateAccount);
         tvTermsAndConditions = findViewById(R.id.tvTermsAndConditions);
         cbTermsAndConditions = findViewById(R.id.cbTerms);
+        tvTermsAndConditionsSAM = findViewById(R.id.tvTermsAndConditionsSAM);
+        cbTermsAndConditionsSAM = findViewById(R.id.cbTermsSAM);
     }
 
     public void goToLoginView(View view) {
@@ -132,7 +136,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                         etPassword.requestFocus();
                     }
                 } else {
-                    if (!cbTermsAndConditions.isChecked()) {
+                    if (!cbTermsAndConditions.isChecked() || !cbTermsAndConditionsSAM.isChecked()) {
                         Nut4HealthVibrator.vibrateError(getApplicationContext());
                         Nut4HealthSnackbar.showError(getApplicationContext(), findViewById(R.id.lyCreateAccount), getResources().getString(R.string.error_terms_and_conditios));
                     } else {
@@ -180,6 +184,9 @@ public class CreateAccountActivity extends AppCompatActivity {
         tvTermsAndConditions.setEnabled(true);
         cbTermsAndConditions.setEnabled(true);
         cbTermsAndConditions.setClickable(true);
+        tvTermsAndConditionsSAM.setEnabled(true);
+        cbTermsAndConditionsSAM.setEnabled(true);
+        cbTermsAndConditionsSAM.setClickable(true);
     }
 
     private void disableView() {
@@ -192,6 +199,9 @@ public class CreateAccountActivity extends AppCompatActivity {
         tvTermsAndConditions.setEnabled(false);
         cbTermsAndConditions.setEnabled(false);
         cbTermsAndConditions.setClickable(false);
+        tvTermsAndConditionsSAM.setEnabled(false);
+        cbTermsAndConditionsSAM.setEnabled(false);
+        cbTermsAndConditionsSAM.setClickable(false);
     }
 
     private void goToSplashView() {
@@ -203,6 +213,13 @@ public class CreateAccountActivity extends AppCompatActivity {
 
     public void showDialogTermsAndConditions(View view) {
         String url = "https://www.sic4change.org/politica-de-privacidad";
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse(url));
+        startActivity(i);
+    }
+
+    public void showDialogTermsAndConditionsSAM(View view) {
+        String url = "http://docs.google.com/gview?embedded=true&url=https://firebasestorage.googleapis.com/v0/b/nut4health-830cc.appspot.com/o/SAMPhoto.pdf?alt=media&token=0005998b-599d-47eb-9794-dfdaa6012429";
         Intent i = new Intent(Intent.ACTION_VIEW);
         i.setData(Uri.parse(url));
         startActivity(i);

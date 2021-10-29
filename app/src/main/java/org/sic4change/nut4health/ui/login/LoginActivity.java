@@ -216,6 +216,13 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(i);
     }
 
+    public void showDialogTermsAndConditionsSAM(View view) {
+        String url = "http://docs.google.com/gview?embedded=true&url=https://firebasestorage.googleapis.com/v0/b/nut4health-830cc.appspot.com/o/SAMPhoto.pdf?alt=media&token=0005998b-599d-47eb-9794-dfdaa6012429";
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse(url));
+        startActivity(i);
+    }
+
     private void showCurrentVersion() {
         PackageManager manager = this.getPackageManager();
         PackageInfo info = null;

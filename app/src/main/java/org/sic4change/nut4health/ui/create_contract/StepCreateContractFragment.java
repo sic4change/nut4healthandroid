@@ -88,7 +88,7 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
 
     private int position;
 
-    private int LAUNCH_SAMPhoto = 567;
+    private int LAUNCH_SAMPhoto = 10;
 
     private Button btnTakePhoto;
     private View rulerBackground;
@@ -412,9 +412,13 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
     }
 
     private void takePhoto() {
-        Intent intentSAMPhoto = new Intent();
-        intentSAMPhoto.setComponent(new ComponentName("org.sic4change.samphotoprueba","org.sic4change.samphotoprueba.MainActivity"));
-        startActivityForResult(intentSAMPhoto, LAUNCH_SAMPhoto);
+//        Intent intentSAMPhoto = new Intent();
+//        intentSAMPhoto.setComponent(new ComponentName("org.sic4change.samphotoprueba","org.sic4change.samphotoprueba.MainActivity"));
+//        startActivityForResult(intentSAMPhoto, LAUNCH_SAMPhoto);
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.putExtra("external", "SIC4C");
+        intent.setComponent(new ComponentName("com.tyris.ach.ach","com.tyris.ach.ach.Activities.QuestionnaireActivity"));
+        startActivityForResult(intent,LAUNCH_SAMPhoto);
 //        if (ActivityCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
 //            requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_REQUEST_CODE);
 //        } else if (ActivityCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
@@ -505,9 +509,9 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
 //                   (completeAddress.getString("postalcode")).append("\nstate: ").append
 //                   (completeAddress.getString("state")).toString());
         } else if (requestCode ==  LAUNCH_SAMPhoto && resultCode == RESULT_OK){
-            System.out.println("Aqui on Activity result");
-            System.out.println(data.getData());
-            Integer value = Integer.parseInt(data.getData().toString());
+            String requiredValue = data.getStringExtra("RESULT");
+            System.out.println(requiredValue);
+            Integer value = requiredValue.equals("NOR") ? 5 : 95;
             tvPercentage.setTitleText(value.toString() + " %");
             //btnTakePhoto.setVisibility(View.VISIBLE);
             if (value < 50) {

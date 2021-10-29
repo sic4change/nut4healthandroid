@@ -261,6 +261,16 @@
                 android:onClick="showDialogTermsAndConditions"/>
 
             <TextView
+                android:id="@+id/tvTermsAndConditionsSAMPhoto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:fontFamily="@font/bariol_regular"
+                android:text="@string/terms_and_conditions_sam"
+                android:onClick="showDialogTermsAndConditionsSAM"/>
+
+            <TextView
                 android:id="@+id/version"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -271,6 +281,8 @@
                 android:text="Versión - " />
 
         </LinearLayout>
+
+
 
     </ir.alirezaiyan.arclayout.ArcRelativeLayout>
 

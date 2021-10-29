@@ -213,6 +213,31 @@
                     app:layout_constraintStart_toEndOf="@id/cbTerms"
                     app:layout_constraintTop_toTopOf="@+id/cbTerms" />
 
+                <CheckBox
+                    android:id="@+id/cbTermsSAM"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_default"
+                    android:layout_marginRight="@dimen/margin_medium"
+                    android:layout_marginBottom="@dimen/margin_default"
+                    android:text="@string/acept_terms_and_conditions"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cbTerms" />
+
+                <TextView
+                    android:id="@+id/tvTermsAndConditionsSAM"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:onClick="showDialogTermsAndConditions"
+                    android:text="@string/terms_and_conditions_sam"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@+id/cbTermsSAM"
+                    app:layout_constraintStart_toEndOf="@id/cbTermsSAM"
+                    app:layout_constraintTop_toTopOf="@+id/cbTermsSAM" />
+
                 <Button
                     android:id="@+id/btnCreateAccount"
                     android:layout_width="match_parent"
@@ -230,7 +255,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/cbTerms" />
+                    app:layout_constraintTop_toBottomOf="@+id/cbTermsSAM" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

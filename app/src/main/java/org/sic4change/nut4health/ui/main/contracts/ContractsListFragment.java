@@ -40,6 +40,7 @@ public class ContractsListFragment extends Fragment implements SwipeRefreshLayou
     private RecyclerView rvContracts;
 
     private String role= "";
+    private boolean dataLoaded = false;
 
     public ContractsListFragment() {
         // Required empty public constructor
@@ -72,13 +73,18 @@ public class ContractsListFragment extends Fragment implements SwipeRefreshLayou
 
     private void initData() {
         mMainViewModel = ViewModelProviders.of(getActivity()).get(MainViewModel.class);
-        mMainViewModel.getCurrentUser().observe(getActivity(), user -> {
-            if (user != null) {
-                mMainViewModel.getContracts(user.getEmail(), user.getRole());
-                role = user.getRole();
-            }
-        });
-        mMainViewModel.getContracts().observe(getActivity(), contracts -> showContracts(contracts));
+            mMainViewModel.getCurrentUser().observe(getActivity(), user -> {
+                if (!dataLoaded && user != null) {
+                    mMainViewModel.getContracts(user.getEmail(), user.getRole());
+                    role = user.getRole();
+                }
+            });
+            mMainViewModel.getContracts().observe(getActivity(), contracts -> {
+                    showContracts(contracts);
+                    dataLoaded = true;
+            });
+
+
         mMainViewModel.getIsFiltered().observe(getActivity(), filtered -> {
             if (filtered) {
                 showContracts(mMainViewModel.getContracts().getValue());
@@ -119,6 +125,7 @@ public class ContractsListFragment extends Fragment implements SwipeRefreshLayou
     @Override
     public void onRefresh() {
         mMainViewModel = null;
+        dataLoaded = false;
         initData();
         contractsAdapter.notifyDataSetChanged();
         new CountDownTimer(4000, 1000) {

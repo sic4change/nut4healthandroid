@@ -16,7 +16,8 @@
     <string name="sign_in">ENTRAR</string>
     <string name="new_user">¿Nuevo usuario?</string>
     <string name="sign_up">Crear cuenta</string>
-    <string name="terms_and_conditions">Términos y Condiciones</string>
+    <string name="terms_and_conditions">Términos y Condiciones NUt4Health</string>
+    <string name="terms_and_conditions_sam">Términos y Condiciones SAMPhoto</string>
     <string name="i_forgot_my_password">He olvidado mi contraseña</string>
 
     <!--Create Account-->

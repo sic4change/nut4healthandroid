@@ -371,6 +371,45 @@
                 android:layout_marginLeft="@dimen/margin_medium"
                 android:layout_marginRight="@dimen/margin_medium" />
 
+            <RelativeLayout
+                android:id="@+id/lyTermsAndCoditionsSAMPhoto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="showDialogTermsAndConditionsSAM">
+
+                <TextView
+                    android:id="@+id/tvTermsAndConditionsSAMPhoto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="@dimen/margin_medium"
+                    android:fontFamily="@font/bariol_regular"
+                    android:text="@string/terms_and_conditions_sam"
+                    android:textSize="16sp" />
+
+                <org.sic4change.nut4health.utils.view.Nut4HealthTextAwesome
+                    android:id="@+id/ivTermsAndConditionsSAMPhoto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/nav_header_desc"
+                    android:paddingTop="@dimen/nav_header_vertical_spacing"
+                    android:text="@string/fa_file"
+                    android:textSize="16sp"
+                    android:gravity="center"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:padding="@dimen/margin_medium"
+                    android:textColor="@color/colorPrimaryDark"/>
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="2dip"
+                android:background="@color/disabled_color"
+                android:layout_marginLeft="@dimen/margin_medium"
+                android:layout_marginRight="@dimen/margin_medium" />
+
         </LinearLayout>
 
     </ScrollView>
