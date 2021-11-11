@@ -219,7 +219,7 @@ public class CreateAccountActivity extends AppCompatActivity {
     }
 
     public void showDialogTermsAndConditionsSAM(View view) {
-        String url = "http://docs.google.com/gview?embedded=true&url=https://firebasestorage.googleapis.com/v0/b/nut4health-830cc.appspot.com/o/SAMPhoto.pdf?alt=media&token=0005998b-599d-47eb-9794-dfdaa6012429";
+        String url = "https://firebasestorage.googleapis.com/v0/b/nut4health-830cc.appspot.com/o/SAMPhoto.pdf?alt=media&token=a5f10351-d873-4fc0-83fe-a9c9e6b3edf6";
         Intent i = new Intent(Intent.ACTION_VIEW);
         i.setData(Uri.parse(url));
         startActivity(i);
