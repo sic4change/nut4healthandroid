@@ -75,7 +75,7 @@ public class ContractFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        initData();
     }
 
     @Override
@@ -216,6 +216,15 @@ public class ContractFragment extends Fragment {
         mMainViewModel = ViewModelProviders.of(getActivity()).get(MainViewModel.class);
 
         return view;
+    }
+
+    private void initData() {
+        mMainViewModel = ViewModelProviders.of(getActivity()).get(MainViewModel.class);
+        mMainViewModel.getCurrentUser().observe(getActivity(), user -> {
+            if (user != null) {
+                mMainViewModel.getContracts(user.getEmail(), user.getRole());
+            }
+        });
     }
 
     private void goToCreateContractActivity() {
