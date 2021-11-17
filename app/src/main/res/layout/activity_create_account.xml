@@ -231,7 +231,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
-                    android:onClick="showDialogTermsAndConditions"
+                    android:onClick="showDialogTermsAndConditionsSAM"
                     android:text="@string/terms_and_conditions_sam"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="@+id/cbTermsSAM"

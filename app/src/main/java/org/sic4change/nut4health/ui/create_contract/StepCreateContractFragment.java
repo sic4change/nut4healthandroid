@@ -511,7 +511,7 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
         } else if (requestCode ==  LAUNCH_SAMPhoto && resultCode == RESULT_OK){
             String requiredValue = data.getStringExtra("RESULT");
             System.out.println(requiredValue);
-            Integer value = requiredValue.equals("NOR") ? 5 : 95;
+            Integer value = requiredValue.equals("NOR") ? 0 : 100;
             tvPercentage.setTitleText(value.toString() + " %");
             //btnTakePhoto.setVisibility(View.VISIBLE);
             if (value < 50) {

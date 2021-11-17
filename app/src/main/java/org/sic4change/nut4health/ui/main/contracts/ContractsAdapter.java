@@ -31,10 +31,6 @@ public class ContractsAdapter extends PagedListAdapter<Contract, ContractViewHol
         mItemOnClickAction = itemOnClickAction;
     }
 
-    public Contract getContractAtPosition(int position) {
-        return getItem(position);
-    }
-
     @NonNull
     @Override
     public ContractViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

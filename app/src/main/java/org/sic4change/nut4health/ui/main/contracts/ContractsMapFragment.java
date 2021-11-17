@@ -101,7 +101,11 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
                 role = user.getRole();
             }
         });
-        mMainViewModel.getContracts().observe(getActivity(), contracts -> showContracts(contracts));
+        mMainViewModel.getContracts().observe(getActivity(), contracts -> {
+            showContracts(contracts);
+            mMainViewModel.getCurrentUser().removeObservers(getActivity());
+            mMainViewModel.getContracts().removeObservers(getActivity());
+        });
         mMainViewModel.getIsFiltered().observe(getActivity(), filtered -> {
             if (filtered) {
                 showContracts(mMainViewModel.getContracts().getValue());
@@ -162,6 +166,7 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
         });
         mMap.setOnMapClickListener(latLng -> cvContract.setVisibility(View.GONE));
         mMap.setOnMapLongClickListener(latLng -> cvContract.setVisibility(View.GONE));
+        showContracts(mMainViewModel.getContracts().getValue());
     }
 
     private void showContractInformation(Contract contract) {
