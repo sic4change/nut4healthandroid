@@ -1,23 +1,14 @@
 package org.sic4change.nut4health.ui.create_contract;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
-
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.stepstone.stepper.StepperLayout;
 import com.stepstone.stepper.VerificationError;
-
-
-import org.greenrobot.eventbus.ThreadMode;
 import org.sic4change.nut4health.R;
-import org.sic4change.nut4health.data.events.MessageEvent;
-
 import static maes.tech.intentanim.CustomIntent.customType;
 
 public class CreateContractActivity extends AppCompatActivity implements StepperLayout.StepperListener{

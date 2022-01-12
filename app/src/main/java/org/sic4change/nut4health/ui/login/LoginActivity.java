@@ -48,7 +48,6 @@ public class LoginActivity extends AppCompatActivity {
     private LinearLayout lyCreateAccount;
     private TextView tvNewUser;
     private TextView tvSignUp;
-    private TextView tvVersion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +83,6 @@ public class LoginActivity extends AppCompatActivity {
             }
             return false;
         });
-        tvVersion = findViewById(R.id.version);
         showCurrentVersion();
     }
 
@@ -211,13 +209,6 @@ public class LoginActivity extends AppCompatActivity {
 
     public void showDialogTermsAndConditions(View view) {
         String url = "https://www.sic4change.org/politica-de-privacidad";
-        Intent i = new Intent(Intent.ACTION_VIEW);
-        i.setData(Uri.parse(url));
-        startActivity(i);
-    }
-
-    public void showDialogTermsAndConditionsSAM(View view) {
-        String url = "https://firebasestorage.googleapis.com/v0/b/nut4health-830cc.appspot.com/o/SAMPhoto.pdf?alt=media&token=a5f10351-d873-4fc0-83fe-a9c9e6b3edf6";
         Intent i = new Intent(Intent.ACTION_VIEW);
         i.setData(Uri.parse(url));
         startActivity(i);

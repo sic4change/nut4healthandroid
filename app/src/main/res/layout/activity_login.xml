@@ -199,7 +199,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/tvResetPassword"
                 android:layout_marginTop="@dimen/margin_medium"
                 android:layout_marginBottom="@dimen/margin_medium"
-                android:visibility="visible"
+                android:visibility="gone"
                 android:onClick="goToCreateAccount">
 
                 <TextView
@@ -258,16 +258,6 @@
                 android:fontFamily="@font/bariol_regular"
                 android:text="@string/terms_and_conditions"
                 android:onClick="showDialogTermsAndConditions"/>
-
-            <TextView
-                android:id="@+id/tvTermsAndConditionsSAMPhoto"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textColor="@color/white"
-                android:fontFamily="@font/bariol_regular"
-                android:text="@string/terms_and_conditions_sam"
-                android:onClick="showDialogTermsAndConditionsSAM"/>
 
             <TextView
                 android:id="@+id/version"

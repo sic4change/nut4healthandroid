@@ -44,8 +44,6 @@ public class CreateAccountActivity extends AppCompatActivity {
     private Button btnCreateAccount;
     private TextView tvTermsAndConditions;
     private CheckBox cbTermsAndConditions;
-    private TextView tvTermsAndConditionsSAM;
-    private CheckBox cbTermsAndConditionsSAM;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,8 +86,6 @@ public class CreateAccountActivity extends AppCompatActivity {
         btnCreateAccount = findViewById(R.id.btnCreateAccount);
         tvTermsAndConditions = findViewById(R.id.tvTermsAndConditions);
         cbTermsAndConditions = findViewById(R.id.cbTerms);
-        tvTermsAndConditionsSAM = findViewById(R.id.tvTermsAndConditionsSAM);
-        cbTermsAndConditionsSAM = findViewById(R.id.cbTermsSAM);
     }
 
     public void goToLoginView(View view) {
@@ -136,7 +132,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                         etPassword.requestFocus();
                     }
                 } else {
-                    if (!cbTermsAndConditions.isChecked() || !cbTermsAndConditionsSAM.isChecked()) {
+                    if (!cbTermsAndConditions.isChecked()) {
                         Nut4HealthVibrator.vibrateError(getApplicationContext());
                         Nut4HealthSnackbar.showError(getApplicationContext(), findViewById(R.id.lyCreateAccount), getResources().getString(R.string.error_terms_and_conditios));
                     } else {
@@ -184,9 +180,6 @@ public class CreateAccountActivity extends AppCompatActivity {
         tvTermsAndConditions.setEnabled(true);
         cbTermsAndConditions.setEnabled(true);
         cbTermsAndConditions.setClickable(true);
-        tvTermsAndConditionsSAM.setEnabled(true);
-        cbTermsAndConditionsSAM.setEnabled(true);
-        cbTermsAndConditionsSAM.setClickable(true);
     }
 
     private void disableView() {
@@ -199,9 +192,6 @@ public class CreateAccountActivity extends AppCompatActivity {
         tvTermsAndConditions.setEnabled(false);
         cbTermsAndConditions.setEnabled(false);
         cbTermsAndConditions.setClickable(false);
-        tvTermsAndConditionsSAM.setEnabled(false);
-        cbTermsAndConditionsSAM.setEnabled(false);
-        cbTermsAndConditionsSAM.setClickable(false);
     }
 
     private void goToSplashView() {
