@@ -93,8 +93,7 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
     private Button btnTakePhoto;
     private View rulerBackground;
     private SimpleRulerViewer ruler;
-    private ImageView ivTakePhoto;
-    private CircleView tvPercentage;
+    private TextView tvPercentage;
     private TextView tvCm;
     private CardView cvChild;
     private EditText etChildName;
@@ -198,20 +197,7 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
             clView.stopOk();
 
         });
-        btnTakePhoto.setOnClickListener(v14 -> {
-            takePhoto();
-            //hideTakePhotoButton();
-        });
-
-        ivTakePhoto = v.findViewById(R.id.ivTakePhoto);
-        ivTakePhoto.setOnClickListener(v1 -> {
-            if (mCreateContractViewModel.isImageSelected()) {
-                takePhoto();
-            }
-        });
         tvPercentage = v.findViewById(R.id.tvPercentage);
-        tvPercentage.setStrokeColor(getResources().getColor(R.color.colorPrimaryDark));
-        tvPercentage.setFillColor(getResources().getColor(R.color.colorPrimaryDark));
         tvCm = v.findViewById(R.id.tvCm);
         cvChild = v.findViewById(R.id.cvChild);
         etChildName = v.findViewById(R.id.etChildName);
@@ -223,11 +209,6 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
         cbVerification = v.findViewById(R.id.cbVerification);
 
         etChildLocation = v.findViewById(R.id.etChildLocation);
-        /*etChildLocation.setOnClickListener(v12 -> {
-            Intent i = new Intent(this.getActivity(), LocationPickerActivity.class);
-            startActivityForResult(i, ADDRESS_PICKER_REQUEST);
-
-        });*/
 //        ivAddFingerprint = v.findViewById(R.id.ivAddFingerprint);
 //        ivAddFingerprint.setOnClickListener(v13 -> {
 //            Intent fingerPrintIntent = new Intent(getActivity(), ScanActivity.class);
@@ -260,24 +241,6 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
         if (position == 0 && !mCreateContractViewModel.isImageSelected()) {
             return new VerificationError(getString(R.string.error_photo));
         } else if (position == 1) {
-//            if (mCreateContractViewModel.getLocation() == null) {
-//                openLocationSettingsDialog();
-//                return new VerificationError(getString(R.string.error_not_gps_position));
-//            } else {
-//                if ((etChildLocation.getText() == null) || (etChildLocation.getText().toString() == null) || (etChildLocation.getText().toString().isEmpty())
-//                        || (etChildName.getText() == null) || (etChildName.getText().toString() == null) || (etChildName.getText().toString().isEmpty())
-//                        || (etChildSurname.getText() == null) || (etChildSurname.getText().toString() == null) || (etChildSurname.getText().toString().isEmpty())
-//                        || (etChildContactPhone.getText() == null) || (etChildContactPhone.getText().toString() == null) || (etChildContactPhone.getText().toString().isEmpty())) {
-//                    return new VerificationError(getString(R.string.error_child_data));
-//                }
-//                if ((mCreateContractViewModel.getFingerPrint() == null) || (mCreateContractViewModel.getFingerPrint().length < 1)) {
-//                    return new VerificationError(getString(R.string.error_fingerprint_data));
-//                }
-//                mCreateContractViewModel.setChildLocation(etChildLocation.getText().toString());
-//                mCreateContractViewModel.setChildName(etChildName.getText().toString());
-//                mCreateContractViewModel.setChildSurname(etChildSurname.getText().toString());
-//                mCreateContractViewModel.setChildPhoneContact(etChildContactPhone.getText().toString());
-//            }
             if ((etChildLocation.getText() == null) || (etChildLocation.getText().toString() == null) || (etChildLocation.getText().toString().isEmpty())
                     || (etChildName.getText() == null) || (etChildName.getText().toString() == null) || (etChildName.getText().toString().isEmpty())
                     || (etChildSurname.getText() == null) || (etChildSurname.getText().toString() == null) || (etChildSurname.getText().toString().isEmpty())
@@ -298,62 +261,19 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
         return null;
     }
 
-    private void openLocationSettingsDialog() {
-        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
-        builder.addLocationRequest(new LocationRequest().setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY));
-        builder.setAlwaysShow(true);
-        mLocationSettingsRequest = builder.build();
-
-        mSettingsClient = LocationServices.getSettingsClient(getActivity());
-
-        mSettingsClient.checkLocationSettings(mLocationSettingsRequest).addOnSuccessListener(locationSettingsResponse -> {
-
-        })
-                .addOnFailureListener(e -> {
-                    int statusCode = ((ApiException) e).getStatusCode();
-                    switch (statusCode) {
-                        case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
-                            try {
-                                ResolvableApiException rae = (ResolvableApiException) e;
-                                startIntentSenderForResult(rae.getResolution().getIntentSender(), REQUEST_CHECK_SETTINGS, null, 0, 0, 0, null);
-                            } catch (IntentSender.SendIntentException sie) {
-                                Log.e("GPS", "Unable to execute request.");
-                            }
-                            break;
-                        case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
-                            Log.e("GPS", "Location settings are inadequate, and cannot be fixed here. Fix in Settings.");
-                    }
-                })
-                .addOnCanceledListener(() -> Log.e("GPS", "checkLocationSettings -> onCanceled"));
-    }
-
-
     @Override
     public void onSelected() {
         if (getPosition() == 0) {
-            //btnTakePhoto.setVisibility(View.GONE);
-            ivTakePhoto.setVisibility(View.GONE);
             tvPercentage.setVisibility(View.VISIBLE);
-            tvPercentage.setTitleText(mCreateContractViewModel.getPercentage() + " %");
+            tvPercentage.setText(mCreateContractViewModel.getPercentage() + " %");
             cvChild.setVisibility(View.GONE);
             btnCheckMalnutrition.setVisibility(View.GONE);
             ivNewContract.setVisibility(View.GONE);
             clView.setVisibility(View.GONE);
-            btnTakePhoto.setVisibility(View.VISIBLE);
-//            if (mCreateContractViewModel.getChildLocation() != null) {
-//                Glide.with(getActivity().getApplicationContext())
-//                        .load(new File(mCreateContractViewModel.getUriPhoto().getPath()))
-//                        .apply(new RequestOptions()
-//                                .diskCacheStrategy(DiskCacheStrategy.NONE)
-//                                .skipMemoryCache(true))
-//                        .into(ivTakePhoto);
-//                ivTakePhoto.setBackgroundColor(getResources().getColor(android.R.color.transparent));
-//            }
-//            if (mCreateContractViewModel.isImageSelected()) {
-//                btnTakePhoto.setVisibility(View.GONE);
-//            } else {
-//                btnTakePhoto.setVisibility(View.VISIBLE);
-//            }
+            btnTakePhoto.setVisibility(View.GONE);
+            ruler.setVisibility(View.VISIBLE);
+            rulerBackground.setVisibility(View.VISIBLE);
+            tvCm.setVisibility(View.VISIBLE);
         } else if (getPosition() == 1) {
             if (mCreateContractViewModel.getPercentage() > 49) {
                 etChildDNI.setVisibility(View.VISIBLE);
@@ -363,7 +283,6 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
                 tvChildDNI.setVisibility(View.GONE);
             }
             btnTakePhoto.setVisibility(View.GONE);
-            ivTakePhoto.setVisibility(View.GONE);
             tvPercentage.setVisibility(View.GONE);
             ruler.setVisibility(View.GONE);
             rulerBackground.setVisibility(View.GONE);
@@ -393,7 +312,6 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
             }
         } else {
             btnTakePhoto.setVisibility(View.GONE);
-            ivTakePhoto.setVisibility(View.GONE);
             tvPercentage.setVisibility(View.GONE);
             ruler.setVisibility(View.GONE);
             rulerBackground.setVisibility(View.GONE);
@@ -411,47 +329,9 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
 
     }
 
-    private void takePhoto() {
-//        Intent intentSAMPhoto = new Intent();
-//        intentSAMPhoto.setComponent(new ComponentName("org.sic4change.samphotoprueba","org.sic4change.samphotoprueba.MainActivity"));
-//        startActivityForResult(intentSAMPhoto, LAUNCH_SAMPhoto);
-        Intent intent = new Intent(Intent.ACTION_MAIN);
-        intent.putExtra("external", "SIC4C");
-        intent.setComponent(new ComponentName("com.tyris.ach.ach","com.tyris.ach.ach.Activities.QuestionnaireActivity"));
-        startActivityForResult(intent,LAUNCH_SAMPhoto);
-//        if (ActivityCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-//            requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_REQUEST_CODE);
-//        } else if (ActivityCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-//            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_STORAGE_REQUEST_CODE);
-//        } else if (ActivityCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-//            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, READ_EXTERNAL_STORAGE_REQUEST_CODE);
-//        }
-//        else {
-//           Intent takePictureIntent = new Intent(getActivity(), SAMPhotoActivity.class);
-//           startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
-//        }
-    }
-
-    private void hideTakePhotoButton() {
-        btnTakePhoto.setVisibility(View.GONE);
-    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
-            mCreateContractViewModel.setUriPhoto(Uri.parse(data.getExtras().get(PHOTO_PATH).toString()));
-            mCreateContractViewModel.setPercentage(data.getIntExtra(PERCENTAGE, 0));
-            File file = new File(getRealPathFromURI(mCreateContractViewModel.getUriPhoto()));
-            Glide.with(getActivity().getApplicationContext())
-                    .load(file)
-                    .apply(new RequestOptions()
-                            .diskCacheStrategy(DiskCacheStrategy.NONE)
-                            .skipMemoryCache(true))
-                    .into(ivTakePhoto);
-            ivTakePhoto.setBackgroundColor(getResources().getColor(android.R.color.transparent));
-            tvPercentage.setTitleText(mCreateContractViewModel.getPercentage() + " %");
-            mCreateContractViewModel.setImageSelected(true);
-        } else if (requestCode == REQUEST_CHECK_SETTINGS) {
+        if (requestCode == REQUEST_CHECK_SETTINGS) {
             switch (resultCode) {
                 case Activity.RESULT_OK:
                     new CountDownTimer(VERIFICATION_DELAY_MILISECONDS, VERIFICATION_TICK_MILISECONDS) {
@@ -502,27 +382,17 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
             } catch (IOException e) {
                 e.printStackTrace();
             }
-//            Bundle completeAddress =data.getBundleExtra("fullAddress");
-//           etChildLocation.setText(new StringBuilder().append("addressline2: ").append
-//                   (completeAddress.getString("addressline2")).append("\ncity: ").append
-//                   (completeAddress.getString("city")).append("\npostalcode: ").append
-//                   (completeAddress.getString("postalcode")).append("\nstate: ").append
-//                   (completeAddress.getString("state")).toString());
         } else if (requestCode ==  LAUNCH_SAMPhoto && resultCode == RESULT_OK){
             String requiredValue = data.getStringExtra("RESULT");
             System.out.println(requiredValue);
             Integer value = requiredValue.equals("NOR") ? 0 : 100;
-            tvPercentage.setTitleText(value.toString() + " %");
-            //btnTakePhoto.setVisibility(View.VISIBLE);
+            tvPercentage.setText(value.toString() + " %");
             if (value < 50) {
-                tvPercentage.setStrokeColor(getResources().getColor(R.color.colorPrimaryDark));
-                tvPercentage.setFillColor(getResources().getColor(R.color.colorPrimaryDark));
+                tvPercentage.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
             } else if (value == 50) {
-                tvPercentage.setStrokeColor(getResources().getColor(R.color.orange));
-                tvPercentage.setFillColor(getResources().getColor(R.color.orange));
+                tvPercentage.setTextColor(getResources().getColor(R.color.orange));
             } else {
-                tvPercentage.setStrokeColor(getResources().getColor(R.color.error));
-                tvPercentage.setFillColor(getResources().getColor(R.color.error));
+                tvPercentage.setTextColor(getResources().getColor(R.color.error));
             }
             mCreateContractViewModel.setPercentage(value);
             mCreateContractViewModel.setImageSelected(true);
@@ -537,39 +407,6 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
     private void openGpsEnableSetting() {
         Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
         startActivityForResult(intent, REQUEST_ENABLE_GPS);
-    }
-
-    private String getRealPathFromURI(Uri contentURI) {
-        String result;
-        Cursor cursor = getActivity().getContentResolver().query(contentURI, null, null, null, null);
-        if (cursor == null) {
-            result = contentURI.getPath();
-        } else {
-            cursor.moveToFirst();
-            int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
-            result = cursor.getString(idx);
-            cursor.close();
-        }
-        return result;
-    }
-
-    @SuppressLint("MissingPermission")
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            if (requestCode == LOCATION_REQUEST_CODE) {
-                showMyPosition();
-            } else if (requestCode == CAMERA_REQUEST_CODE) {
-                if (ActivityCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                    requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_STORAGE_REQUEST_CODE);
-                }
-            } else if (requestCode == WRITE_EXTERNAL_STORAGE_REQUEST_CODE) {
-                takePhoto();
-            }
-            else {
-                takePhoto();
-            }
-        }
     }
 
     private void showMyPosition() {
@@ -634,20 +471,20 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
         tvCm.setText(df.format(value) + " cm");
         if (value < 11.5) {
             rulerBackground.setBackgroundColor(getResources().getColor(R.color.error));
-            tvPercentage.setTitleText("100%");
-            tvPercentage.setBackgroundColor(getResources().getColor(R.color.error));
+            tvPercentage.setText("100%");
+            tvPercentage.setTextColor(getResources().getColor(R.color.error));
             tvCm.setTextColor(getResources().getColor(R.color.error));
             mCreateContractViewModel.setPercentage(100);
         } else if (value >=11.5 && value <= 12.5) {
             rulerBackground.setBackgroundColor(getResources().getColor(R.color.orange));
-            tvPercentage.setTitleText("50%");
-            tvPercentage.setBackgroundColor(getResources().getColor(R.color.orange));
+            tvPercentage.setText("50%");
+            tvPercentage.setTextColor(getResources().getColor(R.color.orange));
             tvCm.setTextColor(getResources().getColor(R.color.orange));
             mCreateContractViewModel.setPercentage(50);
         } else {
             rulerBackground.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-            tvPercentage.setTitleText("0%");
-            tvPercentage.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+            tvPercentage.setText("0%");
+            tvPercentage.setTextColor(getResources().getColor(R.color.colorAccent));
             tvCm.setTextColor(getResources().getColor(R.color.colorAccent));
             mCreateContractViewModel.setPercentage(0);
         }
