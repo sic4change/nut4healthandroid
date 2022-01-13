@@ -778,9 +778,10 @@ public class DataRepository {
                 if ((queryDocumentSnapshots != null) && (queryDocumentSnapshots.getDocuments() != null)
                         && (queryDocumentSnapshots.getDocuments().size() > 0)) {
                     List<User> users = new ArrayList<User>();
-                    if (!queryDocumentSnapshots.getDocuments().get(0).getMetadata().isFromCache()) {
-                        nut4HealtDao.deleteAllRanking();
-                    }
+//                    if (!queryDocumentSnapshots.getDocuments().get(0).getMetadata().isFromCache()) {
+//                        System.out.println("Aqui2");
+//                        nut4HealtDao.deleteAllRanking();
+//                    }
                     for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
                         User user = document.toObject(User.class);
                         if (!user.getUsername().contains("anonymous") && user.getRole().equals("Agente Salud")) {
@@ -823,9 +824,9 @@ public class DataRepository {
         query.addSnapshotListener(mIoExecutor, (queryDocumentSnapshots, e) -> {
                 if ((queryDocumentSnapshots != null) && (queryDocumentSnapshots.getDocuments() != null)
                         && (queryDocumentSnapshots.getDocuments().size() > 0)) {
-                    if (!queryDocumentSnapshots.getDocuments().get(0).getMetadata().isFromCache()) {
+                    /*if (!queryDocumentSnapshots.getDocuments().get(0).getMetadata().isFromCache()) {
                         nut4HealtDao.deleteAllPayment();
-                    }
+                    }*/
                     for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
                         try {
                             Payment payment = document.toObject(Payment.class);
