@@ -708,9 +708,9 @@ public class DataRepository {
             try {
                 if ((queryDocumentSnapshots != null) && (queryDocumentSnapshots.getDocuments() != null)
                         && (queryDocumentSnapshots.getDocuments().size() > 0)) {
-                    if (!queryDocumentSnapshots.getDocuments().get(0).getMetadata().isFromCache()) {
+                    /*if (!queryDocumentSnapshots.getDocuments().get(0).getMetadata().isFromCache()) {
                         nut4HealtDao.deleteAllContract();
-                    }
+                    }*/
                     for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
                         Contract contract = document.toObject(Contract.class);
                         if (contract.getId() != null && !contract.getId().isEmpty()) {
