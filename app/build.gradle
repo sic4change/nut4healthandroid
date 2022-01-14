@@ -38,8 +38,8 @@ android {
         applicationId "org.sic4change.nut4health"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 7
-        versionName "1.7"
+        versionCode 8
+        versionName "1.8"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
