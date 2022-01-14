@@ -31,10 +31,6 @@ public class ContractsAdapter extends PagedListAdapter<Contract, ContractViewHol
         mItemOnClickAction = itemOnClickAction;
     }
 
-    public Contract getContractAtPosition(int position) {
-        return getItem(position);
-    }
-
     @NonNull
     @Override
     public ContractViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -61,7 +57,7 @@ public class ContractsAdapter extends PagedListAdapter<Contract, ContractViewHol
 
                 @Override
                 public boolean areContentsTheSame(@NonNull Contract oldItem, @NonNull Contract newItem) {
-                    return oldItem == newItem;
+                    return oldItem.getId().equals(newItem.getId());
                 }
             };
 

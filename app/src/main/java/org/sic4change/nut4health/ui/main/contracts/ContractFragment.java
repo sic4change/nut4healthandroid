@@ -1,12 +1,8 @@
 package org.sic4change.nut4health.ui.main.contracts;
 
-import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,12 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
@@ -84,7 +75,7 @@ public class ContractFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        initData();
     }
 
     @Override
@@ -225,6 +216,15 @@ public class ContractFragment extends Fragment {
         mMainViewModel = ViewModelProviders.of(getActivity()).get(MainViewModel.class);
 
         return view;
+    }
+
+    private void initData() {
+        mMainViewModel = ViewModelProviders.of(getActivity()).get(MainViewModel.class);
+        mMainViewModel.getCurrentUser().observe(getActivity(), user -> {
+            if (user != null) {
+                mMainViewModel.getContracts(user.getEmail(), user.getRole());
+            }
+        });
     }
 
     private void goToCreateContractActivity() {

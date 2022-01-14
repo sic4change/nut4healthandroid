@@ -10,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -31,6 +33,10 @@ import static maes.tech.intentanim.CustomIntent.customType;
 
 public class ContractsListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
+    private boolean fragmentResume=false;
+    private boolean fragmentVisible=false;
+    private boolean fragmentOnCreated=false;
+
     private OnFragmentInteractionListener mListener;
     private MainViewModel mMainViewModel;
 
@@ -45,11 +51,6 @@ public class ContractsListFragment extends Fragment implements SwipeRefreshLayou
         // Required empty public constructor
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        initData();
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -67,22 +68,14 @@ public class ContractsListFragment extends Fragment implements SwipeRefreshLayou
         contractsAdapter.setItemOnClickAction((position, id) -> {
             goToContractDetailActivity(id, role);
         });
+        initData();
         return view;
     }
 
     private void initData() {
         mMainViewModel = ViewModelProviders.of(getActivity()).get(MainViewModel.class);
-        mMainViewModel.getCurrentUser().observe(getActivity(), user -> {
-            if (user != null) {
-                mMainViewModel.getContracts(user.getEmail(), user.getRole());
-                role = user.getRole();
-            }
-        });
-        mMainViewModel.getContracts().observe(getActivity(), contracts -> showContracts(contracts));
-        mMainViewModel.getIsFiltered().observe(getActivity(), filtered -> {
-            if (filtered) {
-                showContracts(mMainViewModel.getContracts().getValue());
-            }
+        mMainViewModel.getContracts().observe(getActivity(), contracts -> {
+            showContracts(contracts);
         });
     }
 
@@ -146,5 +139,7 @@ public class ContractsListFragment extends Fragment implements SwipeRefreshLayou
         startActivity(intent);
         customType(getActivity(),"left-to-right");
     }
+
+
 
 }

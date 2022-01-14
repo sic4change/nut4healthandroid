@@ -68,7 +68,7 @@ public class RankingAdapter extends PagedListAdapter<Ranking, RankingViewHolder>
 
                 @Override
                 public boolean areContentsTheSame(@NonNull Ranking oldItem, @NonNull Ranking newItem) {
-                    return oldItem == newItem;
+                    return oldItem.getUsername().equals(newItem.getUsername());
                 }
             };
 

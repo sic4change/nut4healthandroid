@@ -34,6 +34,7 @@ public class CreateContractViewModel extends ViewModel {
     private String childTutor;
     private String childLocation;
     private String childPhoneContact;
+    private boolean verification = false;
     private String point;
     private String pointFullName;
     private byte[] fingerPrint;
@@ -149,6 +150,14 @@ public class CreateContractViewModel extends ViewModel {
 
     public void setChildPhoneContact(String childPhoneContact) {
         this.childPhoneContact = childPhoneContact;
+    }
+
+    public boolean getVerification() {
+        return verification;
+    }
+
+    public void setChildVerification(boolean verification) {
+        this.verification = verification;
     }
 
     public String getPoint() {

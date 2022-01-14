@@ -48,7 +48,6 @@ public class LoginActivity extends AppCompatActivity {
     private LinearLayout lyCreateAccount;
     private TextView tvNewUser;
     private TextView tvSignUp;
-    private TextView tvVersion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +83,6 @@ public class LoginActivity extends AppCompatActivity {
             }
             return false;
         });
-        tvVersion = findViewById(R.id.version);
         showCurrentVersion();
     }
 

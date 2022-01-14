@@ -108,23 +108,26 @@ public class RankingFragment extends Fragment implements SwipeRefreshLayout.OnRe
                 });
             }
         });
+
         initData();
         return view;
     }
 
     private void initData() {
         mMainViewModel = ViewModelProviders.of(getActivity()).get(MainViewModel.class);
-        mMainViewModel.getCurrentUser().observe(this, user -> {
+        mMainViewModel.getCurrentUser().observe(getActivity(), user -> {
             if (user != null) {
                 rankingAdapter.setUser(user);
-                mMainViewModel.getRankingUser();
             }
         });
+        mMainViewModel.getRankingUser();
         mMainViewModel.getRanking().observe(getActivity(), rankings -> {
             rankingAdapter.submitList(rankings);
             if (swipe_container.isRefreshing()) {
                 swipe_container.setRefreshing(false);
             }
+            mMainViewModel.getCurrentUser().removeObservers(getActivity());
+            mMainViewModel.getRanking().removeObservers(getActivity());
         });
     }
 

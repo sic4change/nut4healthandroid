@@ -263,6 +263,7 @@ public class ProfileActivity extends AppCompatActivity {
         startActivity(i);
     }
 
+
     public void showDialogRemoveAccount(View view) {
         new AwesomeErrorDialog(this)
                 .setTitle(getResources().getString(R.string.app_name))
