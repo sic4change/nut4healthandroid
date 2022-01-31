@@ -54,7 +54,9 @@ public class MainViewModel extends ViewModel {
         this.mContext = context;
         this.mRepository = repository;
         mUser = this.mRepository.getCurrentUser();
+
         mContracts = this.mRepository.getSortedContracts("DATE", name, surname, status, dateStart, dateEnd, percentageMin, percentageMax);
+
         mNear = this.mRepository.getSortedNearContracts("DATE", name, surname, status, dateStart, dateEnd, percentageMin, percentageMax);
         mRanking = this.mRepository.getSortedRanking("POINTS", usernameRanking);
         mPayments = this.mRepository.getSortedPayments("DATE", statusPayment, dateStartPayment, dateEndPayment);

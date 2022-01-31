@@ -104,19 +104,22 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
         if (mMap != null) {
             mMap.clear();
             for (Contract contract : contracts) {
-                MarkerOptions markerOptions = new MarkerOptions();
-                markerOptions.position(new LatLng(contract.getLatitude(), contract.getLongitude()));
-                if (contract.getStatus().equals(Contract.Status.NO_DIAGNOSIS.name())) {
-                    markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
-                } else if (contract.getStatus().equals(Contract.Status.DIAGNOSIS.name())) {
-                    markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-                } else if (contract.getStatus().equals(Contract.Status.PAID.name())){
-                    markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-                } else if (contract.getStatus().equals(Contract.Status.FINISH.name())){
-                    markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
-                }
-                Marker marker = mMap.addMarker(markerOptions);
-                marker.setTag(contract);
+                //if (contract != null) {
+                    MarkerOptions markerOptions = new MarkerOptions();
+                    markerOptions.position(new LatLng(contract.getLatitude(), contract.getLongitude()));
+                    if (contract.getStatus().equals(Contract.Status.NO_DIAGNOSIS.name())) {
+                        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+                    } else if (contract.getStatus().equals(Contract.Status.DIAGNOSIS.name())) {
+                        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+                    } else if (contract.getStatus().equals(Contract.Status.PAID.name())){
+                        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+                    } else if (contract.getStatus().equals(Contract.Status.FINISH.name())){
+                        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
+                    }
+                    Marker marker = mMap.addMarker(markerOptions);
+                    marker.setTag(contract);
+                //}
+
             }
         }
         cvContract.setVisibility(View.GONE);
