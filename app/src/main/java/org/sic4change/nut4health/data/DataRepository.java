@@ -744,8 +744,8 @@ public class DataRepository {
                                                             int percentageMin, int percentageMax) {
         SimpleSQLiteQuery query = SortUtils.getFilterContracts(sort, name, surname, status, dateStart, dateEnd,
                 percentageMin, percentageMax);
-        System.out.println(query.getSql());
-        return new LivePagedListBuilder<>(nut4HealtDao.getUserContracts(query), PAGE_SIZE).build();
+        LiveData<PagedList<Contract>> contracts = new LivePagedListBuilder<>(nut4HealtDao.getUserContracts(query), PAGE_SIZE).build();
+        return contracts;
     }
 
     /**

@@ -95,9 +95,21 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
 
     private void initData() {
         mMainViewModel = ViewModelProviders.of(getActivity()).get(MainViewModel.class);
+
         mMainViewModel.getContracts().observe(getActivity(), contracts -> {
             showContracts(contracts);
-        });;
+        });
+
+        try {
+            mMainViewModel.getIsFiltered().observe(getActivity(), filtered ->{
+                System.out.println("Aqui filtered: " + mMainViewModel.getContracts());
+                mMainViewModel.getContracts().observe(getActivity(), contracts -> {
+                    showContracts(contracts);
+                });
+            });
+        } catch (Exception e) {
+            System.out.println("error");
+        }
     }
 
     private void showContracts(PagedList<Contract> contracts) {

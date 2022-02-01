@@ -33,10 +33,6 @@ import static maes.tech.intentanim.CustomIntent.customType;
 
 public class ContractsListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
-    private boolean fragmentResume=false;
-    private boolean fragmentVisible=false;
-    private boolean fragmentOnCreated=false;
-
     private OnFragmentInteractionListener mListener;
     private MainViewModel mMainViewModel;
 
@@ -74,14 +70,27 @@ public class ContractsListFragment extends Fragment implements SwipeRefreshLayou
 
     private void initData() {
         mMainViewModel = ViewModelProviders.of(getActivity()).get(MainViewModel.class);
+
         mMainViewModel.getContracts().observe(getActivity(), contracts -> {
             showContracts(contracts);
         });
+
+        try {
+            mMainViewModel.getIsFiltered().observe(getActivity(), filtered ->{
+                mMainViewModel.getContracts().observe(getActivity(), contracts -> {
+                    showContracts(contracts);
+                });
+            });
+        } catch (Exception e) {
+            System.out.println("error");
+        }
+
     }
 
     private void showContracts(PagedList<Contract> contracts) {
         if (contractsAdapter != null) {
             contractsAdapter.submitList(contracts);
+            contractsAdapter.notifyDataSetChanged();
             if (contracts.size() > 0) {
                 ivEmptyContracts.setVisibility(View.GONE);
             } else {
@@ -111,9 +120,9 @@ public class ContractsListFragment extends Fragment implements SwipeRefreshLayou
 
     @Override
     public void onRefresh() {
-        mMainViewModel = null;
-        initData();
-        contractsAdapter.notifyDataSetChanged();
+        //mMainViewModel = null;
+        //initData();
+        //contractsAdapter.notifyDataSetChanged();
         new CountDownTimer(4000, 1000) {
 
             public void onTick(long millisUntilFinished) {
