@@ -73,6 +73,8 @@
     <!--Contracts-->
     <string name="list">List</string>
     <string name="map">Map</string>
+    <string name="showing">Showing</string>
+    <string name="diagnosis_show">diagnosis</string>
 
     <!--Create Contract-->
     <string name="createContract">Create diagnosis</string>

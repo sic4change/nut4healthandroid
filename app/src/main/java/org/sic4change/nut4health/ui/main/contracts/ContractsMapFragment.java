@@ -61,6 +61,8 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
     private TextView nDate;
     private TextView nConfirmationDate;
 
+    private TextView tvTotalCasesList;
+
     private String id;
 
     private String role= "";
@@ -89,6 +91,7 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
         } else {
             showMyPosition();
         }
+        tvTotalCasesList = view.findViewById(R.id.tvTotalCasesList);
         return view;
     }
 
@@ -98,13 +101,14 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
 
         mMainViewModel.getContracts().observe(getActivity(), contracts -> {
             showContracts(contracts);
+            tvTotalCasesList.setText(getString(R.string.showing) + " " + contracts.size() + " " + getString(R.string.diagnosis_show));
         });
 
         try {
             mMainViewModel.getIsFiltered().observe(getActivity(), filtered ->{
-                System.out.println("Aqui filtered: " + mMainViewModel.getContracts());
                 mMainViewModel.getContracts().observe(getActivity(), contracts -> {
                     showContracts(contracts);
+                    tvTotalCasesList.setText(getString(R.string.showing) + " " + contracts.size() + " " + getString(R.string.diagnosis_show));
                 });
             });
         } catch (Exception e) {

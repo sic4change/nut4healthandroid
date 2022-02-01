@@ -9,6 +9,7 @@ import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -40,6 +41,7 @@ public class ContractsListFragment extends Fragment implements SwipeRefreshLayou
     private org.sic4change.nut4health.utils.view.Nut4HealthTextAwesome ivEmptyContracts;
     private SwipeRefreshLayout swipe_container;
     private RecyclerView rvContracts;
+    private TextView tvTotalCasesList;
 
     private String role= "";
 
@@ -64,6 +66,7 @@ public class ContractsListFragment extends Fragment implements SwipeRefreshLayou
         contractsAdapter.setItemOnClickAction((position, id) -> {
             goToContractDetailActivity(id, role);
         });
+        tvTotalCasesList = view.findViewById(R.id.tvTotalCasesList);
         initData();
         return view;
     }
@@ -73,12 +76,14 @@ public class ContractsListFragment extends Fragment implements SwipeRefreshLayou
 
         mMainViewModel.getContracts().observe(getActivity(), contracts -> {
             showContracts(contracts);
+            tvTotalCasesList.setText(getString(R.string.showing) + " " + contracts.size() + " " + getString(R.string.diagnosis_show));
         });
 
         try {
             mMainViewModel.getIsFiltered().observe(getActivity(), filtered ->{
                 mMainViewModel.getContracts().observe(getActivity(), contracts -> {
                     showContracts(contracts);
+                    tvTotalCasesList.setText(getString(R.string.showing) + " " + contracts.size() + " " + getString(R.string.diagnosis_show));
                 });
             });
         } catch (Exception e) {

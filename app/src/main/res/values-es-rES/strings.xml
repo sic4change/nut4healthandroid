@@ -74,6 +74,8 @@
     <!--Contracts-->
     <string name="list">Lista</string>
     <string name="map">Mapa</string>
+    <string name="showing">Mostrando</string>
+    <string name="diagnosis_show">diagnósticos</string>
 
     <!--Create Contract-->
     <string name="createContract">Crear diagnóstico</string>
