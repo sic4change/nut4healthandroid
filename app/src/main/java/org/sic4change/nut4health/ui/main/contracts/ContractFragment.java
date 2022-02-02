@@ -1,6 +1,7 @@
 package org.sic4change.nut4health.ui.main.contracts;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -112,8 +113,6 @@ public class ContractFragment extends Fragment {
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
-        //clView = view.findViewById(R.id.clView);
-        //clView.setVisibility(View.GONE);
         btnCreateContract = view.findViewById(R.id.btnCreateContract);
         btnCreateContract.setOnClickListener(v -> {
             goToCreateContractActivity();
@@ -225,6 +224,18 @@ public class ContractFragment extends Fragment {
                 mMainViewModel.getContracts(user.getEmail(), user.getRole());
             }
         });
+        mMainViewModel.getIsFiltered().observe(getActivity(), filtered -> {
+            try {
+                if (filtered) {
+                    btnFilterContracts.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorAccent)));
+                } else {
+                    btnFilterContracts.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimaryDark)));
+                }
+            } catch (Exception e) {
+                System.out.println("button null now");
+            }
+
+        });
     }
 
     private void goToCreateContractActivity() {
@@ -305,11 +316,6 @@ public class ContractFragment extends Fragment {
                 .setMessage(getResources().getString(R.string.contracts_exported_ok))
                 .setPositiveButtonText(getResources().getString(R.string.ok))
                 .setPositiveButtonClick(() -> {
-                    /*if (ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                        requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 106);
-                    } else {
-                        openFile();
-                    }*/
                     openFile();
                 })
                 .show();
@@ -326,7 +332,6 @@ public class ContractFragment extends Fragment {
     }
 
     private void openFile() {
-        ////storage/emulated/0/Android/data/org.sic4change.nut4health/files/contracts.xlsx
         File file = new File(getActivity().getExternalFilesDir(null), "contracts.xlsx");
         Uri uri = FileProvider.getUriForFile(getActivity(), "org.sic4change.nut4health.android.fileprovider", file);
         Intent in = new Intent(Intent.ACTION_VIEW);
@@ -354,6 +359,10 @@ public class ContractFragment extends Fragment {
         mMainViewModel.setDateStart(timeRangeMax);
         mMainViewModel.setPercentageMax(100);
         mMainViewModel.setPercentageMin(0);
+        mMainViewModel.getSortedContracts("DATE", mMainViewModel.getName(), mMainViewModel.getSurname(), mMainViewModel.getStatus(),
+                mMainViewModel.getDateStart(), mMainViewModel.getDateEnd(), mMainViewModel.getPercentageMin(), mMainViewModel.getPercentageMax());
+        lyFilter.setVisibility(View.GONE);
+        mMainViewModel.setIsFiltered(false);
     }
 
     private void filterContracts() {
