@@ -76,20 +76,28 @@ public class ContractsListFragment extends Fragment implements SwipeRefreshLayou
 
         mMainViewModel.getContracts().observe(getActivity(), contracts -> {
             showContracts(contracts);
-            tvTotalCasesList.setText(getString(R.string.showing) + " " + contracts.size() + " " + getString(R.string.diagnosis_show));
+            showContractNumber(contracts);
         });
 
         try {
             mMainViewModel.getIsFiltered().observe(getActivity(), filtered ->{
                 mMainViewModel.getContracts().observe(getActivity(), contracts -> {
                     showContracts(contracts);
-                    tvTotalCasesList.setText(getString(R.string.showing) + " " + contracts.size() + " " + getString(R.string.diagnosis_show));
+                    showContractNumber(contracts);
                 });
             });
         } catch (Exception e) {
             System.out.println("error");
         }
 
+    }
+
+    private void showContractNumber(PagedList<Contract> contracts) {
+        try {
+            tvTotalCasesList.setText(getString(R.string.showing) + " " + contracts.size() + " " + getString(R.string.diagnosis_show));
+        } catch (Exception e) {
+            System.out.println("null contracts");
+        }
     }
 
     private void showContracts(PagedList<Contract> contracts) {

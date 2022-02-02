@@ -8,7 +8,7 @@
 
     <TextView
         android:id="@+id/tvTotalCasesList"
-        android:text="100 diagnósticos"
+        android:text=""
         android:textColor="@color/colorPrimaryDark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

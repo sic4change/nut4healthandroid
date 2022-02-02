@@ -14,8 +14,8 @@
         android:layout_height="match_parent" />
 
     <TextView
-        android:id="@+id/tvTotalCasesList"
-        android:text="100 diagnósticos"
+        android:id="@+id/tvTotalCasesMap"
+        android:text=""
         android:textColor="@color/colorPrimaryDark"
         android:background="@color/white"
         app:layout_constraintEnd_toEndOf="parent"

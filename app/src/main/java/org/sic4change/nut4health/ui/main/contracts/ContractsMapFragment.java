@@ -61,7 +61,7 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
     private TextView nDate;
     private TextView nConfirmationDate;
 
-    private TextView tvTotalCasesList;
+    private TextView tvTotalCasesMap;
 
     private String id;
 
@@ -91,7 +91,7 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
         } else {
             showMyPosition();
         }
-        tvTotalCasesList = view.findViewById(R.id.tvTotalCasesList);
+        tvTotalCasesMap = view.findViewById(R.id.tvTotalCasesMap);
         return view;
     }
 
@@ -101,14 +101,14 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
 
         mMainViewModel.getContracts().observe(getActivity(), contracts -> {
             showContracts(contracts);
-            tvTotalCasesList.setText(getString(R.string.showing) + " " + contracts.size() + " " + getString(R.string.diagnosis_show));
+            showContractsNumber(contracts);
         });
 
         try {
             mMainViewModel.getIsFiltered().observe(getActivity(), filtered ->{
                 mMainViewModel.getContracts().observe(getActivity(), contracts -> {
                     showContracts(contracts);
-                    tvTotalCasesList.setText(getString(R.string.showing) + " " + contracts.size() + " " + getString(R.string.diagnosis_show));
+                    showContractsNumber(contracts);
                 });
             });
         } catch (Exception e) {
@@ -116,11 +116,18 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
         }
     }
 
+    private void showContractsNumber(PagedList<Contract> contracts) {
+        try {
+            tvTotalCasesMap.setText(getString(R.string.showing) + " " + contracts.size() + " " + getString(R.string.diagnosis_show));
+        } catch (Exception e) {
+            System.out.println("null contracts");
+        }
+    }
+
     private void showContracts(PagedList<Contract> contracts) {
         if (mMap != null) {
             mMap.clear();
             for (Contract contract : contracts) {
-                //if (contract != null) {
                     MarkerOptions markerOptions = new MarkerOptions();
                     markerOptions.position(new LatLng(contract.getLatitude(), contract.getLongitude()));
                     if (contract.getStatus().equals(Contract.Status.NO_DIAGNOSIS.name())) {
@@ -134,7 +141,6 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
                     }
                     Marker marker = mMap.addMarker(markerOptions);
                     marker.setTag(contract);
-                //}
 
             }
         }
