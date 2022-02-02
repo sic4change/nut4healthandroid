@@ -168,6 +168,7 @@ public class PaymentFragment extends Fragment implements SwipeRefreshLayout.OnRe
         });
         mMainViewModel.getPayments().observe(getActivity(), payments -> {
             paymentAdapter.submitList(payments);
+            paymentAdapter.notifyDataSetChanged();
             if (swipe_container.isRefreshing()) {
                 swipe_container.setRefreshing(false);
             }

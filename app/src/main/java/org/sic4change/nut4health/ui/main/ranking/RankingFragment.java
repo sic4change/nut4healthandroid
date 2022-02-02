@@ -118,17 +118,19 @@ public class RankingFragment extends Fragment implements SwipeRefreshLayout.OnRe
         mMainViewModel.getCurrentUser().observe(getActivity(), user -> {
             if (user != null) {
                 rankingAdapter.setUser(user);
+                mMainViewModel.getRankingUser();
+                mMainViewModel.getRanking().observe(getActivity(), rankings -> {
+                    rankingAdapter.submitList(rankings);
+                    rankingAdapter.notifyDataSetChanged();
+                    if (swipe_container.isRefreshing()) {
+                        swipe_container.setRefreshing(false);
+                    }
+                    mMainViewModel.getCurrentUser().removeObservers(getActivity());
+                    mMainViewModel.getRanking().removeObservers(getActivity());
+                });
             }
         });
-        mMainViewModel.getRankingUser();
-        mMainViewModel.getRanking().observe(getActivity(), rankings -> {
-            rankingAdapter.submitList(rankings);
-            if (swipe_container.isRefreshing()) {
-                swipe_container.setRefreshing(false);
-            }
-            mMainViewModel.getCurrentUser().removeObservers(getActivity());
-            mMainViewModel.getRanking().removeObservers(getActivity());
-        });
+
     }
 
     @Override
@@ -151,7 +153,6 @@ public class RankingFragment extends Fragment implements SwipeRefreshLayout.OnRe
     public void onRefresh() {
         mMainViewModel = null;
         initData();
-        rankingAdapter.notifyDataSetChanged();
         new CountDownTimer(4000, 1000) {
 
             public void onTick(long millisUntilFinished) {
