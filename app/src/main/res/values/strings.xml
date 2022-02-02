@@ -81,7 +81,7 @@
     <string name="next_step">Next</string>
     <string name="back_step">Back</string>
     <string name="complete_step"></string>
-    <string name="first_step_title">SAMPhoto diagnosis</string>
+    <string name="first_step_title">Diagnosis</string>
     <string name="second_step_title">Child</string>
     <string name="third_step_title">Send</string>
     <string name="take_photo">Take photo</string>
