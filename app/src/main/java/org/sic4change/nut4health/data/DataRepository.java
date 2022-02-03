@@ -63,7 +63,7 @@ public class DataRepository {
 
     private String TAG = DataRepository.class.getName();
 
-    private final static int PAGE_SIZE = 20;
+    private final static int PAGE_SIZE = 100000;
 
     private Nut4HealtDao nut4HealtDao;
     private final ExecutorService mIoExecutor;
@@ -744,7 +744,8 @@ public class DataRepository {
                                                             int percentageMin, int percentageMax) {
         SimpleSQLiteQuery query = SortUtils.getFilterContracts(sort, name, surname, status, dateStart, dateEnd,
                 percentageMin, percentageMax);
-        return new LivePagedListBuilder<>(nut4HealtDao.getUserContracts(query), PAGE_SIZE).build();
+        LiveData<PagedList<Contract>> contracts = new LivePagedListBuilder<>(nut4HealtDao.getUserContracts(query), PAGE_SIZE).build();
+        return contracts;
     }
 
     /**
@@ -778,10 +779,6 @@ public class DataRepository {
                 if ((queryDocumentSnapshots != null) && (queryDocumentSnapshots.getDocuments() != null)
                         && (queryDocumentSnapshots.getDocuments().size() > 0)) {
                     List<User> users = new ArrayList<User>();
-//                    if (!queryDocumentSnapshots.getDocuments().get(0).getMetadata().isFromCache()) {
-//                        System.out.println("Aqui2");
-//                        nut4HealtDao.deleteAllRanking();
-//                    }
                     for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
                         User user = document.toObject(User.class);
                         if (!user.getUsername().contains("anonymous") && user.getRole().equals("Agente Salud")) {

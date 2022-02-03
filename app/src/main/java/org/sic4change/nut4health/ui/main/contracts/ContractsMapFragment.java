@@ -61,6 +61,8 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
     private TextView nDate;
     private TextView nConfirmationDate;
 
+    private TextView tvTotalCasesMap;
+
     private String id;
 
     private String role= "";
@@ -89,34 +91,57 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
         } else {
             showMyPosition();
         }
+        tvTotalCasesMap = view.findViewById(R.id.tvTotalCasesMap);
         return view;
     }
 
 
     private void initData() {
         mMainViewModel = ViewModelProviders.of(getActivity()).get(MainViewModel.class);
+
         mMainViewModel.getContracts().observe(getActivity(), contracts -> {
             showContracts(contracts);
-        });;
+            showContractsNumber(contracts);
+        });
+
+        try {
+            mMainViewModel.getIsFiltered().observe(getActivity(), filtered ->{
+                mMainViewModel.getContracts().observe(getActivity(), contracts -> {
+                    showContracts(contracts);
+                    showContractsNumber(contracts);
+                });
+            });
+        } catch (Exception e) {
+            System.out.println("error");
+        }
+    }
+
+    private void showContractsNumber(PagedList<Contract> contracts) {
+        try {
+            tvTotalCasesMap.setText(getString(R.string.showing) + " " + contracts.size() + " " + getString(R.string.diagnosis_show));
+        } catch (Exception e) {
+            System.out.println("null contracts");
+        }
     }
 
     private void showContracts(PagedList<Contract> contracts) {
         if (mMap != null) {
             mMap.clear();
             for (Contract contract : contracts) {
-                MarkerOptions markerOptions = new MarkerOptions();
-                markerOptions.position(new LatLng(contract.getLatitude(), contract.getLongitude()));
-                if (contract.getStatus().equals(Contract.Status.NO_DIAGNOSIS.name())) {
-                    markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
-                } else if (contract.getStatus().equals(Contract.Status.DIAGNOSIS.name())) {
-                    markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-                } else if (contract.getStatus().equals(Contract.Status.PAID.name())){
-                    markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-                } else if (contract.getStatus().equals(Contract.Status.FINISH.name())){
-                    markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
-                }
-                Marker marker = mMap.addMarker(markerOptions);
-                marker.setTag(contract);
+                    MarkerOptions markerOptions = new MarkerOptions();
+                    markerOptions.position(new LatLng(contract.getLatitude(), contract.getLongitude()));
+                    if (contract.getStatus().equals(Contract.Status.NO_DIAGNOSIS.name())) {
+                        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+                    } else if (contract.getStatus().equals(Contract.Status.DIAGNOSIS.name())) {
+                        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+                    } else if (contract.getStatus().equals(Contract.Status.PAID.name())){
+                        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+                    } else if (contract.getStatus().equals(Contract.Status.FINISH.name())){
+                        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
+                    }
+                    Marker marker = mMap.addMarker(markerOptions);
+                    marker.setTag(contract);
+
             }
         }
         cvContract.setVisibility(View.GONE);

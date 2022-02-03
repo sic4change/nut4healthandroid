@@ -74,13 +74,15 @@
     <!--Contracts-->
     <string name="list">Lista</string>
     <string name="map">Mapa</string>
+    <string name="showing">Mostrando</string>
+    <string name="diagnosis_show">diagnósticos</string>
 
     <!--Create Contract-->
     <string name="createContract">Crear diagnóstico</string>
     <string name="next_step">Siguiente</string>
     <string name="back_step">Anterior</string>
     <string name="complete_step"></string>
-    <string name="first_step_title">Diagnóstico SAMPhoto</string>
+    <string name="first_step_title">Diagnóstico</string>
     <string name="second_step_title">Información</string>
     <string name="third_step_title">Enviar</string>
     <string name="take_photo">Tomar foto</string>

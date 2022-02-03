@@ -151,7 +151,7 @@ public class PaymentFragment extends Fragment implements SwipeRefreshLayout.OnRe
         btnFilter = view.findViewById(R.id.btnFilter);
         btnFilter.setOnClickListener(v -> {
             Nut4HealthKeyboard.closeKeyboard(tvDateRange, getContext());
-            filterContracts();
+            filterPayments();
             lyFilter.setVisibility(View.GONE);
         });
         initData();
@@ -168,6 +168,7 @@ public class PaymentFragment extends Fragment implements SwipeRefreshLayout.OnRe
         });
         mMainViewModel.getPayments().observe(getActivity(), payments -> {
             paymentAdapter.submitList(payments);
+            paymentAdapter.notifyDataSetChanged();
             if (swipe_container.isRefreshing()) {
                 swipe_container.setRefreshing(false);
             }
@@ -246,7 +247,7 @@ public class PaymentFragment extends Fragment implements SwipeRefreshLayout.OnRe
         mMainViewModel.setPercentageMin(0);
     }
 
-    private void filterContracts() {
+    private void filterPayments() {
         switch (spStatus.getSelectedItemPosition()) {
             case 0:
                 mMainViewModel.setStatusPayment(Payment.Status.ALL.name());
