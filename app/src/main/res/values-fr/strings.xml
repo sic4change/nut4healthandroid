@@ -8,173 +8,170 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
-
     <!--Login-->
-    <string name="login">LOGIN</string>
-    <string name="email">Email</string>
-    <string name="password">Password</string>
-    <string name="sign_in">SIGN IN</string>
-    <string name="new_user">New user?</string>
-    <string name="sign_up">Sign Up</string>
-    <string name="terms_and_conditions">Terms and Conditions NUT4Health</string>
-    <string name="terms_and_conditions_sam">Terms and Conditions SAMPhoto</string>
-    <string name="i_forgot_my_password">I forgot my password</string>
+    <string name="login">Identifiez-vous</string>
+    <string name="email">e-mail</string>
+    <string name="password">Mot de passe</string>
+    <string name="sign_in">ENTRER</string>
+    <string name="new_user">Nouvel utilisateur?</string>
+    <string name="sign_up">Créer un compte</string>
+    <string name="terms_and_conditions">Termes et Conditions Nut4Health</string>
+    <string name="terms_and_conditions_sam">Termes et conditions SAMPhoto</string>
+    <string name="i_forgot_my_password">J\'ai oublié mon mot de passe</string>
 
     <!--Create Account-->
-    <string name="createAccount">CREATE ACCOUNT</string>
-    <string name="username">Username</string>
-    <string name="role">Role</string>
-    <string name="repeat_password">Repeat password</string>
-    <string name="sign_up_uppercase">SIGN UP</string>
-    <string name="acept_terms_and_conditions">I accept the </string>
+    <string name="createAccount">CRÉER COMPTE</string>
+    <string name="username">Nom d\'utilisateur</string>
+    <string name="role">Rôle</string>
+    <string name="repeat_password">Répetér le mot de passe</string>
+    <string name="sign_up_uppercase">Créer compte</string>
+    <string name="acept_terms_and_conditions">J\'accepte les </string>
     <string-array name="array_role">
-        <item>Agente Salud</item>
-        <item>Servicio Salud</item>
+        <item>Agent de santé</item>
+        <item>Service de Sante</item>
     </string-array>
 
     <!--Error user login/create account-->
-    <string name="mandatory_field">Mandatory unfilled fields</string>
-    <string name="invalid_email">Invalid email</string>
-    <string name="password_matches">Password and confirm password does not match!!</string>
-    <string name="password_length">Password length must have at least 8 character!!</string>
-    <string name="incorrect_user_or_password">User or password incorrect</string>
-    <string name="user_exist">That registered user already exists</string>
-    <string name="error_terms_and_conditios">You must agree to terms and conditions</string>
+    <string name="mandatory_field">Vous devez remplir les champs obligatoires</string>
+    <string name="invalid_email">Email invalide</string>
+    <string name="password_matches">Le mot de passe et la confirmation du mot de passe doivent correspondre</string>
+    <string name="password_length">Le mot de passe doit comporter au moins 8 caractères</string>
+    <string name="incorrect_user_or_password">Utilisateur ou mot de passe incorrect</string>
+    <string name="user_exist">Cet utilisateur existe déjà</string>
+    <string name="error_terms_and_conditios">Vous devez accepter les termes et conditions</string>
 
     <!--Main-->
-    <string name="close_question">Click again to close</string>
+    <string name="close_question">Appuyez à nouveau pour fermer</string>
 
     <!--Error View-->
-    <string name="error_general_one">An unexpected eror ocurred.</string>
-    <string name="error_general_two">Sorry for the inconvenience.</string>
-    <string name="error_general_three">Restarting App...</string>
+    <string name="error_general_one">Une erreur imprévue s\'est produite.</string>
+    <string name="error_general_two">Désolé pour les dérangements.</string>
+    <string name="error_general_three">Redémarrage de l\'application...</string>
 
     <!--Profile-->
-    <string name="profile">View and edit profile</string>
-    <string name="edit_name">Edit your name</string>
-    <string name="edit_surname">Edit your surname</string>
-    <string name="edit_country">Edit your country</string>
-    <string name="edit_password">Change your password</string>
-    <string name="logout">Logout</string>
-    <string name="delete_account">Delete account</string>
-    <string name="ok">Ok</string>
-    <string name="cancel">Cancel</string>
-    <string name="search">Search...</string>
-    <string name="sent_instructions_to_change_password">If you accept, we will send you the instructions to change the password.</string>
-    <string name="sent_instructions_to_change_password_ok">Sent. Check your email. If you can not find it, look in the Spam folder</string>
-    <string name="logout_question">Are you sure you want to logout?</string>
-    <string name="delete_account_first_question">Are you sure you want to delete the account?</string>
-    <string name="delete_account_second_question">This removes all your data permanently, do you want to continue?</string>
+    <string name="profile">Voir et modifier le profil</string>
+    <string name="edit_name">Modifier votre nom</string>
+    <string name="edit_surname">Modifier votre noms de famille</string>
+    <string name="edit_country">Modifier votre nationalité</string>
+    <string name="edit_password">Changez votre mot de passe</string>
+    <string name="logout">Fermer la session</string>
+    <string name="delete_account">Supprimer le compte</string>
+    <string name="ok">Accepter</string>
+    <string name="cancel">Annuler</string>
+    <string name="search">Chercher...</string>
+    <string name="sent_instructions_to_change_password">Si vous acceptez, nous vous enverrons les instructions pour changer le mot de passe à votre adresse e-mail</string>
+    <string name="sent_instructions_to_change_password_ok">EEnvoyer. Vérifie ton adresse e-mail. Si vous ne le trouvez pas, regardez dans le dossier spam ou Indésirable</string>
+    <string name="logout_question">Es-tu sûr de vouloir sortir?</string>
+    <string name="delete_account_first_question">Voulez-vous vraiment supprimer le compte?</string>
+    <string name="delete_account_second_question">Cela supprime définitivement totes vos informations, voulez-vous continuer?</string>
 
-    <string name="no_internet">Check your Internet Connection</string>
+    <string name="no_internet">Vérifiez votre connection internet</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <!--Contracts-->
-    <string name="list">List</string>
-    <string name="map">Map</string>
-    <string name="showing">Showing</string>
-    <string name="diagnosis_show">diagnosis</string>
+    <string name="list">Liste</string>
+    <string name="map">Carte</string>
 
     <!--Create Contract-->
-    <string name="createContract">Create diagnosis</string>
-    <string name="next_step">Next</string>
-    <string name="back_step">Back</string>
+    <string name="createContract">Créer un diagnostique</string>
+    <string name="next_step">Suivant</string>
+    <string name="back_step">Précédent</string>
     <string name="complete_step"></string>
-    <string name="first_step_title">Diagnosis</string>
-    <string name="second_step_title">Child</string>
-    <string name="third_step_title">Send</string>
-    <string name="take_photo">Take photo</string>
-    <string name="error_photo">You must take photo before</string>
-    <string name="error_child_data">You must enter child data</string>
-    <string name="error_fingerprint_data">You must enter child fingerprint</string>
-    <string name="error_not_gps_position">You must activate geolocalization</string>
-    <string name="child_data">Information</string>
-    <string name="name">Child Name</string>
-    <string name="surname">Child Surname</string>
-    <string name="tutor">Mother or father of the child</string>
-    <string name="check_verification">Mother, father or tutor authorizes the data collection of the minor</string>
-    <string name="dni">Identification document of the child</string>
-    <string name="contact_phone">Contact phone</string>
-    <string name="medical_point">Health Service</string>
-    <string name="location">Location</string>
-    <string name="check_malnutrition">Check malnutrition</string>
-    <string name="capture">Start diagnosis</string>
-    <string name="points">points</string>
-    <string name="your_position">You are here</string>
-    <string name="registerContract">Registrar diagnóstico</string>
+    <string name="first_step_title">Diagnostique SAMPhoto</string>
+    <string name="second_step_title">Information</string>
+    <string name="third_step_title">Envoyer</string>
+    <string name="take_photo">Prendre photo</string>
+    <string name="error_photo">Vous-devez d\'abord prendre la photo du bras de l\'enfant</string>
+    <string name="error_child_data">Vous devez entrer les informations de l\'enfant</string>
+    <string name="error_fingerprint_data">Vous devez entrer l\'empreinte digitale de l\'enfant</string>
+    <string name="error_not_gps_position">Vous devez activer la localisation sur votre appareil</string>
+    <string name="child_data">INFORMATIONS DE L\'ENFANT</string>
+    <string name="name">Nom de l\'enfant</string>
+    <string name="surname">Noms de famille de l\'enfant</string>
+    <string name="tutor">Mère ou père de l\'enfant</string>
+    <string name="check_verification">Mère, père ou le tuteur autorisant la collecte des informations de l\'enfant</string>
+    <string name="dni">Pièce d\'identité de l\'enfant</string>
+    <string name="contact_phone">Téléphone de contact</string>
+    <string name="medical_point">Service de santé</string>
+    <string name="location">Emplacement</string>
+    <string name="check_malnutrition">Vérifier la malnutrition</string>
+    <string name="capture">Démarrer le diagnostique</string>
+    <string name="points">Points</string>
+    <string name="your_position">Vous êtes ici</string>
+    <string name="registerContract">Enregistrer le diagnostique</string>
 
     <!--Main menu-->
-    <string name="contracts">Diagnostics history</string>
-    <string name="ranking">Ranking</string>
-    <string name="payments">Payments</string>
-    <string name="report">Report</string>
+    <string name="contracts">Historique des diagnostiques</string>
+    <string name="ranking">Classement</string>
+    <string name="payments">Paiements</string>
+    <string name="report">Rapport</string>
     <string name="notifications">Notifications</string>
-    <string name="map_diagnostics">Diagnostics map</string>
+    <string name="map_diagnostics">Carte de diagnostiques</string>
 
     <!--Contract Detail-->
-    <string name="contractDetail">Diagnosis patient</string>
+    <string name="contractDetail">Détails du patient</string>
     <string name="date">Date</string>
 
     <!--Contract Filter-->
     <string-array name="array_status">
-        <item>All</item>
-        <item>Finished</item>
-        <item>Malnourished</item>
-        <item>No malnourished</item>
+        <item>Toutes</item>
+        <item>Finalisé</item>
+        <item>mal nourri</item>
+        <item>Pas mal nourri</item>
     </string-array>
-    <string name="hintNameSearch">Name and/or surname</string>
-    <string name="dateRange">Date range</string>
-    <string name="filter">Filter</string>
-    <string name="clear">Clear</string>
+    <string name="hintNameSearch">Nom et/ou prénom</string>
+    <string name="dateRange">Rang des dates</string>
+    <string name="filter">Filtrer</string>
+    <string name="clear">Nettoyer</string>
 
     <!--Ranking Detail-->
-    <string name="ranking_detail">User detail</string>
+    <string name="ranking_detail">Details d\'utilisateur</string>
     <string name="ranking_points">Points</string>
     <string name="ranking_position">Position</string>
 
     <!--Payments -->
-    <string name="monthly_payment_text">Monthly payment</string>
-    <string name="confirmation_text">Confirmed diagnosis</string>
-    <string name="bonus_text">Diagnostics Bonus</string>
+    <string name="monthly_payment_text">Paiement par mois</string>
+    <string name="confirmation_text">Diagnostique confirmé</string>
+    <string name="bonus_text">Bonus de diagnostique</string>
     <string-array name="array_status_payments">
-        <item>All</item>
-        <item>Monthly</item>
-        <item>Diagnosis</item>
-        <item>Confirmed</item>
+        <item>Toutes</item>
+        <item>Mensuel</item>
+        <item>Diagnostiques</item>
+        <item>Confirmations</item>
     </string-array>
-    <string name="status_created">Created</string>
-    <string name="status_paid">Paid</string>
-    <string name="status_cancel">Cancel</string>
+    <string name="status_created">Crée</string>
+    <string name="status_paid">Payé</string>
+    <string name="status_cancel">Annulé</string>
 
     <!--Report -->
-    <string name="send_report">Send report</string>
-    <string name="reportQuestion">Do you have any idea to improve the application? Do you want to report an error? \n\nLeave us your comments here</string>
-    <string name="reportHint">Write here</string>
-    <string name="reportSend">Report sent correctly</string>
-    <string name="reportSendDescription">Thank you!! Soon we can contact you.</string>
+    <string name="send_report">Envoyer un rapport</string>
+    <string name="reportQuestion">Avez-vous des idées pour améliorer l\'application? Vous souhaitez nous signaler une erreur?</string>
+    <string name="reportHint">Ecris ici</string>
+    <string name="reportSend">Rapport envoyé avec succès</string>
+    <string name="reportSendDescription">Merci!! Bientôt nous pourrons vous contacter.</string>
 
     <!--Error create contract server -->
-    <string name="error_create_contract_server">You have previously diagnosed the child or have recently received treatment</string>
+    <string name="error_create_contract_server">Vous avez déjà diagnostique l\'enfant ou avez récemment recu un traitement</string>
 
     <!--Diagnostic Map-->
-    <string name="near_me">Near me</string>
+    <string name="near_me">Près de moi</string>
 
     <!--Status-->
-    <string name="paid">Paid</string>
-    <string name="diagnosis">Diagnosis</string>
-    <string name="no_diagnosis">No Diagnosis</string>
-    <string name="finished">Finished</string>
+    <string name="paid">Payé</string>
+    <string name="diagnosis">Diagnostiqué</string>
+    <string name="no_diagnosis">Non diagnostiqué</string>
+    <string name="finished">Finalisé</string>
 
     <!--Check messages-->
-    <string name="diagnosis_ok">Diagnosis created successfully</string>
-    <string name="diagnosis_paying">That diagnosis is already in the payment phase. You must wait days to diagnose it again</string>
-    <string name="diagnosis_updated">Diagnosis created previously. The data has been updated</string>
-    <string name="diagnosis_to_pay">Malnutrition checked. Paying</string>
-    <string name="diagnosis_finished">Diagnosis completed</string>
-    <string name="contracts_exported_ok">Contracts exported successfully</string>
-    <string name="contracts_exported_error">Contracts exported error</string>
+    <string name="diagnosis_ok">Diagnostique créé avec succès</string>
+    <string name="diagnosis_paying">Ce diagnostique est déjà en phase de paiement. Vous devez attendre des jours pour le re-diagnostiquer</string>
+    <string name="diagnosis_updated">Diagnostique créé plus tôt. Les informations ont été mises à jour</string>
+    <string name="diagnosis_to_pay">Cas avéré de malnutrition. Effectuant le paiement</string>
+    <string name="diagnosis_finished">Diagnostique terminé</string>
+    <string name="contracts_exported_ok">Contrats exportés avec succès</string>
+    <string name="contracts_exported_error">Erreur lors de l\'exportation des contrats</string>
 
     <!--Font awasome -->
     <string name="fa_adjust">&#xf042;</string>
@@ -730,22 +727,20 @@
     <string name="fa_youtube_square">&#xf166;</string>
 
     <!--Fingerprint-->
-
-    <string name="read_child_finger">Child fingerprint</string>
-    <string name="read_child_finger_description">Insert the index finger of the child right hand in the reader</string>
-    <string name="setting_up_reader">Setting up reader</string>
-    <string name="reader_powered_on">Reader powered on</string>
-    <string name="ready_to_scan_finger">Ready to scan finger</string>
-    <string name="finger_detected">Finger detected</string>
-    <string name="finger_has_been_lifted_off_reader">Finger has been lifted off reader</string>
-    <string name="reader_is_off">Reader is off</string>
-    <string name="fingerprint_successfully_captured">Fingerprint successfully captured</string>
-    <string name="receiving_image">Receiving image</string>
-
+    <string name="read_child_finger">Empreinte de l\'enfant</string>
+    <string name="read_child_finger_description">Insérez l\'index de la main droit de l\'enfant dans le scanner</string>
+    <string name="setting_up_reader">Configuration du scanner</string>
+    <string name="reader_powered_on">Scanner allumé</string>
+    <string name="ready_to_scan_finger">Prêt à scanner le doigt</string>
+    <string name="finger_detected">Doigt détecté</string>
+    <string name="finger_has_been_lifted_off_reader">Le doigt a été levé du scanner</string>
+    <string name="reader_is_off">Scanner éteint</string>
+    <string name="fingerprint_successfully_captured">Empreinte digitale capturé avec succès</string>
+    <string name="receiving_image">Image en réception</string>
 
     <!--Confirm diagnosis-->
-    <string name="confirm_diagnosis_first_question">Are you sure you want to confirm the diagnosis?</string>
-    <string name="confirm_diagnosis_second_question">This action has no turning back, do you want to continue?</string>
+    <string name="confirm_diagnosis_first_question">Voulez-vous vraiment confirmer le diagnostique?</string>
+    <string name="confirm_diagnosis_second_question">Il n\'y a pas de retour en arrière pour cette action, voulez-vous continuer?</string>
 
 
 </resources>
