@@ -244,36 +244,42 @@ public class ContractFragment extends Fragment {
             mMainViewModel.getContracts().observe(getActivity(), contracts -> {
                 if (exportContract) {
                     Workbook workbook = new XSSFWorkbook();
-                    Sheet sheet = workbook.createSheet("Contracts");
+                    Sheet sheet = workbook.createSheet(getString(R.string.contracts));
                     Row rowHeader = sheet.createRow(0);
-                    rowHeader.createCell(0).setCellValue("Nombre");
-                    rowHeader.createCell(1).setCellValue("Apellidos");
-                    rowHeader.createCell(2).setCellValue("Dirección");
-                    rowHeader.createCell(3).setCellValue("Teléfono");
-                    rowHeader.createCell(4).setCellValue("Fecha");
-                    rowHeader.createCell(5).setCellValue("Fecha milis");
-                    rowHeader.createCell(6).setCellValue("Porcentage");
-                    rowHeader.createCell(7).setCellValue("Estado");
-                    rowHeader.createCell(8).setCellValue("Agente salud");
-                    rowHeader.createCell(9).setCellValue("Centro salud");
-                    rowHeader.createCell(10).setCellValue("Fecha alta médica");
-                    rowHeader.createCell(11).setCellValue("Fecha alta medica milis");
-                    rowHeader.createCell(12).setCellValue("Localización centro médico");
+                    rowHeader.createCell(0).setCellValue(getString(R.string.name_export));
+                    rowHeader.createCell(1).setCellValue(getString(R.string.surnname_export));
+                    rowHeader.createCell(2).setCellValue(getString(R.string.address_export));
+                    rowHeader.createCell(3).setCellValue(getString(R.string.phone_export));
+                    rowHeader.createCell(4).setCellValue(getString(R.string.date_export));
+                    rowHeader.createCell(5).setCellValue(getString(R.string.date_millis_export));
+                    rowHeader.createCell(6).setCellValue(getString(R.string.screener_export));
+                    rowHeader.createCell(7).setCellValue(getString(R.string.service_export));
+                    rowHeader.createCell(8).setCellValue(getString(R.string.date_health_service));
+                    rowHeader.createCell(9).setCellValue(getString(R.string.date_millis_health_service));
+                    rowHeader.createCell(10).setCellValue(getString(R.string.locatoin_health_service));
+                    rowHeader.createCell(11).setCellValue(getString(R.string.status));
                     for(int  i=0; i<contracts.size(); i++){
                         Row row = sheet.createRow(i+1);
+                        String status = "";
+                        if (contracts.get(i).getPercentage() < 50) {
+                            status = getString(R.string.normopeso_abrev);
+                        } else if (contracts.get(i).getPercentage() == 50) {
+                            status = getString(R.string.moderate_acute_malnutrition_abrev);
+                        } else {
+                            status = getString(R.string.severe_acute_malnutrition_abrev);
+                        }
                         row.createCell(0).setCellValue(contracts.get(i).getChildName());
                         row.createCell(1).setCellValue(contracts.get(i).getChildSurname());
                         row.createCell(2).setCellValue(contracts.get(i).getChildAddress());
                         row.createCell(3).setCellValue(contracts.get(i).getChildPhoneContract());
                         row.createCell(4).setCellValue(contracts.get(i).getCreationDate());
                         row.createCell(5).setCellValue(contracts.get(i).getCreationDateMiliseconds());
-                        row.createCell(6).setCellValue(contracts.get(i).getPercentage());
-                        row.createCell(7).setCellValue(contracts.get(i).getStatus());
-                        row.createCell(8).setCellValue(contracts.get(i).getScreener());
-                        row.createCell(9).setCellValue(contracts.get(i).getMedical());
-                        row.createCell(10).setCellValue(contracts.get(i).getMedicalDate());
-                        row.createCell(11).setCellValue(contracts.get(i).getMedicalDateMiliseconds());
-                        row.createCell(12).setCellValue(contracts.get(i).getPointFullName());
+                        row.createCell(6).setCellValue(contracts.get(i).getScreener());
+                        row.createCell(7).setCellValue(contracts.get(i).getMedical());
+                        row.createCell(8).setCellValue(contracts.get(i).getMedicalDate());
+                        row.createCell(9).setCellValue(contracts.get(i).getMedicalDateMiliseconds());
+                        row.createCell(10).setCellValue(contracts.get(i).getPointFullName());
+                        row.createCell(11).setCellValue(status);
                     }
                     File file = new File(getActivity().getExternalFilesDir(null), "contracts.xlsx");
                     try {

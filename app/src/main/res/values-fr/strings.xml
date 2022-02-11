@@ -759,4 +759,18 @@
 
     <string name="help">Aider</string>
 
+    <!--Excel export-->
+    <string name="name_export">Nom</string>
+    <string name="surnname_export">Noms de famille</string>
+    <string name="address_export">Adresse</string>
+    <string name="phone_export">Téléphone</string>
+    <string name="date_export">Date</string>
+    <string name="date_millis_export">Date mili</string>
+    <string name="screener_export">Agent de santé</string>
+    <string name="service_export">Services de santé</string>
+    <string name="date_health_service">Date Services de santé</string>
+    <string name="date_millis_health_service">Date Services de santé mili</string>
+    <string name="locatoin_health_service">Emplacement des services de santé</string>
+    <string name="status">État</string>
+
 </resources>

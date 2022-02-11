@@ -762,4 +762,18 @@
 
     <string name="help">Ayuda</string>
 
+    <!--Excel export-->
+    <string name="name_export">Nombre</string>
+    <string name="surnname_export">Apellidos</string>
+    <string name="address_export">Dirección</string>
+    <string name="phone_export">Teléfono</string>
+    <string name="date_export">Fecha</string>
+    <string name="date_millis_export">Fecha mili</string>
+    <string name="screener_export">Agente Salud</string>
+    <string name="service_export">Servicio Salud</string>
+    <string name="date_health_service">Fecha Servicio Salud</string>
+    <string name="date_millis_health_service">Fecha Servicio Salud mili</string>
+    <string name="locatoin_health_service">Localización Servicio Salud</string>
+    <string name="status">Estado</string>
+
 </resources>

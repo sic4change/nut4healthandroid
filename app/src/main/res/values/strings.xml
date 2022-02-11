@@ -28,8 +28,8 @@
     <string name="sign_up_uppercase">SIGN UP</string>
     <string name="acept_terms_and_conditions">I accept the </string>
     <string-array name="array_role">
-        <item>Agente Salud</item>
-        <item>Servicio Salud</item>
+        <item>Health Agent</item>
+        <item>Health Service</item>
     </string-array>
 
     <!--Error user login/create account-->
@@ -764,5 +764,18 @@
     <string name="severe_acute_malnutrition_full">Moderate Acute Malnutrition (SAM)</string>
     <string name="help">Help</string>
 
+    <!--Excel export-->
+    <string name="name_export">Name</string>
+    <string name="surnname_export">Surnames</string>
+    <string name="address_export">Address</string>
+    <string name="phone_export">Phone</string>
+    <string name="date_export">Date</string>
+    <string name="date_millis_export">Address</string>
+    <string name="screener_export">Health Agent</string>
+    <string name="service_export">Health Service</string>
+    <string name="date_health_service">Date Health Service</string>
+    <string name="date_millis_health_service">Date Millis Health Service</string>
+    <string name="locatoin_health_service">Location Health Service</string>
+    <string name="status">Status</string>
 
 </resources>
