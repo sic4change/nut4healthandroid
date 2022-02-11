@@ -747,5 +747,16 @@
     <string name="confirm_diagnosis_first_question">Are you sure you want to confirm the diagnosis?</string>
     <string name="confirm_diagnosis_second_question">This action has no turning back, do you want to continue?</string>
 
+    <!--Type diagnosis-->
+    <string name="normopeso">Normopeso</string>
+    <string name="moderate_acute_malnutrition">Moderate Acute Malnutrition</string>
+    <string name="severe_acute_malnutrition">Severe Acute Malnutrition</string>
 
+    <string name="normopeso_abrev">NW</string>
+    <string name="moderate_acute_malnutrition_abrev">MAM</string>
+    <string name="severe_acute_malnutrition_abrev">SAM</string>
+
+    <string name="normopeso_full">Normal Weight (NW)</string>
+    <string name="moderate_acute_malnutrition_full">Moderate Acute Malnutrition (MAM)</string>
+    <string name="severe_acute_malnutrition_full">Moderate Acute Malnutrition (SAM)</string>
 </resources>

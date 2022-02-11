@@ -83,7 +83,7 @@
     <string name="second_step_title">Information</string>
     <string name="third_step_title">Envoyer</string>
     <string name="take_photo">Prendre photo</string>
-    <string name="error_photo">Vous devez indiquer le périmètre brachial du bras de l\'enfant</string>
+    <string name="error_photo">Vous devez indiquer le périmètre brachial du bras de l’enfant</string>
     <string name="error_child_data">Vous devez entrer les informations de l\'enfant</string>
     <string name="error_fingerprint_data">Vous devez entrer l\'empreinte digitale de l\'enfant</string>
     <string name="error_not_gps_position">Vous devez activer la localisation sur votre appareil</string>
@@ -742,5 +742,17 @@
     <string name="confirm_diagnosis_first_question">Voulez-vous vraiment confirmer le diagnostique?</string>
     <string name="confirm_diagnosis_second_question">Il n\'y a pas de retour en arrière pour cette action, voulez-vous continuer?</string>
 
+    <!--Type diagnosis-->
+    <string name="normopeso">Poids Normal</string>
+    <string name="moderate_acute_malnutrition">Malnutrition aiguë modérée</string>
+    <string name="severe_acute_malnutrition">Malnutrition aiguë sévère</string>
+
+    <string name="normopeso_abrev">NW</string>
+    <string name="moderate_acute_malnutrition_abrev">MAM</string>
+    <string name="severe_acute_malnutrition_abrev">SAM</string>
+
+    <string name="normopeso_full">Poids Normal (NW)</string>
+    <string name="moderate_acute_malnutrition_full">Malnutrition aiguë modérée (MAM)</string>
+    <string name="severe_acute_malnutrition_full">Malnutrition aiguë sévère (SAM)</string>
 
 </resources>

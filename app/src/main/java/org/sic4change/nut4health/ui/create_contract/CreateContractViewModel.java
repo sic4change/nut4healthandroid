@@ -26,7 +26,7 @@ public class CreateContractViewModel extends ViewModel {
     private final LiveData<Contract> mContract;
 
     private Uri uriPhoto;
-    private int percentage;
+    private int percentage = -1;
     private Nut4HealthSingleShotLocationProvider.GPSCoordinates location = new Nut4HealthSingleShotLocationProvider.GPSCoordinates(0,0);
     private String childName;
     private String childSurname;

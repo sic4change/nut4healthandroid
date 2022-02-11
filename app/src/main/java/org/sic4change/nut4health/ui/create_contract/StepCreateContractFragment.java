@@ -265,7 +265,22 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
     public void onSelected() {
         if (getPosition() == 0) {
             tvPercentage.setVisibility(View.VISIBLE);
-            tvPercentage.setText(mCreateContractViewModel.getPercentage() + " %");
+            try {
+                if (mCreateContractViewModel.getPercentage() == -1) {
+                    tvPercentage.setText("");
+                } else {
+                    if (mCreateContractViewModel.getPercentage() < 50) {
+                        tvPercentage.setText(getResources().getString(R.string.normopeso_full));
+                    } else if (mCreateContractViewModel.getPercentage() == 50) {
+                        tvPercentage.setText(getResources().getString(R.string.moderate_acute_malnutrition_full));
+                    } else {
+                        tvPercentage.setText(getResources().getString(R.string.severe_acute_malnutrition_full));
+                    }
+                }
+
+            } catch (Exception e) {
+                tvPercentage.setText("");
+            }
             cvChild.setVisibility(View.GONE);
             btnCheckMalnutrition.setVisibility(View.GONE);
             ivNewContract.setVisibility(View.GONE);
@@ -386,12 +401,15 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
             String requiredValue = data.getStringExtra("RESULT");
             System.out.println(requiredValue);
             Integer value = requiredValue.equals("NOR") ? 0 : 100;
-            tvPercentage.setText(value.toString() + " %");
+
             if (value < 50) {
+                tvPercentage.setText(getResources().getString(R.string.normopeso_full));
                 tvPercentage.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
             } else if (value == 50) {
+                tvPercentage.setText(getResources().getString(R.string.moderate_acute_malnutrition_full));
                 tvPercentage.setTextColor(getResources().getColor(R.color.orange));
             } else {
+                tvPercentage.setText(getResources().getString(R.string.severe_acute_malnutrition_full));
                 tvPercentage.setTextColor(getResources().getColor(R.color.error));
             }
             mCreateContractViewModel.setPercentage(value);
@@ -471,19 +489,19 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
         tvCm.setText(df.format(value) + " cm");
         if (value < 11.5) {
             rulerBackground.setBackgroundColor(getResources().getColor(R.color.error));
-            tvPercentage.setText("100%");
+            tvPercentage.setText(getResources().getString(R.string.severe_acute_malnutrition_full));
             tvPercentage.setTextColor(getResources().getColor(R.color.error));
             tvCm.setTextColor(getResources().getColor(R.color.error));
             mCreateContractViewModel.setPercentage(100);
         } else if (value >=11.5 && value <= 12.5) {
             rulerBackground.setBackgroundColor(getResources().getColor(R.color.orange));
-            tvPercentage.setText("50%");
+            tvPercentage.setText(getResources().getString(R.string.moderate_acute_malnutrition_full));
             tvPercentage.setTextColor(getResources().getColor(R.color.orange));
             tvCm.setTextColor(getResources().getColor(R.color.orange));
             mCreateContractViewModel.setPercentage(50);
         } else {
             rulerBackground.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-            tvPercentage.setText("0%");
+            tvPercentage.setText(getResources().getString(R.string.normopeso_full));
             tvPercentage.setTextColor(getResources().getColor(R.color.colorAccent));
             tvCm.setTextColor(getResources().getColor(R.color.colorAccent));
             mCreateContractViewModel.setPercentage(0);

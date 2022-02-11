@@ -745,5 +745,17 @@
     <string name="confirm_diagnosis_first_question">¿Estás seguro que quieres confirmar el diagnóstico?</string>
     <string name="confirm_diagnosis_second_question">Esta acción no tiene vuelta atrás, ¿desea continuar?</string>
 
+    <!--Type diagnosis-->
+    <string name="normopeso">Normopeso</string>
+    <string name="moderate_acute_malnutrition">Desnutrición Aguda Moderada</string>
+    <string name="severe_acute_malnutrition">Desnutrición Aguda Severa</string>
+
+    <string name="normopeso_abrev">NW</string>
+    <string name="moderate_acute_malnutrition_abrev">MAM</string>
+    <string name="severe_acute_malnutrition_abrev">SAM</string>
+
+    <string name="normopeso_full">Normopeso (NW)</string>
+    <string name="moderate_acute_malnutrition_full">Desnutrición Aguda Moderada (MAM)</string>
+    <string name="severe_acute_malnutrition_full">Desnutrición Aguda Severa (SAM)</string>
 
 </resources>
