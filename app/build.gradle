@@ -43,6 +43,22 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
+    flavorDimensions "nut4health"
+    productFlavors {
+        Development {
+            applicationId "org.sic4change.nut4health"
+            dimension "nut4health"
+            versionCode 13
+            versionName "1.13"
+        }
+        Production {
+            applicationId "org.sic4change.nut4health"
+            dimension "nut4health"
+            versionCode 12
+            versionName "1.12"
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
