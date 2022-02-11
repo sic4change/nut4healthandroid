@@ -359,18 +359,18 @@ public class ContractFragment extends Fragment {
         switch (spStatus.getSelectedItemPosition()) {
             case 0:
                 mMainViewModel.setStatus(Contract.Status.EMPTY.name());
-                mMainViewModel.setPercentageMax(0);
-                mMainViewModel.setPercentageMin(100);
+                mMainViewModel.setPercentageMin(0);
+                mMainViewModel.setPercentageMax(100);
                 break;
             case 1:
                 mMainViewModel.setStatus(Contract.Status.FINISH.name());
-                mMainViewModel.setPercentageMax(0);
-                mMainViewModel.setPercentageMin(100);
+                mMainViewModel.setPercentageMin(0);
+                mMainViewModel.setPercentageMax(100);
                 break;
             case 2:
                 mMainViewModel.setStatus(Contract.Status.PAID.name());
-                mMainViewModel.setPercentageMax(0);
-                mMainViewModel.setPercentageMin(100);
+                mMainViewModel.setPercentageMin(0);
+                mMainViewModel.setPercentageMax(100);
                 break;
             case 3:
                 mMainViewModel.setStatus(Contract.Status.EMPTY.name());
