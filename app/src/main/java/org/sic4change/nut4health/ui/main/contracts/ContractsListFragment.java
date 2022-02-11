@@ -23,10 +23,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.data.entities.Contract;
-import org.sic4change.nut4health.data.entities.Point;
 import org.sic4change.nut4health.ui.contract_detail.ContractDetailActivity;
-import org.sic4change.nut4health.ui.contract_detail.ContractDetailViewModelFactory;
-import org.sic4change.nut4health.ui.contract_detail.DetailContractViewModel;
 import org.sic4change.nut4health.ui.main.MainViewModel;
 
 import static maes.tech.intentanim.CustomIntent.customType;
@@ -45,8 +42,9 @@ public class ContractsListFragment extends Fragment implements SwipeRefreshLayou
 
     private String role= "";
 
-    public ContractsListFragment() {
+    public ContractsListFragment(String role) {
         // Required empty public constructor
+        this.role = role;
     }
 
 

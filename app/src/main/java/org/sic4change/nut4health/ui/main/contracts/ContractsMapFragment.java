@@ -38,7 +38,6 @@ import org.sic4change.nut4health.ui.contract_detail.ContractDetailActivity;
 import org.sic4change.nut4health.ui.main.MainViewModel;
 import org.sic4change.nut4health.utils.location.Nut4HealthSingleShotLocationProvider;
 
-import java.text.ParseException;
 import java.util.Date;
 import java.util.Locale;
 
@@ -67,8 +66,8 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
 
     private String role= "";
 
-    public ContractsMapFragment() {
-        // Required empty public constructor
+    public ContractsMapFragment(String role) {
+        this.role = role;
     }
 
     @Override

@@ -95,7 +95,7 @@ public class ContractFragment extends Fragment {
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         final ViewPager viewPager = view.findViewById(R.id.pager);
         final PagerFragmentAdapter adapter = new PagerFragmentAdapter
-                (getActivity().getSupportFragmentManager(), tabLayout.getTabCount());
+                (getActivity().getSupportFragmentManager(), tabLayout.getTabCount(), mMainViewModel.getCurrentUser().getValue().getRole());
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new
                 TabLayout.TabLayoutOnPageChangeListener(tabLayout));

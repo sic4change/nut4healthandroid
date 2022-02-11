@@ -4,7 +4,6 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.graphics.Typeface;
 import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
@@ -12,17 +11,14 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -35,12 +31,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.work.Constraints;
-import androidx.work.ExistingPeriodicWorkPolicy;
 import androidx.work.NetworkType;
-import androidx.work.OneTimeWorkRequest;
 import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
-import androidx.work.WorkRequest;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.navigation.NavigationView;
@@ -52,8 +45,6 @@ import org.sic4change.nut4health.ui.main.contracts.ContractFragment;
 import org.sic4change.nut4health.ui.main.contracts.ContractsListFragment;
 import org.sic4change.nut4health.ui.main.contracts.ContractsMapFragment;
 import org.sic4change.nut4health.ui.main.create_contract.CreateContractFragment;
-import org.sic4change.nut4health.ui.main.near.NearFragment;
-import org.sic4change.nut4health.ui.main.near.NearMapFragment;
 import org.sic4change.nut4health.ui.main.notifications.NotificationFragment;
 import org.sic4change.nut4health.ui.main.payments.PaymentFragment;
 import org.sic4change.nut4health.ui.main.ranking.RankingFragment;
@@ -76,8 +67,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         EmptyFragment.OnFragmentInteractionListener, CreateContractFragment.OnFragmentInteractionListener,
         ContractsListFragment.OnFragmentInteractionListener, ContractsMapFragment.OnFragmentInteractionListener,
         RankingFragment.OnFragmentInteractionListener, PaymentFragment.OnFragmentInteractionListener,
-        ReportFragment.OnFragmentInteractionListener, NotificationFragment.OnFragmentInteractionListener,
-        NearMapFragment.OnFragmentInteractionListener {
+        ReportFragment.OnFragmentInteractionListener, NotificationFragment.OnFragmentInteractionListener {
 
     private boolean doubleBackToExitPressedOnce = false;
 
@@ -287,7 +277,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     setTitle(R.string.report);
                 } else if (id == R.id.nav_help) {
                     fragment = new EmptyFragment();
-                    setTitle("Ayuda");
+                    setTitle(getString(R.string.help));
                 }
                 fragmentManager.beginTransaction()
                         .replace(R.id.lyMainContent, fragment)
@@ -310,13 +300,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Intent intent = new Intent(this, ProfileActivity.class);
         startActivity(intent);
         customType(MainActivity.this,"left-to-right");
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            subscribeToCountryStateCity(mMainViewModel.getCurrentUser().getValue());
-        }
     }
 
     private void subscribeToCountryStateCity(User user) {

@@ -759,4 +759,6 @@
     <string name="normopeso_full">Normal Weight (NW)</string>
     <string name="moderate_acute_malnutrition_full">Moderate Acute Malnutrition (MAM)</string>
     <string name="severe_acute_malnutrition_full">Moderate Acute Malnutrition (SAM)</string>
+
+    <string name="help">Help</string>
 </resources>

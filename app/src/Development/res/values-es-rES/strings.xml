@@ -758,4 +758,6 @@
     <string name="moderate_acute_malnutrition_full">Desnutrición Aguda Moderada (MAM)</string>
     <string name="severe_acute_malnutrition_full">Desnutrición Aguda Severa (SAM)</string>
 
+    <string name="help">Ayuda</string>
+
 </resources>
