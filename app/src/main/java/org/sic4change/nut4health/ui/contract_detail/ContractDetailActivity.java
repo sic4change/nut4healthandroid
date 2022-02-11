@@ -66,34 +66,56 @@ public class ContractDetailActivity extends AppCompatActivity {
             etPhoneContact.setText(contract.getChildPhoneContract());
             spPoint.setText(contract.getPointFullName());
             ivIcon.setTitleText(contract.getPercentage() + "%");
-            if (contract.getStatus().equals(Contract.Status.DIAGNOSIS.name())) {
-                ivIcon.setFillColor(getApplicationContext().getResources().getColor(R.color.ms_errorColor));
-                ivIcon.setStrokeColor(getApplicationContext().getResources().getColor(R.color.ms_errorColor));
-                tvStatus.setText(this.getResources().getString(R.string.diagnosis));
-                tvStatus.setTextColor(this.getResources().getColor(R.color.ms_errorColor));
-            } else if (contract.getStatus().equals(Contract.Status.NO_DIAGNOSIS.name())) {
-                ivIcon.setFillColor(getApplicationContext().getResources().getColor(R.color.colorPrimaryDark));
-                ivIcon.setStrokeColor(getApplicationContext().getResources().getColor(R.color.colorPrimaryDark));
-                tvStatus.setText(this.getResources().getString(R.string.no_diagnosis));
-                tvStatus.setTextColor(this.getResources().getColor(R.color.colorPrimaryDark));
-            } else if (contract.getStatus().equals(Contract.Status.PAID.name())) {
-                ivIcon.setFillColor(getApplicationContext().getResources().getColor(R.color.colorAccent));
-                ivIcon.setStrokeColor(getApplicationContext().getResources().getColor(R.color.colorAccent));
-                tvStatus.setText(this.getResources().getString(R.string.paid));
-                tvStatus.setTextColor(this.getResources().getColor(R.color.colorAccent));
+            if (contract.getPercentage() < 50) {
+                ivIcon.setTitleText(getResources().getString(R.string.normopeso_abrev));
+                ivIcon.setFillColor(getResources().getColor(R.color.colorPrimaryDark));
+                ivIcon.setStrokeColor(getResources().getColor(R.color.colorPrimaryDark));
+                tvStatus.setText(getResources().getString(R.string.normopeso));
+                tvStatus.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+            } else if (contract.getPercentage() == 50) {
+                ivIcon.setTitleText(getResources().getString(R.string.moderate_acute_malnutrition_abrev));
+                ivIcon.setFillColor(getResources().getColor(R.color.orange));
+                ivIcon.setStrokeColor(getResources().getColor(R.color.orange));
+                tvStatus.setText(getResources().getString(R.string.moderate_acute_malnutrition));
+                tvStatus.setTextColor(getResources().getColor(R.color.orange));
+            } else {
+                ivIcon.setTitleText(getResources().getString(R.string.severe_acute_malnutrition_abrev));
+                ivIcon.setFillColor(getResources().getColor(R.color.ms_errorColor));
+                ivIcon.setStrokeColor(getResources().getColor(R.color.ms_errorColor));
+                tvStatus.setText(getResources().getString(R.string.severe_acute_malnutrition));
+                tvStatus.setTextColor(getResources().getColor(R.color.ms_errorColor));
+            }
+            if (contract.getStatus().equals(Contract.Status.PAID.name())) {
+                ivIcon.setFillColor(getResources().getColor(R.color.colorAccent));
+                ivIcon.setStrokeColor(getResources().getColor(R.color.colorAccent));
+                Date date = new Date(contract.getMedicalDate());
+                Locale LocaleBylanguageTag = Locale.forLanguageTag("es");
+                TimeAgoMessages messages = new TimeAgoMessages.Builder().withLocale(LocaleBylanguageTag).build();
+                String text = TimeAgo.using(date.getTime(), messages);
+                tvStatus.setText(getResources().getString(R.string.paid));
+                tvStatus.setTextColor(getResources().getColor(R.color.colorAccent));
             } else if (contract.getStatus().equals(Contract.Status.FINISH.name())) {
-                ivIcon.setFillColor(getApplicationContext().getResources().getColor(R.color.orange));
-                ivIcon.setStrokeColor(getApplicationContext().getResources().getColor(R.color.orange));
-                tvStatus.setText(this.getResources().getString(R.string.finished));
-                tvStatus.setTextColor(this.getResources().getColor(R.color.orange));
+                ivIcon.setFillColor(getResources().getColor(R.color.violet));
+                ivIcon.setStrokeColor(getResources().getColor(R.color.violet));
+                try {
+                    Date date = new Date(contract.getMedicalDate());
+                    Locale LocaleBylanguageTag = Locale.forLanguageTag("es");
+                    TimeAgoMessages messages = new TimeAgoMessages.Builder().withLocale(LocaleBylanguageTag).build();
+                    String text = TimeAgo.using(date.getTime(), messages);
+                } catch (Exception e) {
+                }
+                tvStatus.setText(getResources().getString(R.string.finished));
+                tvStatus.setTextColor(getResources().getColor(R.color.violet));
             }
             if (contract.getStatus().equals("DIAGNOSIS") && role.equals("Servicio Salud")) {
                 btnConfirm.setEnabled(true);
                 btnConfirm.setClickable(true);
+                btnConfirm.setVisibility(View.VISIBLE);
                 btnConfirm.setBackgroundColor(this.getResources().getColor(R.color.colorAccent));
             } else {
                 btnConfirm.setEnabled(false);
                 btnConfirm.setClickable(false);
+                btnConfirm.setVisibility(View.INVISIBLE);
                 btnConfirm.setBackgroundColor(this.getResources().getColor(R.color.ms_material_grey_400));
             }
             Date date = new Date(contract.getCreationDate());

@@ -52,20 +52,29 @@ private Context context;
         mContract = contract;
         nChildName.setText(contract.getChildName() + " " + contract.getChildSurname());
         nChildLocation.setText(contract.getChildAddress());
-        nPercentage.setTitleText(contract.getPercentage() + "%");
-        if (contract.getStatus().equals(Contract.Status.DIAGNOSIS.name())) {
-            nPercentage.setFillColor(context.getResources().getColor(R.color.ms_errorColor));
-            nPercentage.setStrokeColor(context.getResources().getColor(R.color.ms_errorColor));
-            nStatus.setText(context.getResources().getString(R.string.diagnosis));
-            nStatus.setTextColor(context.getResources().getColor(R.color.ms_errorColor));
-            nConfirmationDate.setVisibility(View.INVISIBLE);
-        } else if (contract.getStatus().equals(Contract.Status.NO_DIAGNOSIS.name())) {
+        if (contract.getPercentage() < 50) {
+            nPercentage.setTitleText(context.getResources().getString(R.string.normopeso_abrev));
             nPercentage.setFillColor(context.getResources().getColor(R.color.colorPrimaryDark));
             nPercentage.setStrokeColor(context.getResources().getColor(R.color.colorPrimaryDark));
-            nStatus.setText(context.getResources().getString(R.string.no_diagnosis));
+            nStatus.setText(context.getResources().getString(R.string.normopeso));
             nStatus.setTextColor(context.getResources().getColor(R.color.colorPrimaryDark));
             nConfirmationDate.setVisibility(View.INVISIBLE);
-        } else if (contract.getStatus().equals(Contract.Status.PAID.name())) {
+        } else if (contract.getPercentage() == 50) {
+            nPercentage.setTitleText(context.getResources().getString(R.string.moderate_acute_malnutrition_abrev));
+            nPercentage.setFillColor(context.getResources().getColor(R.color.orange));
+            nPercentage.setStrokeColor(context.getResources().getColor(R.color.orange));
+            nStatus.setText(context.getResources().getString(R.string.moderate_acute_malnutrition));
+            nStatus.setTextColor(context.getResources().getColor(R.color.orange));
+            nConfirmationDate.setVisibility(View.INVISIBLE);
+        } else {
+            nPercentage.setTitleText(context.getResources().getString(R.string.severe_acute_malnutrition_abrev));
+            nPercentage.setFillColor(context.getResources().getColor(R.color.ms_errorColor));
+            nPercentage.setStrokeColor(context.getResources().getColor(R.color.ms_errorColor));
+            nStatus.setText(context.getResources().getString(R.string.severe_acute_malnutrition));
+            nStatus.setTextColor(context.getResources().getColor(R.color.ms_errorColor));
+            nConfirmationDate.setVisibility(View.INVISIBLE);
+        }
+        if (contract.getStatus().equals(Contract.Status.PAID.name())) {
             nPercentage.setFillColor(context.getResources().getColor(R.color.colorAccent));
             nPercentage.setStrokeColor(context.getResources().getColor(R.color.colorAccent));
             Date date = new Date(contract.getMedicalDate());
@@ -77,8 +86,8 @@ private Context context;
             nStatus.setTextColor(context.getResources().getColor(R.color.colorAccent));
             nConfirmationDate.setVisibility(View.VISIBLE);
         } else if (contract.getStatus().equals(Contract.Status.FINISH.name())) {
-            nPercentage.setFillColor(context.getResources().getColor(R.color.orange));
-            nPercentage.setStrokeColor(context.getResources().getColor(R.color.orange));
+            nPercentage.setFillColor(context.getResources().getColor(R.color.violet));
+            nPercentage.setStrokeColor(context.getResources().getColor(R.color.violet));
             try {
                 Date date = new Date(contract.getMedicalDate());
                 Locale LocaleBylanguageTag = Locale.forLanguageTag("es");
@@ -86,10 +95,10 @@ private Context context;
                 String text = TimeAgo.using(date.getTime(), messages);
                 nConfirmationDate.setText(text);
             } catch (Exception e) {
-                nConfirmationDate.setText("justo ahora");
+                nConfirmationDate.setText("");
             }
             nStatus.setText(context.getResources().getString(R.string.finished));
-            nStatus.setTextColor(context.getResources().getColor(R.color.orange));
+            nStatus.setTextColor(context.getResources().getColor(R.color.violet));
             nConfirmationDate.setVisibility(View.VISIBLE);
         }
         Date date = new Date(contract.getCreationDate());

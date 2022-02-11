@@ -128,20 +128,22 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
         if (mMap != null) {
             mMap.clear();
             for (Contract contract : contracts) {
-                    MarkerOptions markerOptions = new MarkerOptions();
-                    markerOptions.position(new LatLng(contract.getLatitude(), contract.getLongitude()));
-                    if (contract.getStatus().equals(Contract.Status.NO_DIAGNOSIS.name())) {
-                        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
-                    } else if (contract.getStatus().equals(Contract.Status.DIAGNOSIS.name())) {
-                        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-                    } else if (contract.getStatus().equals(Contract.Status.PAID.name())){
-                        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-                    } else if (contract.getStatus().equals(Contract.Status.FINISH.name())){
-                        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
-                    }
-                    Marker marker = mMap.addMarker(markerOptions);
-                    marker.setTag(contract);
-
+                MarkerOptions markerOptions = new MarkerOptions();
+                markerOptions.position(new LatLng(contract.getLatitude(), contract.getLongitude()));
+                if (contract.getPercentage() < 50) {
+                    markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+                } else if (contract.getPercentage() == 50) {
+                    markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
+                } else {
+                    markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+                }
+                if (contract.getStatus().equals(Contract.Status.PAID.name())) {
+                    markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+                } else if (contract.getStatus().equals(Contract.Status.FINISH.name())) {
+                    markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET));
+                }
+                Marker marker = mMap.addMarker(markerOptions);
+                marker.setTag(contract);
             }
         }
         cvContract.setVisibility(View.GONE);
@@ -170,7 +172,13 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
             Contract contract = (Contract) marker.getTag();
             if (contract != null) {
                 showContractInformation(contract);
-                marker.setTitle(contract.getPercentage() + "%");
+                if (contract.getPercentage() < 50) {
+                    marker.setTitle(getResources().getString(R.string.normopeso_abrev));
+                } else if (contract.getPercentage() == 50) {
+                    marker.setTitle(getResources().getString(R.string.moderate_acute_malnutrition_abrev));
+                } else {
+                    marker.setTitle(getResources().getString(R.string.severe_acute_malnutrition_abrev));
+                }
                 id = contract.getId();
             }
             markMyPosition();
@@ -184,42 +192,56 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
     private void showContractInformation(Contract contract) {
         nChildName.setText(contract.getChildName() + " " + contract.getChildSurname());
         nChildLocation.setText(contract.getChildAddress());
-        nPercentage.setTitleText(contract.getPercentage() + "%");
-        if (contract.getStatus().equals(Contract.Status.DIAGNOSIS.name())) {
-            nPercentage.setFillColor(getActivity().getResources().getColor(R.color.ms_errorColor));
-            nPercentage.setStrokeColor(getActivity().getResources().getColor(R.color.ms_errorColor));
-            nStatus.setText(getActivity().getResources().getString(R.string.diagnosis));
-            nStatus.setTextColor(getActivity().getResources().getColor(R.color.ms_errorColor));
+        if (contract.getPercentage() < 50) {
+            nPercentage.setTitleText(getResources().getString(R.string.normopeso_abrev));
+            nPercentage.setFillColor(getResources().getColor(R.color.colorPrimaryDark));
+            nPercentage.setStrokeColor(getResources().getColor(R.color.colorPrimaryDark));
+            nStatus.setText(getResources().getString(R.string.normopeso));
+            nStatus.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
             nConfirmationDate.setVisibility(View.INVISIBLE);
-        } else if (contract.getStatus().equals(Contract.Status.NO_DIAGNOSIS.name())) {
-            nPercentage.setFillColor(getActivity().getResources().getColor(R.color.colorPrimaryDark));
-            nPercentage.setStrokeColor(getActivity().getResources().getColor(R.color.colorPrimaryDark));
-            nStatus.setText(getActivity().getResources().getString(R.string.no_diagnosis));
-            nStatus.setTextColor(getActivity().getResources().getColor(R.color.colorPrimaryDark));
+        } else if (contract.getPercentage() == 50) {
+            nPercentage.setTitleText(getResources().getString(R.string.moderate_acute_malnutrition_abrev));
+            nPercentage.setFillColor(getResources().getColor(R.color.orange));
+            nPercentage.setStrokeColor(getResources().getColor(R.color.orange));
+            nStatus.setText(getResources().getString(R.string.moderate_acute_malnutrition));
+            nStatus.setTextColor(getResources().getColor(R.color.orange));
             nConfirmationDate.setVisibility(View.INVISIBLE);
-        } else if (contract.getStatus().equals(Contract.Status.PAID.name())) {
-            nPercentage.setFillColor(getActivity().getResources().getColor(R.color.colorAccent));
-            nPercentage.setStrokeColor(getActivity().getResources().getColor(R.color.colorAccent));
+        } else {
+            nPercentage.setTitleText(getResources().getString(R.string.severe_acute_malnutrition_abrev));
+            nPercentage.setFillColor(getResources().getColor(R.color.ms_errorColor));
+            nPercentage.setStrokeColor(getResources().getColor(R.color.ms_errorColor));
+            nStatus.setText(getResources().getString(R.string.severe_acute_malnutrition));
+            nStatus.setTextColor(getResources().getColor(R.color.ms_errorColor));
+            nConfirmationDate.setVisibility(View.INVISIBLE);
+        }
+        if (contract.getStatus().equals(Contract.Status.PAID.name())) {
+            nPercentage.setFillColor(getResources().getColor(R.color.colorAccent));
+            nPercentage.setStrokeColor(getResources().getColor(R.color.colorAccent));
             Date date = new Date(contract.getMedicalDate());
             Locale LocaleBylanguageTag = Locale.forLanguageTag("es");
             TimeAgoMessages messages = new TimeAgoMessages.Builder().withLocale(LocaleBylanguageTag).build();
             String text = TimeAgo.using(date.getTime(), messages);
             nConfirmationDate.setText(text);
-            nStatus.setText(getActivity().getResources().getString(R.string.paid));
-            nStatus.setTextColor(getActivity().getResources().getColor(R.color.colorAccent));
+            nStatus.setText(getResources().getString(R.string.paid));
+            nStatus.setTextColor(getResources().getColor(R.color.colorAccent));
             nConfirmationDate.setVisibility(View.VISIBLE);
         } else if (contract.getStatus().equals(Contract.Status.FINISH.name())) {
-            nPercentage.setFillColor(getActivity().getResources().getColor(R.color.orange));
-            nPercentage.setStrokeColor(getActivity().getResources().getColor(R.color.orange));
-            Date date = new Date(contract.getMedicalDate());
-            Locale LocaleBylanguageTag = Locale.forLanguageTag("es");
-            TimeAgoMessages messages = new TimeAgoMessages.Builder().withLocale(LocaleBylanguageTag).build();
-            String text = TimeAgo.using(date.getTime(), messages);
-            nConfirmationDate.setText(text);
-            nStatus.setText(getActivity().getResources().getString(R.string.finished));
-            nStatus.setTextColor(getActivity().getResources().getColor(R.color.orange));
+            nPercentage.setFillColor(getResources().getColor(R.color.violet));
+            nPercentage.setStrokeColor(getResources().getColor(R.color.violet));
+            try {
+                Date date = new Date(contract.getMedicalDate());
+                Locale LocaleBylanguageTag = Locale.forLanguageTag("es");
+                TimeAgoMessages messages = new TimeAgoMessages.Builder().withLocale(LocaleBylanguageTag).build();
+                String text = TimeAgo.using(date.getTime(), messages);
+                nConfirmationDate.setText(text);
+            } catch (Exception e) {
+                nConfirmationDate.setText("");
+            }
+            nStatus.setText(getResources().getString(R.string.finished));
+            nStatus.setTextColor(getResources().getColor(R.color.violet));
             nConfirmationDate.setVisibility(View.VISIBLE);
         }
+
         Date date = new Date(contract.getCreationDate());
         Locale LocaleBylanguageTag = Locale.forLanguageTag("es");
         TimeAgoMessages messages = new TimeAgoMessages.Builder().withLocale(LocaleBylanguageTag).build();
@@ -251,7 +273,7 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
             if (currentPosition != null) {
                 MarkerOptions markerOptions = new MarkerOptions();
                 markerOptions.position(currentPosition);
-                markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
+                markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE));
                 markerOptions.title(getString(R.string.your_position));
                 Marker marker = mMap.addMarker(markerOptions);
                 marker.showInfoWindow();
