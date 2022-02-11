@@ -11,7 +11,6 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
@@ -20,7 +19,6 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeErrorDialog;
 import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeSuccessDialog;
-import com.crystal.crystalrangeseekbar.widgets.BubbleThumbRangeSeekbar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
@@ -50,16 +48,12 @@ public class ContractFragment extends Fragment {
     private FloatingActionButton btnCreateContract;
     private FloatingActionButton btnFilterContracts;
     private FloatingActionButton btnExportContract;
-    //private org.sic4change.animation_check.AnimatedCircleLoadingView clView;
     private CardView lyFilter;
     private EditText etName;
     private EditText etSurname;
     private View ivStatus;
     private Spinner spStatus;
     private EditText tvDateRange;
-    private BubbleThumbRangeSeekbar slDesnutrition;
-    private TextView tvMinRange;
-    private TextView tvMaxRange;
     private Button btnFilter;
     private Button btnClear;
 
@@ -138,13 +132,6 @@ public class ContractFragment extends Fragment {
         ivStatus = view.findViewById(R.id.ivStatus);
         spStatus = view.findViewById(R.id.spStatus);
         tvDateRange = view.findViewById(R.id.tvDateRange);
-        slDesnutrition = view.findViewById(R.id.slDesnutrition);
-        tvMinRange = view.findViewById(R.id.tvMinRange);
-        tvMaxRange = view.findViewById(R.id.tvMaxRange);
-        slDesnutrition.setOnRangeSeekbarChangeListener((minValue, maxValue) -> {
-            tvMinRange.setText(String.valueOf(minValue) + "%");
-            tvMaxRange.setText(String.valueOf(maxValue)  + "%");
-        });
         tvDateRange.setOnClickListener(v -> {
             SlyCalendarDialog.Callback callback = new SlyCalendarDialog.Callback() {
                 @Override
@@ -190,19 +177,19 @@ public class ContractFragment extends Fragment {
                         ivStatus.setBackgroundColor(getResources().getColor(R.color.ms_black));
                         break;
                     case 1:
-                        ivStatus.setBackgroundColor(getResources().getColor(R.color.orange));
+                        ivStatus.setBackgroundColor(getResources().getColor(R.color.violet));
                         break;
                     case 2:
-                        ivStatus.setBackgroundColor(getResources().getColor(R.color.ms_errorColor));
+                        ivStatus.setBackgroundColor(getResources().getColor(R.color.colorAccent));
                         break;
                     case 3:
                         ivStatus.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
                         break;
                     case 4:
-                        ivStatus.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+                        ivStatus.setBackgroundColor(getResources().getColor(R.color.orange));
                         break;
                     default:
-                        ivStatus.setBackgroundColor(getResources().getColor(R.color.ms_black));
+                        ivStatus.setBackgroundColor(getResources().getColor(R.color.ms_errorColor));
                         break;
                 }
             }
@@ -344,12 +331,7 @@ public class ContractFragment extends Fragment {
         etName.setText("");
         etSurname.setText("");
         tvDateRange.setText("");
-        slDesnutrition.setSelected(false);
         spStatus.setSelection(0);
-        slDesnutrition.setMinStartValue(0).apply();
-        slDesnutrition.setMaxStartValue(100).apply();
-        tvMaxRange.setText("100%");
-        tvMinRange.setText("0%");
         mMainViewModel.setName("");
         mMainViewModel.setSurname("");
         mMainViewModel.setStatus(Contract.Status.EMPTY.name());
@@ -371,21 +353,38 @@ public class ContractFragment extends Fragment {
         switch (spStatus.getSelectedItemPosition()) {
             case 0:
                 mMainViewModel.setStatus(Contract.Status.EMPTY.name());
+                mMainViewModel.setPercentageMax(0);
+                mMainViewModel.setPercentageMin(100);
                 break;
             case 1:
                 mMainViewModel.setStatus(Contract.Status.FINISH.name());
+                mMainViewModel.setPercentageMax(0);
+                mMainViewModel.setPercentageMin(100);
                 break;
             case 2:
-                mMainViewModel.setStatus(Contract.Status.DIAGNOSIS.name());
+                mMainViewModel.setStatus(Contract.Status.PAID.name());
+                mMainViewModel.setPercentageMax(0);
+                mMainViewModel.setPercentageMin(100);
                 break;
             case 3:
-                mMainViewModel.setStatus(Contract.Status.NO_DIAGNOSIS.name());
+                mMainViewModel.setStatus(Contract.Status.EMPTY.name());
+                mMainViewModel.setPercentageMax(0);
+                mMainViewModel.setPercentageMin(0);
                 break;
             case 4:
-                mMainViewModel.setStatus(Contract.Status.PAID.name());
+                mMainViewModel.setStatus(Contract.Status.EMPTY.name());
+                mMainViewModel.setPercentageMax(50);
+                mMainViewModel.setPercentageMin(50);
+                break;
+            case 5:
+                mMainViewModel.setStatus(Contract.Status.EMPTY.name());
+                mMainViewModel.setPercentageMax(100);
+                mMainViewModel.setPercentageMin(100);
                 break;
             default:
                 mMainViewModel.setStatus(Contract.Status.EMPTY.name());
+                mMainViewModel.setPercentageMax(0);
+                mMainViewModel.setPercentageMin(100);
                 break;
         }
         if (timeRangeMin != 0) {
@@ -404,8 +403,6 @@ public class ContractFragment extends Fragment {
         } else {
             mMainViewModel.setDateStart(timeRangeMax);
         }
-        mMainViewModel.setPercentageMax(Integer.parseInt(tvMaxRange.getText().toString().substring(0, tvMaxRange.getText().toString().length()-1)));
-        mMainViewModel.setPercentageMin(Integer.parseInt(tvMinRange.getText().toString().substring(0, tvMinRange.getText().toString().length()-1)));
         mMainViewModel.getSortedContracts("DATE", mMainViewModel.getName(), mMainViewModel.getSurname(), mMainViewModel.getStatus(),
                 mMainViewModel.getDateStart(), mMainViewModel.getDateEnd(), mMainViewModel.getPercentageMin(), mMainViewModel.getPercentageMax());
         mMainViewModel.getContracts().observe(getActivity(), contracts -> mMainViewModel.setIsFiltered(true));

@@ -118,8 +118,10 @@
     <string-array name="array_status">
         <item>Toutes</item>
         <item>Finalisé</item>
-        <item>mal nourri</item>
-        <item>Pas mal nourri</item>
+        <item>Payé</item>
+        <item>NW</item>
+        <item>MAM</item>
+        <item>SAM</item>
     </string-array>
     <string name="hintNameSearch">Nom et/ou prénom</string>
     <string name="dateRange">Rang des dates</string>

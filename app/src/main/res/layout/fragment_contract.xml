@@ -147,51 +147,6 @@
                 app:layout_constraintStart_toStartOf="@id/dividerStatus"
                 app:layout_constraintTop_toBottomOf="@+id/etSurname" />
 
-            <com.crystal.crystalrangeseekbar.widgets.BubbleThumbRangeSeekbar
-                android:id="@+id/slDesnutrition"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_card"
-                android:layout_marginTop="@dimen/margin_default"
-                android:layout_marginEnd="@dimen/margin_card"
-                app:bar_color="@color/ms_material_grey_400"
-                app:bar_highlight_color="@color/colorPrimary"
-                app:corner_radius="10"
-                app:data_type="_integer"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvDateRange"
-                app:left_thumb_color="@color/colorPrimary"
-                app:left_thumb_color_pressed="@color/colorPrimary"
-                app:max_value="100"
-                app:min_value="0"
-                android:fontFamily="@font/bariol_regular"
-                app:right_thumb_color="@color/colorPrimary"
-                app:right_thumb_color_pressed="@color/colorPrimary"
-                app:steps="5" />
-
-            <TextView
-                android:id="@+id/tvMinRange"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_card"
-                android:text="0%"
-                android:textSize="10sp"
-                android:fontFamily="@font/bariol_regular"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/slDesnutrition"/>
-
-            <TextView
-                android:id="@+id/tvMaxRange"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/margin_card"
-                android:fontFamily="@font/bariol_regular"
-                android:text="100%"
-                android:textSize="10sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/slDesnutrition" />
-
             <Button
                 android:id="@+id/btnFilter"
                 android:layout_width="wrap_content"
@@ -206,7 +161,7 @@
                 android:minWidth="80dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/divider"
-                app:layout_constraintTop_toBottomOf="@+id/tvMinRange" />
+                app:layout_constraintTop_toBottomOf="@+id/tvDateRange" />
 
             <Button
                 android:id="@+id/btnClear"

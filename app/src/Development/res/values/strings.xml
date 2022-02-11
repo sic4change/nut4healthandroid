@@ -121,8 +121,10 @@
     <string-array name="array_status">
         <item>All</item>
         <item>Finished</item>
-        <item>Malnourished</item>
-        <item>No malnourished</item>
+        <item>Paid</item>
+        <item>NW</item>
+        <item>MAM</item>
+        <item>SAM</item>
     </string-array>
     <string name="hintNameSearch">Name and/or surname</string>
     <string name="dateRange">Date range</string>
