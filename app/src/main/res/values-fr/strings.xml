@@ -83,7 +83,7 @@
     <string name="second_step_title">Information</string>
     <string name="third_step_title">Envoyer</string>
     <string name="take_photo">Prendre photo</string>
-    <string name="error_photo">Vous-devez d\'abord prendre la photo du bras de l\'enfant</string>
+    <string name="error_photo">Vous devez indiquer le périmètre brachial du bras de l\'enfant</string>
     <string name="error_child_data">Vous devez entrer les informations de l\'enfant</string>
     <string name="error_fingerprint_data">Vous devez entrer l\'empreinte digitale de l\'enfant</string>
     <string name="error_not_gps_position">Vous devez activer la localisation sur votre appareil</string>

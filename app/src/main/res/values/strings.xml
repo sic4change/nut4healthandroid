@@ -86,7 +86,7 @@
     <string name="second_step_title">Child</string>
     <string name="third_step_title">Send</string>
     <string name="take_photo">Take photo</string>
-    <string name="error_photo">You must take photo before</string>
+    <string name="error_photo">You must indicate the brachial perimeter of the child\'s arm</string>
     <string name="error_child_data">You must enter child data</string>
     <string name="error_fingerprint_data">You must enter child fingerprint</string>
     <string name="error_not_gps_position">You must activate geolocalization</string>
