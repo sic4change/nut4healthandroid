@@ -9,6 +9,7 @@ import androidx.paging.LivePagedListBuilder;
 import androidx.paging.PagedList;
 import androidx.sqlite.db.SimpleSQLiteQuery;
 
+import java.math.BigDecimal;
 
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
@@ -500,7 +501,7 @@ public class DataRepository {
     public void createContract(String id, String role, String email, double latitude, double longitude, Uri photo,
                                String childName, String childSurname, String childDNI, String childTutor, String childAddress,
                                String childPhoneContact, String point, String pointFullName, int percentage,
-                               String fingerprint) {
+                               double arm_circumference, String fingerprint) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference contractRef = db.collection(DataContractNames.TABLE_FIREBASE_NAME);
         String status;
@@ -511,7 +512,7 @@ public class DataRepository {
         }
         Contract contract = new Contract("", latitude, longitude, "",
                 childName, childSurname, childDNI, childTutor, childAddress, childPhoneContact, point, pointFullName,  "",
-                status, "", percentage);
+                status, "", percentage, new BigDecimal(arm_circumference).setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue());
         String newId = id + "_" + new Date().getTime();
         contract.setId(newId);
         contract.setCreationDate(new Date().toString());

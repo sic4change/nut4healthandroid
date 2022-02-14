@@ -180,7 +180,9 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
             clView.startDeterminate();
             mCreateContractViewModel.getUser().observe(getActivity(), user -> {
                 if ((mCreateContractViewModel != null) && (user != null)) {
-                    mCreateContractViewModel.createContract(user.getId(), user.getRole(), user.getEmail(),
+                    mCreateContractViewModel.createContract(user.getId(),
+                            user.getRole(),
+                            user.getEmail(),
                             mCreateContractViewModel.getLocation().latitude, mCreateContractViewModel.getLocation().longitude,
                             mCreateContractViewModel.getUriPhoto(), mCreateContractViewModel.getChildName(),
                             mCreateContractViewModel.getChildSurname(),
@@ -190,7 +192,9 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
                             mCreateContractViewModel.getChildPhoneContact(),
                             mCreateContractViewModel.getPoint(),
                             mCreateContractViewModel.getPointFullName(),
-                            mCreateContractViewModel.getPercentage());
+                            mCreateContractViewModel.getPercentage(),
+                            mCreateContractViewModel.getArmCircumference()
+                    );
                     mCreateContractViewModel = null;
                 }
             });
@@ -412,6 +416,7 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
                 tvPercentage.setText(getResources().getString(R.string.severe_acute_malnutrition_full));
                 tvPercentage.setTextColor(getResources().getColor(R.color.error));
             }
+            mCreateContractViewModel.setArmCircumference(value);
             mCreateContractViewModel.setPercentage(value);
             mCreateContractViewModel.setImageSelected(true);
         }
@@ -487,6 +492,7 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
     public void onChange(SimpleRulerViewer view, int position, float value) {
         DecimalFormat df = new DecimalFormat("#.0");
         tvCm.setText(df.format(value) + " cm");
+        mCreateContractViewModel.setArmCircumference(value);
         if (value < 11.5) {
             rulerBackground.setBackgroundColor(getResources().getColor(R.color.error));
             tvPercentage.setText(getResources().getString(R.string.severe_acute_malnutrition_full));

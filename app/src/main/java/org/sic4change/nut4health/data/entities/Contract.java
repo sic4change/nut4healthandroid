@@ -86,48 +86,53 @@ public class Contract {
     private int percentage;
 
     @NonNull
+    @ColumnInfo(name = DataContractNames.COL_ARM_CIRCUMFERENCE)
+    private double arm_circumference;
+
+    @NonNull
     @ColumnInfo(name = DataContractNames.COL_MEDICAL_DATE)
     private String medicalDate;
 
     public Contract() {
         this("", "", 0.0f, 0.0f, "", "", "", "",
-                "", "", "", "", "", "", "", Status.EMPTY.name(), "", "",0, 0, "", 0);
+                "", "", "", "", "", "", "", Status.EMPTY.name(), "", "",0, 0, 0.0, "", 0);
     }
 
     @Ignore
     public Contract(@NonNull String id) {
         this(id, "", 0.0f, 0.0f, "", "", "",
-                "", "", "", "", "", "", "", "", Status.EMPTY.name(), "", "",0,  0, "", 0);
+                "", "", "", "", "", "", "", "", Status.EMPTY.name(), "", "",0,  0, 0.0,"", 0);
     }
 
     @Ignore
     public Contract(@NonNull String photo, double latitude, double longitude, @NonNull String screener) {
         this("", photo, latitude, longitude, screener, "", "", "", "","",
-                "", "", "", "", "", Status.EMPTY.name(), "", "",0,  0, "", 0);
+                "", "", "", "", "", Status.EMPTY.name(), "", "",0,  0, 0.0, "", 0);
     }
 
     @Ignore
     public Contract(@NonNull String photo, double latitude, double longitude, @NonNull String screener,
                     String childName, String childSurname, String childDNI, String childTutor, String childAddress, String childPhoneContract,
                     String point, String pointFullName, String fingerprint, String status, String creationDate,
-                    int percentage) {
+                    int percentage, double arm_circumference) {
         this("", photo, latitude, longitude, screener, "", childName, childSurname, childDNI, childTutor,
-                childAddress, childPhoneContract, point, pointFullName, fingerprint, status, "", creationDate, Nut4HealthTimeUtil.convertCreationDateToTimeMilis(creationDate), percentage, "", 0);
+                childAddress, childPhoneContract, point, pointFullName, fingerprint, status, "", creationDate, Nut4HealthTimeUtil.convertCreationDateToTimeMilis(creationDate), percentage, arm_circumference, "", 0);
     }
     @Ignore
     public Contract(@NonNull String id, @NonNull String photo, double latitude, double longitude,
                     @NonNull String screener, String childName, String childSurname, String childDNI, String childTutor,
                     String childAddress, String childPhoneContract,  String point, String pointFullName, String fingerprint,
-                    String status, String creationDate, long creationDateMiliseconds, int percentage) {
+                    String status, String creationDate, long creationDateMiliseconds, int percentage,
+                    double arm_circumference) {
         this(id, photo, latitude, longitude, screener, "", childName, childSurname, childDNI, childTutor,
                 childAddress, childPhoneContract, point, pointFullName, fingerprint, status, "", creationDate,
-                creationDateMiliseconds, percentage, "", 0);
+                creationDateMiliseconds, percentage, arm_circumference, "", 0);
     }
 
     public Contract(@NonNull String id, @NonNull String photo, double latitude, double longitude,
                     @NonNull String screener, String medical, String childName, String childSurname, String childDNI, String childTutor,
                     String childAddress, String childPhoneContract, String point, String pointFullName, String fingerprint,
-                    String status, String diagnosis, String creationDate, long creationDateMiliseconds, int percentage, String medicalDate,
+                    String status, String diagnosis, String creationDate, long creationDateMiliseconds, int percentage, double arm_circumference, String medicalDate,
                     long medicalDateMiliseconds) {
         this.id = id;
         this.photo = photo;
@@ -149,6 +154,7 @@ public class Contract {
         this.creationDate = creationDate;
         this.creationDateMiliseconds = creationDateMiliseconds;
         this.percentage = percentage;
+        this.arm_circumference = arm_circumference;
         this.medicalDate = medicalDate;
         this.medicalDateMiliseconds = medicalDateMiliseconds;
     }
@@ -315,6 +321,14 @@ public class Contract {
 
     public void setPercentage(int percentage) {
         this.percentage = percentage;
+    }
+
+    public double getArm_circumference() {
+        return arm_circumference;
+    }
+
+    public void setArm_circumference(double arm_circumference) {
+        this.arm_circumference = arm_circumference;
     }
 
     @NonNull

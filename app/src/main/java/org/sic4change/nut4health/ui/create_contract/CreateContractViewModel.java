@@ -27,6 +27,7 @@ public class CreateContractViewModel extends ViewModel {
 
     private Uri uriPhoto;
     private int percentage = -1;
+    private double arm_circumference = 0.0;
     private Nut4HealthSingleShotLocationProvider.GPSCoordinates location = new Nut4HealthSingleShotLocationProvider.GPSCoordinates(0,0);
     private String childName;
     private String childSurname;
@@ -63,14 +64,14 @@ public class CreateContractViewModel extends ViewModel {
     public void createContract(String id, String role, String screener, float latitude, float longitude, Uri photo,
                                String childName, String childSurname, String childDNI, String childTutor, String childAddress,
                                String childPhoneContact, String point, String pointFullName,
-                               int percentage) {
+                               int percentage, double arm_circumference) {
         if (fingerPrint != null) {
             FingerprintTemplate fingerprintTemplateContract = new FingerprintTemplate().dpi(500).create(fingerPrint);
             mRepository.createContract(id, role, screener, latitude, longitude, photo, childName, childSurname, childDNI, childTutor,
-                    childAddress, childPhoneContact, point, pointFullName, percentage, fingerprintTemplateContract.serialize());
+                    childAddress, childPhoneContact, point, pointFullName, percentage, arm_circumference, fingerprintTemplateContract.serialize());
         } else {
             mRepository.createContract(id, role, screener, latitude, longitude, photo, childName, childSurname, childDNI, childTutor,
-                    childAddress, childPhoneContact, point, pointFullName, percentage, "");
+                    childAddress, childPhoneContact, point, pointFullName, percentage, arm_circumference, "");
         }
 
     }
@@ -182,6 +183,14 @@ public class CreateContractViewModel extends ViewModel {
 
     public void setPercentage(int percentage) {
         this.percentage = percentage;
+    }
+
+    public double getArmCircumference() {
+        return arm_circumference;
+    }
+
+    public void setArmCircumference(double arm_circumference) {
+        this.arm_circumference = arm_circumference;
     }
 
     public byte[] getFingerPrint() {
