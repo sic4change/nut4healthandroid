@@ -76,6 +76,7 @@
 
     <!--Create Contract-->
     <string name="createContract">Créer un diagnostique</string>
+    <string name="add_fingerprint">Empreinte enfant</string>
     <string name="next_step">Suivant</string>
     <string name="back_step">Précédent</string>
     <string name="complete_step"></string>

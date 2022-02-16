@@ -79,6 +79,7 @@
 
     <!--Create Contract-->
     <string name="createContract">Crear diagnóstico</string>
+    <string name="add_fingerprint">Huella del niñ@</string>
     <string name="next_step">Siguiente</string>
     <string name="back_step">Anterior</string>
     <string name="complete_step"></string>

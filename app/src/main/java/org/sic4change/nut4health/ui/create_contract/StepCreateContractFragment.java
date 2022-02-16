@@ -30,31 +30,17 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.airbnb.lottie.LottieAnimationView;
 import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeSuccessDialog;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestOptions;
-import com.github.pavlospt.CircleView;
-import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.common.api.ResolvableApiException;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationServices;
+
 import com.google.android.gms.location.LocationSettingsRequest;
-import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.location.SettingsClient;
-import com.shivtechs.maplocationpicker.LocationPickerActivity;
 import com.shivtechs.maplocationpicker.MapUtility;
 import com.stepstone.stepper.Step;
 import com.stepstone.stepper.VerificationError;
@@ -66,14 +52,12 @@ import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.data.entities.Point;
 import org.sic4change.nut4health.data.events.MessageEvent;
 import org.sic4change.nut4health.ui.fingerprint.ScanActivity;
-import org.sic4change.nut4health.ui.samphoto.SAMPhotoActivity;
+import org.sic4change.nut4health.ui.main.create_contract.CreateContractFragment;
 import org.sic4change.nut4health.ui.serchablespinner.SearchableSpinner;
 import org.sic4change.nut4health.utils.Nut4HealthKeyboard;
 import org.sic4change.nut4health.utils.location.Nut4HealthSingleShotLocationProvider;
 import org.sic4change.nut4health.utils.ruler_picker.SimpleRulerViewer;
 
-
-import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.List;
@@ -81,8 +65,6 @@ import java.util.Locale;
 
 import static android.app.Activity.RESULT_OK;
 import static maes.tech.intentanim.CustomIntent.customType;
-import static org.sic4change.nut4health.ui.samphoto.SAMPhotoActivity.PERCENTAGE;
-import static org.sic4change.nut4health.ui.samphoto.SAMPhotoActivity.PHOTO_PATH;
 
 public class StepCreateContractFragment extends Fragment implements Step, SimpleRulerViewer.OnValueChangeListener{
 
@@ -107,7 +89,7 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
     private SearchableSpinner spPoint;
     private Button btnCheckMalnutrition;
     private AnimatedCircleLoadingView clView;
-    //private ImageView ivAddFingerprint;
+    private ImageView ivAddFingerprint;
     private ImageView ivNewContract;
 
     public static final int REQUEST_TAKE_PHOTO       = 1;
@@ -213,11 +195,11 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
         cbVerification = v.findViewById(R.id.cbVerification);
 
         etChildLocation = v.findViewById(R.id.etChildLocation);
-//        ivAddFingerprint = v.findViewById(R.id.ivAddFingerprint);
-//        ivAddFingerprint.setOnClickListener(v13 -> {
-//            Intent fingerPrintIntent = new Intent(getActivity(), ScanActivity.class);
-//            startActivityForResult(fingerPrintIntent, REQUEST_TAKE_FINGERPRINT);
-//        });
+        ivAddFingerprint = v.findViewById(R.id.ivAddFingerprint);
+        ivAddFingerprint.setOnClickListener(v13 -> {
+            Intent fingerPrintIntent = new Intent(getActivity(), ScanActivity.class);
+            startActivityForResult(fingerPrintIntent, REQUEST_TAKE_FINGERPRINT);
+        });
         clView = v.findViewById(R.id.clView);
         if (ActivityCompat.checkSelfPermission(getActivity().getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, LOCATION_REQUEST_CODE);
@@ -250,7 +232,7 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
                     || (etChildSurname.getText() == null) || (etChildSurname.getText().toString() == null) || (etChildSurname.getText().toString().isEmpty())
                     || (etChildTutor.getText() == null) || (etChildTutor.getText().toString() == null) || (etChildTutor.getText().toString().isEmpty())
                     || (etChildContactPhone.getText() == null) || (etChildContactPhone.getText().toString() == null) || (etChildContactPhone.getText().toString().isEmpty())
-                    || (!cbVerification.isChecked())) {
+                    || (!cbVerification.isChecked()) || (mCreateContractViewModel.getFingerPrint() == null) || (mCreateContractViewModel.getFingerPrint().length == 0)) {
                 return new VerificationError(getString(R.string.error_child_data));
             }
             mCreateContractViewModel.setChildLocation(etChildLocation.getText().toString());
@@ -380,8 +362,9 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
             if ((fingerprint != null) && (fingerprint.length > 0)) {
                 mCreateContractViewModel.setFingerPrint(fingerprint);
                 //ivAddFingerprint.setImageBitmap(mCreateContractViewModel.getFingerPrintImage());
+                ivAddFingerprint.setImageResource(R.drawable.ic_finger_selected);
             } else {
-                //ivAddFingerprint.setImageResource(R.drawable.ic_finger_no_selected);
+                ivAddFingerprint.setImageResource(R.drawable.ic_finger_no_selected);
                 mCreateContractViewModel.setFingerPrint(null);
             }
         } else if (requestCode == ADDRESS_PICKER_REQUEST && resultCode == RESULT_OK){
@@ -438,8 +421,8 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
                 mCreateContractViewModel.setLocation(newLocation);
                 etChildLocation.setText(newLocation.latitude + ", " + newLocation.longitude);
                 List<Address> addresses;
-                Geocoder geocoder = new Geocoder(getActivity().getApplicationContext(), Locale.getDefault());
                 try {
+                    Geocoder geocoder = new Geocoder(getActivity().getApplicationContext(), Locale.getDefault());
                     addresses = geocoder.getFromLocation(mCreateContractViewModel.getLocation().latitude, mCreateContractViewModel.getLocation().longitude, 1);
                     String address = addresses.get(0).getAddressLine(0);
                     if (address != null) {

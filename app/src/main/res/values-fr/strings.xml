@@ -21,6 +21,7 @@
 
     <!--Create Account-->
     <string name="createAccount">CRÉER COMPTE</string>
+    <string name="add_fingerprint">Empreinte enfant</string>
     <string name="username">Nom d\'utilisateur</string>
     <string name="role">Rôle</string>
     <string name="repeat_password">Répetér le mot de passe</string>

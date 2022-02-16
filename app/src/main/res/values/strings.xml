@@ -79,6 +79,7 @@
 
     <!--Create Contract-->
     <string name="createContract">Create diagnosis</string>
+    <string name="add_fingerprint">Child footprint</string>
     <string name="next_step">Next</string>
     <string name="back_step">Back</string>
     <string name="complete_step"></string>

@@ -534,20 +534,8 @@ public class DataRepository {
                                     FingerprintTemplate fingerprintCandidate = new FingerprintTemplate().deserialize(contractIt.getFingerprint());
                                     double score = new FingerprintMatcher().index(new FingerprintTemplate().deserialize(fingerprint)).match(fingerprintCandidate);
                                     if (score >= 40) {
-                                        if (contractIt.getStatus().equals(Contract.Status.PAID.name())) {
-                                            EventBus.getDefault().post(new MessageEvent(mContext.getString(R.string.diagnosis_paying)));
-                                            updated = true;
-                                        } else if (contractIt.getStatus().equals(Contract.Status.FINISH.name())) {
-                                            contract.setScreener(email);
-                                            contract.setStatus(status);
-                                            contractRef.add(contract).addOnCompleteListener(task -> {
-                                                listenerQuery.remove();
-                                                createGeoPoint(task.getResult().getId(), latitude, longitude);
-                                            });
-                                            EventBus.getDefault().post(new MessageEvent(mContext.getString(R.string.diagnosis_ok)));
-                                            updated = true;
-                                        } else {
-                                            if (email.equals(contractIt.getScreener())) {
+                                        // Si se diagnostico 15 dias antes solo actualizarlo, tanto si lo diagnostico ese voluntario como otro
+                                            if ((contractIt.getCreationDateMiliseconds() + (1000 * 60 * 60 * 24 * 15)) > new Date().getTime()) {
                                                 contractIt.setChildName(childName);
                                                 contractIt.setChildSurname(childSurname);
                                                 contractIt.setChildDNI(childDNI);
@@ -572,7 +560,7 @@ public class DataRepository {
                                                 EventBus.getDefault().post(new MessageEvent(mContext.getString(R.string.diagnosis_ok)));
                                                 updated = true;
                                             }
-                                        }
+
                                     }
                                 }
 
