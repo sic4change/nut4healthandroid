@@ -354,8 +354,8 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
             byte[] fingerprint = data.getByteArrayExtra(ScanActivity.FINGERPRINT);
             if ((fingerprint != null) && (fingerprint.length > 0)) {
                 mCreateContractViewModel.setFingerPrint(fingerprint);
-                //ivAddFingerprint.setImageBitmap(mCreateContractViewModel.getFingerPrintImage());
-                ivAddFingerprint.setImageResource(R.drawable.ic_finger_selected);
+                ivAddFingerprint.setImageBitmap(mCreateContractViewModel.getFingerPrintImage());
+                //ivAddFingerprint.setImageResource(R.drawable.ic_finger_selected);
             } else {
                 ivAddFingerprint.setImageResource(R.drawable.ic_finger_no_selected);
                 mCreateContractViewModel.setFingerPrint(null);
