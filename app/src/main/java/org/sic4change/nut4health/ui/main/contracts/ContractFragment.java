@@ -220,7 +220,7 @@ public class ContractFragment extends Fragment {
 
             }
         });
-        initData();
+        //initData();
         mMainViewModel.getCurrentUser().observe(getActivity(), user -> {
             if (user != null) {
                 try {
