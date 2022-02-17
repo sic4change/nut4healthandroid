@@ -78,7 +78,9 @@
     <string name="diagnosis_show">diagnosis</string>
 
     <!--Create Contract-->
+    <string name="start">Start</string>
     <string name="createContract">Create diagnosis</string>
+    <string name="validateContract">Validate diagnosis</string>
     <string name="add_fingerprint">Child footprint</string>
     <string name="next_step">Next</string>
     <string name="back_step">Back</string>
@@ -105,6 +107,7 @@
     <string name="points">points</string>
     <string name="your_position">You are here</string>
     <string name="registerContract">Registrar diagnóstico</string>
+    <string name="child_no_registered">Child is not registered with NUT4Health</string>
 
     <!--Main menu-->
     <string name="contracts">Diagnostics history</string>

@@ -91,21 +91,14 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
     private AnimatedCircleLoadingView clView;
     private ImageView ivAddFingerprint;
     private ImageView ivNewContract;
-
-    public static final int REQUEST_TAKE_PHOTO       = 1;
     public static final int REQUEST_TAKE_FINGERPRINT = 2;
 
     private static final long VERIFICATION_DELAY_MILISECONDS = 6000;
     private static final long VERIFICATION_TICK_MILISECONDS  = 1000;
     private static final int LOCATION_REQUEST_CODE = 101;
-    private static final int CAMERA_REQUEST_CODE = 102;
-    private static final int WRITE_EXTERNAL_STORAGE_REQUEST_CODE = 103;
-    private static final int READ_EXTERNAL_STORAGE_REQUEST_CODE = 104;
 
     private CreateContractViewModel mCreateContractViewModel;
 
-    private SettingsClient mSettingsClient;
-    private LocationSettingsRequest mLocationSettingsRequest;
     private static final int REQUEST_CHECK_SETTINGS = 214;
     private static final int REQUEST_ENABLE_GPS = 516;
     private static final int ADDRESS_PICKER_REQUEST = 721;
@@ -134,7 +127,7 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
         CreateContractViewModelFactory createContractViewModelFactory = CreateContractViewModelFactory.createFactory(getActivity());
         mCreateContractViewModel = ViewModelProviders.of(getActivity(), createContractViewModelFactory).get(CreateContractViewModel.class);
         mCreateContractViewModel.getPoints().observe(getActivity(), points -> {
-            spPoint.setTitle("Selecciona el Servicio de Salud");
+            spPoint.setTitle(getResources().getString(R.string.medical_point));
             spPoint.setPositiveButton("Aceptar");
 
             ArrayAdapter<Point> adp1 = new ArrayAdapter<Point>(getActivity(),

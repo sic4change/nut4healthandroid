@@ -76,7 +76,9 @@
     <string name="map">Carte</string>
 
     <!--Create Contract-->
+    <string name="start">Démarrer</string>
     <string name="createContract">Créer un diagnostique</string>
+    <string name="validateContract">Valider le diagnostic</string>
     <string name="next_step">Suivant</string>
     <string name="back_step">Précédent</string>
     <string name="complete_step"></string>
@@ -102,6 +104,7 @@
     <string name="points">Points</string>
     <string name="your_position">Vous êtes ici</string>
     <string name="registerContract">Enregistrer le diagnostique</string>
+    <string name="child_no_registered">L\'enfant n\'est pas inscrit à NUT4Healt</string>
 
     <!--Main menu-->
     <string name="contracts">Historique des diagnostiques</string>

@@ -88,6 +88,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private MainViewModel mMainViewModel;
     private boolean created = false;
     private boolean subscribedToTopics = false;
+    private String profile = "";
 
 
     @Override
@@ -102,14 +103,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 tvDrawerEmail.setText(user.getEmail());
                 tvDrawerUsername.setText(user.getUsername());
                 tvDrawerRole.setText(user.getRole());
+                profile = user.getRole();
                 if (!user.getRole().equals("Agente Salud")) {
                     tvDrawerPoints.setVisibility(View.GONE);
+                    navigationView.getMenu().findItem(R.id.nav_start_diagnosis).setVisible(false);
+                    navigationView.getMenu().findItem(R.id.nav_check_diagnosis).setVisible(true);
                     navigationView.getMenu().findItem(R.id.nav_ranking).setVisible(false);
                     navigationView.getMenu().findItem(R.id.nav_paids).setVisible(false);
                     //navigationView.getMenu().findItem(R.id.nav_near).setVisible(true);
                 } else {
                     tvDrawerPoints.setText(user.getPoints() + " " + getString(R.string.points));
                     tvDrawerPoints.setVisibility(View.VISIBLE);
+                    navigationView.getMenu().findItem(R.id.nav_start_diagnosis).setVisible(true);
+                    navigationView.getMenu().findItem(R.id.nav_check_diagnosis).setVisible(false);
                     navigationView.getMenu().findItem(R.id.nav_ranking).setVisible(true);
                     navigationView.getMenu().findItem(R.id.nav_paids).setVisible(true);
                     //navigationView.getMenu().findItem(R.id.nav_near).setVisible(false);
@@ -148,7 +154,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .addToBackStack(null)
                 .commit();
-        setTitle(R.string.capture);
+        if (profile.equals("Agente Salud")) {
+            setTitle(R.string.capture);
+        } else {
+            setTitle(R.string.validateContract);
+        }
         this.navigationView.getMenu().getItem(0).setChecked(true);
         showCurrentVersion();
     }
@@ -252,6 +262,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if (id == R.id.nav_start_diagnosis) {
                     fragment = new CreateContractFragment();
                     setTitle(R.string.capture);
+                }
+                else if (id == R.id.nav_check_diagnosis) {
+                    fragment = new CreateContractFragment();
+                    setTitle(R.string.validateContract);
                 } else if (id == R.id.nav_contracts) {
                     fragment = new ContractFragment();
                     setTitle(R.string.contracts);

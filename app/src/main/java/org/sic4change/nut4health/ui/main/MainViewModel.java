@@ -245,8 +245,8 @@ public class MainViewModel extends ViewModel {
         mRepository.sendReport(mReport);
     }
 
-    public void getSortedNotifications() {
-        mNotifications = this.mRepository.getSortedNotifications();
+    public void checkContract(String fingerprint) {
+        mRepository.checkContract(fingerprint);
     }
 
     public void getNotifications(User user, long creationDate) {
@@ -259,36 +259,6 @@ public class MainViewModel extends ViewModel {
 
     public void markAsReadNotification(String id) {
         this.mRepository.markNotificationRead(id, mUser.getValue().getId());
-    }
-
-    public int getNotificationsNoRead() {
-        int notificatonsNoRead = 0;
-        try {
-            if ((mNotifications != null) && (mNotifications.getValue() != null)) {
-                for (Notification notification : mNotifications.getValue()) {
-                    if (!notification.getRead().contains(mUser.getValue().getId())) {
-                        notificatonsNoRead++;
-                    }
-                }
-            }
-        } catch (Exception e) {
-            System.out.println("notifications empty");
-        }
-        return notificatonsNoRead;
-    }
-
-    public void removeAllNearContracts() {
-        this.mRepository.removeAllNearContracts();
-    }
-
-    public void retrieveNearContracts(double latitude, double longitude) {
-        this.mRepository.retrieveNearContracts(latitude, longitude, RADIUS_NEAR);
-    }
-
-    public void getSortedNearContracts(String sort, String name, String surname, String status, long dateStart, long dataEnd,
-                                   int percentageMin, int percentageMax) {
-        mNear = this.mRepository.getSortedNearContracts(sort, name, surname, status, dateStart, dataEnd,
-                percentageMin, percentageMax);
     }
 
     public void subscribeToTopicCountry(String country) {

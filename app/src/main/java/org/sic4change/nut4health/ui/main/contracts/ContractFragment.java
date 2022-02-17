@@ -1,9 +1,12 @@
 package org.sic4change.nut4health.ui.main.contracts;
 
+import static android.app.Activity.RESULT_OK;
+
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,22 +17,29 @@ import android.widget.Spinner;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 
 import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeErrorDialog;
 import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeSuccessDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
+import com.machinezoo.sourceafis.FingerprintTemplate;
 
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.greenrobot.eventbus.EventBus;
 import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.data.entities.Contract;
 import org.sic4change.nut4health.ui.create_contract.CreateContractActivity;
+import org.sic4change.nut4health.ui.fingerprint.ScanActivity;
 import org.sic4change.nut4health.ui.main.MainViewModel;
+import org.sic4change.nut4health.ui.main.create_contract.CreateContractFragment;
 import org.sic4change.nut4health.utils.Nut4HealthKeyboard;
 
 import java.io.File;
@@ -37,6 +47,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.Scanner;
 
 import ru.slybeaver.slycalendarview.SlyCalendarDialog;
 
@@ -71,6 +82,16 @@ public class ContractFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initData();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
     }
 
     @Override
@@ -199,18 +220,24 @@ public class ContractFragment extends Fragment {
 
             }
         });
-        mMainViewModel = ViewModelProviders.of(getActivity()).get(MainViewModel.class);
-
-        return view;
-    }
-
-    private void initData() {
-        mMainViewModel = ViewModelProviders.of(getActivity()).get(MainViewModel.class);
+        initData();
         mMainViewModel.getCurrentUser().observe(getActivity(), user -> {
             if (user != null) {
-                mMainViewModel.getContracts(user.getEmail(), user.getRole());
+                try {
+                    if (user.getRole().equals("Servicio Salud")) {
+                        btnCreateContract.setImageResource(R.drawable.ic_fingerprint);
+                        System.out.println("Aqui" + user.getRole());
+                    } else {
+                        btnCreateContract.setImageResource(R.drawable.ic_action_add);
+                        System.out.println("Aqui" + user.getRole());
+                    }
+                } catch (Exception e) {
+                    System.out.println("button null now");
+                }
+
             }
         });
+
         mMainViewModel.getIsFiltered().observe(getActivity(), filtered -> {
             try {
                 if (filtered) {
@@ -223,12 +250,30 @@ public class ContractFragment extends Fragment {
             }
 
         });
+
+        return view;
+    }
+
+    private void initData() {
+        mMainViewModel = ViewModelProviders.of(getActivity()).get(MainViewModel.class);
     }
 
     private void goToCreateContractActivity() {
-        Intent intent = new Intent(getActivity(), CreateContractActivity.class);
-        startActivity(intent);
-        customType(getActivity(),"left-to-right");
+        if (mMainViewModel.getCurrentUser().getValue().getRole().equals("Servicio Salud")) {
+            NavigationView navigationView = (NavigationView) getActivity().findViewById(R.id.nav_view);
+            navigationView.getMenu().getItem(1).setChecked(true);
+            getActivity().setTitle(R.string.validateContract);
+            Fragment fragment = new CreateContractFragment();
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.lyMainContent, fragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+        } else {
+            Intent intent = new Intent(getActivity(), CreateContractActivity.class);
+            startActivity(intent);
+            customType(getActivity(),"left-to-right");
+        }
     }
 
     private void showContractFilterMenu() {

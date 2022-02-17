@@ -107,7 +107,7 @@ public class ContractDetailActivity extends AppCompatActivity {
                 tvStatus.setText(getResources().getString(R.string.finished));
                 tvStatus.setTextColor(getResources().getColor(R.color.violet));
             }
-            if (contract.getStatus().equals("DIAGNOSIS") && role.equals("Servicio Salud")) {
+            if ((contract.getStatus().equals("DIAGNOSIS") || contract.getStatus().equals("NO_DIAGNOSIS") ) && role.equals("Servicio Salud")) {
                 btnConfirm.setEnabled(true);
                 btnConfirm.setClickable(true);
                 btnConfirm.setVisibility(View.VISIBLE);

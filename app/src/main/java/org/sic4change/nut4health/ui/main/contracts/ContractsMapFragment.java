@@ -185,7 +185,10 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
         });
         mMap.setOnMapClickListener(latLng -> cvContract.setVisibility(View.GONE));
         mMap.setOnMapLongClickListener(latLng -> cvContract.setVisibility(View.GONE));
-        showContracts(mMainViewModel.getContracts().getValue());
+        mMainViewModel.getContracts().observe(getActivity(), contracts -> {
+            showContracts(contracts);
+            showContractsNumber(contracts);
+        });
     }
 
     private void showContractInformation(Contract contract) {
