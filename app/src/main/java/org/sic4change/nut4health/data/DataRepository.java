@@ -598,11 +598,11 @@ public class DataRepository {
         }
     }
 
-    public void checkContract(String fingerprint) {
+    public void checkContract(String fingerprint, String userId) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference contractRef = db.collection(DataContractNames.TABLE_FIREBASE_NAME);
             try {
-                Query query = contractRef.orderBy(DataContractNames.COL_DATE_MILI_FIREBASE, Query.Direction.ASCENDING);
+                Query query = contractRef.whereEqualTo("medicalId", userId).orderBy(DataContractNames.COL_DATE_MILI_FIREBASE, Query.Direction.ASCENDING);
                 listenerQuery = query.addSnapshotListener(mIoExecutor, (queryDocumentSnapshots, e) -> {
                     boolean updated = false;
                     try {
@@ -654,17 +654,17 @@ public class DataRepository {
 
     /**
      * Method to get contracts from firebase
-     * @param email
+     * @param userId
      * @param role
      */
-    public void getContracts(String email, String role) {
+    public void getContracts(String userId, String role) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference contractRef = db.collection(DataContractNames.TABLE_FIREBASE_NAME);
         Query query;
         if (role.equals("Agente Salud")) {
-            query = contractRef.whereEqualTo(DataContractNames.COL_SCREENER, email);
+            query = contractRef.whereEqualTo("screener", userId);
         } else {
-            query = contractRef.whereEqualTo(DataContractNames.COL_MEDICAL, email);
+            query = contractRef.whereEqualTo("medicalId", userId);
         }
         query.addSnapshotListener(mIoExecutor, (queryDocumentSnapshots, e) -> {
             try {

@@ -136,7 +136,7 @@ public class CreateContractFragment extends Fragment {
             byte[] fingerprint = data.getByteArrayExtra(ScanActivity.FINGERPRINT);
             FingerprintTemplate fingerprintTemplateContract = new FingerprintTemplate().dpi(500).create(fingerprint);
             if ((fingerprint != null) && (fingerprint.length > 0)) {
-                mMainViewModel.checkContract(fingerprintTemplateContract.serialize());
+                mMainViewModel.checkContract(fingerprintTemplateContract.serialize(), mMainViewModel.getCurrentUser().getValue().getId());
                 ivCreateContract.setVisibility(View.GONE);
                 btnStartCreateContract.setVisibility(View.GONE);
                 clView.setVisibility(View.VISIBLE);

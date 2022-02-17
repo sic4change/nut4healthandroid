@@ -3,6 +3,7 @@ package org.sic4change.nut4health.ui.main;
 
 import android.content.Context;
 
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -92,8 +93,8 @@ public class MainViewModel extends ViewModel {
         this.mRepository.updateCurrentLocation(email, country, state, city);
     }
 
-    public void getContracts(String email, String role) {
-        this.mRepository.getContracts(email, role);
+    public void getContracts(String userId, String role) {
+        this.mRepository.getContracts(userId, role);
     }
 
     public void getPoints() {
@@ -245,8 +246,9 @@ public class MainViewModel extends ViewModel {
         mRepository.sendReport(mReport);
     }
 
-    public void checkContract(String fingerprint) {
-        mRepository.checkContract(fingerprint);
+    public void checkContract(String fingerprint, String userId) {
+        mRepository.checkContract(fingerprint, userId);
+
     }
 
     public void getNotifications(User user, long creationDate) {
