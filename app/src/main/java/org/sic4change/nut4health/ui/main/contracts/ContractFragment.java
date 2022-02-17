@@ -256,6 +256,11 @@ public class ContractFragment extends Fragment {
 
     private void initData() {
         mMainViewModel = ViewModelProviders.of(getActivity()).get(MainViewModel.class);
+        mMainViewModel.getCurrentUser().observe(getActivity(), user -> {
+            if (user != null) {
+                mMainViewModel.getContracts(user.getId(), user.getRole());
+            }
+        });
     }
 
     private void goToCreateContractActivity() {

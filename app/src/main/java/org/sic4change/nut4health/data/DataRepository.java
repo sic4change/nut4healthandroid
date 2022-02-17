@@ -662,7 +662,7 @@ public class DataRepository {
         CollectionReference contractRef = db.collection(DataContractNames.TABLE_FIREBASE_NAME);
         Query query;
         if (role.equals("Agente Salud")) {
-            query = contractRef.whereEqualTo("screener", userId);
+            query = contractRef.whereEqualTo("screenerId", userId);
         } else {
             query = contractRef.whereEqualTo("medicalId", userId);
         }
