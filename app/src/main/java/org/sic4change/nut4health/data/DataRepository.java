@@ -510,7 +510,7 @@ public class DataRepository {
         } else {
             status = Contract.Status.NO_DIAGNOSIS.name();
         }
-        Contract contract = new Contract("", latitude, longitude, "",
+        Contract contract = new Contract("", "", latitude, longitude, "",
                 childName, childSurname, childDNI, childTutor, childAddress, childPhoneContact, point, pointFullName,  "",
                 status, "", percentage, new BigDecimal(arm_circumference).setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue());
         String newId = id + "_" + new Date().getTime();
@@ -522,7 +522,7 @@ public class DataRepository {
         }
         if (role.equals("Agente Salud")) {
             try {
-                Query query = contractRef;
+                Query query = contractRef.whereEqualTo("point", point);
                 listenerQuery = query.addSnapshotListener(mIoExecutor, (queryDocumentSnapshots, e) -> {
                     try {
                         if ((queryDocumentSnapshots != null) && (queryDocumentSnapshots.getDocuments() != null)
@@ -536,6 +536,8 @@ public class DataRepository {
                                     if (score >= 40) {
                                         // Si se diagnostico 15 dias antes solo actualizarlo, tanto si lo diagnostico ese voluntario como otro
                                             if ((contractIt.getCreationDateMiliseconds() + (1000 * 60 * 60 * 24 * 15)) > new Date().getTime()) {
+                                                //5*60*1000 5 minutos
+                                                //1000 * 60 * 60 * 24 * 15 15 dias
                                                 contractIt.setChildName(childName);
                                                 contractIt.setChildSurname(childSurname);
                                                 contractIt.setChildDNI(childDNI);
@@ -550,17 +552,20 @@ public class DataRepository {
                                                 document.getReference().set(contractIt, SetOptions.merge());
                                                 createGeoPoint(contractIt.getId(), latitude, longitude);
                                             } else {
-                                                contract.setScreener(email);
-                                                contract.setStatus(status);
-                                                contractRef.document(newId).set(contract).addOnCompleteListener(task -> {
-                                                    listenerQuery.remove();
-                                                    createGeoPoint(newId, latitude, longitude);
-                                                });
-                                                updated = "new";
+                                                if (contractIt.getReference() == null || contractIt.getReference().equals("")) {
+                                                    contract.setReference(contractIt.getId());
+                                                    contract.setScreener(email);
+                                                    contract.setStatus(status);
+                                                    contractRef.document(newId).set(contract).addOnCompleteListener(task -> {
+                                                        listenerQuery.remove();
+                                                        createGeoPoint(newId, latitude, longitude);
+                                                    });
+                                                    updated = "new";
+                                                }
+
                                             }
                                     }
                                 }
-
                             }
                             if (listenerQuery != null) {
                                 listenerQuery.remove();

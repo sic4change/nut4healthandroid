@@ -18,6 +18,11 @@ public final class DataContractNames {
     public static final String COL_CONTRACT_ID = "contractId";
 
     /**
+     * Column id for contract
+     */
+    public static final String COL_REFERENCE = "reference";
+
+    /**
      * Column photo for contract
      */
     public static final String COL_PHOTO = "photo";
