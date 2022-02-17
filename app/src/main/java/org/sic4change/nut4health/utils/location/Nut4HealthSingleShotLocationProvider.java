@@ -8,10 +8,12 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 
+import java.io.IOException;
+
 public class Nut4HealthSingleShotLocationProvider {
 
     public static interface LocationCallback {
-        public void onNewLocationAvailable(GPSCoordinates location);
+        public void onNewLocationAvailable(GPSCoordinates location) throws IOException;
     }
 
     @SuppressLint("MissingPermission")
@@ -24,7 +26,11 @@ public class Nut4HealthSingleShotLocationProvider {
             locationManager.requestSingleUpdate(criteria, new LocationListener() {
                 @Override
                 public void onLocationChanged(Location location) {
-                    callback.onNewLocationAvailable(new GPSCoordinates(location.getLatitude(), location.getLongitude()));
+                    try {
+                        callback.onNewLocationAvailable(new GPSCoordinates(location.getLatitude(), location.getLongitude()));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
 
                 @Override
@@ -47,7 +53,11 @@ public class Nut4HealthSingleShotLocationProvider {
                 locationManager.requestSingleUpdate(criteria, new LocationListener() {
                     @Override
                     public void onLocationChanged(Location location) {
-                        callback.onNewLocationAvailable(new GPSCoordinates(location.getLatitude(), location.getLongitude()));
+                        try {
+                            callback.onNewLocationAvailable(new GPSCoordinates(location.getLatitude(), location.getLongitude()));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
 
                     @Override public void onStatusChanged(String provider, int status, Bundle extras) { }

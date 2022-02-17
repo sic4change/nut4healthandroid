@@ -409,12 +409,13 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
     }
 
     private void showMyPosition() {
+        try {
         Nut4HealthSingleShotLocationProvider.requestSingleUpdate(getActivity().getApplicationContext(), newLocation -> {
             if (mCreateContractViewModel != null) {
                 mCreateContractViewModel.setLocation(newLocation);
                 etChildLocation.setText(newLocation.latitude + ", " + newLocation.longitude);
                 List<Address> addresses;
-                try {
+
                     Geocoder geocoder = new Geocoder(getActivity().getApplicationContext(), Locale.getDefault());
                     addresses = geocoder.getFromLocation(mCreateContractViewModel.getLocation().latitude, mCreateContractViewModel.getLocation().longitude, 1);
                     String address = addresses.get(0).getAddressLine(0);
@@ -422,11 +423,12 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
                         mCreateContractViewModel.setChildLocation(address);
                         etChildLocation.setText(mCreateContractViewModel.getChildLocation());
                     }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+
             }
         });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void goToMainActivity() {
