@@ -38,8 +38,8 @@ android {
         applicationId "org.sic4change.nut4health"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 12
-        versionName "1.12"
+        versionCode 14
+        versionName "1.14"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
@@ -48,14 +48,14 @@ android {
         Development {
             applicationId "org.sic4change.nut4health"
             dimension "nut4health"
-            versionCode 13
-            versionName "1.13"
+            versionCode 14
+            versionName "1.14"
         }
         Production {
             applicationId "org.sic4change.nut4health"
             dimension "nut4health"
-            versionCode 13
-            versionName "1.13"
+            versionCode 14
+            versionName "1.14"
         }
     }
 

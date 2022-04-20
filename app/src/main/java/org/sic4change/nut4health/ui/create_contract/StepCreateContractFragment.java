@@ -152,8 +152,8 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
         CreateContractViewModelFactory createContractViewModelFactory = CreateContractViewModelFactory.createFactory(getActivity());
         mCreateContractViewModel = ViewModelProviders.of(getActivity(), createContractViewModelFactory).get(CreateContractViewModel.class);
         mCreateContractViewModel.getPoints().observe(getActivity(), points -> {
-            spPoint.setTitle("Selecciona el Servicio de Salud");
-            spPoint.setPositiveButton("Aceptar");
+            spPoint.setTitle(getString(R.string.select_medical));
+            spPoint.setPositiveButton(getString(R.string.ok));
 
             ArrayAdapter<Point> adp1 = new ArrayAdapter<Point>(getActivity(),
                     android.R.layout.simple_list_item_1, points);

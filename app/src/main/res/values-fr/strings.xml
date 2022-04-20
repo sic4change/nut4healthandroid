@@ -79,7 +79,7 @@
     <string name="next_step">Suivant</string>
     <string name="back_step">Précédent</string>
     <string name="complete_step"></string>
-    <string name="first_step_title">Diagnostique SAMPhoto</string>
+    <string name="first_step_title">Diagnostique</string>
     <string name="second_step_title">Information</string>
     <string name="third_step_title">Envoyer</string>
     <string name="take_photo">Prendre photo</string>
@@ -101,6 +101,7 @@
     <string name="points">Points</string>
     <string name="your_position">Vous êtes ici</string>
     <string name="registerContract">Enregistrer le diagnostique</string>
+    <string name="select_medical">Sélectionêz le service de santé</string>
 
     <!--Main menu-->
     <string name="contracts">Historique des diagnostiques</string>
