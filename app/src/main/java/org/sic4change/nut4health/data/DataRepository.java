@@ -33,6 +33,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.imperiumlabs.geofirestore.GeoFirestore;
 import org.imperiumlabs.geofirestore.listeners.GeoQueryDataEventListener;
 import org.sic4change.nut4health.R;
+import org.sic4change.nut4health.data.entities.Configuration;
 import org.sic4change.nut4health.data.entities.Contract;
 import org.sic4change.nut4health.data.entities.Near;
 import org.sic4change.nut4health.data.entities.Notification;
@@ -43,6 +44,7 @@ import org.sic4change.nut4health.data.entities.Ranking;
 import org.sic4change.nut4health.data.entities.Report;
 import org.sic4change.nut4health.data.entities.User;
 import org.sic4change.nut4health.data.events.MessageEvent;
+import org.sic4change.nut4health.data.names.DataConfigurationNames;
 import org.sic4change.nut4health.data.names.DataContractNames;
 import org.sic4change.nut4health.data.names.DataNotificationNames;
 import org.sic4change.nut4health.data.names.DataPaymentNames;
@@ -107,11 +109,13 @@ public class DataRepository {
                     Log.d(TAG, "Login correct with firebase");
                 } else {
                     nut4HealtDao.deleteAllUser();
+                    nut4HealtDao.deleteAllConfiguration();
                     nut4HealtDao.insert(User.userEmpty);
                     Log.d(TAG, "Login incorrect with firebase");
                 }
             } catch (Exception e) {
                 nut4HealtDao.deleteAllUser();
+                nut4HealtDao.deleteAllConfiguration();
                 nut4HealtDao.insert(User.userEmpty);
                 Log.d(TAG, "Login incorrect with firebase");
             }
@@ -131,6 +135,7 @@ public class DataRepository {
                 if ((queryDocumentSnapshots != null) && (queryDocumentSnapshots.getDocuments() != null)
                         && (queryDocumentSnapshots.getDocuments().size() > 0)) {
                     User user = queryDocumentSnapshots.getDocuments().get(0).toObject(User.class);
+                    getConfiguration(user.getConfiguration());
                     Log.d(TAG, "Get user from firebase: " + user.getEmail());
                     nut4HealtDao.deleteEmptyUser();
                     nut4HealtDao.insert(user);
@@ -145,12 +150,50 @@ public class DataRepository {
     }
 
     /**
+     * Method to get user from firebase
+     * @param configuration
+     */
+    private void getConfiguration(String configuration) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference configRef = db.collection(DataConfigurationNames.TABLE_FIREBASE_NAME);
+        Query query = configRef.whereEqualTo(DataConfigurationNames.COL_ID, configuration).limit(1);
+        query.addSnapshotListener(mIoExecutor, (queryDocumentSnapshots, e) -> {
+            try {
+                if ((queryDocumentSnapshots != null) && (queryDocumentSnapshots.getDocuments() != null)
+                        && (queryDocumentSnapshots.getDocuments().size() > 0)) {
+                    Configuration config = queryDocumentSnapshots.getDocuments().get(0).toObject(Configuration.class);
+                    Log.d(TAG, "Get configuration from firebase: " + config.getMoney());
+                    nut4HealtDao.insert(config);
+                    Log.d(TAG, "Configuration inserted in local database : " + config.getMoney());
+                } else {
+                    Log.d(TAG, "Get configuration from firebase: " + "empty");
+                }
+            } catch (Exception error) {
+                Log.d(TAG, "Get configuration: " + "empty");
+            }
+        });
+    }
+
+    /**
      * Method to get current user from local bd
      * @return
      */
     public LiveData<User> getCurrentUser() {
         try {
             return mIoExecutor.submit(() -> nut4HealtDao.getCurrentUser()).get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * Method to get current configuration from local bd
+     * @return
+     */
+    public LiveData<Configuration> getCurrentConfiguration() {
+        try {
+            return mIoExecutor.submit(() -> nut4HealtDao.getConfiguration()).get();
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
             return null;
@@ -446,6 +489,7 @@ public class DataRepository {
         FirebaseAuth auth = FirebaseAuth.getInstance();
         auth.signOut();
         mIoExecutor.submit(() -> nut4HealtDao.deleteAllUser());
+        mIoExecutor.submit(() -> nut4HealtDao.deleteAllConfiguration());
         mIoExecutor.submit(() -> nut4HealtDao.deleteAllContract());
         mIoExecutor.submit(() -> nut4HealtDao.deleteAllNearContracts());
         mIoExecutor.submit(() -> nut4HealtDao.deleteAllRanking());

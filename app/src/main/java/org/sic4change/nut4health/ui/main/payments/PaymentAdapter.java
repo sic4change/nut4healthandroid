@@ -16,6 +16,8 @@ public class PaymentAdapter extends PagedListAdapter<Payment, PaymentViewHolder>
 
     private ItemAction mItemOnClickAction;
 
+    private String money;
+
     Context context;
 
     public PaymentAdapter(Context context) {
@@ -30,6 +32,10 @@ public class PaymentAdapter extends PagedListAdapter<Payment, PaymentViewHolder>
 
     public void setItemOnClickAction(ItemAction itemOnClickAction) {
         mItemOnClickAction = itemOnClickAction;
+    }
+
+    public void setMoney(String money) {
+        this.money = money;
     }
 
     public Payment getPaymentAtPosition(int position) {
@@ -47,7 +53,7 @@ public class PaymentAdapter extends PagedListAdapter<Payment, PaymentViewHolder>
     public void onBindViewHolder(@NonNull PaymentViewHolder holder, int position) {
         Payment payment = getItem(position);
         if (payment != null) {
-            holder.bindTo(payment, mItemOnClickAction);
+            holder.bindTo(payment, money,mItemOnClickAction);
         } else {
             holder.clear();
         }

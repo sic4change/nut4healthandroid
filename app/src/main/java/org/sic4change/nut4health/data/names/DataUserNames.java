@@ -24,6 +24,11 @@ public final class DataUserNames {
     public static final String COL_EMAIL = "email";
 
     /**
+     * Column configuration for User config
+     */
+    public static final String COL_CONFIGURATION = "configuration";
+
+    /**
      * Column email for User phone
      */
     public static final String COL_PHONE = "phone";

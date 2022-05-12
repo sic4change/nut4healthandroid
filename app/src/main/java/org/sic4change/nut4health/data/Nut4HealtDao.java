@@ -11,6 +11,7 @@ import androidx.room.Query;
 import androidx.room.RawQuery;
 import androidx.sqlite.db.SupportSQLiteQuery;
 
+import org.sic4change.nut4health.data.entities.Configuration;
 import org.sic4change.nut4health.data.entities.Contract;
 import org.sic4change.nut4health.data.entities.Near;
 import org.sic4change.nut4health.data.entities.Notification;
@@ -39,6 +40,13 @@ public interface Nut4HealtDao {
     LiveData<User> getUser();
 
     /**
+     * Returns a user (maybe user empty)
+     * @return
+     */
+    @Query("SELECT * FROM configuration LIMIT 1")
+    LiveData<Configuration> getConfiguration();
+
+    /**
      * Insert a user
      * @param user
      */
@@ -46,10 +54,23 @@ public interface Nut4HealtDao {
     void insert(User... user);
 
     /**
+     * Insert a configuration
+     * @param configuration
+     */
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insert(Configuration... configuration);
+
+    /**
      * Delete all user
      */
     @Query("DELETE FROM user")
     void deleteAllUser();
+
+    /**
+     * Delete all configuration
+     */
+    @Query("DELETE FROM configuration")
+    void deleteAllConfiguration();
 
     /**
      * Delete all user

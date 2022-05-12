@@ -48,7 +48,7 @@ private Context context;
         return mPayment;
     }
 
-    void bindTo(Payment payment, final PaymentAdapter.ItemAction itemAction) {
+    void bindTo(Payment payment, String money, final PaymentAdapter.ItemAction itemAction) {
         mPayment = payment;
 
         if (mPayment.getType().equals("Diagnosis")) {
@@ -74,9 +74,9 @@ private Context context;
             tvStatus.setText(context.getResources().getString(R.string.status_cancel));
             tvStatus.setTextColor(context.getResources().getColor(R.color.error));
         }
-        tvQuantity.setText(mPayment.getQuantity() + " euro");
+        tvQuantity.setText(mPayment.getQuantity() + " " + money);
         Date date = new Date(mPayment.getCreationDateMiliseconds());
-        Locale LocaleBylanguageTag = Locale.forLanguageTag("es");
+        Locale LocaleBylanguageTag = Locale.forLanguageTag(Locale.getDefault().getLanguage());
         TimeAgoMessages messages = new TimeAgoMessages.Builder().withLocale(LocaleBylanguageTag).build();
         String text = TimeAgo.using(date.getTime(), messages);
         tvDate.setText(text);

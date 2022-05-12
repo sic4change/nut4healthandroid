@@ -7,6 +7,9 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
+import com.google.type.Money;
+
+import org.sic4change.nut4health.data.entities.Configuration;
 import org.sic4change.nut4health.data.entities.Contract;
 import org.sic4change.nut4health.data.entities.Near;
 import org.sic4change.nut4health.data.entities.Notification;
@@ -16,8 +19,8 @@ import org.sic4change.nut4health.data.entities.Ranking;
 import org.sic4change.nut4health.data.entities.User;
 
 @Database(entities = {User.class, Contract.class, Near.class, Ranking.class, Payment.class,
-        Notification.class, Point.class},
-        version = 24, exportSchema = false)
+        Notification.class, Point.class, Configuration.class},
+        version = 27, exportSchema = false)
 public abstract  class Nut4HealthDatabase extends RoomDatabase {
 
     private static volatile Nut4HealthDatabase sInstance = null;

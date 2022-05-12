@@ -32,7 +32,7 @@ public class Payment {
 
     @NonNull
     @ColumnInfo(name = DataPaymentNames.COL_QUANTITY)
-    private int quantity;
+    private double quantity;
 
     @NonNull
     @ColumnInfo(name = DataPaymentNames.COL_TYPE)
@@ -106,11 +106,11 @@ public class Payment {
         this.screener = screener;
     }
 
-    public int getQuantity() {
+    public double getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(double quantity) {
         this.quantity = quantity;
     }
 

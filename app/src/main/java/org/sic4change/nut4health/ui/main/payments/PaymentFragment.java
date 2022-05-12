@@ -166,6 +166,11 @@ public class PaymentFragment extends Fragment implements SwipeRefreshLayout.OnRe
                 mMainViewModel.getPayments(user.getEmail());
             }
         });
+        mMainViewModel.getCurrentConfiguration().observe(getActivity(), config -> {
+            if (config != null) {
+                paymentAdapter.setMoney(config.getMoney());
+            }
+        });
         mMainViewModel.getPayments().observe(getActivity(), payments -> {
             paymentAdapter.submitList(payments);
             paymentAdapter.notifyDataSetChanged();
@@ -173,6 +178,7 @@ public class PaymentFragment extends Fragment implements SwipeRefreshLayout.OnRe
                 swipe_container.setRefreshing(false);
             }
             mMainViewModel.getCurrentUser().removeObservers(getActivity());
+            mMainViewModel.getCurrentConfiguration().removeObservers(getActivity());
             mMainViewModel.getPayments().removeObservers(getActivity());
         });
 

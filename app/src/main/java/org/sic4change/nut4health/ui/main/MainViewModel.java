@@ -11,6 +11,7 @@ import androidx.paging.PagedList;
 import com.google.android.gms.maps.model.LatLng;
 
 import org.sic4change.nut4health.data.DataRepository;
+import org.sic4change.nut4health.data.entities.Configuration;
 import org.sic4change.nut4health.data.entities.Contract;
 import org.sic4change.nut4health.data.entities.Near;
 import org.sic4change.nut4health.data.entities.Notification;
@@ -25,6 +26,7 @@ public class MainViewModel extends ViewModel {
     private Context mContext;
     private final DataRepository mRepository;
     private final LiveData<User> mUser;
+    private final LiveData<Configuration> mConfiguration;
     private LiveData<PagedList<Contract>> mContracts;
     private LiveData<PagedList<Near>> mNear;
     private LiveData<PagedList<Ranking>> mRanking;
@@ -55,6 +57,7 @@ public class MainViewModel extends ViewModel {
         this.mRepository = repository;
 
         mUser = this.mRepository.getCurrentUser();
+        mConfiguration = this.mRepository.getCurrentConfiguration();
 
         mUser.observeForever( user -> {
             if (user != null) {
@@ -82,6 +85,10 @@ public class MainViewModel extends ViewModel {
 
     public LiveData<User> getCurrentUser() {
         return mUser;
+    }
+
+    public LiveData<Configuration> getCurrentConfiguration() {
+        return mConfiguration;
     }
 
     public void updateUser(String email) {
