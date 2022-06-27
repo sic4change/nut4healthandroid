@@ -438,8 +438,8 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
                 mCreateContractViewModel.setLocation(newLocation);
                 etChildLocation.setText(newLocation.latitude + ", " + newLocation.longitude);
                 List<Address> addresses;
-                Geocoder geocoder = new Geocoder(getActivity().getApplicationContext(), Locale.getDefault());
                 try {
+                    Geocoder geocoder = new Geocoder(getActivity().getApplicationContext(), Locale.getDefault());
                     addresses = geocoder.getFromLocation(mCreateContractViewModel.getLocation().latitude, mCreateContractViewModel.getLocation().longitude, 1);
                     String address = addresses.get(0).getAddressLine(0);
                     if (address != null) {
