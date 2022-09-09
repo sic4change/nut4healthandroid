@@ -238,6 +238,34 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvChildSurname" />
 
+                <io.ghyeok.stickyswitch.widget.StickySwitch
+                    android:id="@+id/sexSelector"
+                    android:layout_width="wrap_content"
+                    android:layout_height="60dp"
+                    android:layout_centerInParent="true"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_default"
+                    android:layout_marginBottom="@dimen/margin_default"
+                    app:layout_constraintTop_toBottomOf="@+id/etChildSurname"
+                    app:layout_constraintBottom_toTopOf="@+id/tvChildDNI"
+                    app:ss_animationDuration="600"
+                    app:ss_animationType="line"
+                    app:ss_iconPadding="18dp"
+                    app:ss_iconSize="22dp"
+                    app:ss_leftIcon="@drawable/ic_male"
+                    app:ss_leftText="Male"
+                    app:ss_rightIcon="@drawable/ic_female"
+                    app:ss_rightText="Female"
+                    app:ss_selectedTextSize="14sp"
+                    app:ss_sliderBackgroundColor="@color/ms_material_grey_400"
+                    app:ss_switchColor="@color/colorPrimaryDark"
+                    app:ss_textColor="@color/colorPrimary"
+                    app:ss_textSize="12sp"
+                    app:ss_textVisibility="gone" />
+
                 <TextView
                     android:id="@+id/tvChildDNI"
                     android:layout_width="wrap_content"
@@ -250,7 +278,7 @@
                     android:layout_marginTop="@dimen/margin_default"
                     android:text="@string/dni"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/etChildSurname" />
+                    app:layout_constraintTop_toBottomOf="@+id/sexSelector" />
 
                 <EditText
                     android:id="@+id/etChildDNI"

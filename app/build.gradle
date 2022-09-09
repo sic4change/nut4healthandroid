@@ -38,8 +38,8 @@ android {
         applicationId "org.sic4change.nut4health"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 17
-        versionName "1.17"
+        versionCode 18
+        versionName "1.18"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
@@ -48,14 +48,14 @@ android {
         Development {
             applicationId "org.sic4change.nut4health"
             dimension "nut4health"
-            versionCode 17
-            versionName "1.17"
+            versionCode 18
+            versionName "1.18"
         }
         Production {
             applicationId "org.sic4change.nut4health"
             dimension "nut4health"
-            versionCode 17
-            versionName "1.17"
+            versionCode 18
+            versionName "1.18"
         }
     }
 
@@ -192,6 +192,9 @@ dependencies {
 
     //Worker
     implementation "androidx.work:work-runtime:2.5.0"
+
+    //Sex selector
+    implementation 'com.github.GwonHyeok:StickySwitch:0.0.16'
 
     //Test
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'

@@ -30,50 +30,33 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.airbnb.lottie.LottieAnimationView;
 import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeSuccessDialog;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestOptions;
-import com.github.pavlospt.CircleView;
-import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.common.api.ResolvableApiException;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
-import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.location.SettingsClient;
-import com.shivtechs.maplocationpicker.LocationPickerActivity;
 import com.shivtechs.maplocationpicker.MapUtility;
 import com.stepstone.stepper.Step;
 import com.stepstone.stepper.VerificationError;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.ThreadMode;
+import org.jetbrains.annotations.NotNull;
 import org.sic4change.animation_check.AnimatedCircleLoadingView;
 import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.data.entities.Point;
 import org.sic4change.nut4health.data.events.MessageEvent;
 import org.sic4change.nut4health.ui.fingerprint.ScanActivity;
-import org.sic4change.nut4health.ui.samphoto.SAMPhotoActivity;
 import org.sic4change.nut4health.ui.serchablespinner.SearchableSpinner;
 import org.sic4change.nut4health.utils.Nut4HealthKeyboard;
 import org.sic4change.nut4health.utils.location.Nut4HealthSingleShotLocationProvider;
 import org.sic4change.nut4health.utils.ruler_picker.SimpleRulerViewer;
 
 
-import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.List;
@@ -81,8 +64,8 @@ import java.util.Locale;
 
 import static android.app.Activity.RESULT_OK;
 import static maes.tech.intentanim.CustomIntent.customType;
-import static org.sic4change.nut4health.ui.samphoto.SAMPhotoActivity.PERCENTAGE;
-import static org.sic4change.nut4health.ui.samphoto.SAMPhotoActivity.PHOTO_PATH;
+
+import io.ghyeok.stickyswitch.widget.StickySwitch;
 
 public class StepCreateContractFragment extends Fragment implements Step, SimpleRulerViewer.OnValueChangeListener{
 
@@ -98,6 +81,7 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
     private CardView cvChild;
     private EditText etChildName;
     private EditText etChildSurname;
+    private StickySwitch ssSex;
     private TextView tvChildDNI;
     private EditText etChildDNI;
     private EditText etChildTutor;
@@ -186,6 +170,7 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
                             mCreateContractViewModel.getLocation().latitude, mCreateContractViewModel.getLocation().longitude,
                             mCreateContractViewModel.getUriPhoto(), mCreateContractViewModel.getChildName(),
                             mCreateContractViewModel.getChildSurname(),
+                            mCreateContractViewModel.getSex(),
                             mCreateContractViewModel.getChildDNI(),
                             mCreateContractViewModel.getChildTutor(),
                             mCreateContractViewModel.getChildLocation(),
@@ -206,11 +191,20 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
         cvChild = v.findViewById(R.id.cvChild);
         etChildName = v.findViewById(R.id.etChildName);
         etChildSurname = v.findViewById(R.id.etChildSurname);
+        ssSex = v.findViewById(R.id.sexSelector);
         etChildDNI = v.findViewById(R.id.etChildDNI);
         tvChildDNI = v.findViewById(R.id.tvChildDNI);
         etChildTutor = v.findViewById(R.id.etChildTutor);
         etChildContactPhone = v.findViewById(R.id.etContactPhone);
         cbVerification = v.findViewById(R.id.cbVerification);
+
+        ssSex.setOnSelectedChangeListener(new StickySwitch.OnSelectedChangeListener() {
+            @Override
+            public void onSelectedChange(@NotNull StickySwitch.Direction direction, @NotNull String text) {
+                mCreateContractViewModel.setSex(direction.name());
+                System.out.println("Aqui " + mCreateContractViewModel.getSex());
+            }
+        });
 
         etChildLocation = v.findViewById(R.id.etChildLocation);
 //        ivAddFingerprint = v.findViewById(R.id.ivAddFingerprint);
@@ -256,6 +250,7 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
             mCreateContractViewModel.setChildLocation(etChildLocation.getText().toString());
             mCreateContractViewModel.setChildName(etChildName.getText().toString());
             mCreateContractViewModel.setChildSurname(etChildSurname.getText().toString());
+            mCreateContractViewModel.setSex(ssSex.getDirection().name());
             mCreateContractViewModel.setChildDNI(etChildDNI.getText().toString());
             mCreateContractViewModel.setChildTutor(etChildTutor.getText().toString());
             mCreateContractViewModel.setChildPhoneContact(etChildContactPhone.getText().toString());
@@ -315,6 +310,13 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
             }
             if (mCreateContractViewModel.getChildSurname() != null) {
                 etChildSurname.setText(mCreateContractViewModel.getChildSurname());
+            }
+            if (mCreateContractViewModel.getSex() != null) {
+                if (mCreateContractViewModel.getSex().equals("F")) {
+                    ssSex.setDirection(StickySwitch.Direction.RIGHT);
+                } else {
+                    ssSex.setDirection(StickySwitch.Direction.LEFT);
+                }
             }
             if (mCreateContractViewModel.getChildDNI() != null) {
                 etChildDNI.setText(mCreateContractViewModel.getChildDNI());

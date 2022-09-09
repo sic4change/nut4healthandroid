@@ -543,8 +543,9 @@ public class DataRepository {
      * @param percentage
      */
     public void createContract(String id, String role, String email, double latitude, double longitude, Uri photo,
-                               String childName, String childSurname, String childDNI, String childTutor, String childAddress,
-                               String childPhoneContact, String point, String pointFullName, int percentage,
+                               String childName, String childSurname, String sex, String childDNI,
+                               String childTutor, String childAddress, String childPhoneContact,
+                               String point, String pointFullName, int percentage,
                                double arm_circumference, String fingerprint) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference contractRef = db.collection(DataContractNames.TABLE_FIREBASE_NAME);
@@ -555,7 +556,7 @@ public class DataRepository {
             status = Contract.Status.NO_DIAGNOSIS.name();
         }
         Contract contract = new Contract("", latitude, longitude, "",
-                childName, childSurname, childDNI, childTutor, childAddress, childPhoneContact, point, pointFullName,  "",
+                childName, childSurname, sex, childDNI, childTutor, childAddress, childPhoneContact, point, pointFullName,  "",
                 status, "", percentage, new BigDecimal(arm_circumference).setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue());
         String newId = id + "_" + new Date().getTime();
         contract.setId(newId);
@@ -594,6 +595,7 @@ public class DataRepository {
                                             if (email.equals(contractIt.getScreener())) {
                                                 contractIt.setChildName(childName);
                                                 contractIt.setChildSurname(childSurname);
+                                                contractIt.setSex(sex);
                                                 contractIt.setChildDNI(childDNI);
                                                 contractIt.setChildTutor(childTutor);
                                                 contractIt.setChildAddress(childAddress);
@@ -672,6 +674,7 @@ public class DataRepository {
                                             //if (!paid) {
                                                 contractIt.setChildName(childName);
                                                 contractIt.setChildSurname(childSurname);
+                                                contractIt.setSex(sex);
                                                 contractIt.setChildDNI(childDNI);
                                                 contractIt.setChildTutor(childTutor);
                                                 contractIt.setChildAddress(childAddress);
