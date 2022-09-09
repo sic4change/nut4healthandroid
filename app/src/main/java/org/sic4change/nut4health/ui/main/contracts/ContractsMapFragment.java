@@ -54,6 +54,7 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
 
     private CardView cvContract;
     private TextView nStatus;
+    private TextView tvSex;
     private TextView nChildName;
     private TextView nChildLocation;
     private CircleView nPercentage;
@@ -76,6 +77,7 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
         cvContract = view.findViewById(R.id.cvContract);
         cvContract.setOnClickListener(v -> goToContractDetailActivity(id, role));
         nStatus = view.findViewById(R.id.tvStatus);
+        tvSex = view.findViewById(R.id.tvSex);
         nChildName = view.findViewById(R.id.tvNameItem);
         nChildLocation = view.findViewById(R.id.tvLocationItem);
         nPercentage = view.findViewById(R.id.tvPercentageItem);
@@ -239,6 +241,17 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
             nStatus.setText(getResources().getString(R.string.finished));
             nStatus.setTextColor(getResources().getColor(R.color.violet));
             nConfirmationDate.setVisibility(View.VISIBLE);
+        }
+
+        if (contract.getSex() == null || contract.getSex().equals("")) {
+            tvSex.setVisibility(View.GONE);
+        } else {
+            if (contract.getSex().equals("F")) {
+                tvSex.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_female_icon, 0, 0, 0);
+            } else {
+                tvSex.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_male_icon, 0, 0, 0);
+            }
+            tvSex.setVisibility(View.VISIBLE);
         }
 
         Date date = new Date(contract.getCreationDate());

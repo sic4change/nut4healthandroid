@@ -51,6 +51,7 @@ public class ContractDetailActivity extends AppCompatActivity {
         if (contract != null) {
             CircleView ivIcon = findViewById(R.id.ivIcon);
             TextView tvStatus = findViewById(R.id.tvStatus);
+            TextView tvSex = findViewById(R.id.tvSex);
             EditText etName = findViewById(R.id.etName);
             EditText etSurname = findViewById(R.id.etSurname);
             EditText etTutor = findViewById(R.id.etTutor);
@@ -118,6 +119,18 @@ public class ContractDetailActivity extends AppCompatActivity {
                 btnConfirm.setVisibility(View.INVISIBLE);
                 btnConfirm.setBackgroundColor(this.getResources().getColor(R.color.ms_material_grey_400));
             }
+
+            if (contract.getSex() == null || contract.getSex().equals("")) {
+                tvSex.setVisibility(View.GONE);
+            } else {
+                if (contract.getSex().equals("F")) {
+                    tvSex.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_female_icon, 0, 0, 0);
+                } else {
+                    tvSex.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_male_icon, 0, 0, 0);
+                }
+                tvSex.setVisibility(View.VISIBLE);
+            }
+
             Date date = new Date(contract.getCreationDate());
             Locale LocaleBylanguageTag = Locale.forLanguageTag("es");
             TimeAgoMessages messages = new TimeAgoMessages.Builder().withLocale(LocaleBylanguageTag).build();

@@ -27,6 +27,7 @@ private CircleView nPercentage;
 private TextView nStatus;
 private TextView nDate;
 private TextView nConfirmationDate;
+private TextView tvSex;
 private CardView cvContract;
 private Contract mContract;
 private ContractsAdapter.ItemAction itemAction;
@@ -37,6 +38,7 @@ private Context context;
         this.context = context;
         nChildName = itemView.findViewById(R.id.tvNameItem);
         nStatus = itemView.findViewById(R.id.tvStatus);
+        tvSex = itemView.findViewById(R.id.tvSex);
         nChildLocation = itemView.findViewById(R.id.tvLocationItem);
         nPercentage = itemView.findViewById(R.id.tvPercentageItem);
         cvContract = itemView.findViewById(R.id.cvContractItem);
@@ -106,6 +108,17 @@ private Context context;
         TimeAgoMessages messages = new TimeAgoMessages.Builder().withLocale(LocaleBylanguageTag).build();
         String text = TimeAgo.using(date.getTime(), messages);
         nDate.setText(text);
+
+        if (contract.getSex() == null || contract.getSex().equals("")) {
+            tvSex.setVisibility(View.GONE);
+        } else {
+            if (contract.getSex().equals("F")) {
+                tvSex.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_female_icon, 0, 0, 0);
+            } else {
+                tvSex.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_male_icon, 0, 0, 0);
+            }
+            tvSex.setVisibility(View.VISIBLE);
+        }
 
         setClickAction(this.itemAction);
         cvContract.setOnClickListener(v -> itemAction.onClick(position, getContract().getId()));
