@@ -767,6 +767,7 @@
     <!--Excel export-->
     <string name="name_export">Name</string>
     <string name="surnname_export">Surnames</string>
+    <string name="sex_export">Sex</string>
     <string name="address_export">Address</string>
     <string name="phone_export">Phone</string>
     <string name="date_export">Date</string>
