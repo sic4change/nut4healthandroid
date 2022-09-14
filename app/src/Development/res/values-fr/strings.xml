@@ -90,6 +90,7 @@
     <string name="child_data">INFORMATIONS DE L\'ENFANT</string>
     <string name="name">Nom de l\'enfant</string>
     <string name="surname">Noms de famille de l\'enfant</string>
+    <string name="sex">Sexe de l\'enfant</string>
     <string name="tutor">Mère ou père de l\'enfant</string>
     <string name="check_verification">Mère, père ou le tuteur autorisant la collecte des informations de l\'enfant</string>
     <string name="dni">Pièce d\'identité de l\'enfant</string>

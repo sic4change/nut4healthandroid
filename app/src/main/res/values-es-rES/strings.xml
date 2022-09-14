@@ -93,6 +93,7 @@
     <string name="child_data">DATOS DEL MENOR</string>
     <string name="name">Nombre del niñ@</string>
     <string name="surname">Apellidos del niñ@</string>
+    <string name="sex">Sexo del niñ@</string>
     <string name="tutor">Madre o padre del niñ@</string>
     <string name="check_verification">Madre, padre o tutor autoriza la toma de datos del menor</string>
     <string name="dni">Documento identificación madre o padre</string>

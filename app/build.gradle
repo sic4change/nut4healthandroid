@@ -48,14 +48,14 @@ android {
         Development {
             applicationId "org.sic4change.nut4health"
             dimension "nut4health"
-            versionCode 18
-            versionName "1.18"
+            versionCode 19
+            versionName "1.19"
         }
         Production {
             applicationId "org.sic4change.nut4health"
             dimension "nut4health"
-            versionCode 18
-            versionName "1.18"
+            versionCode 19
+            versionName "1.19"
         }
     }
 

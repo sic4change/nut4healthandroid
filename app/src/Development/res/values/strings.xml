@@ -93,6 +93,7 @@
     <string name="child_data">Information</string>
     <string name="name">Child Name</string>
     <string name="surname">Child Surname</string>
+    <string name="sex">Child Sex</string>
     <string name="tutor">Mother or father of the child</string>
     <string name="check_verification">Mother, father or tutor authorizes the data collection of the minor</string>
     <string name="dni">Identification document of the child</string>

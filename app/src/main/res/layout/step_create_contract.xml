@@ -238,6 +238,20 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvChildSurname" />
 
+                <TextView
+                    android:id="@+id/tvSex"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimary"
+                    android:fontFamily="@font/bariol_bold"
+                    android:textSize="18dp"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_default"
+                    android:text="@string/sex"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/etChildSurname" />
+
                 <io.ghyeok.stickyswitch.widget.StickySwitch
                     android:id="@+id/sexSelector"
                     android:layout_width="wrap_content"
@@ -249,7 +263,7 @@
                     android:layout_marginStart="@dimen/margin_medium"
                     android:layout_marginTop="@dimen/margin_default"
                     android:layout_marginBottom="@dimen/margin_default"
-                    app:layout_constraintTop_toBottomOf="@+id/etChildSurname"
+                    app:layout_constraintTop_toBottomOf="@+id/tvSex"
                     app:layout_constraintBottom_toTopOf="@+id/tvChildDNI"
                     app:ss_animationDuration="600"
                     app:ss_animationType="line"
