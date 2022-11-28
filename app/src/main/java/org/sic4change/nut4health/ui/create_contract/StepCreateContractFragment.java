@@ -12,6 +12,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -37,8 +38,11 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeSuccessDialog;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.SettingsClient;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.shivtechs.maplocationpicker.MapUtility;
 import com.stepstone.stepper.Step;
 import com.stepstone.stepper.VerificationError;
@@ -122,9 +126,13 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
         this.position = position;
     }
 
+
+    private FusedLocationProviderClient fusedLocationProviderClient;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.step_create_contract, container, false);
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getActivity());
         eventResult = "";
         btnTakePhoto = v.findViewById(R.id.btnTakePhoto);
         rulerBackground = v.findViewById(R.id.rulerBackground);
@@ -202,7 +210,6 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
             @Override
             public void onSelectedChange(@NotNull StickySwitch.Direction direction, @NotNull String text) {
                 mCreateContractViewModel.setSex(direction.name());
-                System.out.println("Aqui " + mCreateContractViewModel.getSex());
             }
         });
 
@@ -216,6 +223,15 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
         if (ActivityCompat.checkSelfPermission(getActivity().getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, LOCATION_REQUEST_CODE);
         } else {
+            fusedLocationProviderClient.getLastLocation().addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
+                @Override
+                public void onSuccess(Location location) {
+                    if (location != null) {
+                        mCreateContractViewModel.setLocation(new Nut4HealthSingleShotLocationProvider.GPSCoordinates(location.getLatitude(), location.getLongitude()));
+                        etChildLocation.setText(location.getLatitude() + "," + location.getLongitude());
+                    }
+                }
+            });
             showMyPosition();
         }
         MapUtility.apiKey = getResources().getString(R.string.google_maps_key);
@@ -399,9 +415,13 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
                 if (address != null) {
                     mCreateContractViewModel.setChildLocation(address);
                     etChildLocation.setText(mCreateContractViewModel.getChildLocation());
+                } else {
+                    mCreateContractViewModel.setChildLocation("" + currentLatitude + "," + currentLongitude);
+                    etChildLocation.setText(mCreateContractViewModel.getChildLocation());
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                mCreateContractViewModel.setChildLocation("" + currentLatitude + "," + currentLongitude);
+                etChildLocation.setText(mCreateContractViewModel.getChildLocation());
             }
         } else if (requestCode ==  LAUNCH_SAMPhoto && resultCode == RESULT_OK){
             String requiredValue = data.getStringExtra("RESULT");
@@ -447,9 +467,13 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
                     if (address != null) {
                         mCreateContractViewModel.setChildLocation(address);
                         etChildLocation.setText(mCreateContractViewModel.getChildLocation());
+                    } else {
+                        mCreateContractViewModel.setChildLocation("" + newLocation.latitude + "," + newLocation.longitude);
+                        etChildLocation.setText(mCreateContractViewModel.getChildLocation());
                     }
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    mCreateContractViewModel.setChildLocation("" + newLocation.latitude + "," + newLocation.longitude);
+                    etChildLocation.setText(mCreateContractViewModel.getChildLocation());
                 }
             }
         });
