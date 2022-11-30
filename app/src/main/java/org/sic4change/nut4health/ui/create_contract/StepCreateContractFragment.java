@@ -19,6 +19,9 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.text.Editable;
+import android.text.InputFilter;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -85,6 +88,7 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
     private CardView cvChild;
     private EditText etChildName;
     private EditText etChildSurname;
+    private EditText etChildBrothers;
     private StickySwitch ssSex;
     private TextView tvChildDNI;
     private EditText etChildDNI;
@@ -180,6 +184,7 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
                             mCreateContractViewModel.getChildSurname(),
                             mCreateContractViewModel.getSex(),
                             mCreateContractViewModel.getChildDNI(),
+                            Integer.parseInt(mCreateContractViewModel.getChildBrothers()),
                             mCreateContractViewModel.getChildTutor(),
                             mCreateContractViewModel.getChildLocation(),
                             mCreateContractViewModel.getChildPhoneContact(),
@@ -199,6 +204,33 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
         cvChild = v.findViewById(R.id.cvChild);
         etChildName = v.findViewById(R.id.etChildName);
         etChildSurname = v.findViewById(R.id.etChildSurname);
+        etChildBrothers = v.findViewById(R.id.etBrothers);
+        etChildBrothers.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(!charSequence.equals("")) {
+                    try {
+                        int massValue = Integer.parseInt(charSequence.toString());
+                        if (massValue > 21) {
+                            etChildBrothers.setText("21");
+                        }
+                    } catch (Exception e) {
+                        System.out.println("invalid brothers");
+                    }
+
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
         ssSex = v.findViewById(R.id.sexSelector);
         etChildDNI = v.findViewById(R.id.etChildDNI);
         tvChildDNI = v.findViewById(R.id.tvChildDNI);
@@ -258,6 +290,7 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
             if ((etChildLocation.getText() == null) || (etChildLocation.getText().toString() == null) || (etChildLocation.getText().toString().isEmpty())
                     || (etChildName.getText() == null) || (etChildName.getText().toString() == null) || (etChildName.getText().toString().isEmpty())
                     || (etChildSurname.getText() == null) || (etChildSurname.getText().toString() == null) || (etChildSurname.getText().toString().isEmpty())
+                    || (etChildBrothers.getText() == null) || (etChildBrothers.getText().toString() == null) || (etChildBrothers.getText().toString().isEmpty())
                     || (etChildTutor.getText() == null) || (etChildTutor.getText().toString() == null) || (etChildTutor.getText().toString().isEmpty())
                     || (etChildContactPhone.getText() == null) || (etChildContactPhone.getText().toString() == null) || (etChildContactPhone.getText().toString().isEmpty())
                     || (!cbVerification.isChecked())) {
@@ -266,6 +299,7 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
             mCreateContractViewModel.setChildLocation(etChildLocation.getText().toString());
             mCreateContractViewModel.setChildName(etChildName.getText().toString());
             mCreateContractViewModel.setChildSurname(etChildSurname.getText().toString());
+            mCreateContractViewModel.setChildBrothers(etChildBrothers.getText().toString());
             mCreateContractViewModel.setSex(ssSex.getDirection().name());
             mCreateContractViewModel.setChildDNI(etChildDNI.getText().toString());
             mCreateContractViewModel.setChildTutor(etChildTutor.getText().toString());
@@ -326,6 +360,9 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
             }
             if (mCreateContractViewModel.getChildSurname() != null) {
                 etChildSurname.setText(mCreateContractViewModel.getChildSurname());
+            }
+            if (mCreateContractViewModel.getChildBrothers() != null) {
+                etChildBrothers.setText(mCreateContractViewModel.getChildBrothers());
             }
             if (mCreateContractViewModel.getSex() != null) {
                 if (mCreateContractViewModel.getSex().equals("F")) {

@@ -544,8 +544,8 @@ public class DataRepository {
      */
     public void createContract(String id, String role, String email, double latitude, double longitude, Uri photo,
                                String childName, String childSurname, String sex, String childDNI,
-                               String childTutor, String childAddress, String childPhoneContact,
-                               String point, String pointFullName, int percentage,
+                               int childBrothers, String code, String childTutor, String childAddress,
+                               String childPhoneContact, String point, String pointFullName, int percentage,
                                double arm_circumference, String fingerprint) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference contractRef = db.collection(DataContractNames.TABLE_FIREBASE_NAME);
@@ -555,9 +555,10 @@ public class DataRepository {
         } else {
             status = Contract.Status.NO_DIAGNOSIS.name();
         }
-        Contract contract = new Contract("", latitude, longitude, "",
-                childName, childSurname, sex, childDNI, childTutor, childAddress, childPhoneContact, point, pointFullName,  "",
-                status, "", percentage, new BigDecimal(arm_circumference).setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue());
+        Contract contract = new Contract("", latitude, longitude, "", childName,
+                childSurname, sex, childDNI, childBrothers, code, childTutor, childAddress, childPhoneContact, point,
+                pointFullName,  "", status, "", percentage,
+                new BigDecimal(arm_circumference).setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue());
         String newId = id + "_" + new Date().getTime();
         contract.setId(newId);
         contract.setCreationDate(new Date().toString());
@@ -575,6 +576,7 @@ public class DataRepository {
                             boolean updated = false;
                             for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
                                 Contract contractIt = document.toObject(Contract.class);
+                                //Aqui hay que mirar si el diagnostico existe por parte de este AC
                                 if (contractIt.getFingerprint() != null && contractIt.getFingerprint() != "" && fingerprint != "") {
                                     FingerprintTemplate fingerprintCandidate = new FingerprintTemplate().deserialize(contractIt.getFingerprint());
                                     double score = new FingerprintMatcher().index(new FingerprintTemplate().deserialize(fingerprint)).match(fingerprintCandidate);

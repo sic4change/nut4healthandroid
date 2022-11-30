@@ -264,7 +264,7 @@
                     android:layout_marginTop="@dimen/margin_default"
                     android:layout_marginBottom="@dimen/margin_default"
                     app:layout_constraintTop_toBottomOf="@+id/tvSex"
-                    app:layout_constraintBottom_toTopOf="@+id/tvChildDNI"
+                    app:layout_constraintBottom_toTopOf="@+id/tvBrothers"
                     app:ss_animationDuration="600"
                     app:ss_animationType="line"
                     app:ss_iconPadding="18dp"
@@ -281,6 +281,36 @@
                     app:ss_textVisibility="gone" />
 
                 <TextView
+                    android:id="@+id/tvBrothers"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimary"
+                    android:fontFamily="@font/bariol_bold"
+                    android:textSize="18dp"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_default"
+                    android:text="@string/brothers"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/sexSelector" />
+
+                <EditText
+                    android:id="@+id/etBrothers"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:layout_marginRight="@dimen/margin_medium"
+                    android:ems="10"
+                    android:maxLength="2"
+                    android:inputType="number"
+                    android:fontFamily="@font/bariol_regular"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvBrothers" />
+
+                <TextView
                     android:id="@+id/tvChildDNI"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -292,7 +322,7 @@
                     android:layout_marginTop="@dimen/margin_default"
                     android:text="@string/dni"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/sexSelector" />
+                    app:layout_constraintTop_toBottomOf="@+id/etBrothers" />
 
                 <EditText
                     android:id="@+id/etChildDNI"
@@ -393,7 +423,7 @@
                     android:layout_marginEnd="@dimen/margin_medium"
                     android:layout_marginRight="@dimen/margin_medium"
                     android:ems="10"
-                    android:inputType="textCapWords"
+                    android:inputType="number"
                     android:fontFamily="@font/bariol_regular"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

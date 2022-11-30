@@ -28,11 +28,14 @@ public class CreateContractViewModel extends ViewModel {
     private Uri uriPhoto;
     private int percentage = -1;
     private double arm_circumference = 0.0;
-    private Nut4HealthSingleShotLocationProvider.GPSCoordinates location = new Nut4HealthSingleShotLocationProvider.GPSCoordinates(0,0);
+    private Nut4HealthSingleShotLocationProvider.GPSCoordinates location =
+            new Nut4HealthSingleShotLocationProvider.GPSCoordinates(0,0);
     private String childName;
     private String childSurname;
+    private String childBrothers;
     private String sex = "H";
     private String childDNI;
+    private String code;
     private String childTutor;
     private String childLocation;
     private String childPhoneContact;
@@ -62,11 +65,13 @@ public class CreateContractViewModel extends ViewModel {
         return mContract;
     }
 
-    public void createContract(String id, String role, String screener, float latitude, float longitude, Uri photo,
-                               String childName, String childSurname, String sex, String childDNI, String childTutor, String childAddress,
+    public void createContract(String id, String role, String screener, float latitude, float longitude,
+                               Uri photo, String childName, String childSurname, String sex,
+                               String childDNI, int childBrothers, String childTutor, String childAddress,
                                String childPhoneContact, String point, String pointFullName,
                                int percentage, double arm_circumference) {
-        if (fingerPrint != null) {
+        String code = childPhoneContact + "-" + childBrothers;
+        /*if (fingerPrint != null) {
             FingerprintTemplate fingerprintTemplateContract = new FingerprintTemplate().dpi(500).create(fingerPrint);
             mRepository.createContract(id, role, screener, latitude, longitude, photo, childName, childSurname, sex, childDNI, childTutor,
                     childAddress, childPhoneContact, point, pointFullName, percentage, arm_circumference, fingerprintTemplateContract.serialize());
@@ -74,7 +79,10 @@ public class CreateContractViewModel extends ViewModel {
             mRepository.createContract(id, role, screener, latitude, longitude, photo, childName,
                     childSurname, sex, childDNI, childTutor, childAddress, childPhoneContact, point,
                     pointFullName, percentage, arm_circumference, "");
-        }
+        }*/
+        mRepository.createContract(id, role, screener, latitude, longitude, photo, childName,
+                childSurname, sex, childDNI, childBrothers, code, childTutor, childAddress, childPhoneContact, point,
+                pointFullName, percentage, arm_circumference, "");
 
     }
 
@@ -121,6 +129,14 @@ public class CreateContractViewModel extends ViewModel {
 
     public void setChildSurname(String childSurname) {
         this.childSurname = childSurname;
+    }
+
+    public String getChildBrothers() {
+        return childBrothers;
+    }
+
+    public void setChildBrothers(String childBrothers) {
+        this.childBrothers = childBrothers;
     }
 
     public String getSex() {

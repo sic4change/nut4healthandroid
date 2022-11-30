@@ -94,6 +94,7 @@
     <string name="name">Child Name</string>
     <string name="surname">Child Surname</string>
     <string name="sex">Child Sex</string>
+    <string name="brothers">Older siblings of the child</string>
     <string name="tutor">Mother or father of the child</string>
     <string name="check_verification">Mother, father or tutor authorizes the data collection of the minor</string>
     <string name="dni">Identification document mother or father</string>

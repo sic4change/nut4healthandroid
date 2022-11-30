@@ -50,6 +50,12 @@ public class Contract {
     @ColumnInfo(name = DataContractNames.COL_CHILD_DNI)
     private String childDNI;
 
+    @ColumnInfo(name = DataContractNames.COL_CHILD_BROTHERS)
+    private int childBrothers;
+
+    @ColumnInfo(name = DataContractNames.COL_CODE)
+    private String code;
+
     @ColumnInfo(name = DataContractNames.COL_CHILD_TUTOR)
     private String childTutor;
 
@@ -98,45 +104,50 @@ public class Contract {
 
     public Contract() {
         this("", "", 0.0f, 0.0f, "", "", "", "", "",
-                "", "", "", "", "", "", "", Status.EMPTY.name(), "", "",0, 0, 0.0, "", 0);
+                "", 0, "", "", "", "", "", "", "", Status.EMPTY.name(), "", "",0, 0, 0.0, "", 0);
     }
 
     @Ignore
     public Contract(@NonNull String id) {
         this(id, "", 0.0f, 0.0f, "", "", "",
-                "", "", "", "", "", "", "", "", "", Status.EMPTY.name(), "", "",0,  0, 0.0,"", 0);
+                "", "", "", 0, "",  "", "", "", "", "", "", Status.EMPTY.name(), "", "",0,  0, 0.0,"", 0);
     }
 
     @Ignore
     public Contract(@NonNull String photo, double latitude, double longitude, @NonNull String screener) {
-        this("", photo, latitude, longitude, screener, "", "", "", "", "","",
+        this("", photo, latitude, longitude, screener, "", "", "", "", "", 0, "","",
                 "", "", "", "", "", Status.EMPTY.name(), "", "",0,  0, 0.0, "", 0);
     }
 
     @Ignore
     public Contract(@NonNull String photo, double latitude, double longitude, @NonNull String screener,
-                    String childName, String childSurname, String sex, String childDNI, String childTutor, String childAddress, String childPhoneContract,
+                    String childName, String childSurname, String sex, String childDNI, int childBrothers, String code,
+                    String childTutor, String childAddress, String childPhoneContract,
                     String point, String pointFullName, String fingerprint, String status, String creationDate,
                     int percentage, double arm_circumference) {
-        this("", photo, latitude, longitude, screener, "", childName, childSurname, sex, childDNI, childTutor,
-                childAddress, childPhoneContract, point, pointFullName, fingerprint, status, "", creationDate, Nut4HealthTimeUtil.convertCreationDateToTimeMilis(creationDate), percentage, arm_circumference, "", 0);
+        this("", photo, latitude, longitude, screener, "", childName, childSurname, sex, childDNI,
+                childBrothers, code, childTutor, childAddress, childPhoneContract, point, pointFullName,
+                fingerprint, status, "", creationDate, Nut4HealthTimeUtil.convertCreationDateToTimeMilis(creationDate),
+                percentage, arm_circumference, "", 0);
     }
     @Ignore
     public Contract(@NonNull String id, @NonNull String photo, double latitude, double longitude,
-                    @NonNull String screener, String childName, String childSurname, String sex, String childDNI, String childTutor,
-                    String childAddress, String childPhoneContract,  String point, String pointFullName, String fingerprint,
-                    String status, String creationDate, long creationDateMiliseconds, int percentage,
+                    @NonNull String screener, String childName, String childSurname, String sex, String childDNI,
+                    int childBrothers, String code, String childTutor, String childAddress, String childPhoneContract,
+                    String point, String pointFullName, String fingerprint, String status,
+                    String creationDate, long creationDateMiliseconds, int percentage,
                     double arm_circumference) {
-        this(id, photo, latitude, longitude, screener, "", childName, childSurname, sex, childDNI, childTutor,
-                childAddress, childPhoneContract, point, pointFullName, fingerprint, status, "", creationDate,
-                creationDateMiliseconds, percentage, arm_circumference, "", 0);
+        this(id, photo, latitude, longitude, screener, "", childName, childSurname, sex, childDNI,
+                childBrothers, code, childTutor, childAddress, childPhoneContract, point, pointFullName,
+                fingerprint, status, "", creationDate, creationDateMiliseconds, percentage, arm_circumference, "", 0);
     }
 
     public Contract(@NonNull String id, @NonNull String photo, double latitude, double longitude,
                     @NonNull String screener, String medical, String childName,  String childSurname,
-                    String sex, String childDNI, String childTutor, String childAddress, String childPhoneContract,
-                    String point, String pointFullName, String fingerprint, String status, String diagnosis,
-                    String creationDate, long creationDateMiliseconds, int percentage, double arm_circumference, String medicalDate,
+                    String sex, String childDNI, int childBrothers, String code, String childTutor,
+                    String childAddress, String childPhoneContract, String point, String pointFullName,
+                    String fingerprint, String status, String diagnosis, String creationDate,
+                    long creationDateMiliseconds, int percentage, double arm_circumference, String medicalDate,
                     long medicalDateMiliseconds) {
         this.id = id;
         this.photo = photo;
@@ -148,6 +159,8 @@ public class Contract {
         this.childSurname = childSurname;
         this.sex = sex;
         this.childDNI = childDNI;
+        this.childBrothers = childBrothers;
+        this.code = code;
         this.childTutor = childTutor;
         this.childAddress = childAddress;
         this.childPhoneContract = childPhoneContract;
@@ -245,6 +258,22 @@ public class Contract {
 
     public void setChildDNI(String childDNI) {
         this.childDNI = childDNI;
+    }
+
+    public int getChildBrothers() {
+        return childBrothers;
+    }
+
+    public void setChildBrothers(int childBrothers) {
+        this.childBrothers = childBrothers;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getChildTutor() {
