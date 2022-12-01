@@ -142,6 +142,8 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
                     markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
                 } else if (contract.getStatus().equals(Contract.Status.FINISH.name())) {
                     markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET));
+                } else if (contract.getStatus().equals(Contract.Status.DUPLICATED.name())) {
+                    markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE));
                 }
                 Marker marker = mMap.addMarker(markerOptions);
                 marker.setTag(contract);
@@ -180,9 +182,12 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
                 } else {
                     marker.setTitle(getResources().getString(R.string.severe_acute_malnutrition_abrev));
                 }
+                if (contract.getStatus().equals(Contract.Status.DUPLICATED.name())) {
+                    marker.setTitle(getResources().getString(R.string.duplicated_abrev));
+                }
                 id = contract.getId();
             }
-            markMyPosition();
+            //markMyPosition();
             return false;
         });
         mMap.setOnMapClickListener(latLng -> cvContract.setVisibility(View.GONE));
@@ -241,6 +246,13 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
             nStatus.setText(getResources().getString(R.string.finished));
             nStatus.setTextColor(getResources().getColor(R.color.violet));
             nConfirmationDate.setVisibility(View.VISIBLE);
+        } else if (contract.getStatus().equals(Contract.Status.DUPLICATED.name())) {
+            nPercentage.setTitleText(getResources().getString(R.string.duplicated_abrev));
+            nPercentage.setFillColor(getResources().getColor(R.color.rose));
+            nPercentage.setStrokeColor(getResources().getColor(R.color.rose));
+            nStatus.setText(getResources().getString(R.string.duplicated));
+            nStatus.setTextColor(getResources().getColor(R.color.rose));
+            nConfirmationDate.setVisibility(View.INVISIBLE);
         }
 
         if (contract.getSex() == null || contract.getSex().equals("")) {
@@ -273,7 +285,7 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
                 location -> {
                     Log.d("Location", "my location is " + location.toString());
                     currentPosition = new LatLng(location.latitude, location.longitude);
-                    markMyPosition();
+                    //markMyPosition();
                     if (mMap != null) {
                         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPosition, DEFAULT_ZOOM));
                     }

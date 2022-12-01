@@ -391,7 +391,7 @@ public class Contract {
     }
 
     public enum Status {
-        EMPTY, DIAGNOSIS, NO_DIAGNOSIS, PAID, FINISH
+        EMPTY, DIAGNOSIS, NO_DIAGNOSIS, PAID, FINISH, DUPLICATED
     }
 
 

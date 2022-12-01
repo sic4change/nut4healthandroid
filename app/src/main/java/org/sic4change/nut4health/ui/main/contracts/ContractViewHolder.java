@@ -102,12 +102,14 @@ private Context context;
             nStatus.setText(context.getResources().getString(R.string.finished));
             nStatus.setTextColor(context.getResources().getColor(R.color.violet));
             nConfirmationDate.setVisibility(View.VISIBLE);
+        }  else if (contract.getStatus().equals(Contract.Status.DUPLICATED.name())) {
+            nPercentage.setTitleText(context.getResources().getString(R.string.duplicated_abrev));
+            nPercentage.setFillColor(context.getResources().getColor(R.color.rose));
+            nPercentage.setStrokeColor(context.getResources().getColor(R.color.rose));
+            nStatus.setText(context.getResources().getString(R.string.duplicated));
+            nStatus.setTextColor(context.getResources().getColor(R.color.rose));
+            nConfirmationDate.setVisibility(View.INVISIBLE);
         }
-        Date date = new Date(contract.getCreationDate());
-        Locale LocaleBylanguageTag = Locale.forLanguageTag("es");
-        TimeAgoMessages messages = new TimeAgoMessages.Builder().withLocale(LocaleBylanguageTag).build();
-        String text = TimeAgo.using(date.getTime(), messages);
-        nDate.setText(text);
 
         if (contract.getSex() == null || contract.getSex().equals("")) {
             tvSex.setVisibility(View.GONE);
@@ -119,7 +121,11 @@ private Context context;
             }
             tvSex.setVisibility(View.VISIBLE);
         }
-
+        Date date = new Date(contract.getCreationDate());
+        Locale LocaleBylanguageTag = Locale.forLanguageTag("es");
+        TimeAgoMessages messages = new TimeAgoMessages.Builder().withLocale(LocaleBylanguageTag).build();
+        String text = TimeAgo.using(date.getTime(), messages);
+        nDate.setText(text);
         setClickAction(this.itemAction);
         cvContract.setOnClickListener(v -> itemAction.onClick(position, getContract().getId()));
     }

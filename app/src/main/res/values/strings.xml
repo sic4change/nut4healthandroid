@@ -128,6 +128,7 @@
         <item>NW</item>
         <item>MAM</item>
         <item>SAM</item>
+        <item>Duplicated</item>
     </string-array>
 
     <string name="hintNameSearch">Name and/or surname</string>
@@ -174,6 +175,7 @@
     <string name="finished">Finished</string>
 
     <!--Check messages-->
+    <string name="diagnosis_duplicated">Diagnosis created above. You must wait 30 days to be re-diagnosed</string>
     <string name="diagnosis_ok">Diagnosis created successfully</string>
     <string name="diagnosis_paying">That diagnosis is already in the payment phase. You must wait days to diagnose it again</string>
     <string name="diagnosis_updated">Diagnosis created previously. The data has been updated</string>
@@ -761,10 +763,12 @@
     <string name="normopeso_abrev">NW</string>
     <string name="moderate_acute_malnutrition_abrev">MAM</string>
     <string name="severe_acute_malnutrition_abrev">SAM</string>
+    <string name="duplicated_abrev">DUP</string>
 
     <string name="normopeso_full">Normal Weight (NW)</string>
     <string name="moderate_acute_malnutrition_full">Moderate Acute Malnutrition (MAM)</string>
     <string name="severe_acute_malnutrition_full">Moderate Acute Malnutrition (SAM)</string>
+    <string name="duplicated">Duplicated</string>
     <string name="help">Help</string>
 
     <!--Excel export-->

@@ -107,6 +107,12 @@ public class ContractDetailActivity extends AppCompatActivity {
                 }
                 tvStatus.setText(getResources().getString(R.string.finished));
                 tvStatus.setTextColor(getResources().getColor(R.color.violet));
+            } else if (contract.getStatus().equals(Contract.Status.DUPLICATED.name())) {
+                ivIcon.setTitleText(getResources().getString(R.string.duplicated_abrev));
+                ivIcon.setFillColor(getResources().getColor(R.color.rose));
+                ivIcon.setStrokeColor(getResources().getColor(R.color.rose));
+                tvStatus.setText(getResources().getString(R.string.duplicated));
+                tvStatus.setTextColor(getResources().getColor(R.color.rose));
             }
             if (contract.getStatus().equals("DIAGNOSIS") && role.equals("Servicio Salud")) {
                 btnConfirm.setEnabled(true);

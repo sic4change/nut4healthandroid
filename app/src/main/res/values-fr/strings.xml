@@ -125,6 +125,7 @@
         <item>NW</item>
         <item>MAM</item>
         <item>SAM</item>
+        <item>Dupliqué</item>
     </string-array>
     <string name="hintNameSearch">Nom et/ou prénom</string>
     <string name="dateRange">Rang des dates</string>
@@ -170,6 +171,7 @@
     <string name="finished">Finalisé</string>
 
     <!--Check messages-->
+    <string name="diagnosis_duplicated">Diagnostic créé ci-dessus. Vous devez attendre 30 jours pour être re-diagnostiqué</string>
     <string name="diagnosis_ok">Diagnostique créé avec succès</string>
     <string name="diagnosis_paying">Ce diagnostique est déjà en phase de paiement. Vous devez attendre des jours pour le re-diagnostiquer</string>
     <string name="diagnosis_updated">Diagnostique créé plus tôt. Les informations ont été mises à jour</string>
@@ -755,6 +757,8 @@
     <string name="normopeso_abrev">NW</string>
     <string name="moderate_acute_malnutrition_abrev">MAM</string>
     <string name="severe_acute_malnutrition_abrev">SAM</string>
+    <string name="duplicated_abrev">DUP</string>
+    <string name="duplicated">Dupliqué</string>
 
     <string name="normopeso_full">Poids Normal (NW)</string>
     <string name="moderate_acute_malnutrition_full">Malnutrition aiguë modérée (MAM)</string>

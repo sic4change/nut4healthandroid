@@ -188,8 +188,11 @@ public class ContractFragment extends Fragment {
                     case 4:
                         ivStatus.setBackgroundColor(getResources().getColor(R.color.orange));
                         break;
-                    default:
+                    case 5:
                         ivStatus.setBackgroundColor(getResources().getColor(R.color.ms_errorColor));
+                        break;
+                    default:
+                        ivStatus.setBackgroundColor(getResources().getColor(R.color.rose));
                         break;
                 }
             }
@@ -388,6 +391,9 @@ public class ContractFragment extends Fragment {
                 mMainViewModel.setStatus(Contract.Status.EMPTY.name());
                 mMainViewModel.setPercentageMax(100);
                 mMainViewModel.setPercentageMin(100);
+                break;
+            case 6:
+                mMainViewModel.setStatus(Contract.Status.DUPLICATED.name());
                 break;
             default:
                 mMainViewModel.setStatus(Contract.Status.EMPTY.name());

@@ -537,6 +537,8 @@ public class DataRepository {
      * @param childName
      * @param childSurname
      * @param childDNI
+     * @param childBrothers
+     * @param code
      * @param childTutor
      * @param childAddress
      * @param childPhoneContact
@@ -573,62 +575,29 @@ public class DataRepository {
                     try {
                         if ((queryDocumentSnapshots != null) && (queryDocumentSnapshots.getDocuments() != null)
                                 && (queryDocumentSnapshots.getDocuments().size() > 0)) {
-                            boolean updated = false;
+                            boolean found = false;
                             for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
                                 Contract contractIt = document.toObject(Contract.class);
-                                //Aqui hay que mirar si el diagnostico existe por parte de este AC
-                                if (contractIt.getFingerprint() != null && contractIt.getFingerprint() != "" && fingerprint != "") {
-                                    FingerprintTemplate fingerprintCandidate = new FingerprintTemplate().deserialize(contractIt.getFingerprint());
-                                    double score = new FingerprintMatcher().index(new FingerprintTemplate().deserialize(fingerprint)).match(fingerprintCandidate);
-                                    if (score >= 40) {
-                                        if (contractIt.getStatus().equals(Contract.Status.PAID.name())) {
-                                            EventBus.getDefault().post(new MessageEvent(mContext.getString(R.string.diagnosis_paying)));
-                                            updated = true;
-                                        } else if (contractIt.getStatus().equals(Contract.Status.FINISH.name())) {
-                                            contract.setScreener(email);
-                                            contract.setStatus(status);
-                                            contractRef.add(contract).addOnCompleteListener(task -> {
-                                                listenerQuery.remove();
-                                                createGeoPoint(task.getResult().getId(), latitude, longitude);
-                                            });
-                                            EventBus.getDefault().post(new MessageEvent(mContext.getString(R.string.diagnosis_ok)));
-                                            updated = true;
-                                        } else {
-                                            if (email.equals(contractIt.getScreener())) {
-                                                contractIt.setChildName(childName);
-                                                contractIt.setChildSurname(childSurname);
-                                                contractIt.setSex(sex);
-                                                contractIt.setChildDNI(childDNI);
-                                                contractIt.setChildTutor(childTutor);
-                                                contractIt.setChildAddress(childAddress);
-                                                contractIt.setChildPhoneContract(childPhoneContact);
-                                                contractIt.setLatitude(latitude);
-                                                contractIt.setLongitude(longitude);
-                                                contractIt.setStatus(status);
-                                                contractIt.setPercentage(percentage);
-                                                updated = true;
-                                                document.getReference().set(contractIt, SetOptions.merge());
-                                                createGeoPoint(contractIt.getId(), latitude, longitude);
-                                                EventBus.getDefault().post(new MessageEvent(mContext.getString(R.string.diagnosis_updated)));
-                                            } else {
-                                                contract.setScreener(email);
-                                                contract.setStatus(status);
-                                                contractRef.document(newId).set(contract).addOnCompleteListener(task -> {
-                                                    listenerQuery.remove();
-                                                    createGeoPoint(newId, latitude, longitude);
-                                                });
-                                                EventBus.getDefault().post(new MessageEvent(mContext.getString(R.string.diagnosis_ok)));
-                                                updated = true;
-                                            }
-                                        }
-                                    }
+                                long eventStartDate = contractIt.getCreationDateMiliseconds();
+                                long day30 = 30l * 24 * 60 * 60 * 1000;
+                                boolean olderThan30 = new Date().before(new Date((eventStartDate + day30)));
+                                if (contractIt.getCode().equals(contract.getCode()) && olderThan30) {
+                                    // Lo añade como duplicado
+                                    contract.setScreener(email);
+                                    contract.setStatus(Contract.Status.DUPLICATED.name());
+                                    contractRef.document(newId).set(contract).addOnCompleteListener(task -> {
+                                        listenerQuery.remove();
+                                        createGeoPoint(newId, latitude, longitude);
+                                    });
+                                    EventBus.getDefault().post(new MessageEvent(mContext.getString(R.string.diagnosis_duplicated)));
+                                    found = true;
+                                    break;
                                 }
-
                             }
                             if (listenerQuery != null) {
                                 listenerQuery.remove();
                             }
-                            if (!updated) {
+                            if (!found) {
                                 //Si no lo encuentra debe añadirlo
                                 contract.setScreener(email);
                                 contract.setStatus(status);

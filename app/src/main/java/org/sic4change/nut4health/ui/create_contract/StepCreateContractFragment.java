@@ -41,6 +41,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeSuccessDialog;
+import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeWarningDialog;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
@@ -537,14 +538,26 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
             }
 
             public void onFinish() {
-                new AwesomeSuccessDialog(getActivity())
-                        .setTitle(getResources().getString(R.string.app_name))
-                        .setMessage(eventResult)
-                        .setPositiveButtonText(getResources().getString(R.string.ok))
-                        .setPositiveButtonClick(() -> {
-                            goToMainActivity();
-                        })
-                        .show();
+                if (eventResult.equals(getString(R.string.diagnosis_duplicated))) {
+                    new AwesomeWarningDialog(getActivity())
+                            .setTitle(getResources().getString(R.string.app_name))
+                            .setMessage(eventResult)
+                            .setButtonText(getResources().getString(R.string.ok))
+                            .setWarningButtonClick(() -> {
+                                goToMainActivity();
+                            })
+                            .show();
+                } else {
+                    new AwesomeSuccessDialog(getActivity())
+                            .setTitle(getResources().getString(R.string.app_name))
+                            .setMessage(eventResult)
+                            .setPositiveButtonText(getResources().getString(R.string.ok))
+                            .setPositiveButtonClick(() -> {
+                                goToMainActivity();
+                            })
+                            .show();
+                }
+
             }
         }.start();
 
