@@ -64,9 +64,14 @@ public final class DataUserNames {
     public static final String COL_PHOTO = "photo";
 
     /**
-     * Column photo for User role
+     * Column role for User role
      */
     public static final String COL_ROLE = "role";
+
+    /**
+     * Column point for User point
+     */
+    public static final String COL_POINT = "point";
 
     /**
      * Column points for User role

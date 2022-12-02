@@ -3,18 +3,31 @@ package org.sic4change.nut4health.ui.create_contract;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
-import java.util.List;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.regex.Pattern;
+
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
 import com.machinezoo.sourceafis.FingerprintTemplate;
 
+import org.apache.commons.collections4.Predicate;
 import org.sic4change.nut4health.data.DataRepository;
 import org.sic4change.nut4health.data.entities.Contract;
 import org.sic4change.nut4health.data.entities.Point;
 import org.sic4change.nut4health.data.entities.User;
+import org.sic4change.nut4health.data.names.DataPointNames;
 import org.sic4change.nut4health.utils.fingerprint.AndroidBmpUtil;
 import org.sic4change.nut4health.utils.location.Nut4HealthSingleShotLocationProvider;
 
@@ -48,6 +61,7 @@ public class CreateContractViewModel extends ViewModel {
     public CreateContractViewModel(DataRepository repository) {
         this.mRepository = repository;
         mUser = this.mRepository.getCurrentUser();
+
         this.mRepository.getPoints();
         mPoints = mRepository.getSortedPoints();
         mContract = null;
@@ -57,8 +71,35 @@ public class CreateContractViewModel extends ViewModel {
         return mUser;
     }
 
-    public LiveData<List<Point>> getPoints() {
-        return mPoints;
+    public LiveData<List<Point>> getPoints(String pointDefaultId) {
+        if (pointDefaultId == null || mPoints.getValue() == null) {
+            return mPoints;
+        } else {
+            Point pointDefault = null;
+            for (Point point : mPoints.getValue()) {
+                if (point.getPointId().equals(pointDefaultId)) {
+                    pointDefault = point;
+                    break;
+                }
+            }
+            List<PointFormatted> points = new ArrayList<PointFormatted>();
+            for (Point i : mPoints.getValue()) {
+                int count = 0;
+                for (String j : i.getFullName().split(",")) {
+                    if (pointDefault.getFullName().replace(" ", "").contains(j.replace(" ", ""))) {
+                        count++;
+                    }
+                }
+                points.add(new PointFormatted(i.getPointId(), i.getFullName(), count));
+            }
+            mPoints.getValue().clear();
+            Collections.sort(points, Comparator.comparingInt(PointFormatted::getOrder).reversed());
+            for (PointFormatted k : points) {
+                mPoints.getValue().add(new Point(k.getPointId(), k.getFullName()));
+            }
+            return mPoints;
+        }
+
     }
 
     public LiveData<Contract> getContract() {
@@ -242,3 +283,53 @@ public class CreateContractViewModel extends ViewModel {
         return new String(image);
     }
 }
+
+
+
+class PointFormatted {
+
+    private String pointId;
+    private String fullName;
+    private int order;
+
+    PointFormatted() {
+        this("", "", 0);
+    }
+
+    PointFormatted(@NonNull String pointId, String fullName, int order) {
+        this.pointId = pointId;
+        this.fullName = fullName;
+        this.order = order;
+    }
+
+    public String getPointId() {
+        return pointId;
+    }
+
+    public void setPointId(String pointId) {
+        this.pointId = pointId;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public int getOrder() {
+        return order;
+    }
+
+    public void setOrder(int order) {
+        this.order = order;
+    }
+
+    public String toString() {
+        return this.fullName;
+    }
+
+}
+
+

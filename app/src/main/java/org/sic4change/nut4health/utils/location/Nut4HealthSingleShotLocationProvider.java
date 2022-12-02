@@ -24,7 +24,12 @@ public class Nut4HealthSingleShotLocationProvider {
             locationManager.requestSingleUpdate(criteria, new LocationListener() {
                 @Override
                 public void onLocationChanged(Location location) {
-                    callback.onNewLocationAvailable(new GPSCoordinates(location.getLatitude(), location.getLongitude()));
+                    try {
+                        callback.onNewLocationAvailable(new GPSCoordinates(location.getLatitude(), location.getLongitude()));
+                    } catch (Exception e) {
+                        System.out.println("not location available");
+                    }
+
                 }
 
                 @Override

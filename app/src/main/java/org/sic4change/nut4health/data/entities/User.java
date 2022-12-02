@@ -53,6 +53,9 @@ public class User {
     @ColumnInfo(name = DataUserNames.COL_ROLE)
     private String role;
 
+    @ColumnInfo(name = DataUserNames.COL_POINT)
+    private String point;
+
     @NonNull
     @ColumnInfo(name = DataUserNames.COL_POINTS)
     private int points;
@@ -69,31 +72,31 @@ public class User {
 
     public static final String EMPTY_EMAIL = "empty@emtpy.com";
 
-    public static final User userEmpty = new User(EMPTY_EMAIL, "", "", "", "", "", "", "", 0, "", true, false);
+    public static final User userEmpty = new User(EMPTY_EMAIL, "", "", "", "", "", "", "", 0, "", "", true, false);
 
     public User() {
-        this("", "","","","","","","", "",0, "", false, "", "", "", true);
+        this("", "","","","","","","", "",0, "", "", false, "", "", "", true);
     }
 
     public User(String email) {
-        this(email, "", "", "", "", "", "", "", "", 0, "",  false, "", "", "", true);
+        this(email, "", "", "", "", "", "", "", "", 0, "", "",  false, "", "", "", true);
     }
 
     public User(String email, String configuration, String role) {
-        this(email, configuration, "", "", "", "", "", "", role, 0, "", false, "", "", "", true);
+        this(email, configuration, "", "", "", "", "", "", role, 0, "", "", false, "", "", "", true);
     }
 
     public User(String email, String configuration, String username, String role) {
-        this(email, configuration, username, "", "", "", "", "", role, 0, "", false, "", "", "", true);
+        this(email, configuration, username, "", "", "", "", "", role, 0, "", "", false, "", "", "", true);
     }
 
     public User(String email, String configuration, String username, String name, String surname, String country, String countryCode,
-                String role, int points, String creationDate, boolean emptyUser, boolean active) {
-        this(email, configuration, username, name, surname, country, countryCode, "", role, points, creationDate, emptyUser, "", "", "", active);
+                String role, int points, String point, String creationDate, boolean emptyUser, boolean active) {
+        this(email, configuration, username, name, surname, country, countryCode, "", role, points, point, creationDate, emptyUser, "", "", "", active);
     }
 
     public User(String email, String configuration, String username, String name, String surname, String country, String countryCode,
-                String photo, String role, int points, String creationDate, boolean emptyUser,
+                String photo, String role, int points, String point, String creationDate, boolean emptyUser,
                 String currentCountry, String currentState, String currentCity, boolean active) {
         this.email = email;
         this.configuration = configuration;
@@ -105,6 +108,7 @@ public class User {
         this.photo = photo;
         this.role = role;
         this.points = points;
+        this.point = point;
         this.creationDate = creationDate;
         this.emptyUser = emptyUser;
         this.currentCountry = currentCountry;
@@ -114,7 +118,7 @@ public class User {
     }
 
     public User(@NonNull String id, @NonNull String email, String configuration, String username, String name, String surname,
-                String country, String countryCode, String photo, String role, int points,
+                String country, String countryCode, String photo, String role, int points, String point,
                 String creationDate, String currentCountry, String currentState, String currentCity, boolean active) {
         this.id = id;
         this.email = email;
@@ -127,6 +131,7 @@ public class User {
         this.photo = photo;
         this.role = role;
         this.points = points;
+        this.point = point;
         this.creationDate = creationDate;
         this.currentCountry = currentCountry;
         this.currentState = currentState;
@@ -231,6 +236,14 @@ public class User {
 
     public void setPoints(int points) {
         this.points = points;
+    }
+
+    public String getPoint() {
+        return point;
+    }
+
+    public void setPoint(String point) {
+        this.point = point;
     }
 
     @NonNull

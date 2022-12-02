@@ -148,27 +148,33 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
         spPoint = v.findViewById(R.id.spPoint);
         CreateContractViewModelFactory createContractViewModelFactory = CreateContractViewModelFactory.createFactory(getActivity());
         mCreateContractViewModel = ViewModelProviders.of(getActivity(), createContractViewModelFactory).get(CreateContractViewModel.class);
-        mCreateContractViewModel.getPoints().observe(getActivity(), points -> {
-            spPoint.setTitle(getString(R.string.select_medical));
-            spPoint.setPositiveButton(getString(R.string.ok));
+        mCreateContractViewModel.getUser().observe(getActivity(), user -> {
+            System.out.println("Aqui " + user.getPoint());
+            if (user.getPoint() != null) {
+                mCreateContractViewModel.getPoints(user.getPoint()).observe(getActivity(), points -> {
+                    spPoint.setTitle(getString(R.string.select_medical));
+                    spPoint.setPositiveButton(getString(R.string.ok));
 
-            ArrayAdapter<Point> adp1 = new ArrayAdapter<Point>(getActivity(),
-                    android.R.layout.simple_list_item_1, points);
-            adp1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            spPoint.setAdapter(adp1);
-            spPoint.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    Point point = (Point) parent.getSelectedItem();
-                    mCreateContractViewModel.setPoint(point.getPointId());
-                    mCreateContractViewModel.setPointFullName(point.getFullName());
-                }
+                    ArrayAdapter<Point> adp1 = new ArrayAdapter<Point>(getActivity(),
+                            android.R.layout.simple_list_item_1, points);
+                    adp1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spPoint.setAdapter(adp1);
+                    spPoint.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            Point point = (Point) parent.getSelectedItem();
+                            mCreateContractViewModel.setPoint(point.getPointId());
+                            mCreateContractViewModel.setPointFullName(point.getFullName());
+                        }
 
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-                }
-            });
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+                        }
+                    });
+                });
+            }
         });
+
         btnCheckMalnutrition.setOnClickListener(v12 -> {
             Nut4HealthKeyboard.closeKeyboard(etChildLocation, getContext());
             clView.setVisibility(View.VISIBLE);
