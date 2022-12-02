@@ -72,7 +72,7 @@ public class CreateContractViewModel extends ViewModel {
     }
 
     public LiveData<List<Point>> getPoints(String pointDefaultId) {
-        if (pointDefaultId == null || mPoints.getValue() == null) {
+        if (pointDefaultId == null || pointDefaultId.isEmpty() || mPoints.getValue() == null) {
             return mPoints;
         } else {
             Point pointDefault = null;
