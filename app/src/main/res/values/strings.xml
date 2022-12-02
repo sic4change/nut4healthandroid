@@ -175,7 +175,8 @@
     <string name="finished">Finished</string>
 
     <!--Check messages-->
-    <string name="diagnosis_duplicated">Diagnosis created above. You must wait 30 days to be re-diagnosed</string>
+    <string name="diagnosis_duplicated_7">Diagnosis created above. You must wait 7 days to be re-diagnosed</string>
+    <string name="diagnosis_duplicated_30">Diagnosis created above. You must wait 30 days to be re-diagnosed</string>
     <string name="diagnosis_ok">Diagnosis created successfully</string>
     <string name="diagnosis_paying">That diagnosis is already in the payment phase. You must wait days to diagnose it again</string>
     <string name="diagnosis_updated">Diagnosis created previously. The data has been updated</string>

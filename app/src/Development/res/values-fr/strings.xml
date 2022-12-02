@@ -170,7 +170,8 @@
     <string name="finished">Finalisé</string>
 
     <!--Check messages-->
-    <string name="diagnosis_duplicated">Diagnostic créé ci-dessus. Vous devez attendre 30 jours pour être re-diagnostiqué</string>
+    <string name="diagnosis_duplicated_7">Diagnostic créé ci-dessus. Vous devez attendre 7 jours pour être re-diagnostiqué</string>
+    <string name="diagnosis_duplicated_30">Diagnostic créé ci-dessus. Vous devez attendre 30 jours pour être re-diagnostiqué</string>
     <string name="diagnosis_ok">Diagnostique créé avec succès</string>
     <string name="diagnosis_paying">Ce diagnostique est déjà en phase de paiement. Vous devez attendre des jours pour le re-diagnostiquer</string>
     <string name="diagnosis_updated">Diagnostique créé plus tôt. Les informations ont été mises à jour</string>

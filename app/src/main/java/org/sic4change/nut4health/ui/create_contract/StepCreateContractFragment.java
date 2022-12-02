@@ -106,7 +106,7 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
     public static final int REQUEST_TAKE_PHOTO       = 1;
     public static final int REQUEST_TAKE_FINGERPRINT = 2;
 
-    private static final long VERIFICATION_DELAY_MILISECONDS = 6000;
+    private static final long VERIFICATION_DELAY_MILISECONDS = 3000;
     private static final long VERIFICATION_TICK_MILISECONDS  = 1000;
     private static final int LOCATION_REQUEST_CODE = 101;
     private static final int CAMERA_REQUEST_CODE = 102;
@@ -538,7 +538,16 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
             }
 
             public void onFinish() {
-                if (eventResult.equals(getString(R.string.diagnosis_duplicated))) {
+                if (eventResult.equals(getString(R.string.diagnosis_duplicated_30))) {
+                    new AwesomeWarningDialog(getActivity())
+                            .setTitle(getResources().getString(R.string.app_name))
+                            .setMessage(eventResult)
+                            .setButtonText(getResources().getString(R.string.ok))
+                            .setWarningButtonClick(() -> {
+                                goToMainActivity();
+                            })
+                            .show();
+                } else if (eventResult.equals(getString(R.string.diagnosis_duplicated_7))) {
                     new AwesomeWarningDialog(getActivity())
                             .setTitle(getResources().getString(R.string.app_name))
                             .setMessage(eventResult)

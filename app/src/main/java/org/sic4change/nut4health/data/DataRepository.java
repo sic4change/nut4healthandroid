@@ -580,18 +580,35 @@ public class DataRepository {
                                 Contract contractIt = document.toObject(Contract.class);
                                 long eventStartDate = contractIt.getCreationDateMiliseconds();
                                 long day30 = 30l * 24 * 60 * 60 * 1000;
+                                long day7 = 7l * 24 * 60 * 60 * 1000;
                                 boolean olderThan30 = new Date().before(new Date((eventStartDate + day30)));
-                                if (contractIt.getCode().equals(contract.getCode()) && olderThan30) {
-                                    // Lo añade como duplicado
-                                    contract.setScreener(email);
-                                    contract.setStatus(Contract.Status.DUPLICATED.name());
-                                    contractRef.document(newId).set(contract).addOnCompleteListener(task -> {
-                                        listenerQuery.remove();
-                                        createGeoPoint(newId, latitude, longitude);
-                                    });
-                                    EventBus.getDefault().post(new MessageEvent(mContext.getString(R.string.diagnosis_duplicated)));
-                                    found = true;
-                                    break;
+                                boolean olderThan7 = new Date().before(new Date((eventStartDate + day7)));
+                                if (contractIt.getCode().equals(contract.getCode())) {
+                                    if (contractIt.getStatus().equals(Contract.Status.NO_DIAGNOSIS.name())) {
+                                        // Lo añade como duplicado y lo hago esperar 7 días para registrar a ese menor
+                                        contract.setScreener(email);
+                                        contract.setStatus(Contract.Status.DUPLICATED.name());
+                                        contractRef.document(newId).set(contract).addOnCompleteListener(task -> {
+                                            listenerQuery.remove();
+                                            createGeoPoint(newId, latitude, longitude);
+                                        });
+                                        EventBus.getDefault().post(new MessageEvent(mContext.getString(R.string.diagnosis_duplicated_7)));
+                                        found = true;
+                                        break;
+                                    } else if (contractIt.getStatus().equals(Contract.Status.FINISH.name())) {
+                                        if (contractIt.getCode().equals(contract.getCode()) && olderThan30) {
+                                            // Lo añade como duplicado y lo hago esperar 30 días para registrar a ese menor
+                                            contract.setScreener(email);
+                                            contract.setStatus(Contract.Status.DUPLICATED.name());
+                                            contractRef.document(newId).set(contract).addOnCompleteListener(task -> {
+                                                listenerQuery.remove();
+                                                createGeoPoint(newId, latitude, longitude);
+                                            });
+                                            EventBus.getDefault().post(new MessageEvent(mContext.getString(R.string.diagnosis_duplicated_30)));
+                                            found = true;
+                                            break;
+                                        }
+                                    }
                                 }
                             }
                             if (listenerQuery != null) {

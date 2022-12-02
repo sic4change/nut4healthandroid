@@ -174,7 +174,8 @@
     <string name="finished">Finalizado</string>
 
     <!--Check messages-->
-    <string name="diagnosis_duplicated">Diagnóstico creado anteriormente. Debe esperar 30 días para volver a diagnosticarlo</string>
+    <string name="diagnosis_duplicated_7">Diagnóstico creado anteriormente. Debe esperar 7 días para volver a diagnosticarlo</string>
+    <string name="diagnosis_duplicated_30">Diagnóstico creado anteriormente. Debe esperar 30 días para volver a diagnosticarlo</string>
     <string name="diagnosis_ok">Diagnóstico creado correctamente</string>
     <string name="diagnosis_paying">Ese diagnóstico ya está en fase de pago. Debe esperar días para volver a diagnosticarlo</string>
     <string name="diagnosis_updated">Diagnóstico creado anteriormente. Se han actualizado los datos</string>
