@@ -180,6 +180,8 @@
     <string name="diagnosis_finished">Diagnostique terminé</string>
     <string name="contracts_exported_ok">Contrats exportés avec succès</string>
     <string name="contracts_exported_error">Erreur lors de l\'exportation des contrats</string>
+    <string name="validate_diagnosis">Valider le diagnostic</string>
+    <string name="confirm_diagnosis">Confirmer le diagnostic</string>
 
     <!--Font awasome -->
     <string name="fa_adjust">&#xf042;</string>

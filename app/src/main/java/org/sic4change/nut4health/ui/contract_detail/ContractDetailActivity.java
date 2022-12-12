@@ -21,21 +21,35 @@ import com.github.pavlospt.CircleView;
 import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.data.entities.Contract;
 import org.sic4change.nut4health.ui.main.MainViewModel;
+import org.sic4change.nut4health.utils.ruler_picker.SimpleRulerViewer;
 
 
+import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.Locale;
 
 import static maes.tech.intentanim.CustomIntent.customType;
 
-public class ContractDetailActivity extends AppCompatActivity {
+public class ContractDetailActivity extends AppCompatActivity implements SimpleRulerViewer.OnValueChangeListener {
 
     private DetailContractViewModel mDetailContractViewModel;
+
+    private TextView tvPercentage;
+    private TextView tvCm;
+    private View rulerBackground;
+    private SimpleRulerViewer ruler;
+    private Button btnValidate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contract_detail);
+        tvPercentage = findViewById(R.id.tvPercentage);
+        tvCm = findViewById(R.id.tvCm);
+        rulerBackground = findViewById(R.id.rulerBackground);
+        ruler = findViewById(R.id.ruler);
+        btnValidate = findViewById(R.id.btnValidate);
+        ruler.setOnValueChangeListener(this);
         ContractDetailViewModelFactory contractDetailViewModelFactory = ContractDetailViewModelFactory.createFactory(this, getIntent().getStringExtra("CONTRACT_ID"));
         mDetailContractViewModel = ViewModelProviders.of(this, contractDetailViewModelFactory).get(DetailContractViewModel.class);
         mDetailContractViewModel.setRole(getIntent().getStringExtra("ROLE"));
@@ -60,6 +74,7 @@ public class ContractDetailActivity extends AppCompatActivity {
             EditText etPhoneContact = findViewById(R.id.etPhoneContact);
             TextView etDate = findViewById(R.id.etDate);
             Button btnConfirm = findViewById(R.id.btnConfirm);
+
             etName.setText(contract.getChildName());
             etSurname.setText(contract.getChildSurname());
             etTutor.setText(contract.getChildTutor());
@@ -147,6 +162,19 @@ public class ContractDetailActivity extends AppCompatActivity {
             btnConfirm.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    //showDialogConfirmDiagnosis(contract.getId());
+                    btnValidate.setVisibility(View.VISIBLE);
+                    tvPercentage.setVisibility(View.VISIBLE);
+                    tvCm.setVisibility(View.VISIBLE);
+                    rulerBackground.setVisibility(View.VISIBLE);
+                    ruler.setVisibility(View.VISIBLE);
+                    btnConfirm.setVisibility(View.GONE);
+                }
+            });
+            btnValidate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mDetailContractViewModel.setArmCircumferenceMedical(Double.parseDouble(tvCm.getText().toString().replace(",", ".").replace(" cm", "")));
                     showDialogConfirmDiagnosis(contract.getId());
                 }
             });
@@ -192,4 +220,26 @@ public class ContractDetailActivity extends AppCompatActivity {
         getSupportFragmentManager().popBackStackImmediate();
     }
 
+    @Override
+    public void onChange(SimpleRulerViewer view, int position, float value) {
+        System.out.println("Aqui regla");
+        DecimalFormat df = new DecimalFormat("#.0");
+        tvCm.setText(df.format(value) + " cm");
+        if (value < 11.5) {
+            rulerBackground.setBackgroundColor(getResources().getColor(R.color.error));
+            tvPercentage.setText(getResources().getString(R.string.severe_acute_malnutrition_full));
+            tvPercentage.setTextColor(getResources().getColor(R.color.error));
+            tvCm.setTextColor(getResources().getColor(R.color.error));
+        } else if (value >=11.5 && value <= 12.5) {
+            rulerBackground.setBackgroundColor(getResources().getColor(R.color.orange));
+            tvPercentage.setText(getResources().getString(R.string.moderate_acute_malnutrition_full));
+            tvPercentage.setTextColor(getResources().getColor(R.color.orange));
+            tvCm.setTextColor(getResources().getColor(R.color.orange));
+        } else {
+            rulerBackground.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+            tvPercentage.setText(getResources().getString(R.string.normopeso_full));
+            tvPercentage.setTextColor(getResources().getColor(R.color.colorAccent));
+            tvCm.setTextColor(getResources().getColor(R.color.colorAccent));
+        }
+    }
 }

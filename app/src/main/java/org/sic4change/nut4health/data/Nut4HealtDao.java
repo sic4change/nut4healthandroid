@@ -157,6 +157,14 @@ public interface Nut4HealtDao {
     void updateContractStatus(String id, String status);
 
     /**
+     * Update contract arm_circunference_medical
+     * @param id
+     * @param arm_circunference_medical
+     */
+    @Query("UPDATE contract SET arm_circunference_medical =:arm_circunference_medical WHERE contractId=:id ")
+    void updateArmCircunferenceMedical(String id, Double arm_circunference_medical);
+
+    /**
      * Update contract medicalDate
      * @param id
      * @param medicalDate

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:seek="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/scrollView"
     android:layout_width="match_parent"
@@ -329,6 +329,68 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvDate" />
 
+                <TextView
+                    android:id="@+id/tvPercentage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_card"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:text=""
+                    android:fontFamily="@font/bariol_bold"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/etDate"/>
+
+                <TextView
+                    android:id="@+id/tvCm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_card"
+                    android:textColor="@color/error"
+                    android:fontFamily="@font/bariol_regular"
+                    android:textSize="20sp"
+                    android:text=""
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvPercentage"/>
+
+                <View
+                    android:id="@+id/rulerBackground"
+                    android:layout_width="match_parent"
+                    android:layout_height="190dp"
+                    android:visibility="gone"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_card"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:layout_marginBottom="@dimen/margin_card"
+                    android:background="@color/error"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvCm"/>
+
+                <org.sic4change.nut4health.utils.ruler_picker.SimpleRulerViewer
+                    android:id="@+id/ruler"
+                    android:layout_width="match_parent"
+                    android:visibility="gone"
+                    android:layout_height="180dp"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_card"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:layout_marginBottom="@dimen/margin_card"
+                    seek:minValue ="6.0"
+                    seek:maxValue ="28.0"
+                    seek:intervalValue="0.1"
+                    seek:retainLength ="5"
+                    seek:rulerColor="@color/ms_black"
+                    seek:textColor ="@color/ms_black"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvCm" />
+
                 <Button
                     android:id="@+id/btnConfirm"
                     android:layout_width="match_parent"
@@ -338,13 +400,30 @@
                     android:layout_marginEnd="@dimen/margin_medium"
                     android:layout_marginBottom="8dp"
                     android:background="@color/colorAccent"
-                    android:text="Validar diagnóstico"
+                    android:text="@string/validate_diagnosis"
                     android:textColor="@color/white"
                     android:fontFamily="@font/bariol_bold"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/etDate"/>
+
+                <Button
+                    android:id="@+id/btnValidate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:layout_marginBottom="8dp"
+                    android:visibility="gone"
+                    android:background="@color/colorAccent"
+                    android:text="@string/confirm_diagnosis"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/bariol_bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/rulerBackground"/>
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

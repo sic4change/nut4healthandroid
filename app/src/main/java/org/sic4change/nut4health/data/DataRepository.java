@@ -1261,7 +1261,7 @@ public class DataRepository {
      * Method to validate diagnosis
      * @param contractId
      */
-    public void validateDiagnosis(String contractId) {
+    public void validateDiagnosis(String contractId, Double arm_circunference_medical) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference contractRef = db.collection(DataContractNames.TABLE_FIREBASE_NAME);
         Query query = contractRef.whereEqualTo(DataContractNames.COL_CONTRACT_ID, contractId).limit(1);
@@ -1270,9 +1270,11 @@ public class DataRepository {
                 if ((queryDocumentSnapshots != null) && (queryDocumentSnapshots.getDocuments() != null)
                         && (queryDocumentSnapshots.getDocuments().size() > 0)) {
                     Contract contract = queryDocumentSnapshots.getDocuments().get(0).toObject(Contract.class);
+                    contract.setArm_circumference_medical(arm_circunference_medical);
                     contract.setStatus("FINISH");
-                    //queryDocumentSnapshots.getDocuments().get(0).getReference().set(user, SetOptions.mergeFields("phone"));
                     queryDocumentSnapshots.getDocuments().get(0).getReference().update("status", "FINISH");
+                    queryDocumentSnapshots.getDocuments().get(0).getReference().update("arm_circunference_medical", arm_circunference_medical);
+                    nut4HealtDao.updateArmCircunferenceMedical(contractId, arm_circunference_medical);
                     nut4HealtDao.updateContractStatus(contractId, "FINISH");
                     nut4HealtDao.updateMedicalDate(contractId, new Date().toString());
                     listenerQuery.remove();

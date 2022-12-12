@@ -184,6 +184,8 @@
     <string name="diagnosis_finished">Diagnosis completed</string>
     <string name="contracts_exported_ok">Contracts exported successfully</string>
     <string name="contracts_exported_error">Contracts exported error</string>
+    <string name="validate_diagnosis">Validate diagnosis</string>
+    <string name="confirm_diagnosis">Confirm diagnosis</string>
 
     <!--Font awasome -->
     <string name="fa_adjust">&#xf042;</string>

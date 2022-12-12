@@ -14,6 +14,7 @@ public class DetailContractViewModel extends ViewModel {
     private LiveData<Contract> mContract = null;
     private LiveData<Point> mPoint = null;
     private String role = "";
+    private double arm_circumference_medical = 0.0;
 
     public DetailContractViewModel(DataRepository repository, String id) {
         this.mRepository = repository;
@@ -44,12 +45,20 @@ public class DetailContractViewModel extends ViewModel {
         mRepository.getPoint(id);
     }
 
+    public double getArmCircumferenceMedical() {
+        return arm_circumference_medical;
+    }
+
+    public void setArmCircumferenceMedical(double arm_circumference_medical) {
+        this.arm_circumference_medical = arm_circumference_medical;
+    }
+
     public DataRepository getRepository() {
         return mRepository;
     }
 
     public void validateDiagnosis(String id) {
-        mRepository.validateDiagnosis(id);
+        mRepository.validateDiagnosis(id, getArmCircumferenceMedical());
     }
 
 }
