@@ -25,6 +25,7 @@ import com.machinezoo.sourceafis.FingerprintTemplate;
 import org.apache.commons.collections4.Predicate;
 import org.sic4change.nut4health.data.DataRepository;
 import org.sic4change.nut4health.data.entities.Contract;
+import org.sic4change.nut4health.data.entities.MalnutritionChildTable;
 import org.sic4change.nut4health.data.entities.Point;
 import org.sic4change.nut4health.data.entities.User;
 import org.sic4change.nut4health.data.names.DataPointNames;
@@ -36,6 +37,7 @@ public class CreateContractViewModel extends ViewModel {
     private final DataRepository mRepository;
     private final LiveData<User> mUser;
     private final LiveData<List<Point>> mPoints;
+    private final LiveData<List<MalnutritionChildTable>> mMalnutritionChildValues;
     private final LiveData<Contract> mContract;
 
     private Uri uriPhoto;
@@ -64,6 +66,10 @@ public class CreateContractViewModel extends ViewModel {
 
         this.mRepository.getPoints();
         mPoints = mRepository.getSortedPoints();
+
+        this.mRepository.getMalnutritionChildValues();
+        mMalnutritionChildValues = mRepository.getSortedMalnutritionChildValues();
+
         mContract = null;
     }
 

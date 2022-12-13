@@ -13,6 +13,7 @@ import androidx.sqlite.db.SupportSQLiteQuery;
 
 import org.sic4change.nut4health.data.entities.Configuration;
 import org.sic4change.nut4health.data.entities.Contract;
+import org.sic4change.nut4health.data.entities.MalnutritionChildTable;
 import org.sic4change.nut4health.data.entities.Near;
 import org.sic4change.nut4health.data.entities.Notification;
 import org.sic4change.nut4health.data.entities.Payment;
@@ -381,4 +382,24 @@ public interface Nut4HealtDao {
      */
     @Query("DELETE FROM point")
     void deleteAllPoint();
+
+    /**
+     * Insert a malnutritionchildtable
+     * @param malnutritionChildTable
+     */
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insert(MalnutritionChildTable... malnutritionChildTable);
+
+    /**
+     * Returns all malnutritionChildTable
+     * @return
+     */
+    @Query("SELECT * FROM malnutritionChildTable ORDER BY id")
+    LiveData<List<MalnutritionChildTable>> getMalnutritionChildTable();
+
+    /**
+     * Delete all malnutritionChildTable
+     */
+    @Query("DELETE FROM malnutritionchildtable")
+    void deleteAllMalnutritionChildTable();
 }

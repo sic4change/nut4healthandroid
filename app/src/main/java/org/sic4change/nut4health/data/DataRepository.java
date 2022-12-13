@@ -35,6 +35,7 @@ import org.imperiumlabs.geofirestore.listeners.GeoQueryDataEventListener;
 import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.data.entities.Configuration;
 import org.sic4change.nut4health.data.entities.Contract;
+import org.sic4change.nut4health.data.entities.MalnutritionChildTable;
 import org.sic4change.nut4health.data.entities.Near;
 import org.sic4change.nut4health.data.entities.Notification;
 import org.sic4change.nut4health.data.entities.Payment;
@@ -46,6 +47,7 @@ import org.sic4change.nut4health.data.entities.User;
 import org.sic4change.nut4health.data.events.MessageEvent;
 import org.sic4change.nut4health.data.names.DataConfigurationNames;
 import org.sic4change.nut4health.data.names.DataContractNames;
+import org.sic4change.nut4health.data.names.DataMalnutritionChildTableNames;
 import org.sic4change.nut4health.data.names.DataNotificationNames;
 import org.sic4change.nut4health.data.names.DataPaymentNames;
 import org.sic4change.nut4health.data.names.DataPointNames;
@@ -1323,6 +1325,41 @@ public class DataRepository {
                 Log.d(TAG, "ValidateDiagnosis " + "error");
             }
         });
+    }
+
+    /**
+     * Method to get malnutrition child values from firebase
+     */
+    public void getMalnutritionChildValues() {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        Query query = db.collection(DataMalnutritionChildTableNames.TABLE_FIREBASE_NAME);
+        query.addSnapshotListener(mIoExecutor, (queryDocumentSnapshots, e) -> {
+            try {
+                if ((queryDocumentSnapshots != null) && (queryDocumentSnapshots.getDocuments() != null)
+                        && (queryDocumentSnapshots.getDocuments().size() > 0)) {
+                    if (!queryDocumentSnapshots.getDocuments().get(0).getMetadata().isFromCache()) {
+                        nut4HealtDao.deleteAllMalnutritionChildTable();
+                    }
+                    for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
+                        MalnutritionChildTable value = document.toObject(MalnutritionChildTable.class);
+                        nut4HealtDao.insert(value);
+                    }
+                } else {
+                    nut4HealtDao.deleteAllMalnutritionChildTable();
+                    Log.d(TAG, "Get malnutritionchildtable from firebase: " + "empty");
+                }
+            } catch (Exception error) {
+                Log.d(TAG, "Get malnutritionchildtable: " + "empty");
+            }
+        });
+    }
+
+    /**
+     * Method to get malnutrition child values from local bd
+     * @return
+     */
+    public LiveData<List<MalnutritionChildTable>> getSortedMalnutritionChildValues() {
+        return nut4HealtDao.getMalnutritionChildTable();
     }
 
 }

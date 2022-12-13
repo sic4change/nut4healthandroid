@@ -11,6 +11,7 @@ import com.google.type.Money;
 
 import org.sic4change.nut4health.data.entities.Configuration;
 import org.sic4change.nut4health.data.entities.Contract;
+import org.sic4change.nut4health.data.entities.MalnutritionChildTable;
 import org.sic4change.nut4health.data.entities.Near;
 import org.sic4change.nut4health.data.entities.Notification;
 import org.sic4change.nut4health.data.entities.Payment;
@@ -19,8 +20,8 @@ import org.sic4change.nut4health.data.entities.Ranking;
 import org.sic4change.nut4health.data.entities.User;
 
 @Database(entities = {User.class, Contract.class, Near.class, Ranking.class, Payment.class,
-        Notification.class, Point.class, Configuration.class},
-        version = 31, exportSchema = false)
+        Notification.class, Point.class, Configuration.class, MalnutritionChildTable.class},
+        version = 33, exportSchema = false)
 public abstract  class Nut4HealthDatabase extends RoomDatabase {
 
     private static volatile Nut4HealthDatabase sInstance = null;
