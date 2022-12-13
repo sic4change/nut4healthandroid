@@ -61,12 +61,13 @@ public class MainViewModel extends ViewModel {
 
         mUser.observeForever( user -> {
             if (user != null) {
+                this.mRepository.getContracts(user.getEmail(), user.getRole());
                 this.mRepository.getRanking();
                 this.mRepository.getPayments(user.getEmail());
             }
         });
-
         mContracts = this.mRepository.getSortedContracts("DATE", name, surname, status, dateStart, dateEnd, percentageMin, percentageMax);
+
 
         mNear = this.mRepository.getSortedNearContracts("DATE", name, surname, status, dateStart, dateEnd, percentageMin, percentageMax);
         mRanking = this.mRepository.getSortedRanking("POINTS", usernameRanking);

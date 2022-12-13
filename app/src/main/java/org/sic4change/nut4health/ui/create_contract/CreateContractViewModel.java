@@ -72,31 +72,35 @@ public class CreateContractViewModel extends ViewModel {
     }
 
     public LiveData<List<Point>> getPoints(String pointDefaultId) {
-        if (pointDefaultId == null || pointDefaultId.isEmpty() || mPoints.getValue() == null) {
-            return mPoints;
-        } else {
-            Point pointDefault = null;
-            for (Point point : mPoints.getValue()) {
-                if (point.getPointId().equals(pointDefaultId)) {
-                    pointDefault = point;
-                    break;
-                }
-            }
-            List<PointFormatted> points = new ArrayList<PointFormatted>();
-            for (Point i : mPoints.getValue()) {
-                int count = 0;
-                for (String j : i.getFullName().split(",")) {
-                    if (pointDefault.getFullName().replace(" ", "").contains(j.replace(" ", ""))) {
-                        count++;
+        try {
+            if (pointDefaultId == null || pointDefaultId.isEmpty() || mPoints.getValue() == null) {
+                return mPoints;
+            } else {
+                Point pointDefault = null;
+                for (Point point : mPoints.getValue()) {
+                    if (point.getPointId().equals(pointDefaultId)) {
+                        pointDefault = point;
+                        break;
                     }
                 }
-                points.add(new PointFormatted(i.getPointId(), i.getFullName(), count));
+                List<PointFormatted> points = new ArrayList<PointFormatted>();
+                for (Point i : mPoints.getValue()) {
+                    int count = 0;
+                    for (String j : i.getFullName().split(",")) {
+                        if (pointDefault.getFullName().replace(" ", "").contains(j.replace(" ", ""))) {
+                            count++;
+                        }
+                    }
+                    points.add(new PointFormatted(i.getPointId(), i.getFullName(), count));
+                }
+                mPoints.getValue().clear();
+                Collections.sort(points, Comparator.comparingInt(PointFormatted::getOrder).reversed());
+                for (PointFormatted k : points) {
+                    mPoints.getValue().add(new Point(k.getPointId(), k.getFullName()));
+                }
+                return mPoints;
             }
-            mPoints.getValue().clear();
-            Collections.sort(points, Comparator.comparingInt(PointFormatted::getOrder).reversed());
-            for (PointFormatted k : points) {
-                mPoints.getValue().add(new Point(k.getPointId(), k.getFullName()));
-            }
+        } catch (Exception e) {
             return mPoints;
         }
 

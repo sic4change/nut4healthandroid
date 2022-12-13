@@ -570,7 +570,7 @@ public class DataRepository {
         }
         if (role.equals("Agente Salud")) {
             try {
-                Query query = contractRef;
+                Query query = contractRef.whereEqualTo(DataContractNames.COL_SCREENER, email).orderBy("creationDateMiliseconds", Query.Direction.DESCENDING);
                 listenerQuery = query.addSnapshotListener(mIoExecutor, (queryDocumentSnapshots, e) -> {
                     try {
                         if ((queryDocumentSnapshots != null) && (queryDocumentSnapshots.getDocuments() != null)
@@ -586,17 +586,19 @@ public class DataRepository {
                                 if (contractIt.getCode().equals(contract.getCode())) {
                                     if (contractIt.getStatus().equals(Contract.Status.NO_DIAGNOSIS.name())) {
                                         // Lo añade como duplicado y lo hago esperar 7 días para registrar a ese menor
-                                        contract.setScreener(email);
-                                        contract.setStatus(Contract.Status.DUPLICATED.name());
-                                        contractRef.document(newId).set(contract).addOnCompleteListener(task -> {
-                                            listenerQuery.remove();
-                                            createGeoPoint(newId, latitude, longitude);
-                                        });
-                                        EventBus.getDefault().post(new MessageEvent(mContext.getString(R.string.diagnosis_duplicated_7)));
-                                        found = true;
-                                        break;
+                                        if (olderThan7) {
+                                            contract.setScreener(email);
+                                            contract.setStatus(Contract.Status.DUPLICATED.name());
+                                            contractRef.document(newId).set(contract).addOnCompleteListener(task -> {
+                                                listenerQuery.remove();
+                                                createGeoPoint(newId, latitude, longitude);
+                                            });
+                                            EventBus.getDefault().post(new MessageEvent(mContext.getString(R.string.diagnosis_duplicated_7)));
+                                            found = true;
+                                            break;
+                                        }
                                     } else if (contractIt.getStatus().equals(Contract.Status.FINISH.name())) {
-                                        if (contractIt.getCode().equals(contract.getCode()) && olderThan30) {
+                                        if (olderThan30) {
                                             // Lo añade como duplicado y lo hago esperar 30 días para registrar a ese menor
                                             contract.setScreener(email);
                                             contract.setStatus(Contract.Status.DUPLICATED.name());
@@ -645,45 +647,45 @@ public class DataRepository {
                 Query query = contractRef.whereEqualTo(DataContractNames.COL_POINT, point).orderBy(DataContractNames.COL_DATE_MILI_FIREBASE, Query.Direction.ASCENDING);
                 listenerQuery = query.addSnapshotListener(mIoExecutor, (queryDocumentSnapshots, e) -> {
                     boolean updated = false;
-                    //boolean paid = false;
+                    int count = 0;
                     try {
                         if ((queryDocumentSnapshots != null) && (queryDocumentSnapshots.getDocuments() != null)
                                 && (queryDocumentSnapshots.getDocuments().size() > 0)) {
                             for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
                                 Contract contractIt = document.toObject(Contract.class);
-                                if (contractIt.getFingerprint() != null && contractIt.getFingerprint() != "" && fingerprint != "") {
-                                    FingerprintTemplate fingerprintCandidate = new FingerprintTemplate().deserialize(contractIt.getFingerprint());
-                                    double score = new FingerprintMatcher().index(new FingerprintTemplate().deserialize(fingerprint)).match(fingerprintCandidate);
-                                    if (score >= 40) {
-                                        if (contractIt.getPercentage() < 50) {
-                                            contractIt.setStatus(status);
-                                            EventBus.getDefault().post(new MessageEvent(mContext.getString(R.string.diagnosis_updated)));
-                                        } else {
-                                            //if (!paid) {
-                                                contractIt.setChildName(childName);
-                                                contractIt.setChildSurname(childSurname);
-                                                contractIt.setSex(sex);
-                                                contractIt.setChildDNI(childDNI);
-                                                contractIt.setChildTutor(childTutor);
-                                                contractIt.setChildAddress(childAddress);
-                                                contractIt.setChildPhoneContract(childPhoneContact);
-                                                contractIt.setStatus(Contract.Status.FINISH.name());
-                                                //paid = true;
-                                                EventBus.getDefault().post(new MessageEvent(mContext.getString(R.string.diagnosis_to_pay)));
-                                            //}
-                                            /*else {
-                                                contractIt.setStatus(status);
-                                                EventBus.getDefault().post(new MessageEvent(mContext.getString(R.string.diagnosis_updated)));
-                                            }*/
-                                        }
-                                        updated = true;
+                                if (contractIt.getCode().equals(contract.getCode())) {
+                                    if (contractIt.getStatus().equals(Contract.Status.NO_DIAGNOSIS.name())) {
+                                        contractIt.setStatus(status);
+                                        contractIt.setArm_circumference_medical(arm_circumference);
                                         contractIt.setPercentage(percentage);
                                         contractIt.setMedical(email);
-                                        document.getReference().set(contractIt, SetOptions.merge()).addOnCompleteListener(task -> createGeoPoint(contractIt.getId(), latitude, longitude));
+                                        document.getReference().set(contractIt, SetOptions.merge());
+                                    } else {
+                                        contractIt.setChildName(childName);
+                                        contractIt.setChildSurname(childSurname);
+                                        contractIt.setSex(sex);
+                                        contractIt.setChildDNI(childDNI);
+                                        contractIt.setChildTutor(childTutor);
+                                        contractIt.setChildAddress(childAddress);
+                                        contractIt.setChildPhoneContract(childPhoneContact);
+                                        contractIt.setArm_circumference_medical(arm_circumference);
+                                        contractIt.setPercentage(percentage);
+                                        contractIt.setMedical(email);
+                                        if (contractIt.getStatus().equals(Contract.Status.DIAGNOSIS.name())) {
+                                            if (count == 0) {
+                                                contractIt.setStatus(Contract.Status.FINISH.name());
+                                            } else {
+                                                contractIt.setStatus(Contract.Status.DUPLICATED.name());
+                                            }
+                                            count++;
+                                            document.getReference().set(contractIt, SetOptions.merge());
+                                        }
+
                                     }
+                                    updated = true;
                                 }
-//
                             }
+
                             if (listenerQuery != null) {
                                 listenerQuery.remove();
                             }
@@ -691,15 +693,21 @@ public class DataRepository {
                             if (!updated) {
                                 contract.setMedical(email);
                                 contract.setStatus(Contract.Status.FINISH.name());
+                                contract.setArm_circumference(0.0);
+                                contract.setArm_circumference_medical(arm_circumference);
                                 contractRef.document(newId).set(contract).addOnCompleteListener(task -> {
                                     listenerQuery.remove();
                                     createGeoPoint(newId, latitude, longitude);
                                 });
                                 EventBus.getDefault().post(new MessageEvent(mContext.getString(R.string.diagnosis_ok)));
+                            } else {
+                                EventBus.getDefault().post(new MessageEvent(mContext.getString(R.string.diagnosis_updated)));
                             }
                         } else {
                             contract.setMedical(email);
                             contract.setStatus(Contract.Status.FINISH.name());
+                            contract.setArm_circumference(0.0);
+                            contract.setArm_circumference_medical(arm_circumference);
                             contractRef.document(newId).set(contract).addOnCompleteListener(task -> {
                                 listenerQuery.remove();
                                 createGeoPoint(newId, latitude, longitude);
@@ -737,30 +745,60 @@ public class DataRepository {
         Query query;
         if (role.equals("Agente Salud")) {
             query = contractRef.whereEqualTo(DataContractNames.COL_SCREENER, email);
-        } else {
-            query = contractRef.whereEqualTo(DataContractNames.COL_MEDICAL, email);
-        }
-        query.addSnapshotListener(mIoExecutor, (queryDocumentSnapshots, e) -> {
-            try {
-                if ((queryDocumentSnapshots != null) && (queryDocumentSnapshots.getDocuments() != null)
-                        && (queryDocumentSnapshots.getDocuments().size() > 0)) {
-                    /*if (!queryDocumentSnapshots.getDocuments().get(0).getMetadata().isFromCache()) {
-                        nut4HealtDao.deleteAllContract();
-                    }*/
-                    for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
-                        Contract contract = document.toObject(Contract.class);
-                        if (contract.getId() != null && !contract.getId().isEmpty()) {
-                            nut4HealtDao.insert(contract);
+            query.addSnapshotListener(mIoExecutor, (queryDocumentSnapshots, e) -> {
+                try {
+                    if ((queryDocumentSnapshots != null) && (queryDocumentSnapshots.getDocuments() != null)
+                            && (queryDocumentSnapshots.getDocuments().size() > 0)) {
+                        for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
+                            Contract contract = document.toObject(Contract.class);
+                            if (contract.getId() != null && !contract.getId().isEmpty()) {
+                                nut4HealtDao.insert(contract);
+                            }
                         }
+                    } else {
+                        nut4HealtDao.deleteAllContract();
+                        Log.d(TAG, "Get contracts: " + "empty");
                     }
-                } else {
-                    nut4HealtDao.deleteAllContract();
+                } catch (Exception error) {
                     Log.d(TAG, "Get contracts: " + "empty");
                 }
-            } catch (Exception error) {
-                Log.d(TAG, "Get contracts: " + "empty");
-            }
-        });
+            });
+        } else {
+            CollectionReference userRef = db.collection(DataUserNames.TABLE_FIREBASE_NAME);
+            query = userRef.whereEqualTo(DataUserNames.COL_EMAIL, email).limit(1);
+            query.addSnapshotListener(mIoExecutor, (queryDocumentSnapshots, e) -> {
+                try {
+                    if ((queryDocumentSnapshots != null) && (queryDocumentSnapshots.getDocuments() != null)
+                            && (queryDocumentSnapshots.getDocuments().size() > 0)) {
+                        User user = queryDocumentSnapshots.getDocuments().get(0).toObject(User.class);
+                        Query queryContracts = contractRef.whereEqualTo(DataContractNames.COL_POINT, user.getPoint());
+                        queryContracts.addSnapshotListener(mIoExecutor, (queryDocumentSnapshots2, e2) -> {
+                            try {
+                                if ((queryDocumentSnapshots2 != null) && (queryDocumentSnapshots2.getDocuments() != null)
+                                        && (queryDocumentSnapshots2.getDocuments().size() > 0)) {
+                                    for (DocumentSnapshot document : queryDocumentSnapshots2.getDocuments()) {
+                                        Contract contract = document.toObject(Contract.class);
+                                        if (contract.getId() != null && !contract.getId().isEmpty()) {
+                                            nut4HealtDao.insert(contract);
+                                        }
+                                    }
+                                } else {
+                                    nut4HealtDao.deleteAllContract();
+                                    Log.d(TAG, "Get contracts: " + "empty");
+                                }
+                            } catch (Exception error) {
+                                Log.d(TAG, "Get contracts: " + "empty");
+                            }
+                        });
+                    } else {
+                        Log.d(TAG, "Get user from firebase: " + "empty");
+                    }
+                } catch (Exception error) {
+                    Log.d(TAG, "Get user: " + "empty");
+                }
+            });
+        }
+
     }
 
     /**
