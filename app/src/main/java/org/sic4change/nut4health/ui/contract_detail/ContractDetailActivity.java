@@ -75,6 +75,9 @@ public class ContractDetailActivity extends AppCompatActivity implements SimpleR
             TextView etDate = findViewById(R.id.etDate);
             Button btnConfirm = findViewById(R.id.btnConfirm);
 
+            TextView etConfirmationDate = findViewById(R.id.etConfirmationDate);
+            TextView tvConfirmationDate = findViewById(R.id.tvConfirmationDate);
+
             etName.setText(contract.getChildName());
             etSurname.setText(contract.getChildSurname());
             etTutor.setText(contract.getChildTutor());
@@ -104,24 +107,24 @@ public class ContractDetailActivity extends AppCompatActivity implements SimpleR
             if (contract.getStatus().equals(Contract.Status.PAID.name())) {
                 ivIcon.setFillColor(getResources().getColor(R.color.colorAccent));
                 ivIcon.setStrokeColor(getResources().getColor(R.color.colorAccent));
-                Date date = new Date(contract.getMedicalDate());
-                Locale LocaleBylanguageTag = Locale.forLanguageTag("es");
-                TimeAgoMessages messages = new TimeAgoMessages.Builder().withLocale(LocaleBylanguageTag).build();
-                String text = TimeAgo.using(date.getTime(), messages);
                 tvStatus.setText(getResources().getString(R.string.paid));
                 tvStatus.setTextColor(getResources().getColor(R.color.colorAccent));
             } else if (contract.getStatus().equals(Contract.Status.FINISH.name())) {
                 ivIcon.setFillColor(getResources().getColor(R.color.violet));
                 ivIcon.setStrokeColor(getResources().getColor(R.color.violet));
+                tvStatus.setText(getResources().getString(R.string.finished));
+                tvStatus.setTextColor(getResources().getColor(R.color.violet));
+                etConfirmationDate.setVisibility(View.VISIBLE);
+                tvConfirmationDate.setVisibility(View.VISIBLE);
                 try {
                     Date date = new Date(contract.getMedicalDate());
                     Locale LocaleBylanguageTag = Locale.forLanguageTag("es");
                     TimeAgoMessages messages = new TimeAgoMessages.Builder().withLocale(LocaleBylanguageTag).build();
                     String text = TimeAgo.using(date.getTime(), messages);
+                    etConfirmationDate.setText(text);
                 } catch (Exception e) {
+                    System.out.println("error parsing confirmation date");
                 }
-                tvStatus.setText(getResources().getString(R.string.finished));
-                tvStatus.setTextColor(getResources().getColor(R.color.violet));
             } else if (contract.getStatus().equals(Contract.Status.DUPLICATED.name())) {
                 ivIcon.setTitleText(getResources().getString(R.string.duplicated_abrev));
                 ivIcon.setFillColor(getResources().getColor(R.color.rose));
