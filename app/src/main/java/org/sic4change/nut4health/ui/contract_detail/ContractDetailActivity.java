@@ -1,6 +1,9 @@
 package org.sic4change.nut4health.ui.contract_detail;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -38,6 +41,10 @@ public class ContractDetailActivity extends AppCompatActivity implements SimpleR
     private TextView tvCm;
     private View rulerBackground;
     private SimpleRulerViewer ruler;
+    private EditText etHeight;
+    private TextView tvHeight;
+    private EditText etWeight;
+    private TextView tvWeight;
     private Button btnValidate;
 
     @Override
@@ -48,6 +55,42 @@ public class ContractDetailActivity extends AppCompatActivity implements SimpleR
         tvCm = findViewById(R.id.tvCm);
         rulerBackground = findViewById(R.id.rulerBackground);
         ruler = findViewById(R.id.ruler);
+        etHeight = findViewById(R.id.etHeight);
+        etHeight.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                mDetailContractViewModel.setHeight(Integer.parseInt(charSequence.toString()));
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+        tvHeight = findViewById(R.id.tvHeight);
+        etWeight = findViewById(R.id.etWeight);
+        etWeight.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                mDetailContractViewModel.setWeight(Double.parseDouble(charSequence.toString()));
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+        tvWeight = findViewById(R.id.tvWeight);
         btnValidate = findViewById(R.id.btnValidate);
         ruler.setOnValueChangeListener(this);
         ContractDetailViewModelFactory contractDetailViewModelFactory = ContractDetailViewModelFactory.createFactory(this, getIntent().getStringExtra("CONTRACT_ID"));
@@ -171,6 +214,10 @@ public class ContractDetailActivity extends AppCompatActivity implements SimpleR
                     tvCm.setVisibility(View.VISIBLE);
                     rulerBackground.setVisibility(View.VISIBLE);
                     ruler.setVisibility(View.VISIBLE);
+                    etHeight.setVisibility(View.VISIBLE);
+                    tvHeight.setVisibility(View.VISIBLE);
+                    etWeight.setVisibility(View.VISIBLE);
+                    tvWeight.setVisibility(View.VISIBLE);
                     btnConfirm.setVisibility(View.GONE);
                 }
             });

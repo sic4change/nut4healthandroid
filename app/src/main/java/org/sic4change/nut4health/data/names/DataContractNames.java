@@ -157,4 +157,14 @@ public final class DataContractNames {
      */
     public static final String COL_ARM_CIRCUMFERENCE_MEDICAL = "arm_circunference_medical";
 
+    /**
+     * Column height for contract
+     */
+    public static final String COL_HEIGHT = "height";
+
+    /**
+     * Column weight for contract
+     */
+    public static final String COL_WEIGHT = "weight";
+
 }

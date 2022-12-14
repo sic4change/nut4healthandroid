@@ -15,6 +15,8 @@ public class DetailContractViewModel extends ViewModel {
     private LiveData<Point> mPoint = null;
     private String role = "";
     private double arm_circumference_medical = 0.0;
+    private int height = 0;
+    private double weight = 0.0;
 
     public DetailContractViewModel(DataRepository repository, String id) {
         this.mRepository = repository;
@@ -53,12 +55,28 @@ public class DetailContractViewModel extends ViewModel {
         this.arm_circumference_medical = arm_circumference_medical;
     }
 
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public double getWeight() {
+        return weight;
+    }
+
+    public void setWeight(double weight) {
+        this.weight = weight;
+    }
+
     public DataRepository getRepository() {
         return mRepository;
     }
 
     public void validateDiagnosis(String id) {
-        mRepository.validateDiagnosis(id, getArmCircumferenceMedical());
+        mRepository.validateDiagnosis(id, getArmCircumferenceMedical(), getHeight(), getWeight());
     }
 
 }

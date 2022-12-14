@@ -59,6 +59,8 @@ public class CreateContractViewModel extends ViewModel {
     private String pointFullName;
     private byte[] fingerPrint;
     private boolean imageSelected = false;
+    private int height = 0;
+    private double weight = 0.0;
 
     public CreateContractViewModel(DataRepository repository) {
         this.mRepository = repository;
@@ -120,20 +122,12 @@ public class CreateContractViewModel extends ViewModel {
                                Uri photo, String childName, String childSurname, String sex,
                                String childDNI, int childBrothers, String childTutor, String childAddress,
                                String childPhoneContact, String point, String pointFullName,
-                               int percentage, double arm_circumference) {
+                               int percentage, double arm_circumference, int height, double weight) {
         String code = childPhoneContact + "-" + childBrothers;
-        /*if (fingerPrint != null) {
-            FingerprintTemplate fingerprintTemplateContract = new FingerprintTemplate().dpi(500).create(fingerPrint);
-            mRepository.createContract(id, role, screener, latitude, longitude, photo, childName, childSurname, sex, childDNI, childTutor,
-                    childAddress, childPhoneContact, point, pointFullName, percentage, arm_circumference, fingerprintTemplateContract.serialize());
-        } else {
-            mRepository.createContract(id, role, screener, latitude, longitude, photo, childName,
-                    childSurname, sex, childDNI, childTutor, childAddress, childPhoneContact, point,
-                    pointFullName, percentage, arm_circumference, "");
-        }*/
+
         mRepository.createContract(id, role, screener, latitude, longitude, photo, childName,
                 childSurname, sex, childDNI, childBrothers, code, childTutor, childAddress, childPhoneContact, point,
-                pointFullName, percentage, arm_circumference, "");
+                pointFullName, percentage, arm_circumference, height, weight,"" );
 
     }
 
@@ -273,6 +267,22 @@ public class CreateContractViewModel extends ViewModel {
 
     public void setArmCircumference(double arm_circumference) {
         this.arm_circumference = arm_circumference;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public double getWeight() {
+        return weight;
+    }
+
+    public void setWeight(double weight) {
+        this.weight = weight;
     }
 
     public byte[] getFingerPrint() {

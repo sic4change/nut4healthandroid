@@ -107,6 +107,8 @@
     <string name="your_position">You are here</string>
     <string name="registerContract">Registrar diagnóstico</string>
     <string name="select_medical">Selecciona el Servicio de Salud</string>
+    <string name="hight">Hight (cm)</string>
+    <string name="weight">Weight (Kg)</string>
 
     <!--Main menu-->
     <string name="contracts">Diagnostics history</string>

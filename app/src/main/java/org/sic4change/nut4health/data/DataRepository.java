@@ -550,7 +550,7 @@ public class DataRepository {
                                String childName, String childSurname, String sex, String childDNI,
                                int childBrothers, String code, String childTutor, String childAddress,
                                String childPhoneContact, String point, String pointFullName, int percentage,
-                               double arm_circumference, String fingerprint) {
+                               double arm_circumference, int height, double weight, String fingerprint) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference contractRef = db.collection(DataContractNames.TABLE_FIREBASE_NAME);
         String status;
@@ -562,7 +562,8 @@ public class DataRepository {
         Contract contract = new Contract("", latitude, longitude, "", childName,
                 childSurname, sex, childDNI, childBrothers, code, childTutor, childAddress, childPhoneContact, point,
                 pointFullName,  "", status, "", percentage,
-                new BigDecimal(arm_circumference).setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue());
+                new BigDecimal(arm_circumference).setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue(),
+                height, weight);
         String newId = id + "_" + new Date().getTime();
         contract.setId(newId);
         contract.setCreationDate(new Date().toString());
@@ -1301,7 +1302,7 @@ public class DataRepository {
      * Method to validate diagnosis
      * @param contractId
      */
-    public void validateDiagnosis(String contractId, Double arm_circunference_medical) {
+    public void validateDiagnosis(String contractId, Double arm_circunference_medical, int height, double weight) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference contractRef = db.collection(DataContractNames.TABLE_FIREBASE_NAME);
         Query query = contractRef.whereEqualTo(DataContractNames.COL_CONTRACT_ID, contractId).limit(1);
@@ -1311,10 +1312,16 @@ public class DataRepository {
                         && (queryDocumentSnapshots.getDocuments().size() > 0)) {
                     Contract contract = queryDocumentSnapshots.getDocuments().get(0).toObject(Contract.class);
                     contract.setArm_circumference_medical(arm_circunference_medical);
+                    contract.setHeight(height);
+                    contract.setWeight(weight);
                     contract.setStatus("FINISH");
                     queryDocumentSnapshots.getDocuments().get(0).getReference().update("status", "FINISH");
-                    queryDocumentSnapshots.getDocuments().get(0).getReference().update("arm_circunference_medical", arm_circunference_medical);
+                    queryDocumentSnapshots.getDocuments().get(0).getReference().update("arm_circumference_medical", arm_circunference_medical);
+                    queryDocumentSnapshots.getDocuments().get(0).getReference().update("height", height);
+                    queryDocumentSnapshots.getDocuments().get(0).getReference().update("weight", weight);
                     nut4HealtDao.updateArmCircunferenceMedical(contractId, arm_circunference_medical);
+                    nut4HealtDao.updateHeight(contractId, height);
+                    nut4HealtDao.updateWeight(contractId, weight);
                     nut4HealtDao.updateContractStatus(contractId, "FINISH");
                     nut4HealtDao.updateMedicalDate(contractId, new Date().toString());
                     listenerQuery.remove();

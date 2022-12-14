@@ -106,21 +106,29 @@ public class Contract {
     @ColumnInfo(name = DataContractNames.COL_ARM_CIRCUMFERENCE_MEDICAL)
     private double arm_circumference_medical;
 
+    @NonNull
+    @ColumnInfo(name = DataContractNames.COL_HEIGHT)
+    private int height;
+
+    @NonNull
+    @ColumnInfo(name = DataContractNames.COL_WEIGHT)
+    private double weight;
+
     public Contract() {
         this("", "", 0.0f, 0.0f, "", "", "", "", "",
-                "", 0, "", "", "", "", "", "", "", Status.EMPTY.name(), "", "",0, 0, 0.0, "", 0, 0.0);
+                "", 0, "", "", "", "", "", "", "", Status.EMPTY.name(), "", "",0, 0, 0.0, "", 0, 0.0, 0, 0.0);
     }
 
     @Ignore
     public Contract(@NonNull String id) {
         this(id, "", 0.0f, 0.0f, "", "", "",
-                "", "", "", 0, "",  "", "", "", "", "", "", Status.EMPTY.name(), "", "",0,  0, 0.0,"", 0, 0.0);
+                "", "", "", 0, "",  "", "", "", "", "", "", Status.EMPTY.name(), "", "",0,  0, 0.0,"", 0, 0.0, 0, 0.0);
     }
 
     @Ignore
     public Contract(@NonNull String photo, double latitude, double longitude, @NonNull String screener) {
         this("", photo, latitude, longitude, screener, "", "", "", "", "", 0, "","",
-                "", "", "", "", "", Status.EMPTY.name(), "", "",0,  0, 0.0, "", 0, 0.0);
+                "", "", "", "", "", Status.EMPTY.name(), "", "",0,  0, 0.0, "", 0, 0.0, 0, 0.0);
     }
 
     @Ignore
@@ -128,11 +136,11 @@ public class Contract {
                     String childName, String childSurname, String sex, String childDNI, int childBrothers, String code,
                     String childTutor, String childAddress, String childPhoneContract,
                     String point, String pointFullName, String fingerprint, String status, String creationDate,
-                    int percentage, double arm_circumference) {
+                    int percentage, double arm_circumference, int height, double weight) {
         this("", photo, latitude, longitude, screener, "", childName, childSurname, sex, childDNI,
                 childBrothers, code, childTutor, childAddress, childPhoneContract, point, pointFullName,
                 fingerprint, status, "", creationDate, Nut4HealthTimeUtil.convertCreationDateToTimeMilis(creationDate),
-                percentage, arm_circumference, "", 0, 0.0);
+                percentage, arm_circumference, "", 0, 0.0, 0, 0.0);
     }
     @Ignore
     public Contract(@NonNull String id, @NonNull String photo, double latitude, double longitude,
@@ -143,7 +151,7 @@ public class Contract {
                     double arm_circumference) {
         this(id, photo, latitude, longitude, screener, "", childName, childSurname, sex, childDNI,
                 childBrothers, code, childTutor, childAddress, childPhoneContract, point, pointFullName,
-                fingerprint, status, "", creationDate, creationDateMiliseconds, percentage, arm_circumference, "", 0, 0.0);
+                fingerprint, status, "", creationDate, creationDateMiliseconds, percentage, arm_circumference, "", 0, 0.0, 0, 0.0);
     }
 
     public Contract(@NonNull String id, @NonNull String photo, double latitude, double longitude,
@@ -152,7 +160,7 @@ public class Contract {
                     String childAddress, String childPhoneContract, String point, String pointFullName,
                     String fingerprint, String status, String diagnosis, String creationDate,
                     long creationDateMiliseconds, int percentage, double arm_circumference, String medicalDate,
-                    long medicalDateMiliseconds, double arm_circumference_medical) {
+                    long medicalDateMiliseconds, double arm_circumference_medical, int height, double weight) {
         this.id = id;
         this.photo = photo;
         this.latitude = latitude;
@@ -180,6 +188,8 @@ public class Contract {
         this.medicalDate = medicalDate;
         this.medicalDateMiliseconds = medicalDateMiliseconds;
         this.arm_circumference_medical = arm_circumference_medical;
+        this.height = height;
+        this.weight = weight;
     }
 
     @NonNull
@@ -401,6 +411,22 @@ public class Contract {
 
     public void setArm_circumference_medical(double arm_circumference_medical) {
         this.arm_circumference_medical = arm_circumference_medical;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public double getWeight() {
+        return weight;
+    }
+
+    public void setWeight(double weight) {
+        this.weight = weight;
     }
 
     public enum Status {

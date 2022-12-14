@@ -104,6 +104,8 @@
     <string name="your_position">Vous êtes ici</string>
     <string name="registerContract">Enregistrer le diagnostique</string>
     <string name="select_medical">Sélectionêz le service de santé</string>
+    <string name="hight">La Taille (cm)</string>
+    <string name="weight">Lester (Kg)</string>
 
     <!--Main menu-->
     <string name="contracts">Historique des diagnostiques</string>

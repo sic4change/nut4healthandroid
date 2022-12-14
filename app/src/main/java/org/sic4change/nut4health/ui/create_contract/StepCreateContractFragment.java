@@ -204,7 +204,9 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
                             mCreateContractViewModel.getPoint(),
                             mCreateContractViewModel.getPointFullName(),
                             mCreateContractViewModel.getPercentage(),
-                            mCreateContractViewModel.getArmCircumference()
+                            mCreateContractViewModel.getArmCircumference(),
+                            mCreateContractViewModel.getHeight(),
+                            mCreateContractViewModel.getWeight()
                     );
                     mCreateContractViewModel = null;
                 }
