@@ -552,7 +552,7 @@ public class DataRepository {
                                String childName, String childSurname, String sex, String childDNI,
                                int childBrothers, String code, String childTutor, String childAddress,
                                String childPhoneContact, String point, String pointFullName, int percentage,
-                               double arm_circumference, int height, double weight, String fingerprint) {
+                               double arm_circumference, double height, double weight, String fingerprint) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference contractRef = db.collection(DataContractNames.TABLE_FIREBASE_NAME);
         String status;
@@ -561,11 +561,13 @@ public class DataRepository {
         } else {
             status = Contract.Status.NO_DIAGNOSIS.name();
         }
-        Contract contract = new Contract("", latitude, longitude, "", childName,
+
+       Contract contract = new Contract("", latitude, longitude, "", childName,
                 childSurname, sex, childDNI, childBrothers, code, childTutor, childAddress, childPhoneContact, point,
                 pointFullName,  "", status, "", percentage,
                 new BigDecimal(arm_circumference).setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue(),
                 height, weight);
+
         String newId = id + "_" + new Date().getTime();
         contract.setId(newId);
         contract.setCreationDate(new Date().toString());
@@ -662,6 +664,8 @@ public class DataRepository {
                                     if (contractIt.getStatus().equals(Contract.Status.NO_DIAGNOSIS.name())) {
                                         contractIt.setStatus(status);
                                         contractIt.setArm_circumference_medical(arm_circumference);
+                                        contractIt.setHeight(height);
+                                        contractIt.setWeight(weight);
                                         contractIt.setPercentage(percentage);
                                         contractIt.setMedical(email);
                                         document.getReference().set(contractIt, SetOptions.merge());
@@ -674,6 +678,8 @@ public class DataRepository {
                                         contractIt.setChildAddress(childAddress);
                                         contractIt.setChildPhoneContract(childPhoneContact);
                                         contractIt.setArm_circumference_medical(arm_circumference);
+                                        contractIt.setHeight(height);
+                                        contractIt.setWeight(weight);
                                         contractIt.setPercentage(percentage);
                                         contractIt.setMedical(email);
                                         if (contractIt.getStatus().equals(Contract.Status.DIAGNOSIS.name())) {
@@ -700,6 +706,8 @@ public class DataRepository {
                                 contract.setStatus(Contract.Status.FINISH.name());
                                 contract.setArm_circumference(0.0);
                                 contract.setArm_circumference_medical(arm_circumference);
+                                contract.setHeight(height);
+                                contract.setWeight(weight);
                                 contractRef.document(newId).set(contract).addOnCompleteListener(task -> {
                                     listenerQuery.remove();
                                     createGeoPoint(newId, latitude, longitude);
@@ -713,6 +721,8 @@ public class DataRepository {
                             contract.setStatus(Contract.Status.FINISH.name());
                             contract.setArm_circumference(0.0);
                             contract.setArm_circumference_medical(arm_circumference);
+                            contract.setHeight(height);
+                            contract.setWeight(weight);
                             contractRef.document(newId).set(contract).addOnCompleteListener(task -> {
                                 listenerQuery.remove();
                                 createGeoPoint(newId, latitude, longitude);

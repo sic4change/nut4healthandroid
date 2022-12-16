@@ -88,7 +88,6 @@ public class ContractDetailActivity extends AppCompatActivity implements SimpleR
                 } catch (Exception e) {
                     System.out.println("empty o null value");
                 }
-
             }
 
             @Override

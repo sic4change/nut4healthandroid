@@ -38,6 +38,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeSuccessDialog;
@@ -56,6 +57,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import org.jetbrains.annotations.NotNull;
 import org.sic4change.animation_check.AnimatedCircleLoadingView;
 import org.sic4change.nut4health.R;
+import org.sic4change.nut4health.data.entities.MalnutritionChildTable;
 import org.sic4change.nut4health.data.entities.Point;
 import org.sic4change.nut4health.data.events.MessageEvent;
 import org.sic4change.nut4health.ui.fingerprint.ScanActivity;
@@ -67,6 +69,8 @@ import org.sic4change.nut4health.utils.ruler_picker.SimpleRulerViewer;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
@@ -84,6 +88,10 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
     private Button btnTakePhoto;
     private View rulerBackground;
     private SimpleRulerViewer ruler;
+    private TextView tvHeight;
+    private EditText etHeight;
+    private TextView tvWeight;
+    private EditText etWeight;
     private TextView tvPercentage;
     private TextView tvCm;
     private CardView cvChild;
@@ -143,12 +151,80 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
         rulerBackground = v.findViewById(R.id.rulerBackground);
         ruler = v.findViewById(R.id.ruler);
         ruler.setOnValueChangeListener(this);
+        ruler.setSelectedValue(28.0f);
+        tvHeight = v.findViewById(R.id.tvHeight);
+        etHeight = v.findViewById(R.id.etHeight);
+        etHeight.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                try{
+                    mCreateContractViewModel.setHeight(Double.parseDouble(charSequence.toString()));
+                    mCreateContractViewModel.getDesnutritionChildTable().observe(getActivity(), values -> {
+                        Collections.sort(values, Comparator.comparingDouble(MalnutritionChildTable::getCm));
+                        mCreateContractViewModel.checkMalnutritionByWeightAndHeight(values);
+                        mCreateContractViewModel.getStatus();
+                        paintStatusChanges();
+                    });
+                } catch (Exception e) {
+                    System.out.println("empty o null value");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+        tvWeight = v.findViewById(R.id.tvWeight);
+        etWeight = v.findViewById(R.id.etWeight);
+        etWeight.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                try{
+                    mCreateContractViewModel.setWeight(Double.parseDouble(charSequence.toString()));
+                    mCreateContractViewModel.getDesnutritionChildTable().observe(getActivity(), values -> {
+                        Collections.sort(values, Comparator.comparingDouble(MalnutritionChildTable::getCm));
+                        mCreateContractViewModel.checkMalnutritionByWeightAndHeight(values);
+                        mCreateContractViewModel.getStatus();
+                        paintStatusChanges();
+                    });
+                } catch (Exception e) {
+                    System.out.println("empty o null value");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
         btnCheckMalnutrition = v.findViewById(R.id.btnCheckMalnutrition);
         ivNewContract = v.findViewById(R.id.ivNewContract);
         spPoint = v.findViewById(R.id.spPoint);
         CreateContractViewModelFactory createContractViewModelFactory = CreateContractViewModelFactory.createFactory(getActivity());
         mCreateContractViewModel = ViewModelProviders.of(getActivity(), createContractViewModelFactory).get(CreateContractViewModel.class);
         mCreateContractViewModel.getUser().observe(getActivity(), user -> {
+            try {
+                mCreateContractViewModel.setRole(user.getRole());
+                if (mCreateContractViewModel.getRole() != null && mCreateContractViewModel.getRole().equals("Servicio Salud")) {
+                    etHeight.setVisibility(View.VISIBLE);
+                    tvHeight.setVisibility(View.VISIBLE);
+                    etWeight.setVisibility(View.VISIBLE);
+                    tvWeight.setVisibility(View.VISIBLE);
+                }
+            } catch (Exception e) {
+                System.out.println("error crate contract related with user role");
+            }
             if (user.getPoint() != null) {
                 try {
                     mCreateContractViewModel.getPoints(user.getPoint()).observe(getActivity(), points -> {
@@ -353,6 +429,12 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
             ruler.setVisibility(View.VISIBLE);
             rulerBackground.setVisibility(View.VISIBLE);
             tvCm.setVisibility(View.VISIBLE);
+            if (mCreateContractViewModel.getRole() != null && mCreateContractViewModel.getRole().equals("Servicio Salud")) {
+                etHeight.setVisibility(View.VISIBLE);
+                tvHeight.setVisibility(View.VISIBLE);
+                etWeight.setVisibility(View.VISIBLE);
+                tvWeight.setVisibility(View.VISIBLE);
+            }
         } else if (getPosition() == 1) {
             if (mCreateContractViewModel.getPercentage() > 49) {
                 etChildDNI.setVisibility(View.VISIBLE);
@@ -365,6 +447,10 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
             tvPercentage.setVisibility(View.GONE);
             ruler.setVisibility(View.GONE);
             rulerBackground.setVisibility(View.GONE);
+            etHeight.setVisibility(View.GONE);
+            tvHeight.setVisibility(View.GONE);
+            etWeight.setVisibility(View.GONE);
+            tvWeight.setVisibility(View.GONE);
             tvCm.setVisibility(View.GONE);
             cvChild.setVisibility(View.VISIBLE);
             btnCheckMalnutrition.setVisibility(View.GONE);
@@ -405,6 +491,10 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
             ruler.setVisibility(View.GONE);
             rulerBackground.setVisibility(View.GONE);
             tvCm.setVisibility(View.GONE);
+            etHeight.setVisibility(View.GONE);
+            tvHeight.setVisibility(View.GONE);
+            etWeight.setVisibility(View.GONE);
+            tvWeight.setVisibility(View.GONE);
             cvChild.setVisibility(View.GONE);
             btnCheckMalnutrition.setVisibility(View.VISIBLE);
             ivNewContract.setVisibility(View.VISIBLE);
@@ -531,6 +621,19 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
         });
     }
 
+    private void paintStatusChanges() {
+        if (mCreateContractViewModel.getStatus().equals("Aguda Severa")) {
+            tvPercentage.setText(getResources().getString(R.string.severe_acute_malnutrition_full));
+            tvPercentage.setTextColor(getResources().getColor(R.color.error));
+        } else if (mCreateContractViewModel.getStatus().equals("Aguda Moderada")) {
+            tvPercentage.setText(getResources().getString(R.string.moderate_acute_malnutrition_full));
+            tvPercentage.setTextColor(getResources().getColor(R.color.orange));
+        } else {
+            tvPercentage.setText(getResources().getString(R.string.normopeso_full));
+            tvPercentage.setTextColor(getResources().getColor(R.color.colorAccent));
+        }
+    }
+
     private void goToMainActivity() {
         try {
             mCreateContractViewModel = null;
@@ -594,23 +697,19 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
         mCreateContractViewModel.setArmCircumference(value);
         if (value < 11.5) {
             rulerBackground.setBackgroundColor(getResources().getColor(R.color.error));
-            tvPercentage.setText(getResources().getString(R.string.severe_acute_malnutrition_full));
-            tvPercentage.setTextColor(getResources().getColor(R.color.error));
             tvCm.setTextColor(getResources().getColor(R.color.error));
             mCreateContractViewModel.setPercentage(100);
         } else if (value >=11.5 && value <= 12.5) {
             rulerBackground.setBackgroundColor(getResources().getColor(R.color.orange));
-            tvPercentage.setText(getResources().getString(R.string.moderate_acute_malnutrition_full));
-            tvPercentage.setTextColor(getResources().getColor(R.color.orange));
             tvCm.setTextColor(getResources().getColor(R.color.orange));
             mCreateContractViewModel.setPercentage(50);
         } else {
             rulerBackground.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-            tvPercentage.setText(getResources().getString(R.string.normopeso_full));
-            tvPercentage.setTextColor(getResources().getColor(R.color.colorAccent));
             tvCm.setTextColor(getResources().getColor(R.color.colorAccent));
             mCreateContractViewModel.setPercentage(0);
         }
+        mCreateContractViewModel.getStatus();
+        paintStatusChanges();
         mCreateContractViewModel.setImageSelected(true);
     }
 }

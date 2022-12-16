@@ -6,97 +6,178 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/tvPercentage"
-        android:layout_width="wrap_content"
+    <ScrollView
+        android:id="@+id/svDesnutritionCheck"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_card"
-        android:textColor="@color/colorPrimaryDark"
-        android:textStyle="bold"
-        android:textSize="16sp"
-        android:text=""
-        android:fontFamily="@font/bariol_bold"
-        android:visibility="gone"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent">
 
-    <TextView
-        android:id="@+id/tvCm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_card"
-        android:textColor="@color/error"
-        android:fontFamily="@font/bariol_regular"
-        android:textSize="20sp"
-        android:text=""
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvPercentage"/>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
 
-    <View
-        android:id="@+id/rulerBackground"
-        android:layout_width="match_parent"
-        android:layout_height="190dp"
-        android:visibility="gone"
-        android:layout_marginStart="@dimen/margin_card"
-        android:layout_marginTop="@dimen/margin_card"
-        android:layout_marginEnd="@dimen/margin_card"
-        android:layout_marginBottom="@dimen/margin_card"
-        android:background="@color/error"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvCm"/>
+            <TextView
+                android:id="@+id/tvPercentage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_card"
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:text=""
+                android:fontFamily="@font/bariol_bold"
+                android:visibility="gone"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
 
-    <org.sic4change.nut4health.utils.ruler_picker.SimpleRulerViewer
-        android:id="@+id/ruler"
-        android:layout_width="match_parent"
-        android:visibility="gone"
-        android:layout_height="180dp"
-        android:layout_marginStart="@dimen/margin_card"
-        android:layout_marginTop="@dimen/margin_card"
-        android:layout_marginEnd="@dimen/margin_card"
-        android:layout_marginBottom="@dimen/margin_card"
-        seek:minValue ="6.0"
-        seek:maxValue ="28.0"
-        seek:intervalValue="0.1"
-        seek:retainLength ="5"
-        seek:rulerColor="@color/ms_black"
-        seek:textColor ="@color/ms_black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvCm"
-        />
+            <TextView
+                android:id="@+id/tvCm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_card"
+                android:textColor="@color/error"
+                android:fontFamily="@font/bariol_regular"
+                android:textSize="20sp"
+                android:text=""
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvPercentage"/>
 
-    <Button
-        android:id="@+id/btnTakePhoto"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_card"
-        android:layout_marginEnd="@dimen/margin_card"
-        android:layout_marginBottom="@dimen/margin_card"
-        android:background="@drawable/rounded_button"
-        android:text="@string/take_photo"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+            <View
+                android:id="@+id/rulerBackground"
+                android:layout_width="match_parent"
+                android:layout_height="190dp"
+                android:visibility="gone"
+                android:layout_marginStart="@dimen/margin_card"
+                android:layout_marginTop="@dimen/margin_card"
+                android:layout_marginEnd="@dimen/margin_card"
+                android:layout_marginBottom="@dimen/margin_card"
+                android:background="@color/colorAccent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvCm"/>
 
-    <ImageView
-        android:id="@+id/ivTakePhoto"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="@dimen/margin_card"
-        android:layout_marginTop="@dimen/margin_card"
-        android:layout_marginEnd="@dimen/margin_card"
-        android:layout_marginBottom="@dimen/margin_card"
-        app:layout_constraintBottom_toTopOf="@+id/btnTakePhoto"
-        android:background="@drawable/dash_rectangle"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvPercentage"
-        android:visibility="gone"/>
+            <org.sic4change.nut4health.utils.ruler_picker.SimpleRulerViewer
+                android:id="@+id/ruler"
+                android:layout_width="match_parent"
+                android:visibility="gone"
+                android:layout_height="180dp"
+                android:layout_marginStart="@dimen/margin_card"
+                android:layout_marginTop="@dimen/margin_card"
+                android:layout_marginEnd="@dimen/margin_card"
+                android:layout_marginBottom="@dimen/margin_card"
+                seek:minValue ="6.0"
+                seek:maxValue ="28.0"
+                seek:intervalValue="0.1"
+                seek:retainLength ="5"
+                seek:rulerColor="@color/ms_black"
+                seek:textColor ="@color/ms_black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvCm" />
+
+            <TextView
+                android:id="@+id/tvHeight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginLeft="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_card"
+                android:visibility="gone"
+                android:textColor="@color/colorPrimary"
+                android:fontFamily="@font/bariol_bold"
+                android:text="@string/hight"
+                android:textSize="18dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ruler"  />
+
+            <EditText
+                android:id="@+id/etHeight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginLeft="@dimen/margin_medium"
+                android:layout_marginEnd="@dimen/margin_medium"
+                android:layout_marginRight="@dimen/margin_medium"
+                android:visibility="gone"
+                android:ems="10"
+                android:inputType="numberDecimal"
+                android:fontFamily="@font/bariol_regular"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvHeight" />
+
+            <TextView
+                android:id="@+id/tvWeight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginLeft="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_card"
+                android:visibility="gone"
+                android:textColor="@color/colorPrimary"
+                android:fontFamily="@font/bariol_bold"
+                android:text="@string/weight"
+                android:textSize="18dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/etHeight" />
+
+            <EditText
+                android:id="@+id/etWeight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginLeft="@dimen/margin_medium"
+                android:layout_marginEnd="@dimen/margin_medium"
+                android:layout_marginRight="@dimen/margin_medium"
+                android:visibility="gone"
+                android:ems="10"
+                android:inputType="numberDecimal"
+                android:fontFamily="@font/bariol_regular"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvWeight" />
+
+
+            <Button
+                android:id="@+id/btnTakePhoto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_card"
+                android:layout_marginEnd="@dimen/margin_card"
+                android:layout_marginBottom="@dimen/margin_card"
+                android:background="@drawable/rounded_button"
+                android:text="@string/take_photo"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <ImageView
+                android:id="@+id/ivTakePhoto"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="@dimen/margin_card"
+                android:layout_marginTop="@dimen/margin_card"
+                android:layout_marginEnd="@dimen/margin_card"
+                android:layout_marginBottom="@dimen/margin_card"
+                app:layout_constraintBottom_toTopOf="@+id/btnTakePhoto"
+                android:background="@drawable/dash_rectangle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvPercentage"
+                android:visibility="gone"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cvChild"
