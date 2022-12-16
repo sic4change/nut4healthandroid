@@ -108,7 +108,7 @@ public class Contract {
 
     @NonNull
     @ColumnInfo(name = DataContractNames.COL_HEIGHT)
-    private int height;
+    private double height;
 
     @NonNull
     @ColumnInfo(name = DataContractNames.COL_WEIGHT)
@@ -413,11 +413,11 @@ public class Contract {
         this.arm_circumference_medical = arm_circumference_medical;
     }
 
-    public int getHeight() {
+    public double getHeight() {
         return height;
     }
 
-    public void setHeight(int height) {
+    public void setHeight(double height) {
         this.height = height;
     }
 

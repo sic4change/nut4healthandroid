@@ -64,6 +64,7 @@ public class MainViewModel extends ViewModel {
                 this.mRepository.getContracts(user.getEmail(), user.getRole());
                 this.mRepository.getRanking();
                 this.mRepository.getPayments(user.getEmail());
+                this.mRepository.getMalnutritionChildValues();
             }
         });
         mContracts = this.mRepository.getSortedContracts("DATE", name, surname, status, dateStart, dateEnd, percentageMin, percentageMax);

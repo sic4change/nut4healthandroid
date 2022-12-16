@@ -37,7 +37,6 @@ public class CreateContractViewModel extends ViewModel {
     private final DataRepository mRepository;
     private final LiveData<User> mUser;
     private final LiveData<List<Point>> mPoints;
-    private final LiveData<List<MalnutritionChildTable>> mMalnutritionChildValues;
     private final LiveData<Contract> mContract;
 
     private Uri uriPhoto;
@@ -70,7 +69,6 @@ public class CreateContractViewModel extends ViewModel {
         mPoints = mRepository.getSortedPoints();
 
         this.mRepository.getMalnutritionChildValues();
-        mMalnutritionChildValues = mRepository.getSortedMalnutritionChildValues();
 
         mContract = null;
     }

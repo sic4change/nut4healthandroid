@@ -17,35 +17,35 @@ public class MalnutritionChildTable {
 
     @NonNull
     @ColumnInfo(name = DataMalnutritionChildTableNames.COL_MALNUTRITION_CHILD_TABLE_CM)
-    private String cm;
+    private double cm;
 
     @NonNull
     @ColumnInfo(name = DataMalnutritionChildTableNames.COL_MALNUTRITION_CHILD_TABLE_MINUSONE)
-    private String minusone;
+    private double minusone;
 
     @NonNull
     @ColumnInfo(name = DataMalnutritionChildTableNames.COL_MALNUTRITION_CHILD_TABLE_MINUSONEFIVE)
-    private String minusonefive;
+    private double minusonefive;
 
     @NonNull
     @ColumnInfo(name = DataMalnutritionChildTableNames.COL_MALNUTRITION_CHILD_TABLE_MINUSTHREE)
-    private String minusthree;
+    private double minusthree;
 
     @NonNull
     @ColumnInfo(name = DataMalnutritionChildTableNames.COL_MALNUTRITION_CHILD_TABLE_MINUSTWO)
-    private String minustwo;
+    private double minustwo;
 
     @NonNull
     @ColumnInfo(name = DataMalnutritionChildTableNames.COL_MALNUTRITION_CHILD_TABLE_ZERO)
-    private String zero;
+    private double zero;
 
     public MalnutritionChildTable() {
-        this("", "", "", "", "", "", "");
+        this("", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
     }
 
-    public MalnutritionChildTable(@NonNull String id, @NonNull String cm, @NonNull String minusone,
-                                  @NonNull String minusonefive, @NonNull String minusthree,
-                                  @NonNull String minustwo, @NonNull String zero) {
+    public MalnutritionChildTable(@NonNull String id, @NonNull double cm, @NonNull double minusone,
+                                  @NonNull double minusonefive, @NonNull double minusthree,
+                                  @NonNull double minustwo, @NonNull double zero) {
         this.id = id;
         this.cm = cm;
         this.minusone = minusone;
@@ -65,56 +65,56 @@ public class MalnutritionChildTable {
     }
 
     @NonNull
-    public String getCm() {
+    public double getCm() {
         return cm;
     }
 
-    public void setCm(@NonNull String cm) {
+    public void setCm(@NonNull double cm) {
         this.cm = cm;
     }
 
     @NonNull
-    public String getMinusone() {
+    public double getMinusone() {
         return minusone;
     }
 
-    public void setMinusone(@NonNull String minusone) {
+    public void setMinusone(@NonNull double minusone) {
         this.minusone = minusone;
     }
 
     @NonNull
-    public String getMinusonefive() {
+    public double getMinusonefive() {
         return minusonefive;
     }
 
-    public void setMinusonefive(@NonNull String minusonefive) {
+    public void setMinusonefive(@NonNull double minusonefive) {
         this.minusonefive = minusonefive;
     }
 
     @NonNull
-    public String getMinusthree() {
+    public double getMinusthree() {
         return minusthree;
     }
 
-    public void setMinusthree(@NonNull String minusthree) {
+    public void setMinusthree(@NonNull double minusthree) {
         this.minusthree = minusthree;
     }
 
     @NonNull
-    public String getMinustwo() {
+    public double getMinustwo() {
         return minustwo;
     }
 
-    public void setMinustwo(@NonNull String minustwo) {
+    public void setMinustwo(@NonNull double minustwo) {
         this.minustwo = minustwo;
     }
 
     @NonNull
-    public String getZero() {
+    public double getZero() {
         return zero;
     }
 
-    public void setZero(@NonNull String zero) {
+    public void setZero(@NonNull double zero) {
         this.zero = zero;
     }
 }

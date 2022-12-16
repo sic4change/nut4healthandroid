@@ -171,7 +171,7 @@ public interface Nut4HealtDao {
      * @param height
      */
     @Query("UPDATE contract SET height =:height WHERE contractId=:id ")
-    void updateHeight(String id, int height);
+    void updateHeight(String id, double height);
 
     /**
      * Update contract weight
@@ -407,15 +407,22 @@ public interface Nut4HealtDao {
     void insert(MalnutritionChildTable... malnutritionChildTable);
 
     /**
-     * Returns all malnutritionChildTable
-     * @return
-     */
-    @Query("SELECT * FROM malnutritionChildTable ORDER BY id")
-    LiveData<List<MalnutritionChildTable>> getMalnutritionChildTable();
-
-    /**
      * Delete all malnutritionChildTable
      */
     @Query("DELETE FROM malnutritionchildtable")
     void deleteAllMalnutritionChildTable();
+
+    /**
+     * Returns malnutritionChildValue
+     * @return query
+     */
+    @Query("SELECT * FROM malnutritionchildtable ORDER BY cm ASC")
+    LiveData<List<MalnutritionChildTable>> getMalnutritionChildTable();
+
+    /**
+     * Returns malnutritionChildValue
+     * @return
+     */
+    @Query("SELECT * FROM malnutritionchildtable WHERE cm >=:cm ORDER BY cm ASC LIMIT 1")
+    LiveData<MalnutritionChildTable> getMalnutritionChildValue(String cm);
 }

@@ -1,5 +1,7 @@
 package org.sic4change.nut4health.ui.contract_detail;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -14,6 +16,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -23,11 +26,14 @@ import com.github.pavlospt.CircleView;
 
 import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.data.entities.Contract;
+import org.sic4change.nut4health.data.entities.MalnutritionChildTable;
 import org.sic4change.nut4health.ui.main.MainViewModel;
 import org.sic4change.nut4health.utils.ruler_picker.SimpleRulerViewer;
 
 
 import java.text.DecimalFormat;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Locale;
 
@@ -46,15 +52,22 @@ public class ContractDetailActivity extends AppCompatActivity implements SimpleR
     private EditText etWeight;
     private TextView tvWeight;
     private Button btnValidate;
+    private Activity activity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contract_detail);
+        this.activity = this;
         tvPercentage = findViewById(R.id.tvPercentage);
         tvCm = findViewById(R.id.tvCm);
         rulerBackground = findViewById(R.id.rulerBackground);
         ruler = findViewById(R.id.ruler);
+        ruler.setSelectedValue(28.0f);
+        rulerBackground.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+        tvPercentage.setText(getResources().getString(R.string.normopeso_full));
+        tvPercentage.setTextColor(getResources().getColor(R.color.colorAccent));
+        tvCm.setTextColor(getResources().getColor(R.color.colorAccent));
         etHeight = findViewById(R.id.etHeight);
         etHeight.addTextChangedListener(new TextWatcher() {
             @Override
@@ -64,7 +77,18 @@ public class ContractDetailActivity extends AppCompatActivity implements SimpleR
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                mDetailContractViewModel.setHeight(Integer.parseInt(charSequence.toString()));
+                try{
+                    mDetailContractViewModel.setHeight(Double.parseDouble(charSequence.toString()));
+                    mDetailContractViewModel.getDesnutritionChildTable().observe((LifecycleOwner) activity, values -> {
+                        Collections.sort(values, Comparator.comparingDouble(MalnutritionChildTable::getCm));
+                        mDetailContractViewModel.checkMalnutritionByWeightAndHeight(values);
+                        mDetailContractViewModel.getStatus();
+                        paintStatusChanges();
+                    });
+                } catch (Exception e) {
+                    System.out.println("empty o null value");
+                }
+
             }
 
             @Override
@@ -82,7 +106,17 @@ public class ContractDetailActivity extends AppCompatActivity implements SimpleR
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                mDetailContractViewModel.setWeight(Double.parseDouble(charSequence.toString()));
+                try {
+                    mDetailContractViewModel.setWeight(Double.parseDouble(charSequence.toString()));
+                    mDetailContractViewModel.getDesnutritionChildTable().observe((LifecycleOwner) activity, values -> {
+                        Collections.sort(values, Comparator.comparingDouble(MalnutritionChildTable::getCm));
+                        mDetailContractViewModel.checkMalnutritionByWeightAndHeight(values);
+                        mDetailContractViewModel.getStatus();
+                        paintStatusChanges();
+                    });
+                } catch (Exception e) {
+                    System.out.println("empty o null value");
+                }
             }
 
             @Override
@@ -270,26 +304,35 @@ public class ContractDetailActivity extends AppCompatActivity implements SimpleR
         getSupportFragmentManager().popBackStackImmediate();
     }
 
+    private void paintStatusChanges() {
+        if (mDetailContractViewModel.getStatus().equals("Aguda Severa")) {
+            tvPercentage.setText(getResources().getString(R.string.severe_acute_malnutrition_full));
+            tvPercentage.setTextColor(getResources().getColor(R.color.error));
+        } else if (mDetailContractViewModel.getStatus().equals("Aguda Moderada")) {
+            tvPercentage.setText(getResources().getString(R.string.moderate_acute_malnutrition_full));
+            tvPercentage.setTextColor(getResources().getColor(R.color.orange));
+        } else {
+            tvPercentage.setText(getResources().getString(R.string.normopeso_full));
+            tvPercentage.setTextColor(getResources().getColor(R.color.colorAccent));
+        }
+    }
+
     @Override
     public void onChange(SimpleRulerViewer view, int position, float value) {
-        System.out.println("Aqui regla");
+        mDetailContractViewModel.setArmCircumferenceMedical(value);
         DecimalFormat df = new DecimalFormat("#.0");
         tvCm.setText(df.format(value) + " cm");
         if (value < 11.5) {
             rulerBackground.setBackgroundColor(getResources().getColor(R.color.error));
-            tvPercentage.setText(getResources().getString(R.string.severe_acute_malnutrition_full));
-            tvPercentage.setTextColor(getResources().getColor(R.color.error));
             tvCm.setTextColor(getResources().getColor(R.color.error));
-        } else if (value >=11.5 && value <= 12.5) {
+        } else if (value >= 11.5 && value <= 12.5) {
             rulerBackground.setBackgroundColor(getResources().getColor(R.color.orange));
-            tvPercentage.setText(getResources().getString(R.string.moderate_acute_malnutrition_full));
-            tvPercentage.setTextColor(getResources().getColor(R.color.orange));
             tvCm.setTextColor(getResources().getColor(R.color.orange));
         } else {
             rulerBackground.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-            tvPercentage.setText(getResources().getString(R.string.normopeso_full));
-            tvPercentage.setTextColor(getResources().getColor(R.color.colorAccent));
             tvCm.setTextColor(getResources().getColor(R.color.colorAccent));
         }
+        mDetailContractViewModel.getStatus();
+        paintStatusChanges();
     }
 }

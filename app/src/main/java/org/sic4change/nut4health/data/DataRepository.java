@@ -3,6 +3,8 @@ package org.sic4change.nut4health.data;
 import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
+
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.paging.LivePagedListBuilder;
@@ -1302,7 +1304,7 @@ public class DataRepository {
      * Method to validate diagnosis
      * @param contractId
      */
-    public void validateDiagnosis(String contractId, Double arm_circunference_medical, int height, double weight) {
+    public void validateDiagnosis(String contractId, Double arm_circunference_medical, double height, double weight) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference contractRef = db.collection(DataContractNames.TABLE_FIREBASE_NAME);
         Query query = contractRef.whereEqualTo(DataContractNames.COL_CONTRACT_ID, contractId).limit(1);
@@ -1348,7 +1350,15 @@ public class DataRepository {
                         nut4HealtDao.deleteAllMalnutritionChildTable();
                     }
                     for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
-                        MalnutritionChildTable value = document.toObject(MalnutritionChildTable.class);
+                        MalnutritionChildTable value = new MalnutritionChildTable(
+                                document.get("id").toString(),
+                                Double.parseDouble(document.get("cm").toString()),
+                                Double.parseDouble(document.get("minusone").toString()),
+                                Double.parseDouble(document.get("minusonefive").toString()),
+                                Double.parseDouble(document.get("minusthree").toString()),
+                                Double.parseDouble(document.get("minustwo").toString()),
+                                Double.parseDouble(document.get("zero").toString())
+                        );
                         nut4HealtDao.insert(value);
                     }
                 } else {
@@ -1361,12 +1371,75 @@ public class DataRepository {
         });
     }
 
+
+
+    public LiveData<List<MalnutritionChildTable>> getMalNutritionChildTable() {
+        try {
+            return mIoExecutor.submit(() -> nut4HealtDao.getMalnutritionChildTable()).get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+   /* public LiveData<Double> checkDesnutritionByHeightAndWeight(double height, double weight) {
+        SimpleSQLiteQuery query = SortUtils.getChildMalnutritionTable();
+        try {
+            mIoExecutor.submit(() -> {
+                LiveData<PagedList<MalnutritionChildTable>> table = new LivePagedListBuilder<>(nut4HealtDao.getCurrentMalnutritionChildTable(query), PAGE_SIZE).build();
+                if (table != null) {
+                    for (MalnutritionChildTable value : table.getValue()) {
+                        System.out.println("Aqui " + value);
+                        if (Double.parseDouble(value.getCm()) >= (height - 0.1)) {
+                            try {
+                                if (weight >= Double.parseDouble(value.getMinusone())) {
+                                    return 0.0;
+                                } else if (weight >= Double.parseDouble(value.getMinustwo())) {
+                                    return -1.0;
+                                } else if (weight >= Double.parseDouble(value.getMinusthree())) {
+                                    return -1.5;
+                                } else {
+                                    return -3.0;
+                                }
+                            } catch (Exception e) {
+                                if (height == 100) {
+                                    MalnutritionChildTable malNutritionChldTable = new MalnutritionChildTable(
+                                            "X3fX5g2Fd9lpy0OVYkgA",
+                                            "100",
+                                            "14.2",
+                                            "13.6",
+                                            "12.1",
+                                            "13.1",
+                                            "15.4"
+                                    );
+                                    if (weight >= Double.parseDouble(malNutritionChldTable.getMinusone())) {
+                                        return 0.0;
+                                    } else if (weight >= Double.parseDouble(malNutritionChldTable.getMinustwo())) {
+                                        return -1.0;
+                                    } else if (weight >= Double.parseDouble(malNutritionChldTable.getMinusthree())) {
+                                        return -1.5;
+                                    } else {
+                                        return -3.0;
+                                    }
+                                }
+                            }
+                        }
+
+                    }
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }*/
+
     /**
      * Method to get malnutrition child values from local bd
      * @return
      */
-    public LiveData<List<MalnutritionChildTable>> getSortedMalnutritionChildValues() {
+    /*public LiveData<List<MalnutritionChildTable>> getSortedMalnutritionChildValues() {
         return nut4HealtDao.getMalnutritionChildTable();
-    }
+    }*/
 
 }
