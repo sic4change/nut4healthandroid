@@ -4,7 +4,6 @@ import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.paging.LivePagedListBuilder;
@@ -28,8 +27,6 @@ import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.machinezoo.sourceafis.FingerprintMatcher;
-import com.machinezoo.sourceafis.FingerprintTemplate;
 
 import org.greenrobot.eventbus.EventBus;
 import org.imperiumlabs.geofirestore.GeoFirestore;
@@ -557,9 +554,9 @@ public class DataRepository {
         CollectionReference contractRef = db.collection(DataContractNames.TABLE_FIREBASE_NAME);
         String status;
         if (percentage > 49) {
-            status = Contract.Status.DIAGNOSIS.name();
+            status = Contract.Status.DERIVED.name();
         } else {
-            status = Contract.Status.NO_DIAGNOSIS.name();
+            status = Contract.Status.REGISTERED.name();
         }
 
        Contract contract = new Contract("", latitude, longitude, "", childName,
@@ -591,7 +588,7 @@ public class DataRepository {
                                 boolean olderThan30 = new Date().before(new Date((eventStartDate + day30)));
                                 boolean olderThan7 = new Date().before(new Date((eventStartDate + day7)));
                                 if (contractIt.getCode().equals(contract.getCode())) {
-                                    if (contractIt.getStatus().equals(Contract.Status.NO_DIAGNOSIS.name())) {
+                                    if (contractIt.getStatus().equals(Contract.Status.REGISTERED.name())) {
                                         // Lo añade como duplicado y lo hago esperar 7 días para registrar a ese menor
                                         if (olderThan7) {
                                             contract.setScreener(email);
@@ -604,7 +601,7 @@ public class DataRepository {
                                             found = true;
                                             break;
                                         }
-                                    } else if (contractIt.getStatus().equals(Contract.Status.FINISH.name())) {
+                                    } else if (contractIt.getStatus().equals(Contract.Status.ADMITTED.name())) {
                                         if (olderThan30) {
                                             // Lo añade como duplicado y lo hago esperar 30 días para registrar a ese menor
                                             contract.setScreener(email);
@@ -660,9 +657,9 @@ public class DataRepository {
                                 && (queryDocumentSnapshots.getDocuments().size() > 0)) {
                             for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
                                 Contract contractIt = document.toObject(Contract.class);
+                                //Aqui revisar esto con los nuevos estados => Probar ultimos cambios
                                 if (contractIt.getCode().equals(contract.getCode())) {
-                                    if (contractIt.getStatus().equals(Contract.Status.NO_DIAGNOSIS.name())) {
-                                        contractIt.setStatus(status);
+                                    if (contractIt.getStatus().equals(Contract.Status.REGISTERED.name())) {
                                         contractIt.setArm_circumference_medical(arm_circumference);
                                         contractIt.setHeight(height);
                                         contractIt.setWeight(weight);
@@ -682,11 +679,11 @@ public class DataRepository {
                                         contractIt.setWeight(weight);
                                         contractIt.setPercentage(percentage);
                                         contractIt.setMedical(email);
-                                        if (contractIt.getStatus().equals(Contract.Status.DIAGNOSIS.name())) {
-                                            if (count == 0) {
-                                                contractIt.setStatus(Contract.Status.FINISH.name());
-                                            } else {
+                                        if (contractIt.getStatus().equals(Contract.Status.DERIVED.name())) {
+                                            if (count != 0) {
                                                 contractIt.setStatus(Contract.Status.DUPLICATED.name());
+                                            } else {
+                                                contractIt.setStatus(Contract.Status.ADMITTED.name());
                                             }
                                             count++;
                                             document.getReference().set(contractIt, SetOptions.merge());
@@ -703,7 +700,6 @@ public class DataRepository {
                             //Si no lo encuentra el medico debe añadirlo
                             if (!updated) {
                                 contract.setMedical(email);
-                                contract.setStatus(Contract.Status.FINISH.name());
                                 contract.setArm_circumference(0.0);
                                 contract.setArm_circumference_medical(arm_circumference);
                                 contract.setHeight(height);
@@ -718,7 +714,6 @@ public class DataRepository {
                             }
                         } else {
                             contract.setMedical(email);
-                            contract.setStatus(Contract.Status.FINISH.name());
                             contract.setArm_circumference(0.0);
                             contract.setArm_circumference_medical(arm_circumference);
                             contract.setHeight(height);

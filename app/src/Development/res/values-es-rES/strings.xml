@@ -124,8 +124,7 @@
     <!--Contract Filter-->
     <string-array name="array_status">
         <item>Todos</item>
-        <item>Finalizado</item>
-        <item>Pagado</item>
+        <item>Admitido</item>
         <item>NW</item>
         <item>MAM</item>
         <item>SAM</item>
@@ -169,10 +168,9 @@
     <string name="near_me">Cerca de mí</string>
 
     <!--Status-->
-    <string name="paid">Pagado</string>
-    <string name="diagnosis">Diagnosticado</string>
-    <string name="no_diagnosis">No diagnosticado</string>
-    <string name="finished">Finalizado</string>
+    <string name="derived">Derivado</string>
+    <string name="registered">Registrado</string>
+    <string name="admitted">Admitido</string>
 
     <!--Check messages-->
     <string name="diagnosis_duplicated_7">Diagnóstico creado anteriormente. Debe esperar 7 días para volver a diagnosticarlo</string>

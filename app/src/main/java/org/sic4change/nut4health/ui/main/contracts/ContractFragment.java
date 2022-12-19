@@ -368,31 +368,26 @@ public class ContractFragment extends Fragment {
                 mMainViewModel.setPercentageMax(100);
                 break;
             case 1:
-                mMainViewModel.setStatus(Contract.Status.FINISH.name());
+                mMainViewModel.setStatus(Contract.Status.ADMITTED.name());
                 mMainViewModel.setPercentageMin(0);
                 mMainViewModel.setPercentageMax(100);
                 break;
             case 2:
-                mMainViewModel.setStatus(Contract.Status.PAID.name());
-                mMainViewModel.setPercentageMin(0);
-                mMainViewModel.setPercentageMax(100);
-                break;
-            case 3:
                 mMainViewModel.setStatus(Contract.Status.EMPTY.name());
                 mMainViewModel.setPercentageMax(0);
                 mMainViewModel.setPercentageMin(0);
                 break;
-            case 4:
+            case 3:
                 mMainViewModel.setStatus(Contract.Status.EMPTY.name());
                 mMainViewModel.setPercentageMax(50);
                 mMainViewModel.setPercentageMin(50);
                 break;
-            case 5:
+            case 4:
                 mMainViewModel.setStatus(Contract.Status.EMPTY.name());
                 mMainViewModel.setPercentageMax(100);
                 mMainViewModel.setPercentageMin(100);
                 break;
-            case 6:
+            case 5:
                 mMainViewModel.setStatus(Contract.Status.DUPLICATED.name());
                 break;
             default:

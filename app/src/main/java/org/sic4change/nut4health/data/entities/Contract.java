@@ -11,8 +11,6 @@ import androidx.room.PrimaryKey;
 import org.sic4change.nut4health.data.names.DataContractNames;
 import org.sic4change.nut4health.utils.time.Nut4HealthTimeUtil;
 
-import java.math.BigDecimal;
-
 @Entity(tableName = DataContractNames.TABLE_NAME)
 public class Contract {
 
@@ -432,7 +430,7 @@ public class Contract {
     }
 
     public enum Status {
-        EMPTY, DIAGNOSIS, NO_DIAGNOSIS, PAID, FINISH, DUPLICATED
+        EMPTY, REGISTERED, DERIVED, ADMITTED, DUPLICATED
     }
 
 

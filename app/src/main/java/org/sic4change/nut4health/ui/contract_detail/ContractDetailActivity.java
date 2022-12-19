@@ -1,11 +1,9 @@
 package org.sic4change.nut4health.ui.contract_detail;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,7 +25,6 @@ import com.github.pavlospt.CircleView;
 import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.data.entities.Contract;
 import org.sic4change.nut4health.data.entities.MalnutritionChildTable;
-import org.sic4change.nut4health.ui.main.MainViewModel;
 import org.sic4change.nut4health.utils.ruler_picker.SimpleRulerViewer;
 
 
@@ -180,15 +177,10 @@ public class ContractDetailActivity extends AppCompatActivity implements SimpleR
                 tvStatus.setText(getResources().getString(R.string.severe_acute_malnutrition));
                 tvStatus.setTextColor(getResources().getColor(R.color.ms_errorColor));
             }
-            if (contract.getStatus().equals(Contract.Status.PAID.name())) {
-                ivIcon.setFillColor(getResources().getColor(R.color.colorAccent));
-                ivIcon.setStrokeColor(getResources().getColor(R.color.colorAccent));
-                tvStatus.setText(getResources().getString(R.string.paid));
-                tvStatus.setTextColor(getResources().getColor(R.color.colorAccent));
-            } else if (contract.getStatus().equals(Contract.Status.FINISH.name())) {
+            if (contract.getStatus().equals(Contract.Status.ADMITTED.name())) {
                 ivIcon.setFillColor(getResources().getColor(R.color.violet));
                 ivIcon.setStrokeColor(getResources().getColor(R.color.violet));
-                tvStatus.setText(getResources().getString(R.string.finished));
+                tvStatus.setText(getResources().getString(R.string.admitted));
                 tvStatus.setTextColor(getResources().getColor(R.color.violet));
                 etConfirmationDate.setVisibility(View.VISIBLE);
                 tvConfirmationDate.setVisibility(View.VISIBLE);

@@ -17,7 +17,6 @@ import com.github.pavlospt.CircleView;
 import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.data.entities.Near;
 
-import java.text.ParseException;
 import java.util.Date;
 import java.util.Locale;
 
@@ -47,25 +46,20 @@ public class NearDetailActivity extends AppCompatActivity {
         etSurname.setText(contract.getChildSurname());
         etLocation.setText(contract.getChildAddress());
         ivIcon.setTitleText(contract.getPercentage() + "%");
-        if (contract.getStatus().equals(Near.Status.DIAGNOSIS.name())) {
+        if (contract.getStatus().equals(Near.Status.DERIVED.name())) {
             ivIcon.setFillColor(getApplicationContext().getResources().getColor(R.color.ms_errorColor));
             ivIcon.setStrokeColor(getApplicationContext().getResources().getColor(R.color.ms_errorColor));
-            tvStatus.setText(this.getResources().getString(R.string.diagnosis));
+            tvStatus.setText(this.getResources().getString(R.string.derived));
             tvStatus.setTextColor(this.getResources().getColor(R.color.ms_errorColor));
-        } else if (contract.getStatus().equals(Near.Status.NO_DIAGNOSIS.name())) {
+        } else if (contract.getStatus().equals(Near.Status.REGISTERED.name())) {
             ivIcon.setFillColor(getApplicationContext().getResources().getColor(R.color.colorPrimaryDark));
             ivIcon.setStrokeColor(getApplicationContext().getResources().getColor(R.color.colorPrimaryDark));
-            tvStatus.setText(this.getResources().getString(R.string.no_diagnosis));
+            tvStatus.setText(this.getResources().getString(R.string.registered));
             tvStatus.setTextColor(this.getResources().getColor(R.color.colorPrimaryDark));
-        } else if (contract.getStatus().equals(Near.Status.PAID.name())) {
-            ivIcon.setFillColor(getApplicationContext().getResources().getColor(R.color.colorAccent));
-            ivIcon.setStrokeColor(getApplicationContext().getResources().getColor(R.color.colorAccent));
-            tvStatus.setText(this.getResources().getString(R.string.paid));
-            tvStatus.setTextColor(this.getResources().getColor(R.color.colorAccent));
-        } else if (contract.getStatus().equals(Near.Status.FINISH.name())) {
+        } else if (contract.getStatus().equals(Near.Status.ADMITTED.name())) {
             ivIcon.setFillColor(getApplicationContext().getResources().getColor(R.color.orange));
             ivIcon.setStrokeColor(getApplicationContext().getResources().getColor(R.color.orange));
-            tvStatus.setText(this.getResources().getString(R.string.finished));
+            tvStatus.setText(this.getResources().getString(R.string.admitted));
             tvStatus.setTextColor(this.getResources().getColor(R.color.orange));
         }
         Date date = new Date(contract.getCreationDate());

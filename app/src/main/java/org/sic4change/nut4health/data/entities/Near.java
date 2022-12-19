@@ -259,7 +259,7 @@ public class Near {
     }
 
     public enum Status {
-        EMPTY, DIAGNOSIS, NO_DIAGNOSIS, PAID, FINISH
+        EMPTY, DERIVED, REGISTERED, ADMITTED
     }
 
 

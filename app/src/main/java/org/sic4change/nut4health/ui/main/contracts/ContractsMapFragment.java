@@ -138,9 +138,7 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
                 } else {
                     markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
                 }
-                if (contract.getStatus().equals(Contract.Status.PAID.name())) {
-                    markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-                } else if (contract.getStatus().equals(Contract.Status.FINISH.name())) {
+                if (contract.getStatus().equals(Contract.Status.ADMITTED.name())) {
                     markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET));
                 } else if (contract.getStatus().equals(Contract.Status.DUPLICATED.name())) {
                     markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE));
@@ -220,18 +218,7 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
             nStatus.setTextColor(getResources().getColor(R.color.ms_errorColor));
             nConfirmationDate.setVisibility(View.INVISIBLE);
         }
-        if (contract.getStatus().equals(Contract.Status.PAID.name())) {
-            nPercentage.setFillColor(getResources().getColor(R.color.colorAccent));
-            nPercentage.setStrokeColor(getResources().getColor(R.color.colorAccent));
-            Date date = new Date(contract.getMedicalDate());
-            Locale LocaleBylanguageTag = Locale.forLanguageTag("es");
-            TimeAgoMessages messages = new TimeAgoMessages.Builder().withLocale(LocaleBylanguageTag).build();
-            String text = TimeAgo.using(date.getTime(), messages);
-            nConfirmationDate.setText(text);
-            nStatus.setText(getResources().getString(R.string.paid));
-            nStatus.setTextColor(getResources().getColor(R.color.colorAccent));
-            nConfirmationDate.setVisibility(View.VISIBLE);
-        } else if (contract.getStatus().equals(Contract.Status.FINISH.name())) {
+        if (contract.getStatus().equals(Contract.Status.ADMITTED.name())) {
             nPercentage.setFillColor(getResources().getColor(R.color.violet));
             nPercentage.setStrokeColor(getResources().getColor(R.color.violet));
             try {
@@ -243,7 +230,7 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
             } catch (Exception e) {
                 nConfirmationDate.setText("");
             }
-            nStatus.setText(getResources().getString(R.string.finished));
+            nStatus.setText(getResources().getString(R.string.admitted));
             nStatus.setTextColor(getResources().getColor(R.color.violet));
             nConfirmationDate.setVisibility(View.VISIBLE);
         } else if (contract.getStatus().equals(Contract.Status.DUPLICATED.name())) {
