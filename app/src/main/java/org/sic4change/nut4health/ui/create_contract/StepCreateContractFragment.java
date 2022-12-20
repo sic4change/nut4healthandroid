@@ -41,6 +41,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeInfoDialog;
+import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeNoticeDialog;
 import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeSuccessDialog;
 import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeWarningDialog;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -48,6 +50,8 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.SettingsClient;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.rilixtech.widget.countrycodepicker.Country;
+import com.rilixtech.widget.countrycodepicker.CountryCodePicker;
 import com.shivtechs.maplocationpicker.MapUtility;
 import com.stepstone.stepper.Step;
 import com.stepstone.stepper.VerificationError;
@@ -104,27 +108,21 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
     private EditText etChildTutor;
     private EditText etChildLocation;
     private EditText etChildContactPhone;
+    private CountryCodePicker cpp;
     private CheckBox cbVerification;
     private SearchableSpinner spPoint;
     private Button btnCheckMalnutrition;
     private AnimatedCircleLoadingView clView;
-    //private ImageView ivAddFingerprint;
     private ImageView ivNewContract;
 
-    public static final int REQUEST_TAKE_PHOTO       = 1;
     public static final int REQUEST_TAKE_FINGERPRINT = 2;
 
     private static final long VERIFICATION_DELAY_MILISECONDS = 3000;
     private static final long VERIFICATION_TICK_MILISECONDS  = 1000;
     private static final int LOCATION_REQUEST_CODE = 101;
-    private static final int CAMERA_REQUEST_CODE = 102;
-    private static final int WRITE_EXTERNAL_STORAGE_REQUEST_CODE = 103;
-    private static final int READ_EXTERNAL_STORAGE_REQUEST_CODE = 104;
 
     private CreateContractViewModel mCreateContractViewModel;
 
-    private SettingsClient mSettingsClient;
-    private LocationSettingsRequest mLocationSettingsRequest;
     private static final int REQUEST_CHECK_SETTINGS = 214;
     private static final int REQUEST_ENABLE_GPS = 516;
     private static final int ADDRESS_PICKER_REQUEST = 721;
@@ -242,6 +240,7 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
                                     Point point = (Point) parent.getSelectedItem();
                                     mCreateContractViewModel.setPoint(point.getPointId());
                                     mCreateContractViewModel.setPointFullName(point.getFullName());
+                                    cpp.setCountryForPhoneCode(Integer.parseInt(point.getPhoneCode()));
                                 }
 
                                 @Override
@@ -327,6 +326,7 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
         tvChildDNI = v.findViewById(R.id.tvChildDNI);
         etChildTutor = v.findViewById(R.id.etChildTutor);
         etChildContactPhone = v.findViewById(R.id.etContactPhone);
+        cpp = v.findViewById(R.id.ccp);
         cbVerification = v.findViewById(R.id.cbVerification);
 
         ssSex.setOnSelectedChangeListener(new StickySwitch.OnSelectedChangeListener() {
@@ -337,11 +337,12 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
         });
 
         etChildLocation = v.findViewById(R.id.etChildLocation);
-//        ivAddFingerprint = v.findViewById(R.id.ivAddFingerprint);
-//        ivAddFingerprint.setOnClickListener(v13 -> {
-//            Intent fingerPrintIntent = new Intent(getActivity(), ScanActivity.class);
-//            startActivityForResult(fingerPrintIntent, REQUEST_TAKE_FINGERPRINT);
-//        });
+        cpp.setOnCountryChangeListener(new CountryCodePicker.OnCountryChangeListener() {
+            @Override
+            public void onCountrySelected(Country selectedCountry) {
+                mCreateContractViewModel.setPhoneCode(selectedCountry.getPhoneCode());
+            }
+        });
         clView = v.findViewById(R.id.clView);
         if (ActivityCompat.checkSelfPermission(getActivity().getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, LOCATION_REQUEST_CODE);
@@ -396,6 +397,29 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
             mCreateContractViewModel.setChildTutor(etChildTutor.getText().toString());
             mCreateContractViewModel.setChildPhoneContact(etChildContactPhone.getText().toString());
             mCreateContractViewModel.setChildVerification(cbVerification.isChecked());
+            if (mCreateContractViewModel.getUser().getValue().getRole().equals("Agente Salud") &&
+                    mCreateContractViewModel.getArmCircumference() < CreateContractViewModel.MINIUM_DESNUTRITION_VALUE_MUAC &&
+            !mCreateContractViewModel.isDialerOpened()) {
+                mCreateContractViewModel.setDialerOpened(true);
+                new AwesomeInfoDialog(getActivity())
+                        .setColoredCircle(R.color.colorPrimaryDark)
+                        .setTitle("+" + mCreateContractViewModel.getPhoneCode() + mCreateContractViewModel.getChildPhoneContact())
+                        .setMessage(getString(R.string.check_phone_number))
+                        .setPositiveButtonbackgroundColor(R.color.colorPrimaryDark)
+                        .setPositiveButtonText(getResources().getString(R.string.ok))
+                        .setPositiveButtonClick(() -> {
+
+                        })
+                        .setNegativeButtonbackgroundColor(R.color.colorAccent)
+                        .setNegativeButtonTextColor(R.color.white)
+                        .setNegativeButtonText(getResources().getString(R.string.call))
+                        .setNegativeButtonClick(() -> {
+                            openDialer();
+                        })
+                        .show();
+                return new VerificationError("");
+
+            }
             return null;
         }
         return null;
@@ -539,9 +563,7 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
             byte[] fingerprint = data.getByteArrayExtra(ScanActivity.FINGERPRINT);
             if ((fingerprint != null) && (fingerprint.length > 0)) {
                 mCreateContractViewModel.setFingerPrint(fingerprint);
-                //ivAddFingerprint.setImageBitmap(mCreateContractViewModel.getFingerPrintImage());
             } else {
-                //ivAddFingerprint.setImageResource(R.drawable.ic_finger_no_selected);
                 mCreateContractViewModel.setFingerPrint(null);
             }
         } else if (requestCode == ADDRESS_PICKER_REQUEST && resultCode == RESULT_OK){
@@ -589,6 +611,13 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
         } else {
             btnTakePhoto.setVisibility(View.VISIBLE);
         }
+    }
+
+    private void openDialer() {
+        Intent intent = new Intent(Intent.ACTION_DIAL);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setData(Uri.parse("tel:+" + mCreateContractViewModel.getPhoneCode() + mCreateContractViewModel.getChildPhoneContact()));
+        getActivity().startActivity(intent);
     }
 
     private void openGpsEnableSetting() {

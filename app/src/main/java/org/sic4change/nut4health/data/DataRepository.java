@@ -657,7 +657,6 @@ public class DataRepository {
                                 && (queryDocumentSnapshots.getDocuments().size() > 0)) {
                             for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
                                 Contract contractIt = document.toObject(Contract.class);
-                                //Aqui revisar esto con los nuevos estados => Probar ultimos cambios
                                 if (contractIt.getCode().equals(contract.getCode())) {
                                     if (contractIt.getStatus().equals(Contract.Status.REGISTERED.name())) {
                                         contractIt.setArm_circumference_medical(arm_circumference);

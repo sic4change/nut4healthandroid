@@ -109,6 +109,8 @@
     <string name="hight">Hight (cm)</string>
     <string name="weight">Weight (Kg)</string>
 
+    <string name="check_phone_number">Verify that the contact person number is valid/correct. To be sure, call this contact, or call yourself from the number itself / from the contact number</string>
+
     <!--Main menu-->
     <string name="contracts">Diagnostics history</string>
     <string name="ranking">Ranking</string>
@@ -787,5 +789,6 @@
     <string name="date_millis_health_service">Date Millis Health Service</string>
     <string name="locatoin_health_service">Location Health Service</string>
     <string name="status">Status</string>
+    <string name="call">Call</string>
 
 </resources>

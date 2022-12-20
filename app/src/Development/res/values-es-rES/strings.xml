@@ -86,18 +86,18 @@
     <string name="second_step_title">Información</string>
     <string name="third_step_title">Enviar</string>
     <string name="take_photo">Tomar foto</string>
-    <string name="error_photo">Debes indicar el perímetro braquial del brazo del niñ@</string>
-    <string name="error_child_data">Debes introducir los datos del niñ@</string>
-    <string name="error_fingerprint_data">Debes introducir la huella dactilar del niñ@</string>
+    <string name="error_photo">Debes indicar el perímetro braquial del brazo del niña/o</string>
+    <string name="error_child_data">Debes introducir los datos del niña/o</string>
+    <string name="error_fingerprint_data">Debes introducir la huella dactilar del niña/o</string>
     <string name="error_not_gps_position">Debes activar la localización en tu dispositivo</string>
     <string name="child_data">DATOS DEL MENOR</string>
-    <string name="name">Nombre del niñ@</string>
-    <string name="surname">Apellidos del niñ@</string>
-    <string name="sex">Sexo del niñ@</string>
+    <string name="name">Nombre del niña/o</string>
+    <string name="surname">Apellidos del niña/o</string>
+    <string name="sex">Sexo del niña/o</string>
     <string name="brothers">Hermanos/as mayores del niño/a</string>
-    <string name="tutor">Madre o padre del niñ@</string>
+    <string name="tutor">Madre o padre del niña/o</string>
     <string name="check_verification">Madre, padre o tutor autoriza la toma de datos del menor</string>
-    <string name="dni">Documento identificación del niñ@</string>
+    <string name="dni">Documento identificación del niña/o</string>
     <string name="contact_phone">Teléfono de contacto</string>
     <string name="medical_point">Servicio de Salud</string>
     <string name="location">Ubicación</string>
@@ -108,6 +108,8 @@
     <string name="registerContract">Registrar diagnóstico</string>
     <string name="hight">Altura (cm)</string>
     <string name="weight">Peso (Kg)</string>
+
+    <string name="check_phone_number">Verifique que el número de la persona de contacto sea válido/correcto. Para estar seguro, llame a este contacto, o hágase llamar desde el numero de contacto.</string>
 
     <!--Main menu-->
     <string name="contracts">Histórico de Diagnósticos</string>
@@ -740,7 +742,7 @@
 
     <!--Fingerprint-->
     <string name="read_child_finger">Huella del menor</string>
-    <string name="read_child_finger_description">Introduce el dedo índice de la mano derecha del niñ@ en el lector</string>
+    <string name="read_child_finger_description">Introduce el dedo índice de la mano derecha del niña/o en el lector</string>
     <string name="setting_up_reader">Configurando el lector</string>
     <string name="reader_powered_on">Lector encendido</string>
     <string name="ready_to_scan_finger">Listo para escanear el dedo</string>
@@ -785,5 +787,6 @@
     <string name="date_millis_health_service">Fecha Servicio Salud mili</string>
     <string name="locatoin_health_service">Localización Servicio Salud</string>
     <string name="status">Estado</string>
+    <string name="call">Llamar</string>
 
 </resources>

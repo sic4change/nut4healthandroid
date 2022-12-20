@@ -13,14 +13,19 @@ public final class DataPointNames {
     public static final String TABLE_NAME = "point";
 
     /**
-     * Column pointId for User
+     * Column pointId for Point
      */
     public static final String COL_POINTID = "pointId";
 
     /**
-     * Column fullName for User
+     * Column fullName for Point
      */
     public static final String COL_FULLNAME = "fullname";
+
+    /**
+     * Column fullName for Point
+     */
+    public static final String COL_PHONECODE = "phonecode";
 
 
 

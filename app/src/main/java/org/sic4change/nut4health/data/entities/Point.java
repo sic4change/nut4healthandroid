@@ -21,13 +21,17 @@ public class Point {
     @ColumnInfo(name = DataPointNames.COL_FULLNAME)
     private String fullName;
 
+    @ColumnInfo(name = DataPointNames.COL_PHONECODE)
+    private String phoneCode;
+
     public Point() {
-        this("", "");
+        this("", "", "");
     }
 
-    public Point(@NonNull String pointId, @NonNull String fullName) {
+    public Point(@NonNull String pointId, @NonNull String fullName, @NonNull String phoneCode) {
         this.pointId = pointId;
         this.fullName = fullName;
+        this.phoneCode = phoneCode;
     }
 
     @NonNull
@@ -46,6 +50,15 @@ public class Point {
 
     public void setFullName(@NonNull String fullName) {
         this.fullName = fullName;
+    }
+
+    @NonNull
+    public String getPhoneCode() {
+        return phoneCode;
+    }
+
+    public void setPhoneCode(@NonNull String phoneCode) {
+        this.phoneCode = phoneCode;
     }
 
     @Override

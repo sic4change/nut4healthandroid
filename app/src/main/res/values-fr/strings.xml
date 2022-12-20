@@ -107,6 +107,8 @@
     <string name="hight">La Taille (cm)</string>
     <string name="weight">Lester (Kg)</string>
 
+    <string name="check_phone_number">Veuillez vérifier que le numéro de la personne à contacter est valide/correct. Pour être sûr, appeler ce contact ou faites-vous appeler depuis "celui-ci" / ce téléphone de contact.</string>
+
     <!--Main menu-->
     <string name="contracts">Historique des diagnostiques</string>
     <string name="ranking">Classement</string>
@@ -783,5 +785,6 @@
     <string name="date_millis_health_service">Date Services de santé mili</string>
     <string name="locatoin_health_service">Emplacement des services de santé</string>
     <string name="status">État</string>
+    <string name="call">Téléphoner à</string>
 
 </resources>

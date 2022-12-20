@@ -39,6 +39,8 @@ public class CreateContractViewModel extends ViewModel {
     private final LiveData<List<Point>> mPoints;
     private final LiveData<Contract> mContract;
 
+    public static final double MINIUM_DESNUTRITION_VALUE_MUAC = 12.6;
+
     private String role;
     private Uri uriPhoto;
     private int percentage = -1;
@@ -54,6 +56,8 @@ public class CreateContractViewModel extends ViewModel {
     private String childTutor;
     private String childLocation;
     private String childPhoneContact;
+
+    private String phoneCode = "+34";
     private boolean verification = false;
     private String point;
     private String pointFullName;
@@ -62,6 +66,8 @@ public class CreateContractViewModel extends ViewModel {
     private double height = 0;
     private double weight = 0.0;
     private double imc = 0.0;
+
+    private boolean dialerOpened = false;
 
     public CreateContractViewModel(DataRepository repository) {
         this.mRepository = repository;
@@ -99,12 +105,12 @@ public class CreateContractViewModel extends ViewModel {
                             count++;
                         }
                     }
-                    points.add(new PointFormatted(i.getPointId(), i.getFullName(), count));
+                    points.add(new PointFormatted(i.getPointId(), i.getFullName(), i.getPhoneCode(), count));
                 }
                 mPoints.getValue().clear();
                 Collections.sort(points, Comparator.comparingInt(PointFormatted::getOrder).reversed());
                 for (PointFormatted k : points) {
-                    mPoints.getValue().add(new Point(k.getPointId(), k.getFullName()));
+                    mPoints.getValue().add(new Point(k.getPointId(), k.getFullName(), k.getPhoneCode()));
                 }
                 return mPoints;
             }
@@ -124,9 +130,10 @@ public class CreateContractViewModel extends ViewModel {
                                String childPhoneContact, String point, String pointFullName,
                                int percentage, double arm_circumference, double height, double weight) {
         String code = childPhoneContact + "-" + childBrothers;
+        String phone = "+" + phoneCode + childPhoneContact;
 
         mRepository.createContract(id, role, screener, latitude, longitude, photo, childName,
-                childSurname, sex, childDNI, childBrothers, code, childTutor, childAddress, childPhoneContact, point,
+                childSurname, sex, childDNI, childBrothers, code, childTutor, childAddress, phone, point,
                 pointFullName, percentage, arm_circumference, height, weight,"" );
 
     }
@@ -236,6 +243,14 @@ public class CreateContractViewModel extends ViewModel {
         this.childPhoneContact = childPhoneContact;
     }
 
+    public String getPhoneCode() {
+        return phoneCode;
+    }
+
+    public void setPhoneCode(String phoneCode) {
+        this.phoneCode = phoneCode;
+    }
+
     public boolean getVerification() {
         return verification;
     }
@@ -308,6 +323,14 @@ public class CreateContractViewModel extends ViewModel {
         String fname = Environment.getExternalStorageDirectory().toString() + "/req_images/Nut4HealthFingerPrint" +".jpg";
         byte[] image = AndroidBmpUtil.getByte(fname);
         return new String(image);
+    }
+
+    public boolean isDialerOpened() {
+        return dialerOpened;
+    }
+
+    public void setDialerOpened(boolean dialerOpened) {
+        this.dialerOpened = dialerOpened;
     }
 
     public LiveData<List<MalnutritionChildTable>> getDesnutritionChildTable() {
@@ -388,15 +411,17 @@ class PointFormatted {
 
     private String pointId;
     private String fullName;
+    private String phoneCode;
     private int order;
 
     PointFormatted() {
-        this("", "", 0);
+        this("", "", "", 0);
     }
 
-    PointFormatted(@NonNull String pointId, String fullName, int order) {
+    PointFormatted(@NonNull String pointId, String fullName, String phoneCode, int order) {
         this.pointId = pointId;
         this.fullName = fullName;
+        this.phoneCode = phoneCode;
         this.order = order;
     }
 
@@ -414,6 +439,14 @@ class PointFormatted {
 
     public void setFullName(String fullName) {
         this.fullName = fullName;
+    }
+
+    public String getPhoneCode() {
+        return phoneCode;
+    }
+
+    public void setPhoneCode(String phoneCode) {
+        this.phoneCode = phoneCode;
     }
 
     public int getOrder() {
