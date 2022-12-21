@@ -549,7 +549,8 @@ public class DataRepository {
                                String childName, String childSurname, String sex, String childDNI,
                                int childBrothers, String code, String childTutor, String childAddress,
                                String childPhoneContact, String point, String pointFullName, int percentage,
-                               double arm_circumference, double height, double weight, String fingerprint) {
+                               double arm_circumference, double height, double weight, String fingerprint,
+                               String duration) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference contractRef = db.collection(DataContractNames.TABLE_FIREBASE_NAME);
         String status;
@@ -563,7 +564,7 @@ public class DataRepository {
                 childSurname, sex, childDNI, childBrothers, code, childTutor, childAddress, childPhoneContact, point,
                 pointFullName,  "", status, "", percentage,
                 new BigDecimal(arm_circumference).setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue(),
-                height, weight);
+                height, weight, duration);
 
         String newId = id + "_" + new Date().getTime();
         contract.setId(newId);

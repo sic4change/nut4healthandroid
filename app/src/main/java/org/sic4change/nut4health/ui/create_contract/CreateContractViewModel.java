@@ -10,7 +10,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
 import androidx.annotation.NonNull;
@@ -23,6 +25,9 @@ import androidx.room.PrimaryKey;
 import com.machinezoo.sourceafis.FingerprintTemplate;
 
 import org.apache.commons.collections4.Predicate;
+import org.joda.time.DateTime;
+import org.joda.time.Minutes;
+import org.joda.time.Seconds;
 import org.sic4change.nut4health.data.DataRepository;
 import org.sic4change.nut4health.data.entities.Contract;
 import org.sic4change.nut4health.data.entities.MalnutritionChildTable;
@@ -66,6 +71,8 @@ public class CreateContractViewModel extends ViewModel {
     private double height = 0;
     private double weight = 0.0;
     private double imc = 0.0;
+    private Date startTimeCreateContract = null;
+    private Date finishTimeCreateContract = null;
 
     private boolean dialerOpened = false;
 
@@ -132,9 +139,17 @@ public class CreateContractViewModel extends ViewModel {
         String code = childPhoneContact + "-" + childBrothers;
         String phone = "+" + phoneCode + childPhoneContact;
 
+        DateTime dt1 = new DateTime(getStartTimeCreateContract());
+        DateTime dt2 = new DateTime(getFinishTimeCreateContract());
+
+        String minutes = Minutes.minutesBetween(dt1, dt2).getMinutes() % 60 + " m, ";
+        String seconds = Seconds.secondsBetween(dt1, dt2).getSeconds() % 60 + " s.";
+
+
         mRepository.createContract(id, role, screener, latitude, longitude, photo, childName,
                 childSurname, sex, childDNI, childBrothers, code, childTutor, childAddress, phone, point,
-                pointFullName, percentage, arm_circumference, height, weight,"" );
+                pointFullName, percentage, arm_circumference, height, weight,"",
+                minutes + seconds);
 
     }
 
@@ -315,22 +330,28 @@ public class CreateContractViewModel extends ViewModel {
         this.fingerPrint = fingerPrint;
     }
 
-    public Bitmap getFingerPrintImage() {
-        return BitmapFactory.decodeByteArray(fingerPrint, 0, fingerPrint.length);
-    }
-
-    public String getFingerPrintString() {
-        String fname = Environment.getExternalStorageDirectory().toString() + "/req_images/Nut4HealthFingerPrint" +".jpg";
-        byte[] image = AndroidBmpUtil.getByte(fname);
-        return new String(image);
-    }
-
     public boolean isDialerOpened() {
         return dialerOpened;
     }
 
     public void setDialerOpened(boolean dialerOpened) {
         this.dialerOpened = dialerOpened;
+    }
+
+    public Date getStartTimeCreateContract() {
+        return startTimeCreateContract;
+    }
+
+    public void setStartTimeCreateContract(Date startTimeCreateContract) {
+        this.startTimeCreateContract = startTimeCreateContract;
+    }
+
+    public Date getFinishTimeCreateContract() {
+        return finishTimeCreateContract;
+    }
+
+    public void setFinishTimeCreateContract(Date finishTimeCreateContract) {
+        this.finishTimeCreateContract = finishTimeCreateContract;
     }
 
     public LiveData<List<MalnutritionChildTable>> getDesnutritionChildTable() {

@@ -167,4 +167,9 @@ public final class DataContractNames {
      */
     public static final String COL_WEIGHT = "weight";
 
+    /**
+     * Column duration for contract
+     */
+    public static final String COL_DURATION = "duration";
+
 }

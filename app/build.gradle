@@ -111,7 +111,8 @@ dependencies {
     //GeoFireStore
     implementation 'com.github.imperiumlabs:GeoFirestore-Android:v1.5.0'
 
-    //Crashlitic
+    //Joda time
+    implementation 'joda-time:joda-time:2.12.1'
 
     //Circle imageview
     implementation 'de.hdodenhof:circleimageview:3.0.0'

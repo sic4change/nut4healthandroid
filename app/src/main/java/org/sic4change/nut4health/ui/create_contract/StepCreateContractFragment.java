@@ -75,6 +75,7 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -283,7 +284,9 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
                             mCreateContractViewModel.getHeight(),
                             mCreateContractViewModel.getWeight()
                     );
+                    mCreateContractViewModel.setFinishTimeCreateContract(new Date());
                     mCreateContractViewModel = null;
+
                 }
             });
             clView.stopOk();
@@ -359,6 +362,7 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
             showMyPosition();
         }
         MapUtility.apiKey = getResources().getString(R.string.google_maps_key);
+        mCreateContractViewModel.setStartTimeCreateContract(new Date());
         return v;
     }
 
