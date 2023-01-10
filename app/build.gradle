@@ -10,6 +10,10 @@ buildscript {
             url "http://dl.bintray.com/jlmd/maven"
             allowInsecureProtocol = true
         }
+        maven { url "https://hyperledger.jfrog.io/hyperledger/besu-maven" }
+        maven { url "https://artifacts.consensys.net/public/maven/maven/" }
+        maven { url "https://splunk.jfrog.io/splunk/ext-releases-local" }
+        maven { url "https://dl.cloudsmith.io/public/consensys/quorum-mainnet-launcher/maven/"}
         google()
     }
     dependencies {
@@ -66,8 +70,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = '1.8'
-        targetCompatibility = '1.8'
+        sourceCompatibility = "10"
+        targetCompatibility = "10"
     }
     lintOptions {
         checkReleaseBuilds false
@@ -139,15 +143,6 @@ dependencies {
     //Maps
     implementation 'com.google.android.gms:play-services-maps:17.0.1'
 
-    //Location search
-    /*implementation 'com.seatgeek:placesautocomplete:0.3-SNAPSHOT'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-contrib:3.0.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-        exclude group: 'com.android.support', module: 'support-v4'
-        exclude group: 'com.android.support', module: 'design'
-        exclude group: 'com.android.support', module: 'recyclerview-v7'
-    }*/
-
     //Animation check
     implementation project(':animation_check')
 
@@ -199,6 +194,25 @@ dependencies {
 
     //Phone selector
     implementation 'com.github.joielechong:countrycodepicker:2.4.2'
+
+
+    //Blockchain
+    implementation 'org.web3j:core:4.9.4'
+    implementation 'org.web3j:contracts:4.8.3'
+    implementation group: 'at.favre.lib', name: 'bytes', version: '1.5.0'
+
+    /*implementation "org.web3j:core:4.9.4",
+            "ch.qos.logback:logback-core:1.2.3",
+            "ch.qos.logback:logback-classic:1.2.3",
+            "com.beust:klaxon:5.5"
+    implementation ("org.web3j:web3j-unit:4.9.4") {
+        exclude group: 'io.netty.handler.codec.socksx.v5.Socks5AddressEncoder', module: 'jetified-netty-all-4.1.56.Final'
+    }
+    implementation("org.web3j:web3j-evm:4.9.4") {
+        exclude group: 'io.netty.handler.codec.socksx.v5.Socks5AddressEncoder', module: 'jetified-netty-all-4.1.56.Final'
+    }
+    //implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    implementation group: 'at.favre.lib', name: 'bytes', version: '1.5.0'*/
 
     //Test
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
