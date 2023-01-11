@@ -32,6 +32,8 @@ import org.greenrobot.eventbus.EventBus;
 import org.imperiumlabs.geofirestore.GeoFirestore;
 import org.imperiumlabs.geofirestore.listeners.GeoQueryDataEventListener;
 import org.sic4change.nut4health.R;
+import org.sic4change.nut4health.blockchain.utils.Loaders;
+import org.sic4change.nut4health.blockchain.utils.RevertReasonExtractor;
 import org.sic4change.nut4health.data.entities.Configuration;
 import org.sic4change.nut4health.data.entities.Contract;
 import org.sic4change.nut4health.data.entities.MalnutritionChildTable;
@@ -53,6 +55,7 @@ import org.sic4change.nut4health.data.names.DataPointNames;
 import org.sic4change.nut4health.data.names.DataRankingNames;
 import org.sic4change.nut4health.data.names.DataUserNames;
 import org.sic4change.nut4health.utils.time.Nut4HealthTimeUtil;
+import org.web3j.protocol.exceptions.TransactionException;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -640,6 +643,35 @@ public class DataRepository {
                             });
                             EventBus.getDefault().post(new MessageEvent(mContext.getString(R.string.diagnosis_ok)));
                         }
+                        var nut4health = Loaders.loadNut4HealthContract(mContext);
+                        System.out.println("Aqui Contract address: " + nut4health.getContractAddress());
+
+                        // Call example
+                        try {
+                            //var screenerRoleId = nut4health.ROLE_SCREENER().send();
+                            //System.out.println("Aqui Has screener role: " + nut4health.hasRole(screenerRoleId, "0x1aa49faa8136d6ade31519ab2606996acd46af51").send());
+                            //var healthCenter = nut4health.createHealthCentre("rosa_desierto").send();
+                            //System.out.println("Aqui Transaction mined in block number " + healthCenter.getBlockNumber());
+                            var screenerRoleId = nut4health.ROLE_SCREENER().send();
+                            // Esta cuenta 0x7Bd5677D481Ce6429Ff2d0B113d53f855fa40166 existe y la puedes ver en Firebase, también la lee del screener.json para registrar el diagnostico
+                            var grantRole = nut4health.grantRole(screenerRoleId, "0x7Bd5677D481Ce6429Ff2d0B113d53f855fa40166");
+                            System.out.println("Transaction mined in block number " + grantRole);
+                            System.out.println("Has screener role: " + nut4health.hasRole(screenerRoleId, "0x7Bd5677D481Ce6429Ff2d0B113d53f855fa40166").send());
+                            var txReceipt = nut4health.registerDiagnosis(String.format(newId, System.currentTimeMillis()), "rosa_desierto").send();
+                            System.out.println("Transaction mined in block number " + txReceipt.getBlockNumber());
+                        } catch (TransactionException err) {
+                            System.out.println("Transaction reverted: " + RevertReasonExtractor.revertReasonToAscii(err.getTransactionReceipt().get()));
+                        }
+
+                        // Transaction example
+                        /*try {
+                            //var healthCenter = nut4health.createHealthCentre("test_hc").send();
+                            //System.out.println("Aqui Transaction mined in block number " + healthCenter.getBlockNumber());
+                            //var txReceipt = nut4health.registerDiagnosis(String.format(newId, System.currentTimeMillis()), "test_hc").send();
+                            //System.out.println("Aqui Transaction mined in block number " + txReceipt.getBlockNumber());
+                        } catch (TransactionException err) {
+                            System.out.println("Aqui Transaction reverted: " + RevertReasonExtractor.revertReasonToAscii(err.getTransactionReceipt().get()));
+                        }*/
                     } catch (Exception error) {
                         Log.d(TAG, "Get contract: " + error);
                     }

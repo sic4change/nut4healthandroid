@@ -26,7 +26,7 @@ import at.favre.lib.bytes.Bytes;
 
 
 public class SignTransaction {
-   public static void main(String[] args) throws Exception {
+   /*public static void main(String[] args) throws Exception {
       if (args.length < 2) {
          System.err.println("Error: you should provide the following arguments:");
          System.err.println("\t1. Diagnosis ID");
@@ -61,5 +61,5 @@ public class SignTransaction {
 
       System.out.println(Bytes.wrap(signedTx).encodeHex());
       System.exit(0);
-   }
+   }*/
 }

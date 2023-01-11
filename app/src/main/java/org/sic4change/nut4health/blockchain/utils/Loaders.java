@@ -7,9 +7,15 @@
 
 package org.sic4change.nut4health.blockchain.utils;
 
+import android.content.Context;
+import android.content.res.AssetManager;
+
 import org.web3j.protocol.Web3j;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigInteger;
 import java.util.Scanner;
 
@@ -18,8 +24,6 @@ import org.web3j.crypto.Credentials;
 import org.web3j.crypto.WalletUtils;
 import org.web3j.protocol.http.HttpService;
 import org.web3j.tx.gas.StaticGasProvider;
-
-//import com.tecnalia.nut4health.generated.contracts.Nut4Health;
 
 public class Loaders {
 
@@ -40,12 +44,26 @@ public class Loaders {
       }
    }
 
-   public static Credentials loadCredentialsFromFile() throws IOException, CipherException {
-      return WalletUtils.loadCredentials(CommonProperties.WALLET_PASSWORD, CommonProperties.WALLET_PATH);
+   public static Credentials loadCredentialsFromFile(Context context) throws IOException, CipherException {
+      //return WalletUtils.loadCredentials(CommonProperties.WALLET_PASSWORD, CommonProperties.WALLET_PATH);
+
+      //File f = new File(context.getAssets(), "screener.json");
+      AssetManager assetManager = context.getAssets();
+      InputStream input = assetManager.open("screener.json");
+      File tempFile = File.createTempFile("screener", ".json");
+      FileOutputStream fos = new FileOutputStream(tempFile);
+      byte[] buffer = new byte[1024];
+      int read;
+      while((read = input.read(buffer)) != -1) {
+         fos.write(buffer, 0, read);
+      }
+      fos.close();
+      input.close();
+      return WalletUtils.loadCredentials(CommonProperties.WALLET_PASSWORD, tempFile);
    }
 
-   public static Nut4Health loadNut4HealthContract() throws IOException, CipherException {
-      var credentials = loadCredentialsFromFile();
+   public static Nut4Health loadNut4HealthContract(Context context) throws IOException, CipherException {
+      var credentials = loadCredentialsFromFile(context);
       var web3j = loadWeb3jInstance();
 
       // System.out.println("Deploying Nut4Health contract ...");

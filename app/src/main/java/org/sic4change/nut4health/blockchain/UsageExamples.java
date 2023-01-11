@@ -12,7 +12,7 @@ import org.sic4change.nut4health.blockchain.utils.RevertReasonExtractor;
 import org.web3j.protocol.exceptions.TransactionException;
 
 public class UsageExamples {
-   public static void main(String[] args) throws Exception {
+   /*public static void main(String[] args) throws Exception {
       var nut4health = Loaders.loadNut4HealthContract();
       System.out.println("Contract address: " + nut4health.getContractAddress());
       
@@ -27,5 +27,5 @@ public class UsageExamples {
       } catch (TransactionException err) {
          System.out.println("Transaction reverted: " + RevertReasonExtractor.revertReasonToAscii(err.getTransactionReceipt().get()));
       }
-   }
+   }*/
 }

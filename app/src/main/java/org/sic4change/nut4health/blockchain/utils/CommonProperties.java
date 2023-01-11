@@ -13,5 +13,5 @@ public class CommonProperties {
    static final String NODE_URL = System.getenv().getOrDefault("WEB3J_NODE_URL", "https://node1.ethereum.bclab.dev");
 
    static final String WALLET_PASSWORD = System.getenv().getOrDefault("WEB3J_WALLET_PASSWORD", "");
-   static final String WALLET_PATH = System.getenv().getOrDefault("WEB3J_WALLET_PATH", "/Users/aaronasencio/SIC4Change/NUT4Health/Blockchain/javascript-integration-main/credentials/screener.json");
+   static final String WALLET_PATH = System.getenv().getOrDefault("WEB3J_WALLET_PATH", "screener.json");
 }
