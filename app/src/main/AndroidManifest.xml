@@ -83,7 +83,8 @@
         <activity
             android:name=".ui.splash.SplashActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -140,7 +141,8 @@
             android:parentActivityName=".ui.create_contract.CreateContractActivity"
             android:screenOrientation="portrait">
         </activity>
-        <service android:name=".notification.FirebaseMessagingService">
+        <service android:name=".notification.FirebaseMessagingService"
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>

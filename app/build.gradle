@@ -33,13 +33,13 @@ apply plugin: 'com.google.firebase.crashlytics'
 
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 33
     defaultConfig {
         applicationId "org.sic4change.nut4health"
         minSdkVersion 24
-        targetSdkVersion 30
-        versionCode 24
-        versionName "1.19"
+        targetSdkVersion 33
+        versionCode 25
+        versionName "1.20"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
@@ -48,14 +48,14 @@ android {
         Development {
             applicationId "org.sic4change.nut4health"
             dimension "nut4health"
-            versionCode 19
-            versionName "1.19"
+            versionCode 20
+            versionName "1.20"
         }
         Production {
             applicationId "org.sic4change.nut4health"
             dimension "nut4health"
-            versionCode 19
-            versionName "1.19"
+            versionCode 20
+            versionName "1.20"
         }
     }
 
@@ -102,8 +102,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-storage:20.0.0'
     implementation 'com.google.firebase:firebase-firestore:23.0.3'
     implementation 'com.google.firebase:firebase-core:19.0.0'
-    implementation 'com.google.firebase:firebase-messaging:22.0.0'
-    implementation 'com.google.firebase:firebase-messaging:22.0.0'
+    implementation 'com.google.firebase:firebase-messaging:23.0.0'
     /*implementation('com.crashlytics.sdk.android:crashlytics:2.7.1@aar') {
         transitive = true
     }*/
@@ -192,7 +191,7 @@ dependencies {
     implementation 'com.github.blennerSilva:AwesomeDialog:2.0.5'
 
     //Worker
-    implementation "androidx.work:work-runtime:2.5.0"
+    implementation "androidx.work:work-runtime:2.7.1"
 
     //Sex selector
     implementation 'com.github.GwonHyeok:StickySwitch:0.0.16'
