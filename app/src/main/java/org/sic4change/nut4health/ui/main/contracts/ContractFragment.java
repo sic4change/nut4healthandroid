@@ -202,18 +202,18 @@ public class ContractFragment extends Fragment {
 
             }
         });
-        mMainViewModel = ViewModelProviders.of(getActivity()).get(MainViewModel.class);
+        //mMainViewModel = ViewModelProviders.of(getActivity()).get(MainViewModel.class);
 
         return view;
     }
 
     private void initData() {
         mMainViewModel = ViewModelProviders.of(getActivity()).get(MainViewModel.class);
-        mMainViewModel.getCurrentUser().observe(getActivity(), user -> {
+        /*mMainViewModel.getCurrentUser().observe(getActivity(), user -> {
             if (user != null) {
                 mMainViewModel.getContracts(user.getEmail(), user.getRole());
             }
-        });
+        });*/
         mMainViewModel.getIsFiltered().observe(getActivity(), filtered -> {
             try {
                 if (filtered) {

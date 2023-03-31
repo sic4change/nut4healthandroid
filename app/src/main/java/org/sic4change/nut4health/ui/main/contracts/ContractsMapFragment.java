@@ -100,10 +100,12 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
     private void initData() {
         mMainViewModel = ViewModelProviders.of(getActivity()).get(MainViewModel.class);
 
-        mMainViewModel.getContracts().observe(getActivity(), contracts -> {
-            showContracts(contracts);
-            showContractsNumber(contracts);
-        });
+        /*mMainViewModel.getContracts().observe(getActivity(), contracts -> {
+            if (contracts != null) {
+                showContracts(contracts);
+                showContractsNumber(contracts);
+            }
+        });*/
 
         try {
             mMainViewModel.getIsFiltered().observe(getActivity(), filtered ->{
@@ -190,7 +192,9 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
         });
         mMap.setOnMapClickListener(latLng -> cvContract.setVisibility(View.GONE));
         mMap.setOnMapLongClickListener(latLng -> cvContract.setVisibility(View.GONE));
-        showContracts(mMainViewModel.getContracts().getValue());
+        if (mMainViewModel.getContracts().getValue() != null) {
+            showContracts(mMainViewModel.getContracts().getValue());
+        }
     }
 
     private void showContractInformation(Contract contract) {

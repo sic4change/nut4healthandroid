@@ -1,8 +1,10 @@
 package org.sic4change.nut4health.ui.main;
 
 
+import android.app.Activity;
 import android.content.Context;
 
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -13,6 +15,7 @@ import com.google.android.gms.maps.model.LatLng;
 import org.sic4change.nut4health.data.DataRepository;
 import org.sic4change.nut4health.data.entities.Configuration;
 import org.sic4change.nut4health.data.entities.Contract;
+import org.sic4change.nut4health.data.entities.MalnutritionChildTable;
 import org.sic4change.nut4health.data.entities.Near;
 import org.sic4change.nut4health.data.entities.Notification;
 import org.sic4change.nut4health.data.entities.Payment;
@@ -20,10 +23,15 @@ import org.sic4change.nut4health.data.entities.Ranking;
 import org.sic4change.nut4health.data.entities.Report;
 import org.sic4change.nut4health.data.entities.User;
 
+import java.util.Collections;
+import java.util.Comparator;
+
 public class MainViewModel extends ViewModel {
 
 
     private Context mContext;
+
+    private Activity mActivity;
     private final DataRepository mRepository;
     private final LiveData<User> mUser;
     private final LiveData<Configuration> mConfiguration;
@@ -58,8 +66,10 @@ public class MainViewModel extends ViewModel {
 
         mUser = this.mRepository.getCurrentUser();
         mConfiguration = this.mRepository.getCurrentConfiguration();
+    }
 
-        mUser.observeForever( user -> {
+    public void init(Activity activity) {
+        mUser.observe((LifecycleOwner) activity, user -> {
             if (user != null) {
                 this.mRepository.getContracts(user.getEmail(), user.getRole());
                 this.mRepository.getRanking();
@@ -67,6 +77,14 @@ public class MainViewModel extends ViewModel {
                 this.mRepository.getMalnutritionChildValues();
             }
         });
+        /*mUser.observeForever( user -> {
+            if (user != null) {
+                this.mRepository.getContracts(user.getEmail(), user.getRole());
+                this.mRepository.getRanking();
+                this.mRepository.getPayments(user.getEmail());
+                this.mRepository.getMalnutritionChildValues();
+            }
+        });*/
         mContracts = this.mRepository.getSortedContracts("DATE", name, surname, status, dateStart, dateEnd, percentageMin, percentageMax);
 
         mNear = this.mRepository.getSortedNearContracts("DATE", name, surname, status, dateStart, dateEnd, percentageMin, percentageMax);

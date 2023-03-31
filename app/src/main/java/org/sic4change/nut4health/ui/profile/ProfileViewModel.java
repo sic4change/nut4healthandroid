@@ -10,10 +10,14 @@ import org.sic4change.nut4health.data.entities.User;
 public class ProfileViewModel extends ViewModel {
 
     private final DataRepository mRepository;
-    private final LiveData<User> mUser;
+    private LiveData<User> mUser;
 
     public ProfileViewModel(DataRepository repository) {
         this.mRepository = repository;
+
+    }
+
+    public void init() {
         mUser = this.mRepository.getCurrentUser();
     }
 

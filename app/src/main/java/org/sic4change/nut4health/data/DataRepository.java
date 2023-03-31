@@ -291,7 +291,6 @@ public class DataRepository {
                 if ((task != null) && (task.getResult() != null) && (task.getResult().getUser() != null)) {
                     Log.d(TAG, "Create user correct with firebase auth");
                     User user = new User(email, username, role);
-                    user.setActive(true);
                     FirebaseFirestore db = FirebaseFirestore.getInstance();
                     CollectionReference userRef = db.collection(DataUserNames.TABLE_FIREBASE_NAME);
                     Query query = userRef.whereEqualTo(DataUserNames.COL_USERNAME, username).limit(1);

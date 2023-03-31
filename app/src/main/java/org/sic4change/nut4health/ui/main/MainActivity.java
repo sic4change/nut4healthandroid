@@ -97,6 +97,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         initView();
         MainViewModelFactory mainViewModelFactory = MainViewModelFactory.createFactory(this);
         mMainViewModel = ViewModelProviders.of(this, mainViewModelFactory).get(MainViewModel.class);
+        mMainViewModel.init(this);
         mMainViewModel.getCurrentUser().observe(this, user -> {
             if (user != null) {
                 tvDrawerEmail.setText(user.getEmail());

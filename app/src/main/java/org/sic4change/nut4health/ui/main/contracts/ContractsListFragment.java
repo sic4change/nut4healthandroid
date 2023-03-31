@@ -72,10 +72,10 @@ public class ContractsListFragment extends Fragment implements SwipeRefreshLayou
     private void initData() {
         mMainViewModel = ViewModelProviders.of(getActivity()).get(MainViewModel.class);
 
-        mMainViewModel.getContracts().observe(getActivity(), contracts -> {
+        /*mMainViewModel.getContracts().observe(getActivity(), contracts -> {
             showContracts(contracts);
             showContractNumber(contracts);
-        });
+        });*/
 
         try {
             mMainViewModel.getIsFiltered().observe(getActivity(), filtered ->{

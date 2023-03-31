@@ -70,14 +70,15 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
         initView();
         ProfileViewModelFactory mainViewModelFactory = ProfileViewModelFactory.createFactory(this);
         mProfileViewModel = ViewModelProviders.of(this, mainViewModelFactory).get(ProfileViewModel.class);
+        mProfileViewModel.init();
         mProfileViewModel.getCurrentUser().observe(this, user -> {
             if (user != null) {
                 showProfileData(user);
                 if (!created) {
-                    mProfileViewModel.updateUser(user.getEmail());
                     created = true;
                 }
             } else {

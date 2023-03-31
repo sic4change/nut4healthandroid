@@ -155,7 +155,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         if ((!etEmail.getText().toString().isEmpty()) && (!etUsername.getText().toString().isEmpty()) &&
                 (!etPassword.getText().toString().isEmpty()) && (!etRepeatPassword.getText().toString().isEmpty())) {
             if (user != null) {
-                if (user.isEmptyUser()) {
+                if (user.getEmail().contains("@anonymous.com")) {
                     Nut4HealthVibrator.vibrateError(getApplicationContext());
                     Nut4HealthSnackbar.showError(getApplicationContext(), findViewById(R.id.lyCreateAccount), getResources().getString(R.string.user_exist));
                 } else {
