@@ -64,7 +64,7 @@ public class User {
     @ColumnInfo(name = DataUserNames.COL_CREATION_DATE)
     private String creationDate;
 
-    public static final String EMPTY_EMAIL = "empty@emtpy.com";
+    public static final String EMPTY_EMAIL = "anonymous@anonymous.com";
 
     public static final User userEmpty = new User(EMPTY_EMAIL, "", "", "", "", "", "", "", 0, "", "");
 

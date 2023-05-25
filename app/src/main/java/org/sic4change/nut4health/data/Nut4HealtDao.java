@@ -30,7 +30,7 @@ public interface Nut4HealtDao {
      * Returns a current user.
      *
      */
-    @Query("SELECT * FROM user WHERE email != 'empty@emtpy.com' LIMIT 1")
+    @Query("SELECT * FROM user WHERE email != 'anonymous@anonymous.com' LIMIT 1")
     LiveData<User> getCurrentUser();
 
     /**
@@ -76,7 +76,7 @@ public interface Nut4HealtDao {
     /**
      * Delete all user
      */
-    @Query("DELETE FROM user WHERE email == 'empty@emtpy.com'")
+    @Query("DELETE FROM user WHERE email == 'anonymous@anonymous.com'")
     void deleteEmptyUser();
 
     /**
