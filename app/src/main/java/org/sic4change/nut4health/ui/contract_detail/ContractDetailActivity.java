@@ -141,6 +141,7 @@ public class ContractDetailActivity extends AppCompatActivity implements SimpleR
             TextView tvSex = findViewById(R.id.tvSex);
             EditText etName = findViewById(R.id.etName);
             EditText etSurname = findViewById(R.id.etSurname);
+            EditText etChildBirthdate = findViewById(R.id.etChildBirthdate);
             EditText etTutor = findViewById(R.id.etTutor);
             EditText etLocation = findViewById(R.id.etLocation);
             EditText spPoint = findViewById(R.id.spPoint);
@@ -153,6 +154,7 @@ public class ContractDetailActivity extends AppCompatActivity implements SimpleR
 
             etName.setText(contract.getChildName());
             etSurname.setText(contract.getChildSurname());
+            etChildBirthdate.setText(contract.getChildBirthdate());
             etTutor.setText(contract.getChildTutor());
             etLocation.setText(contract.getChildAddress());
             etPhoneContact.setText(contract.getChildPhoneContract());
