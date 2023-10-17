@@ -93,14 +93,14 @@ public class Near {
                 String childName, String childSurname, String childAddress, String fingerprint, String status, String creationDate,
                 int percentage) {
         this("", photo, latitude, longitude, screener, "", childName, childSurname,
-                childAddress, fingerprint, status, "", creationDate, Nut4HealthTimeUtil.convertCreationDateToTimeMilis(creationDate), percentage, "");
+                childAddress, fingerprint, status, "", creationDate, Nut4HealthTimeUtil.convertDateToTimeMilis(creationDate), percentage, "");
     }
     @Ignore
     public Near(@NonNull String id, @NonNull String photo, double latitude, double longitude,
                 @NonNull String screener, String childName, String childSurname,
                 String childAddress, String fingerprint, String status, String creationDate, int percentage) {
         this(id, photo, latitude, longitude, screener, "", childName, childSurname,
-                childAddress, fingerprint, status, "", creationDate, Nut4HealthTimeUtil.convertCreationDateToTimeMilis(creationDate), percentage, "");
+                childAddress, fingerprint, status, "", creationDate, Nut4HealthTimeUtil.convertDateToTimeMilis(creationDate), percentage, "");
     }
 
     public Near(@NonNull String id, @NonNull String photo, double latitude, double longitude, @NonNull String screener,

@@ -58,6 +58,16 @@ public final class DataContractNames {
     public static final String COL_CHILD_SEX = "child_sex";
 
     /**
+     * Column child birthdate for contract
+     */
+    public static final String COL_CHILD_BIRTHDATE = "child_birthdate";
+
+    /**
+     * Column birthdate in miliseconds for contract
+     */
+    public static final String COL_CHILD_BIRTHDATE_MILISECONDS = "child_birthdate_mili";
+
+    /**
      * Column child dni for contract
      */
     public static final String COL_CHILD_DNI = "child_dni";

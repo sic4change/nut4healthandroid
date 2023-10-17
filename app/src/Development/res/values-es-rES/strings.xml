@@ -95,6 +95,7 @@
     <string name="surname">Apellidos del niña/o</string>
     <string name="sex">Sexo del niña/o</string>
     <string name="brothers">Hermanos/as mayores del niño/a</string>
+    <string name="child_birthdate">Fecha de nacimiento del niño/a</string>
     <string name="tutor">Madre o padre del niña/o</string>
     <string name="check_verification">Madre, padre o tutor autoriza la toma de datos del menor</string>
     <string name="dni">Documento identificación del niña/o</string>

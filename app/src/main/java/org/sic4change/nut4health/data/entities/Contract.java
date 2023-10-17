@@ -47,6 +47,12 @@ public class Contract {
     @ColumnInfo(name = DataContractNames.COL_CHILD_SEX)
     private String sex;
 
+    @ColumnInfo(name = DataContractNames.COL_CHILD_BIRTHDATE)
+    private String childBirthdate;
+
+@ColumnInfo(name = DataContractNames.COL_CHILD_BIRTHDATE_MILISECONDS)
+    private long childBirthdateMiliseconds;
+
     @ColumnInfo(name = DataContractNames.COL_CHILD_DNI)
     private String childDNI;
 
@@ -119,50 +125,52 @@ public class Contract {
     private String duration;
 
     public Contract() {
-        this("", "", 0.0f, 0.0f, "", "", "", "", "",
+        this("", "", 0.0f, 0.0f, "", "", "", "", "", "", 0,
                 "", 0, "", "", "", "", "", "", "", Status.EMPTY.name(), "", "",0, 0, 0.0, "", 0, 0.0, 0, 0.0, "");
     }
 
     @Ignore
     public Contract(@NonNull String id) {
         this(id, "", 0.0f, 0.0f, "", "", "",
-                "", "", "", 0, "",  "", "", "", "", "", "", Status.EMPTY.name(), "", "",0,  0, 0.0,"", 0, 0.0, 0.0, 0.0, "");
+                "", "", "", 0, "", 0, "",  "", "", "", "", "", "", Status.EMPTY.name(), "", "",0,  0, 0.0,"", 0, 0.0, 0.0, 0.0, "");
     }
 
     @Ignore
     public Contract(@NonNull String photo, double latitude, double longitude, @NonNull String screener) {
-        this("", photo, latitude, longitude, screener, "", "", "", "", "", 0, "","",
+        this("", photo, latitude, longitude, screener, "", "", "", "", "", 0,"", 0, "","",
                 "", "", "", "", "", Status.EMPTY.name(), "", "",0,  0, 0.0, "", 0, 0.0, 0.0, 0.0, "");
     }
 
     @Ignore
     public Contract(@NonNull String photo, double latitude, double longitude, @NonNull String screener,
-                    String childName, String childSurname, String sex, String childDNI, int childBrothers, String code,
+                    String childName, String childSurname, String sex, String childBirthdate, String childDNI, int childBrothers, String code,
                     String childTutor, String childAddress, String childPhoneContract,
                     String point, String pointFullName, String fingerprint, String status, String creationDate,
                     int percentage, double arm_circumference, double height, double weight, String duration) {
-        this("", photo, latitude, longitude, screener, "", childName, childSurname, sex, childDNI,
-                childBrothers, code, childTutor, childAddress, childPhoneContract, point, pointFullName,
-                fingerprint, status, "", creationDate, Nut4HealthTimeUtil.convertCreationDateToTimeMilis(creationDate),
+        this("", photo, latitude, longitude, screener, "", childName, childSurname, sex, childBirthdate,
+                Nut4HealthTimeUtil.convertDateToTimeMilis(childBirthdate), childDNI, childBrothers, code,
+                childTutor, childAddress, childPhoneContract, point, pointFullName,
+                fingerprint, status, "", creationDate, Nut4HealthTimeUtil.convertDateToTimeMilis(creationDate),
                 percentage, arm_circumference, "", 0, 0.0, height, weight, duration);
     }
     @Ignore
     public Contract(@NonNull String id, @NonNull String photo, double latitude, double longitude,
-                    @NonNull String screener, String childName, String childSurname, String sex, String childDNI,
-                    int childBrothers, String code, String childTutor, String childAddress, String childPhoneContract,
+                    @NonNull String screener, String childName, String childSurname, String sex, String childBirthdate,
+                    long childBirthdateMiliseconds, String childDNI, int childBrothers, String code, String childTutor,
+                    String childAddress, String childPhoneContract,
                     String point, String pointFullName, String fingerprint, String status,
                     String creationDate, long creationDateMiliseconds, int percentage,
                     double arm_circumference) {
-        this(id, photo, latitude, longitude, screener, "", childName, childSurname, sex, childDNI,
-                childBrothers, code, childTutor, childAddress, childPhoneContract, point, pointFullName,
+        this(id, photo, latitude, longitude, screener, "", childName, childSurname, sex, childBirthdate, childBirthdateMiliseconds,
+                childDNI, childBrothers, code, childTutor, childAddress, childPhoneContract, point, pointFullName,
                 fingerprint, status, "", creationDate, creationDateMiliseconds, percentage, arm_circumference, "", 0, 0.0, 0.0, 0.0, "");
     }
 
     public Contract(@NonNull String id, @NonNull String photo, double latitude, double longitude,
                     @NonNull String screener, String medical, String childName,  String childSurname,
-                    String sex, String childDNI, int childBrothers, String code, String childTutor,
-                    String childAddress, String childPhoneContract, String point, String pointFullName,
-                    String fingerprint, String status, String diagnosis, String creationDate,
+                    String sex, String childBirthdate, long childBirthdateMiliseconds, String childDNI,
+                    int childBrothers, String code, String childTutor, String childAddress, String childPhoneContract,
+                    String point, String pointFullName, String fingerprint, String status, String diagnosis, String creationDate,
                     long creationDateMiliseconds, int percentage, double arm_circumference, String medicalDate,
                     long medicalDateMiliseconds, double arm_circumference_medical, double height, double weight,
                     String duration) {
@@ -175,6 +183,8 @@ public class Contract {
         this.childName = childName;
         this.childSurname = childSurname;
         this.sex = sex;
+        this.childBirthdate = childBirthdate;
+        this.childBirthdateMiliseconds = childBirthdateMiliseconds;
         this.childDNI = childDNI;
         this.childBrothers = childBrothers;
         this.code = code;
@@ -271,6 +281,22 @@ public class Contract {
 
     public void setSex(String sex) {
         this.sex = sex;
+    }
+
+    public String getChildBirthdate() {
+        return childBirthdate;
+    }
+
+    public void setChildBirthdate(String childBirthdate) {
+        this.childBirthdate = childBirthdate;
+    }
+
+    public long getChildBirthdateMiliseconds() {
+        return childBirthdateMiliseconds;
+    }
+
+    public void setChildBirthdateMiliseconds(long childBirthdateMiliseconds) {
+        this.childBirthdateMiliseconds = childBirthdateMiliseconds;
     }
 
     public String getChildDNI() {

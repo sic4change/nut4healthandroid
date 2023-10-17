@@ -545,7 +545,7 @@ public class DataRepository {
      * @param percentage
      */
     public void createContract(String id, String role, String email, double latitude, double longitude, Uri photo,
-                               String childName, String childSurname, String sex, String childDNI,
+                               String childName, String childSurname, String sex, String childBirthdate, String childDNI,
                                int childBrothers, String code, String childTutor, String childAddress,
                                String childPhoneContact, String point, String pointFullName, int percentage,
                                double arm_circumference, double height, double weight, String fingerprint,
@@ -560,7 +560,7 @@ public class DataRepository {
         }
 
        Contract contract = new Contract("", latitude, longitude, "", childName,
-                childSurname, sex, childDNI, childBrothers, code, childTutor, childAddress, childPhoneContact, point,
+                childSurname, sex, childBirthdate, childDNI, childBrothers, code, childTutor, childAddress, childPhoneContact, point,
                 pointFullName,  "", status, "", percentage,
                 new BigDecimal(arm_circumference).setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue(),
                 height, weight, duration);
@@ -568,6 +568,7 @@ public class DataRepository {
         String newId = id + "_" + new Date().getTime();
         contract.setId(newId);
         contract.setCreationDate(new Date().toString());
+        contract.setChildBirthdateMiliseconds(Nut4HealthTimeUtil.convertDateSimpleToTimeMilis(childBirthdate));
         contract.setCreationDateMiliseconds(new Date().getTime());
         if (fingerprint != null && fingerprint != "") {
             contract.setFingerprint(fingerprint);
@@ -669,6 +670,8 @@ public class DataRepository {
                                         contractIt.setChildName(childName);
                                         contractIt.setChildSurname(childSurname);
                                         contractIt.setSex(sex);
+                                        contractIt.setChildBirthdate(childBirthdate);
+                                        contractIt.setChildBirthdateMiliseconds(Nut4HealthTimeUtil.convertDateSimpleToTimeMilis(childBirthdate));
                                         contractIt.setChildDNI(childDNI);
                                         contractIt.setChildTutor(childTutor);
                                         contractIt.setChildAddress(childAddress);
@@ -1018,9 +1021,9 @@ public class DataRepository {
                         && (queryDocumentSnapshots.getDocuments().size() > 0)) {
                     for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
                         Notification notification = document.toObject(Notification.class);
-                        notification.setCreationDateMiliseconds(Nut4HealthTimeUtil.convertCreationDateToTimeMilis(notification.getCreationDate()));
+                        notification.setCreationDateMiliseconds(Nut4HealthTimeUtil.convertDateToTimeMilis(notification.getCreationDate()));
                         if (((notification.getId() != null) && (!notification.getId().equals("")))
-                        && (Nut4HealthTimeUtil.convertCreationDateToTimeMilis(notification.getCreationDate()) > creationDate)) {
+                        && (Nut4HealthTimeUtil.convertDateToTimeMilis(notification.getCreationDate()) > creationDate)) {
                             nut4HealtDao.insert(notification);
                         }
                     }
@@ -1038,9 +1041,9 @@ public class DataRepository {
                         && (queryDocumentSnapshots.getDocuments().size() > 0)) {
                     for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
                         Notification notification = document.toObject(Notification.class);
-                        notification.setCreationDateMiliseconds(Nut4HealthTimeUtil.convertCreationDateToTimeMilis(notification.getCreationDate()));
+                        notification.setCreationDateMiliseconds(Nut4HealthTimeUtil.convertDateToTimeMilis(notification.getCreationDate()));
                         if (((notification.getId() != null) && (!notification.getId().equals("")))
-                                && (Nut4HealthTimeUtil.convertCreationDateToTimeMilis(notification.getCreationDate()) > creationDate)) {
+                                && (Nut4HealthTimeUtil.convertDateToTimeMilis(notification.getCreationDate()) > creationDate)) {
                             nut4HealtDao.insert(notification);
                         }
                     }
@@ -1058,9 +1061,9 @@ public class DataRepository {
                         && (queryDocumentSnapshots.getDocuments().size() > 0)) {
                     for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
                         Notification notification = document.toObject(Notification.class);
-                        notification.setCreationDateMiliseconds(Nut4HealthTimeUtil.convertCreationDateToTimeMilis(notification.getCreationDate()));
+                        notification.setCreationDateMiliseconds(Nut4HealthTimeUtil.convertDateToTimeMilis(notification.getCreationDate()));
                         if (((notification.getId() != null) && (!notification.getId().equals("")))
-                                && (Nut4HealthTimeUtil.convertCreationDateToTimeMilis(notification.getCreationDate()) > creationDate)) {
+                                && (Nut4HealthTimeUtil.convertDateToTimeMilis(notification.getCreationDate()) > creationDate)) {
                             nut4HealtDao.insert(notification);
                         }
                     }
@@ -1078,9 +1081,9 @@ public class DataRepository {
                         && (queryDocumentSnapshots.getDocuments().size() > 0)) {
                     for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
                         Notification notification = document.toObject(Notification.class);
-                        notification.setCreationDateMiliseconds(Nut4HealthTimeUtil.convertCreationDateToTimeMilis(notification.getCreationDate()));
+                        notification.setCreationDateMiliseconds(Nut4HealthTimeUtil.convertDateToTimeMilis(notification.getCreationDate()));
                         if (((notification.getId() != null) && (!notification.getId().equals("")))
-                                && (Nut4HealthTimeUtil.convertCreationDateToTimeMilis(notification.getCreationDate()) > creationDate)) {
+                                && (Nut4HealthTimeUtil.convertDateToTimeMilis(notification.getCreationDate()) > creationDate)) {
                             nut4HealtDao.insert(notification);
                         }
                     }
@@ -1098,9 +1101,9 @@ public class DataRepository {
                         && (queryDocumentSnapshots.getDocuments().size() > 0)) {
                     for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
                         Notification notification = document.toObject(Notification.class);
-                        notification.setCreationDateMiliseconds(Nut4HealthTimeUtil.convertCreationDateToTimeMilis(notification.getCreationDate()));
+                        notification.setCreationDateMiliseconds(Nut4HealthTimeUtil.convertDateToTimeMilis(notification.getCreationDate()));
                         if (((notification.getId() != null) && (!notification.getId().equals("")))
-                                && (Nut4HealthTimeUtil.convertCreationDateToTimeMilis(notification.getCreationDate()) > creationDate)) {
+                                && (Nut4HealthTimeUtil.convertDateToTimeMilis(notification.getCreationDate()) > creationDate)) {
                             nut4HealtDao.insert(notification);
                         }
                     }
@@ -1118,9 +1121,9 @@ public class DataRepository {
                         && (queryDocumentSnapshots.getDocuments().size() > 0)) {
                     for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
                         Notification notification = document.toObject(Notification.class);
-                        notification.setCreationDateMiliseconds(Nut4HealthTimeUtil.convertCreationDateToTimeMilis(notification.getCreationDate()));
+                        notification.setCreationDateMiliseconds(Nut4HealthTimeUtil.convertDateToTimeMilis(notification.getCreationDate()));
                         if (((notification.getId() != null) && (!notification.getId().equals("")))
-                                && (Nut4HealthTimeUtil.convertCreationDateToTimeMilis(notification.getCreationDate()) > creationDate)) {
+                                && (Nut4HealthTimeUtil.convertDateToTimeMilis(notification.getCreationDate()) > creationDate)) {
                             nut4HealtDao.insert(notification);
                         }
                     }

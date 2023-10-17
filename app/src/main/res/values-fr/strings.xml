@@ -92,6 +92,7 @@
     <string name="surname">Noms de famille de l\'enfant</string>
     <string name="sex">Sexe de l\'enfant</string>
     <string name="brothers">Frères et sœurs aînés de l\'enfant</string>
+    <string name="child_birthdate">Date de naissance du mineur</string>
     <string name="tutor">Mère ou père de l\'enfant</string>
     <string name="check_verification">Mère, père ou le tuteur autorisant la collecte des informations de l\'enfant</string>
     <string name="dni">Pièce d\'identité mère ou père</string>

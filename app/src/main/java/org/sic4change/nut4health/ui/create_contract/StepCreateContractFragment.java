@@ -1,15 +1,11 @@
 package org.sic4change.nut4health.ui.create_contract;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.ComponentName;
+import android.app.DatePickerDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentSender;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -17,10 +13,8 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.provider.MediaStore;
 import android.provider.Settings;
 import android.text.Editable;
-import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -38,23 +32,21 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeInfoDialog;
-import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeNoticeDialog;
 import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeSuccessDialog;
 import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeWarningDialog;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.location.LocationSettingsRequest;
-import com.google.android.gms.location.SettingsClient;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.rilixtech.widget.countrycodepicker.Country;
 import com.rilixtech.widget.countrycodepicker.CountryCodePicker;
 import com.shivtechs.maplocationpicker.MapUtility;
 import com.stepstone.stepper.Step;
 import com.stepstone.stepper.VerificationError;
+
+import java.util.Calendar;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.ThreadMode;
@@ -103,6 +95,7 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
     private EditText etChildName;
     private EditText etChildSurname;
     private EditText etChildBrothers;
+    private EditText etChildBirthdate;
     private StickySwitch ssSex;
     private TextView tvChildDNI;
     private EditText etChildDNI;
@@ -127,6 +120,8 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
     private static final int REQUEST_CHECK_SETTINGS = 214;
     private static final int REQUEST_ENABLE_GPS = 516;
     private static final int ADDRESS_PICKER_REQUEST = 721;
+
+    private Calendar calendar = Calendar.getInstance();
 
     private String eventResult;
 
@@ -272,6 +267,7 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
                             mCreateContractViewModel.getUriPhoto(), mCreateContractViewModel.getChildName(),
                             mCreateContractViewModel.getChildSurname(),
                             mCreateContractViewModel.getSex(),
+                            mCreateContractViewModel.getChildBirthdate(),
                             mCreateContractViewModel.getChildDNI(),
                             Integer.parseInt(mCreateContractViewModel.getChildBrothers()),
                             mCreateContractViewModel.getChildTutor(),
@@ -298,6 +294,27 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
         etChildName = v.findViewById(R.id.etChildName);
         etChildSurname = v.findViewById(R.id.etChildSurname);
         etChildBrothers = v.findViewById(R.id.etBrothers);
+        etChildBirthdate = v.findViewById(R.id.etChildBirthdate);
+
+        etChildBirthdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int year = calendar.get(Calendar.YEAR);
+                int month = calendar.get(Calendar.MONTH);
+                int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(),
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(android.widget.DatePicker datePicker, int year, int month, int day) {
+                                String selectedDate = day + "/" + (month + 1) + "/" + year;
+                                etChildBirthdate.setText(selectedDate);
+                            }
+                        }, year, month, day);
+
+                datePickerDialog.show();
+            }
+        });
         etChildBrothers.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -397,6 +414,7 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
             mCreateContractViewModel.setChildSurname(etChildSurname.getText().toString());
             mCreateContractViewModel.setChildBrothers(etChildBrothers.getText().toString());
             mCreateContractViewModel.setSex(ssSex.getDirection().name());
+            mCreateContractViewModel.setChildBirthdate(etChildBirthdate.getText().toString());
             mCreateContractViewModel.setChildDNI(etChildDNI.getText().toString());
             mCreateContractViewModel.setChildTutor(etChildTutor.getText().toString());
             mCreateContractViewModel.setChildPhoneContact(etChildContactPhone.getText().toString());

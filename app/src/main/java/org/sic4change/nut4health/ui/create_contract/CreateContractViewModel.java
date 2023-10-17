@@ -57,6 +57,8 @@ public class CreateContractViewModel extends ViewModel {
     private String childBrothers;
     private String sex = "H";
     private String childDNI;
+
+    private String childBirthdate;
     private String code;
     private String childTutor;
     private String childLocation;
@@ -132,7 +134,7 @@ public class CreateContractViewModel extends ViewModel {
     }
 
     public void createContract(String id, String role, String screener, float latitude, float longitude,
-                               Uri photo, String childName, String childSurname, String sex,
+                               Uri photo, String childName, String childSurname, String sex, String childBirthdate,
                                String childDNI, int childBrothers, String childTutor, String childAddress,
                                String childPhoneContact, String point, String pointFullName,
                                int percentage, double arm_circumference, double height, double weight) {
@@ -147,7 +149,7 @@ public class CreateContractViewModel extends ViewModel {
 
 
         mRepository.createContract(id, role, screener, latitude, longitude, photo, childName,
-                childSurname, sex, childDNI, childBrothers, code, childTutor, childAddress, phone, point,
+                childSurname, sex, childBirthdate, childDNI, childBrothers, code, childTutor, childAddress, phone, point,
                 pointFullName, percentage, arm_circumference, height, weight,"",
                 minutes + seconds);
 
@@ -223,7 +225,6 @@ public class CreateContractViewModel extends ViewModel {
         } else {
             this.sex = "M";
         }
-
     }
 
     public String getChildDNI() {
@@ -232,6 +233,14 @@ public class CreateContractViewModel extends ViewModel {
 
     public void setChildDNI(String childDNI) {
         this.childDNI = childDNI;
+    }
+
+    public String getChildBirthdate() {
+        return childBirthdate;
+    }
+
+    public void setChildBirthdate(String childBirthdate) {
+        this.childBirthdate = childBirthdate;
     }
 
     public String getChildTutor() {

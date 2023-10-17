@@ -56,7 +56,7 @@ public class Payment {
 
     @Ignore
     public Payment(@NonNull String id, String creationDate, @NonNull String screener, int quantity, @NonNull String type, @NonNull String status) {
-        this(id, creationDate, Nut4HealthTimeUtil.convertCreationDateToTimeMilis(creationDate), screener, quantity, type, status, "");
+        this(id, creationDate, Nut4HealthTimeUtil.convertDateToTimeMilis(creationDate), screener, quantity, type, status, "");
     }
 
     public Payment(@NonNull String id, String creationDate, long creationDateMiliseconds, @NonNull String screener, int quantity, @NonNull String type, @NonNull String status, String contractId) {

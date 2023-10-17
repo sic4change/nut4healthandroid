@@ -317,10 +317,10 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     android:layout_marginEnd="@dimen/margin_medium"
                     android:layout_marginStart="@dimen/margin_medium"
-                    android:layout_marginTop="@dimen/margin_default"
-                    android:layout_marginBottom="@dimen/margin_default"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:layout_marginBottom="@dimen/margin_medium"
                     app:layout_constraintTop_toBottomOf="@+id/tvSex"
-                    app:layout_constraintBottom_toTopOf="@+id/tvBrothers"
+                    app:layout_constraintBottom_toTopOf="@+id/tvChildBirthdate"
                     app:ss_animationDuration="600"
                     app:ss_animationType="line"
                     app:ss_iconPadding="18dp"
@@ -337,6 +337,32 @@
                     app:ss_textVisibility="gone" />
 
                 <TextView
+                    android:id="@+id/tvChildBirthdate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimary"
+                    android:fontFamily="@font/bariol_bold"
+                    android:textSize="18dp"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_default"
+                    android:text="@string/child_birthdate"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/sexSelector" />
+
+                <EditText
+                    android:id="@+id/etChildBirthdate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:clickable="true"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_default"
+                    app:layout_constraintTop_toBottomOf="@+id/tvChildBirthdate" />
+
+                <TextView
                     android:id="@+id/tvBrothers"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -348,7 +374,7 @@
                     android:layout_marginTop="@dimen/margin_default"
                     android:text="@string/brothers"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/sexSelector" />
+                    app:layout_constraintTop_toBottomOf="@+id/etChildBirthdate" />
 
                 <EditText
                     android:id="@+id/etBrothers"

@@ -21,7 +21,7 @@ import org.sic4change.nut4health.data.entities.User;
 
 @Database(entities = {User.class, Contract.class, Near.class, Ranking.class, Payment.class,
         Notification.class, Point.class, Configuration.class, MalnutritionChildTable.class},
-        version = 41, exportSchema = false)
+        version = 42, exportSchema = false)
 public abstract  class Nut4HealthDatabase extends RoomDatabase {
 
     private static volatile Nut4HealthDatabase sInstance = null;

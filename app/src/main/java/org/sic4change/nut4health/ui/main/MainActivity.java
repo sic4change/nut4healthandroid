@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     mMainViewModel.updateUser(user.getEmail());
                     created = true;
                 }
-                mMainViewModel.getNotifications(user, Nut4HealthTimeUtil.convertCreationDateToTimeMilis(user.getCreationDate()));
+                mMainViewModel.getNotifications(user, Nut4HealthTimeUtil.convertDateToTimeMilis(user.getCreationDate()));
                 if (!subscribedToTopics) {
                     if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 101);
