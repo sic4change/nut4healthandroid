@@ -14,11 +14,8 @@ import androidx.fragment.app.Fragment;
 
 import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.ui.create_contract.CreateContractActivity;
-import org.sic4change.nut4health.utils.view.Nut4HealthTextAwesome;
 
 import static maes.tech.intentanim.CustomIntent.customType;
-
-import com.airbnb.lottie.LottieAnimationView;
 
 
 public class CreateContractFragment extends Fragment {
@@ -42,7 +39,7 @@ public class CreateContractFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_create_contract, container, false);
         ivCreateContract = view.findViewById(R.id.ivCreateContract);
-        btnStartCreateContract = view.findViewById(R.id.btnStartCreateContract);
+        btnStartCreateContract = view.findViewById(R.id.btnStartCreateContractChild);
         ivCreateContract.setOnClickListener(v -> goToCreateContractActivity());
         btnStartCreateContract.setOnClickListener(v -> goToCreateContractActivity());
         return view;

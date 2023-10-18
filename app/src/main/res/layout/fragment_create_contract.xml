@@ -7,10 +7,30 @@
     android:layout_height="match_parent"
     tools:context=".ui.main.EmptyFragment">
 
+    <TextView
+        android:id="@+id/tvCreateDiagnosis"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/createContract"
+        android:fontFamily="@font/bariol_bold"
+        android:textColor="@color/colorPrimary"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textAllCaps="true"
+        android:layout_marginLeft="@dimen/margin_card"
+        android:layout_marginTop="@dimen/margin_card"
+        android:layout_marginEnd="@dimen/margin_card"
+        android:layout_marginRight="@dimen/margin_card"
+        android:layout_marginBottom="@dimen/margin_card"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:foreground="?selectableItemBackground"
         app:cardBackgroundColor="@android:color/white"
         app:cardCornerRadius="@dimen/card_radius"
@@ -21,11 +41,10 @@
         android:layout_marginTop="@dimen/margin_card"
         android:layout_marginEnd="@dimen/margin_card"
         android:layout_marginRight="@dimen/margin_card"
-        android:layout_marginBottom="@dimen/margin_card"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/tvCreateDiagnosis"
+        app:layout_constraintBottom_toTopOf="@id/btnStartCreateContractChild">
 
         <ImageView
             android:id="@+id/ivCreateContract"
@@ -36,27 +55,44 @@
             android:layout_marginEnd="@dimen/margin_card"
             android:layout_marginBottom="@dimen/margin_card"
             android:gravity="center"
-            android:src="@drawable/course_coding"
+            android:src="@drawable/create_diagnosis"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="200sp"
             android:visibility="visible" />
 
     </androidx.cardview.widget.CardView>
 
 
     <Button
-        android:id="@+id/btnStartCreateContract"
+        android:id="@+id/btnStartCreateContractChild"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_card"
         android:layout_marginTop="@dimen/margin_card"
+        android:layout_marginBottom="32dp"
         android:layout_marginEnd="@dimen/margin_card"
         android:background="@drawable/rounded_button"
-        android:text="@string/createContract"
+        android:text="@string/profile_child"
         android:textColor="@color/white"
         android:fontFamily="@font/bariol_bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView" />
+        app:layout_constraintTop_toBottomOf="@+id/cardView"
+        app:layout_constraintBottom_toTopOf="@id/btnStartCreateContractFefa"/>
+
+    <Button
+        android:id="@+id/btnStartCreateContractFefa"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_card"
+        android:layout_marginBottom="32dp"
+        android:layout_marginEnd="@dimen/margin_card"
+        android:background="@drawable/rounded_button"
+        android:text="@string/profile_fefa"
+        android:textColor="@color/white"
+        android:fontFamily="@font/bariol_bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnStartCreateContractChild"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

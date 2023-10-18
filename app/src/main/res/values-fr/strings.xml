@@ -76,6 +76,8 @@
 
     <!--Create Contract-->
     <string name="createContract">Créer un diagnostique</string>
+    <string name="profile_child">Profile enfant</string>
+    <string name="profile_fefa">Profile FEFA</string>
     <string name="next_step">Suivant</string>
     <string name="back_step">Précédent</string>
     <string name="complete_step"></string>
