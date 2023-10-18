@@ -1,28 +1,32 @@
-package org.sic4change.nut4health.ui.create_contract;
+package org.sic4change.nut4health.ui.create_contract.fefa;
+
+import static maes.tech.intentanim.CustomIntent.customType;
 
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.stepstone.stepper.StepperLayout;
 import com.stepstone.stepper.VerificationError;
-import org.sic4change.nut4health.R;
-import static maes.tech.intentanim.CustomIntent.customType;
 
-public class CreateContractActivity extends AppCompatActivity implements StepperLayout.StepperListener{
+import org.sic4change.nut4health.R;
+
+public class CreateFEFAContractActivity extends AppCompatActivity implements StepperLayout.StepperListener{
 
     private StepperLayout mStepperLayout;
-    private StepCreateContractAdapter mStepCreateContractAdapter;
+    private StepCreateFEFAContractAdapter mStepCreateFEFAContractAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_contract);
         mStepperLayout = (StepperLayout) findViewById(R.id.stepperLayout);
-        mStepCreateContractAdapter = new StepCreateContractAdapter(getSupportFragmentManager(), this);
-        mStepperLayout.setAdapter(mStepCreateContractAdapter);
+        mStepCreateFEFAContractAdapter = new StepCreateFEFAContractAdapter(getSupportFragmentManager(), this);
+        mStepperLayout.setAdapter(mStepCreateFEFAContractAdapter);
         mStepperLayout.setListener(this);
     }
 
@@ -45,7 +49,7 @@ public class CreateContractActivity extends AppCompatActivity implements Stepper
     }
 
     private void goToMainActivity() {
-        customType(CreateContractActivity.this,"right-to-left");
+        customType(CreateFEFAContractActivity.this,"right-to-left");
         getSupportFragmentManager().popBackStackImmediate();
     }
 
@@ -69,9 +73,5 @@ public class CreateContractActivity extends AppCompatActivity implements Stepper
     public void onReturn() {
 
     }
-
-
-
-
 
 }

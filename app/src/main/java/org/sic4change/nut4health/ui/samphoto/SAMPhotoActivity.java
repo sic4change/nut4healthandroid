@@ -11,7 +11,6 @@ import android.view.MenuItem;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
-import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -19,7 +18,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.sic4change.animation_check.AnimatedCircleLoadingView;
 import org.sic4change.nut4health.R;
-import org.sic4change.nut4health.ui.create_contract.CreateContractActivity;
+import org.sic4change.nut4health.ui.create_contract.child.CreateContractActivity;
+import org.sic4change.nut4health.ui.create_contract.child.StepCreateContractAdapter;
 
 import java.io.File;
 import java.io.FileNotFoundException;

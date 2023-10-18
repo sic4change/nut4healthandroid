@@ -28,7 +28,8 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.data.entities.Contract;
-import org.sic4change.nut4health.ui.create_contract.CreateContractActivity;
+import org.sic4change.nut4health.ui.create_contract.child.CreateContractActivity;
+import org.sic4change.nut4health.ui.create_contract.child.StepCreateContractAdapter;
 import org.sic4change.nut4health.ui.main.MainViewModel;
 import org.sic4change.nut4health.utils.Nut4HealthKeyboard;
 

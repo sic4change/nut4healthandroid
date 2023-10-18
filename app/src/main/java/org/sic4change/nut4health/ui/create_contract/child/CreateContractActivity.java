@@ -1,4 +1,4 @@
-package org.sic4change.nut4health.ui.create_contract_fefa;
+package org.sic4change.nut4health.ui.create_contract.child;
 
 import static maes.tech.intentanim.CustomIntent.customType;
 
@@ -15,18 +15,18 @@ import com.stepstone.stepper.VerificationError;
 
 import org.sic4change.nut4health.R;
 
-public class CreateFEFAContractActivity extends AppCompatActivity implements StepperLayout.StepperListener{
+public class CreateContractActivity extends AppCompatActivity implements StepperLayout.StepperListener{
 
     private StepperLayout mStepperLayout;
-    private StepCreateFEFAContractAdapter mStepCreateFEFAContractAdapter;
+    private StepCreateContractAdapter mStepCreateContractAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_contract);
         mStepperLayout = (StepperLayout) findViewById(R.id.stepperLayout);
-        mStepCreateFEFAContractAdapter = new StepCreateFEFAContractAdapter(getSupportFragmentManager(), this);
-        mStepperLayout.setAdapter(mStepCreateFEFAContractAdapter);
+        mStepCreateContractAdapter = new StepCreateContractAdapter(getSupportFragmentManager(), this);
+        mStepperLayout.setAdapter(mStepCreateContractAdapter);
         mStepperLayout.setListener(this);
     }
 
@@ -49,7 +49,7 @@ public class CreateFEFAContractActivity extends AppCompatActivity implements Ste
     }
 
     private void goToMainActivity() {
-        customType(CreateFEFAContractActivity.this,"right-to-left");
+        customType(CreateContractActivity.this,"right-to-left");
         getSupportFragmentManager().popBackStackImmediate();
     }
 
@@ -75,3 +75,5 @@ public class CreateFEFAContractActivity extends AppCompatActivity implements Ste
     }
 
 }
+
+

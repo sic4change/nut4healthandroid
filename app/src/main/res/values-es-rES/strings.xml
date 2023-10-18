@@ -796,5 +796,6 @@
     <string name="locatoin_health_service">Localización Servicio Salud</string>
     <string name="status">Estado</string>
     <string name="call">Llamar</string>
+    
 
 </resources>

@@ -1,4 +1,4 @@
-package org.sic4change.nut4health.ui.create_contract_fefa;
+package org.sic4change.nut4health.ui.create_contract.fefa;
 
 import android.content.Context;
 import android.os.Bundle;

@@ -1,4 +1,7 @@
-package org.sic4change.nut4health.ui.create_contract;
+package org.sic4change.nut4health.ui.create_contract.fefa;
+
+import static android.app.Activity.RESULT_OK;
+import static maes.tech.intentanim.CustomIntent.customType;
 
 import android.Manifest;
 import android.app.Activity;
@@ -46,37 +49,33 @@ import com.shivtechs.maplocationpicker.MapUtility;
 import com.stepstone.stepper.Step;
 import com.stepstone.stepper.VerificationError;
 
-import java.util.Calendar;
-
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.ThreadMode;
-import org.jetbrains.annotations.NotNull;
 import org.sic4change.animation_check.AnimatedCircleLoadingView;
 import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.data.entities.MalnutritionChildTable;
 import org.sic4change.nut4health.data.entities.Point;
 import org.sic4change.nut4health.data.events.MessageEvent;
+import org.sic4change.nut4health.ui.create_contract.CreateContractViewModel;
+import org.sic4change.nut4health.ui.create_contract.CreateContractViewModelFactory;
 import org.sic4change.nut4health.ui.fingerprint.ScanActivity;
 import org.sic4change.nut4health.ui.serchablespinner.SearchableSpinner;
 import org.sic4change.nut4health.utils.Nut4HealthKeyboard;
 import org.sic4change.nut4health.utils.location.Nut4HealthSingleShotLocationProvider;
 import org.sic4change.nut4health.utils.ruler_picker.SimpleRulerViewer;
 
-
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import static android.app.Activity.RESULT_OK;
-import static maes.tech.intentanim.CustomIntent.customType;
-
 import io.ghyeok.stickyswitch.widget.StickySwitch;
 
-public class StepCreateContractFragment extends Fragment implements Step, SimpleRulerViewer.OnValueChangeListener{
+public class StepCreateFEFAContractFragment extends Fragment implements Step, SimpleRulerViewer.OnValueChangeListener{
 
     private int position;
 
@@ -92,13 +91,6 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
     private TextView tvPercentage;
     private TextView tvCm;
     private CardView cvChild;
-    private EditText etChildName;
-    private EditText etChildSurname;
-    private EditText etChildBrothers;
-    private EditText etChildBirthdate;
-    private StickySwitch ssSex;
-    private TextView tvChildDNI;
-    private EditText etChildDNI;
     private EditText etChildTutor;
     private EditText etTutorBirthdate;
     private EditText etChildLocation;
@@ -116,7 +108,7 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
     private static final long VERIFICATION_TICK_MILISECONDS  = 1000;
     private static final int LOCATION_REQUEST_CODE = 101;
 
-    private CreateContractViewModel mCreateContractViewModel;
+    private CreateContractViewModel mCreateFEFAContractViewModel;
 
     private static final int REQUEST_CHECK_SETTINGS = 214;
     private static final int REQUEST_ENABLE_GPS = 516;
@@ -139,7 +131,7 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.step_create_contract, container, false);
+        View v = inflater.inflate(R.layout.step_create_contract_fefa, container, false);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getActivity());
         eventResult = "";
         btnTakePhoto = v.findViewById(R.id.btnTakePhoto);
@@ -158,11 +150,11 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 try{
-                    mCreateContractViewModel.setHeight(Double.parseDouble(charSequence.toString()));
-                    mCreateContractViewModel.getDesnutritionChildTable().observe(getActivity(), values -> {
+                    mCreateFEFAContractViewModel.setHeight(Double.parseDouble(charSequence.toString()));
+                    mCreateFEFAContractViewModel.getDesnutritionChildTable().observe(getActivity(), values -> {
                         Collections.sort(values, Comparator.comparingDouble(MalnutritionChildTable::getCm));
-                        mCreateContractViewModel.checkMalnutritionByWeightAndHeight(values);
-                        mCreateContractViewModel.getStatus();
+                        mCreateFEFAContractViewModel.checkMalnutritionByWeightAndHeight(values);
+                        mCreateFEFAContractViewModel.getStatus();
                         paintStatusChanges();
                     });
                 } catch (Exception e) {
@@ -186,11 +178,11 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 try{
-                    mCreateContractViewModel.setWeight(Double.parseDouble(charSequence.toString()));
-                    mCreateContractViewModel.getDesnutritionChildTable().observe(getActivity(), values -> {
+                    mCreateFEFAContractViewModel.setWeight(Double.parseDouble(charSequence.toString()));
+                    mCreateFEFAContractViewModel.getDesnutritionChildTable().observe(getActivity(), values -> {
                         Collections.sort(values, Comparator.comparingDouble(MalnutritionChildTable::getCm));
-                        mCreateContractViewModel.checkMalnutritionByWeightAndHeight(values);
-                        mCreateContractViewModel.getStatus();
+                        mCreateFEFAContractViewModel.checkMalnutritionByWeightAndHeight(values);
+                        mCreateFEFAContractViewModel.getStatus();
                         paintStatusChanges();
                     });
                 } catch (Exception e) {
@@ -206,12 +198,12 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
         btnCheckMalnutrition = v.findViewById(R.id.btnCheckMalnutrition);
         ivNewContract = v.findViewById(R.id.ivNewContract);
         spPoint = v.findViewById(R.id.spPoint);
-        CreateContractViewModelFactory createContractViewModelFactory = CreateContractViewModelFactory.createFactory(getActivity());
-        mCreateContractViewModel = ViewModelProviders.of(getActivity(), createContractViewModelFactory).get(CreateContractViewModel.class);
-        mCreateContractViewModel.getUser().observe(getActivity(), user -> {
+        CreateContractViewModelFactory createFEFAContractViewModelFactory = CreateContractViewModelFactory.createFactory(getActivity());
+        mCreateFEFAContractViewModel = ViewModelProviders.of(getActivity(), createFEFAContractViewModelFactory).get(CreateContractViewModel.class);
+        mCreateFEFAContractViewModel.getUser().observe(getActivity(), user -> {
             try {
-                mCreateContractViewModel.setRole(user.getRole());
-                if (mCreateContractViewModel.getRole() != null && mCreateContractViewModel.getRole().equals("Servicio Salud")) {
+                mCreateFEFAContractViewModel.setRole(user.getRole());
+                if (mCreateFEFAContractViewModel.getRole() != null && mCreateFEFAContractViewModel.getRole().equals("Servicio Salud")) {
                     etHeight.setVisibility(View.VISIBLE);
                     tvHeight.setVisibility(View.VISIBLE);
                     etWeight.setVisibility(View.VISIBLE);
@@ -222,7 +214,7 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
             }
             if (user.getPoint() != null) {
                 try {
-                    mCreateContractViewModel.getPoints(user.getPoint()).observe(getActivity(), points -> {
+                    mCreateFEFAContractViewModel.getPoints(user.getPoint()).observe(getActivity(), points -> {
                         if (points != null) {
                             spPoint.setTitle(getString(R.string.select_medical));
                             spPoint.setPositiveButton(getString(R.string.ok));
@@ -235,8 +227,8 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
                                 @Override
                                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                                     Point point = (Point) parent.getSelectedItem();
-                                    mCreateContractViewModel.setPoint(point.getPointId());
-                                    mCreateContractViewModel.setPointFullName(point.getFullName());
+                                    mCreateFEFAContractViewModel.setPoint(point.getPointId());
+                                    mCreateFEFAContractViewModel.setPointFullName(point.getFullName());
                                     cpp.setCountryForPhoneCode(Integer.parseInt(point.getPhoneCode()));
                                 }
 
@@ -259,31 +251,33 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
             btnCheckMalnutrition.setVisibility(View.GONE);
             ivNewContract.setVisibility(View.GONE);
             clView.startDeterminate();
-            mCreateContractViewModel.getUser().observe(getActivity(), user -> {
-                if ((mCreateContractViewModel != null) && (user != null)) {
-                    mCreateContractViewModel.createContract(user.getId(),
+            mCreateFEFAContractViewModel.getUser().observe(getActivity(), user -> {
+                if ((mCreateFEFAContractViewModel != null) && (user != null)) {
+                    mCreateFEFAContractViewModel.createContract(user.getId(),
                             user.getRole(),
                             user.getEmail(),
-                            mCreateContractViewModel.getLocation().latitude, mCreateContractViewModel.getLocation().longitude,
-                            mCreateContractViewModel.getUriPhoto(), mCreateContractViewModel.getChildName(),
-                            mCreateContractViewModel.getChildSurname(),
-                            mCreateContractViewModel.getSex(),
-                            mCreateContractViewModel.getChildBirthdate(),
-                            mCreateContractViewModel.getChildDNI(),
-                            Integer.parseInt(mCreateContractViewModel.getChildBrothers()),
-                            mCreateContractViewModel.getChildTutor(),
-                            mCreateContractViewModel.getTutorBirthdate(),
-                            mCreateContractViewModel.getChildLocation(),
-                            mCreateContractViewModel.getChildPhoneContact(),
-                            mCreateContractViewModel.getPoint(),
-                            mCreateContractViewModel.getPointFullName(),
-                            mCreateContractViewModel.getPercentage(),
-                            mCreateContractViewModel.getArmCircumference(),
-                            mCreateContractViewModel.getHeight(),
-                            mCreateContractViewModel.getWeight()
+                            mCreateFEFAContractViewModel.getLocation().latitude,
+                            mCreateFEFAContractViewModel.getLocation().longitude,
+                            mCreateFEFAContractViewModel.getUriPhoto(),
+                            mCreateFEFAContractViewModel.getChildName(),
+                            mCreateFEFAContractViewModel.getChildSurname(),
+                            mCreateFEFAContractViewModel.getSex(),
+                            mCreateFEFAContractViewModel.getChildBirthdate(),
+                            mCreateFEFAContractViewModel.getChildDNI(),
+                            Integer.parseInt(mCreateFEFAContractViewModel.getChildBrothers()),
+                            mCreateFEFAContractViewModel.getChildTutor(),
+                            mCreateFEFAContractViewModel.getTutorBirthdate(),
+                            mCreateFEFAContractViewModel.getChildLocation(),
+                            mCreateFEFAContractViewModel.getChildPhoneContact(),
+                            mCreateFEFAContractViewModel.getPoint(),
+                            mCreateFEFAContractViewModel.getPointFullName(),
+                            mCreateFEFAContractViewModel.getPercentage(),
+                            mCreateFEFAContractViewModel.getArmCircumference(),
+                            mCreateFEFAContractViewModel.getHeight(),
+                            mCreateFEFAContractViewModel.getWeight()
                     );
-                    mCreateContractViewModel.setFinishTimeCreateContract(new Date());
-                    mCreateContractViewModel = null;
+                    mCreateFEFAContractViewModel.setFinishTimeCreateContract(new Date());
+                    mCreateFEFAContractViewModel = null;
 
                 }
             });
@@ -293,31 +287,7 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
         tvPercentage = v.findViewById(R.id.tvPercentage);
         tvCm = v.findViewById(R.id.tvCm);
         cvChild = v.findViewById(R.id.cvChild);
-        etChildName = v.findViewById(R.id.etChildName);
-        etChildSurname = v.findViewById(R.id.etChildSurname);
-        etChildBrothers = v.findViewById(R.id.etBrothers);
-        etChildBirthdate = v.findViewById(R.id.etChildBirthdate);
         etTutorBirthdate = v.findViewById(R.id.etTutorBirthdate);
-
-        etChildBirthdate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int year = calendar.get(Calendar.YEAR);
-                int month = calendar.get(Calendar.MONTH);
-                int day = calendar.get(Calendar.DAY_OF_MONTH);
-
-                DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(),
-                        new DatePickerDialog.OnDateSetListener() {
-                            @Override
-                            public void onDateSet(android.widget.DatePicker datePicker, int year, int month, int day) {
-                                String selectedDate = day + "/" + (month + 1) + "/" + year;
-                                etChildBirthdate.setText(selectedDate);
-                            }
-                        }, year, month, day);
-
-                datePickerDialog.show();
-            }
-        });
 
         etTutorBirthdate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -339,63 +309,27 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
             }
         });
 
-        etChildBrothers.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(!charSequence.equals("")) {
-                    try {
-                        int massValue = Integer.parseInt(charSequence.toString());
-                        if (massValue > 21) {
-                            etChildBrothers.setText("21");
-                        }
-                    } catch (Exception e) {
-                        System.out.println("invalid brothers");
-                    }
-
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
-        ssSex = v.findViewById(R.id.sexSelector);
-        etChildDNI = v.findViewById(R.id.etChildDNI);
-        tvChildDNI = v.findViewById(R.id.tvChildDNI);
         etChildTutor = v.findViewById(R.id.etChildTutor);
         etChildContactPhone = v.findViewById(R.id.etContactPhone);
         cpp = v.findViewById(R.id.ccp);
         cbVerification = v.findViewById(R.id.cbVerification);
 
-        ssSex.setOnSelectedChangeListener(new StickySwitch.OnSelectedChangeListener() {
-            @Override
-            public void onSelectedChange(@NotNull StickySwitch.Direction direction, @NotNull String text) {
-                mCreateContractViewModel.setSex(direction.name());
-            }
-        });
-
         etChildLocation = v.findViewById(R.id.etChildLocation);
         cpp.setOnCountryChangeListener(new CountryCodePicker.OnCountryChangeListener() {
             @Override
             public void onCountrySelected(Country selectedCountry) {
-                mCreateContractViewModel.setPhoneCode(selectedCountry.getPhoneCode());
+                mCreateFEFAContractViewModel.setPhoneCode(selectedCountry.getPhoneCode());
             }
         });
         clView = v.findViewById(R.id.clView);
-        if (ActivityCompat.checkSelfPermission(getActivity().getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, LOCATION_REQUEST_CODE);
+        if (ActivityCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, LOCATION_REQUEST_CODE);
         } else {
             fusedLocationProviderClient.getLastLocation().addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
                 @Override
                 public void onSuccess(Location location) {
                     if (location != null) {
-                        mCreateContractViewModel.setLocation(new Nut4HealthSingleShotLocationProvider.GPSCoordinates(location.getLatitude(), location.getLongitude()));
+                        mCreateFEFAContractViewModel.setLocation(new Nut4HealthSingleShotLocationProvider.GPSCoordinates(location.getLatitude(), location.getLongitude()));
                         etChildLocation.setText(location.getLatitude() + "," + location.getLongitude());
                     }
                 }
@@ -403,7 +337,7 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
             showMyPosition();
         }
         MapUtility.apiKey = getResources().getString(R.string.google_maps_key);
-        mCreateContractViewModel.setStartTimeCreateContract(new Date());
+        mCreateFEFAContractViewModel.setStartTimeCreateContract(new Date());
         return v;
     }
 
@@ -421,37 +355,34 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
 
     @Override
     public VerificationError verifyStep() {
-        if (position == 0 && !mCreateContractViewModel.isImageSelected()) {
+        if (position == 0 && !mCreateFEFAContractViewModel.isImageSelected()) {
             return new VerificationError(getString(R.string.error_photo));
         } else if (position == 1) {
             if ((etChildLocation.getText() == null) || (etChildLocation.getText().toString() == null) || (etChildLocation.getText().toString().isEmpty())
-                    || (etChildName.getText() == null) || (etChildName.getText().toString() == null) || (etChildName.getText().toString().isEmpty())
-                    || (etChildSurname.getText() == null) || (etChildSurname.getText().toString() == null) || (etChildSurname.getText().toString().isEmpty())
-                    || (etChildBrothers.getText() == null) || (etChildBrothers.getText().toString() == null) || (etChildBrothers.getText().toString().isEmpty())
                     || (etChildTutor.getText() == null) || (etChildTutor.getText().toString() == null) || (etChildTutor.getText().toString().isEmpty())
-                    || (etChildBirthdate.getText().toString().isEmpty()) || (etTutorBirthdate.getText().toString().isEmpty())
+                    || (etTutorBirthdate.getText().toString().isEmpty())
                     || (etChildContactPhone.getText() == null) || (etChildContactPhone.getText().toString() == null) || (etChildContactPhone.getText().toString().isEmpty())
                     || (!cbVerification.isChecked())) {
                 return new VerificationError(getString(R.string.error_child_data));
             }
-            mCreateContractViewModel.setChildLocation(etChildLocation.getText().toString());
-            mCreateContractViewModel.setChildName(etChildName.getText().toString());
-            mCreateContractViewModel.setChildSurname(etChildSurname.getText().toString());
-            mCreateContractViewModel.setChildBrothers(etChildBrothers.getText().toString());
-            mCreateContractViewModel.setSex(ssSex.getDirection().name());
-            mCreateContractViewModel.setChildBirthdate(etChildBirthdate.getText().toString());
-            mCreateContractViewModel.setChildDNI(etChildDNI.getText().toString());
-            mCreateContractViewModel.setChildTutor(etChildTutor.getText().toString());
-            mCreateContractViewModel.setTutorBirthdate(etTutorBirthdate.getText().toString());
-            mCreateContractViewModel.setChildPhoneContact(etChildContactPhone.getText().toString());
-            mCreateContractViewModel.setChildVerification(cbVerification.isChecked());
-            if (mCreateContractViewModel.getUser().getValue().getRole().equals("Agente Salud") &&
-                    mCreateContractViewModel.getArmCircumference() < CreateContractViewModel.MINIUM_DESNUTRITION_VALUE_MUAC &&
-            !mCreateContractViewModel.isDialerOpened()) {
-                mCreateContractViewModel.setDialerOpened(true);
+            mCreateFEFAContractViewModel.setChildLocation(etChildLocation.getText().toString());
+            mCreateFEFAContractViewModel.setChildName("");
+            mCreateFEFAContractViewModel.setChildSurname("");
+            mCreateFEFAContractViewModel.setChildBrothers("99");
+            mCreateFEFAContractViewModel.setSex("F");
+            mCreateFEFAContractViewModel.setChildBirthdate("1/1/1970");
+            mCreateFEFAContractViewModel.setChildDNI("");
+            mCreateFEFAContractViewModel.setChildTutor(etChildTutor.getText().toString());
+            mCreateFEFAContractViewModel.setTutorBirthdate(etTutorBirthdate.getText().toString());
+            mCreateFEFAContractViewModel.setChildPhoneContact(etChildContactPhone.getText().toString());
+            mCreateFEFAContractViewModel.setChildVerification(cbVerification.isChecked());
+            if (mCreateFEFAContractViewModel.getUser().getValue().getRole().equals("Agente Salud") &&
+                    mCreateFEFAContractViewModel.getArmCircumference() < CreateContractViewModel.MINIUM_DESNUTRITION_VALUE_MUAC &&
+            !mCreateFEFAContractViewModel.isDialerOpened()) {
+                mCreateFEFAContractViewModel.setDialerOpened(true);
                 new AwesomeInfoDialog(getActivity())
                         .setColoredCircle(R.color.colorPrimaryDark)
-                        .setTitle("+" + mCreateContractViewModel.getPhoneCode() + mCreateContractViewModel.getChildPhoneContact())
+                        .setTitle("+" + mCreateFEFAContractViewModel.getPhoneCode() + mCreateFEFAContractViewModel.getChildPhoneContact())
                         .setMessage(getString(R.string.check_phone_number))
                         .setPositiveButtonbackgroundColor(R.color.colorPrimaryDark)
                         .setPositiveButtonText(getResources().getString(R.string.ok))
@@ -478,12 +409,12 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
         if (getPosition() == 0) {
             tvPercentage.setVisibility(View.VISIBLE);
             try {
-                if (mCreateContractViewModel.getPercentage() == -1) {
+                if (mCreateFEFAContractViewModel.getPercentage() == -1) {
                     tvPercentage.setText("");
                 } else {
-                    if (mCreateContractViewModel.getPercentage() < 50) {
+                    if (mCreateFEFAContractViewModel.getPercentage() < 50) {
                         tvPercentage.setText(getResources().getString(R.string.normopeso_full));
-                    } else if (mCreateContractViewModel.getPercentage() == 50) {
+                    } else if (mCreateFEFAContractViewModel.getPercentage() == 50) {
                         tvPercentage.setText(getResources().getString(R.string.moderate_acute_malnutrition_full));
                     } else {
                         tvPercentage.setText(getResources().getString(R.string.severe_acute_malnutrition_full));
@@ -501,20 +432,13 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
             ruler.setVisibility(View.VISIBLE);
             rulerBackground.setVisibility(View.VISIBLE);
             tvCm.setVisibility(View.VISIBLE);
-            if (mCreateContractViewModel.getRole() != null && mCreateContractViewModel.getRole().equals("Servicio Salud")) {
+            if (mCreateFEFAContractViewModel.getRole() != null && mCreateFEFAContractViewModel.getRole().equals("Servicio Salud")) {
                 etHeight.setVisibility(View.VISIBLE);
                 tvHeight.setVisibility(View.VISIBLE);
                 etWeight.setVisibility(View.VISIBLE);
                 tvWeight.setVisibility(View.VISIBLE);
             }
         } else if (getPosition() == 1) {
-            if (mCreateContractViewModel.getPercentage() > 49) {
-                etChildDNI.setVisibility(View.VISIBLE);
-                tvChildDNI.setVisibility(View.VISIBLE);
-            } else {
-                etChildDNI.setVisibility(View.GONE);
-                tvChildDNI.setVisibility(View.GONE);
-            }
             btnTakePhoto.setVisibility(View.GONE);
             tvPercentage.setVisibility(View.GONE);
             ruler.setVisibility(View.GONE);
@@ -528,34 +452,15 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
             btnCheckMalnutrition.setVisibility(View.GONE);
             ivNewContract.setVisibility(View.GONE);
             clView.setVisibility(View.GONE);
-            if (mCreateContractViewModel.getChildName() != null) {
-                etChildName.setText(mCreateContractViewModel.getChildName());
+            if (mCreateFEFAContractViewModel.getChildTutor() != null) {
+                etChildTutor.setText(mCreateFEFAContractViewModel.getChildTutor());
             }
-            if (mCreateContractViewModel.getChildSurname() != null) {
-                etChildSurname.setText(mCreateContractViewModel.getChildSurname());
+            if (mCreateFEFAContractViewModel.getChildPhoneContact() != null) {
+                etChildContactPhone.setText(mCreateFEFAContractViewModel.getChildPhoneContact());
             }
-            if (mCreateContractViewModel.getChildBrothers() != null) {
-                etChildBrothers.setText(mCreateContractViewModel.getChildBrothers());
-            }
-            if (mCreateContractViewModel.getSex() != null) {
-                if (mCreateContractViewModel.getSex().equals("F")) {
-                    ssSex.setDirection(StickySwitch.Direction.RIGHT);
-                } else {
-                    ssSex.setDirection(StickySwitch.Direction.LEFT);
-                }
-            }
-            if (mCreateContractViewModel.getChildDNI() != null) {
-                etChildDNI.setText(mCreateContractViewModel.getChildDNI());
-            }
-            if (mCreateContractViewModel.getChildTutor() != null) {
-                etChildTutor.setText(mCreateContractViewModel.getChildTutor());
-            }
-            if (mCreateContractViewModel.getChildPhoneContact() != null) {
-                etChildContactPhone.setText(mCreateContractViewModel.getChildPhoneContact());
-            }
-            cbVerification.setChecked(mCreateContractViewModel.getVerification());
-            if (mCreateContractViewModel.getChildLocation() != null) {
-                etChildLocation.setText(mCreateContractViewModel.getChildLocation());
+            cbVerification.setChecked(mCreateFEFAContractViewModel.getVerification());
+            if (mCreateFEFAContractViewModel.getChildLocation() != null) {
+                etChildLocation.setText(mCreateFEFAContractViewModel.getChildLocation());
             }
         } else {
             btnTakePhoto.setVisibility(View.GONE);
@@ -610,30 +515,30 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
         } else if (requestCode == REQUEST_TAKE_FINGERPRINT && resultCode == RESULT_OK){
             byte[] fingerprint = data.getByteArrayExtra(ScanActivity.FINGERPRINT);
             if ((fingerprint != null) && (fingerprint.length > 0)) {
-                mCreateContractViewModel.setFingerPrint(fingerprint);
+                mCreateFEFAContractViewModel.setFingerPrint(fingerprint);
             } else {
-                mCreateContractViewModel.setFingerPrint(null);
+                mCreateFEFAContractViewModel.setFingerPrint(null);
             }
         } else if (requestCode == ADDRESS_PICKER_REQUEST && resultCode == RESULT_OK){
             double currentLatitude = data.getDoubleExtra(MapUtility.LATITUDE, 0.0);
             double currentLongitude = data.getDoubleExtra(MapUtility.LONGITUDE, 0.0);
 
-            mCreateContractViewModel.setLocation((new Nut4HealthSingleShotLocationProvider.GPSCoordinates(currentLatitude,currentLongitude)));
+            mCreateFEFAContractViewModel.setLocation((new Nut4HealthSingleShotLocationProvider.GPSCoordinates(currentLatitude,currentLongitude)));
             List<Address> addresses;
             Geocoder geocoder = new Geocoder(getActivity().getApplicationContext(), Locale.getDefault());
             try {
-                addresses = geocoder.getFromLocation(mCreateContractViewModel.getLocation().latitude, mCreateContractViewModel.getLocation().longitude, 1);
+                addresses = geocoder.getFromLocation(mCreateFEFAContractViewModel.getLocation().latitude, mCreateFEFAContractViewModel.getLocation().longitude, 1);
                 String address = addresses.get(0).getAddressLine(0);
                 if (address != null) {
-                    mCreateContractViewModel.setChildLocation(address);
-                    etChildLocation.setText(mCreateContractViewModel.getChildLocation());
+                    mCreateFEFAContractViewModel.setChildLocation(address);
+                    etChildLocation.setText(mCreateFEFAContractViewModel.getChildLocation());
                 } else {
-                    mCreateContractViewModel.setChildLocation("" + currentLatitude + "," + currentLongitude);
-                    etChildLocation.setText(mCreateContractViewModel.getChildLocation());
+                    mCreateFEFAContractViewModel.setChildLocation("" + currentLatitude + "," + currentLongitude);
+                    etChildLocation.setText(mCreateFEFAContractViewModel.getChildLocation());
                 }
             } catch (IOException e) {
-                mCreateContractViewModel.setChildLocation("" + currentLatitude + "," + currentLongitude);
-                etChildLocation.setText(mCreateContractViewModel.getChildLocation());
+                mCreateFEFAContractViewModel.setChildLocation("" + currentLatitude + "," + currentLongitude);
+                etChildLocation.setText(mCreateFEFAContractViewModel.getChildLocation());
             }
         } else if (requestCode ==  LAUNCH_SAMPhoto && resultCode == RESULT_OK){
             String requiredValue = data.getStringExtra("RESULT");
@@ -650,11 +555,11 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
                 tvPercentage.setText(getResources().getString(R.string.severe_acute_malnutrition_full));
                 tvPercentage.setTextColor(getResources().getColor(R.color.error));
             }
-            mCreateContractViewModel.setArmCircumference(value);
-            mCreateContractViewModel.setPercentage(value);
-            mCreateContractViewModel.setImageSelected(true);
+            mCreateFEFAContractViewModel.setArmCircumference(value);
+            mCreateFEFAContractViewModel.setPercentage(value);
+            mCreateFEFAContractViewModel.setImageSelected(true);
         }
-        if (mCreateContractViewModel.isImageSelected()) {
+        if (mCreateFEFAContractViewModel.isImageSelected()) {
             btnTakePhoto.setVisibility(View.GONE);
         } else {
             btnTakePhoto.setVisibility(View.VISIBLE);
@@ -664,7 +569,7 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
     private void openDialer() {
         Intent intent = new Intent(Intent.ACTION_DIAL);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.setData(Uri.parse("tel:+" + mCreateContractViewModel.getPhoneCode() + mCreateContractViewModel.getChildPhoneContact()));
+        intent.setData(Uri.parse("tel:+" + mCreateFEFAContractViewModel.getPhoneCode() + mCreateFEFAContractViewModel.getChildPhoneContact()));
         getActivity().startActivity(intent);
     }
 
@@ -675,34 +580,34 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
 
     private void showMyPosition() {
         Nut4HealthSingleShotLocationProvider.requestSingleUpdate(getActivity().getApplicationContext(), newLocation -> {
-            if (mCreateContractViewModel != null) {
-                mCreateContractViewModel.setLocation(newLocation);
+            if (mCreateFEFAContractViewModel != null) {
+                mCreateFEFAContractViewModel.setLocation(newLocation);
                 etChildLocation.setText(newLocation.latitude + ", " + newLocation.longitude);
                 List<Address> addresses;
                 try {
                     Geocoder geocoder = new Geocoder(getActivity().getApplicationContext(), Locale.getDefault());
-                    addresses = geocoder.getFromLocation(mCreateContractViewModel.getLocation().latitude, mCreateContractViewModel.getLocation().longitude, 1);
+                    addresses = geocoder.getFromLocation(mCreateFEFAContractViewModel.getLocation().latitude, mCreateFEFAContractViewModel.getLocation().longitude, 1);
                     String address = addresses.get(0).getAddressLine(0);
                     if (address != null) {
-                        mCreateContractViewModel.setChildLocation(address);
-                        etChildLocation.setText(mCreateContractViewModel.getChildLocation());
+                        mCreateFEFAContractViewModel.setChildLocation(address);
+                        etChildLocation.setText(mCreateFEFAContractViewModel.getChildLocation());
                     } else {
-                        mCreateContractViewModel.setChildLocation("" + newLocation.latitude + "," + newLocation.longitude);
-                        etChildLocation.setText(mCreateContractViewModel.getChildLocation());
+                        mCreateFEFAContractViewModel.setChildLocation("" + newLocation.latitude + "," + newLocation.longitude);
+                        etChildLocation.setText(mCreateFEFAContractViewModel.getChildLocation());
                     }
                 } catch (IOException e) {
-                    mCreateContractViewModel.setChildLocation("" + newLocation.latitude + "," + newLocation.longitude);
-                    etChildLocation.setText(mCreateContractViewModel.getChildLocation());
+                    mCreateFEFAContractViewModel.setChildLocation("" + newLocation.latitude + "," + newLocation.longitude);
+                    etChildLocation.setText(mCreateFEFAContractViewModel.getChildLocation());
                 }
             }
         });
     }
 
     private void paintStatusChanges() {
-        if (mCreateContractViewModel.getStatus().equals("Aguda Severa")) {
+        if (mCreateFEFAContractViewModel.getStatus().equals("Aguda Severa")) {
             tvPercentage.setText(getResources().getString(R.string.severe_acute_malnutrition_full));
             tvPercentage.setTextColor(getResources().getColor(R.color.error));
-        } else if (mCreateContractViewModel.getStatus().equals("Aguda Moderada")) {
+        } else if (mCreateFEFAContractViewModel.getStatus().equals("Aguda Moderada")) {
             tvPercentage.setText(getResources().getString(R.string.moderate_acute_malnutrition_full));
             tvPercentage.setTextColor(getResources().getColor(R.color.orange));
         } else {
@@ -713,7 +618,7 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
 
     private void goToMainActivity() {
         try {
-            mCreateContractViewModel = null;
+            mCreateFEFAContractViewModel = null;
             customType(getActivity(),"right-to-left");
             getActivity().getSupportFragmentManager().popBackStackImmediate();
             getActivity().finish();
@@ -771,22 +676,22 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
     public void onChange(SimpleRulerViewer view, int position, float value) {
         DecimalFormat df = new DecimalFormat("#.0");
         tvCm.setText(df.format(value) + " cm");
-        mCreateContractViewModel.setArmCircumference(value);
-        if (value < 11.5) {
+        mCreateFEFAContractViewModel.setArmCircumference(value);
+        if (value < 18.0) {
             rulerBackground.setBackgroundColor(getResources().getColor(R.color.error));
             tvCm.setTextColor(getResources().getColor(R.color.error));
-            mCreateContractViewModel.setPercentage(100);
-        } else if (value >=11.5 && value <= 12.5) {
+            mCreateFEFAContractViewModel.setPercentage(100);
+        } else if (value >=18.0 && value < 21.0) {
             rulerBackground.setBackgroundColor(getResources().getColor(R.color.orange));
             tvCm.setTextColor(getResources().getColor(R.color.orange));
-            mCreateContractViewModel.setPercentage(50);
+            mCreateFEFAContractViewModel.setPercentage(50);
         } else {
             rulerBackground.setBackgroundColor(getResources().getColor(R.color.colorAccent));
             tvCm.setTextColor(getResources().getColor(R.color.colorAccent));
-            mCreateContractViewModel.setPercentage(0);
+            mCreateFEFAContractViewModel.setPercentage(0);
         }
-        mCreateContractViewModel.getStatus();
+        mCreateFEFAContractViewModel.getStatus();
         paintStatusChanges();
-        mCreateContractViewModel.setImageSelected(true);
+        mCreateFEFAContractViewModel.setImageSelected(true);
     }
 }

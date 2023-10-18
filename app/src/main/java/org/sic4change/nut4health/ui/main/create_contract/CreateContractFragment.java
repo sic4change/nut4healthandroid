@@ -12,8 +12,9 @@ import android.widget.Button;
 import androidx.fragment.app.Fragment;
 
 import org.sic4change.nut4health.R;
-import org.sic4change.nut4health.ui.create_contract.CreateContractActivity;
-import org.sic4change.nut4health.ui.create_contract_fefa.CreateFEFAContractActivity;
+import org.sic4change.nut4health.ui.create_contract.child.CreateContractActivity;
+import org.sic4change.nut4health.ui.create_contract.child.StepCreateContractAdapter;
+import org.sic4change.nut4health.ui.create_contract.fefa.CreateFEFAContractActivity;
 
 import static maes.tech.intentanim.CustomIntent.customType;
 

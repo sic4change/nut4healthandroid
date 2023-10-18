@@ -56,7 +56,7 @@
         <activity
             android:name=".ui.samphoto.SAMPhotoActivity"
             android:label="SAMPhoto"
-            android:parentActivityName=".ui.create_contract.CreateContractActivity"
+            android:parentActivityName=".ui.create_contract.child.StepCreateContractAdapter$CreateContractActivity"
             android:screenOrientation="landscape" />
 
         <provider
@@ -71,12 +71,12 @@
 
 
         <activity
-            android:name=".ui.create_contract.CreateContractActivity"
+            android:name=".ui.create_contract.child.CreateContractActivity"
             android:label="@string/createContract"
             android:parentActivityName=".ui.main.MainActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.create_contract_fefa.CreateFEFAContractActivity"
+            android:name=".ui.create_contract.fefa.CreateFEFAContractActivity"
             android:label="@string/createFEFAContract"
             android:parentActivityName=".ui.main.MainActivity"
             android:screenOrientation="portrait" />
@@ -143,7 +143,7 @@
         <activity
             android:name=".ui.fingerprint.ScanActivity"
             android:label="@string/read_child_finger"
-            android:parentActivityName=".ui.create_contract.CreateContractActivity"
+            android:parentActivityName=".ui.create_contract.child.StepCreateContractAdapter$CreateContractActivity"
             android:screenOrientation="portrait">
         </activity>
         <service android:name=".notification.FirebaseMessagingService"
