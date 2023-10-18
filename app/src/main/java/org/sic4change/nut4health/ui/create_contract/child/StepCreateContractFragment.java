@@ -164,7 +164,7 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
                     mCreateContractViewModel.getDesnutritionChildTable().observe(getActivity(), values -> {
                         Collections.sort(values, Comparator.comparingDouble(MalnutritionChildTable::getCm));
                         mCreateContractViewModel.checkMalnutritionByWeightAndHeight(values);
-                        mCreateContractViewModel.getStatus();
+                        mCreateContractViewModel.getChildStatus();
                         paintStatusChanges();
                     });
                 } catch (Exception e) {
@@ -192,7 +192,7 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
                     mCreateContractViewModel.getDesnutritionChildTable().observe(getActivity(), values -> {
                         Collections.sort(values, Comparator.comparingDouble(MalnutritionChildTable::getCm));
                         mCreateContractViewModel.checkMalnutritionByWeightAndHeight(values);
-                        mCreateContractViewModel.getStatus();
+                        mCreateContractViewModel.getChildStatus();
                         paintStatusChanges();
                     });
                 } catch (Exception e) {
@@ -703,10 +703,10 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
     }
 
     private void paintStatusChanges() {
-        if (mCreateContractViewModel.getStatus().equals("Aguda Severa")) {
+        if (mCreateContractViewModel.getChildStatus().equals("Aguda Severa")) {
             tvPercentage.setText(getResources().getString(R.string.severe_acute_malnutrition_full));
             tvPercentage.setTextColor(getResources().getColor(R.color.error));
-        } else if (mCreateContractViewModel.getStatus().equals("Aguda Moderada")) {
+        } else if (mCreateContractViewModel.getChildStatus().equals("Aguda Moderada")) {
             tvPercentage.setText(getResources().getString(R.string.moderate_acute_malnutrition_full));
             tvPercentage.setTextColor(getResources().getColor(R.color.orange));
         } else {
@@ -789,7 +789,7 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
             tvCm.setTextColor(getResources().getColor(R.color.colorAccent));
             mCreateContractViewModel.setPercentage(0);
         }
-        mCreateContractViewModel.getStatus();
+        mCreateContractViewModel.getChildStatus();
         paintStatusChanges();
         mCreateContractViewModel.setImageSelected(true);
     }

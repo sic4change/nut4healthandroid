@@ -74,8 +74,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import io.ghyeok.stickyswitch.widget.StickySwitch;
-
 public class StepCreateFEFAContractFragment extends Fragment implements Step, SimpleRulerViewer.OnValueChangeListener{
 
     private int position;
@@ -156,7 +154,7 @@ public class StepCreateFEFAContractFragment extends Fragment implements Step, Si
                     mCreateFEFAContractViewModel.getDesnutritionChildTable().observe(getActivity(), values -> {
                         Collections.sort(values, Comparator.comparingDouble(MalnutritionChildTable::getCm));
                         mCreateFEFAContractViewModel.checkMalnutritionByWeightAndHeight(values);
-                        mCreateFEFAContractViewModel.getStatus();
+                        mCreateFEFAContractViewModel.getFEFAStatus();
                         paintStatusChanges();
                     });
                 } catch (Exception e) {
@@ -184,7 +182,7 @@ public class StepCreateFEFAContractFragment extends Fragment implements Step, Si
                     mCreateFEFAContractViewModel.getDesnutritionChildTable().observe(getActivity(), values -> {
                         Collections.sort(values, Comparator.comparingDouble(MalnutritionChildTable::getCm));
                         mCreateFEFAContractViewModel.checkMalnutritionByWeightAndHeight(values);
-                        mCreateFEFAContractViewModel.getStatus();
+                        mCreateFEFAContractViewModel.getFEFAStatus();
                         paintStatusChanges();
                     });
                 } catch (Exception e) {
@@ -612,10 +610,10 @@ public class StepCreateFEFAContractFragment extends Fragment implements Step, Si
     }
 
     private void paintStatusChanges() {
-        if (mCreateFEFAContractViewModel.getStatus().equals("Aguda Severa")) {
+        if (mCreateFEFAContractViewModel.getFEFAStatus().equals("Aguda Severa")) {
             tvPercentage.setText(getResources().getString(R.string.severe_acute_malnutrition_full));
             tvPercentage.setTextColor(getResources().getColor(R.color.error));
-        } else if (mCreateFEFAContractViewModel.getStatus().equals("Aguda Moderada")) {
+        } else if (mCreateFEFAContractViewModel.getFEFAStatus().equals("Aguda Moderada")) {
             tvPercentage.setText(getResources().getString(R.string.moderate_acute_malnutrition_full));
             tvPercentage.setTextColor(getResources().getColor(R.color.orange));
         } else {
@@ -689,7 +687,7 @@ public class StepCreateFEFAContractFragment extends Fragment implements Step, Si
             rulerBackground.setBackgroundColor(getResources().getColor(R.color.error));
             tvCm.setTextColor(getResources().getColor(R.color.error));
             mCreateFEFAContractViewModel.setPercentage(100);
-        } else if (value >=18.0 && value < 21.0) {
+        } else if (value >= 18.0 && value < 21.0) {
             rulerBackground.setBackgroundColor(getResources().getColor(R.color.orange));
             tvCm.setTextColor(getResources().getColor(R.color.orange));
             mCreateFEFAContractViewModel.setPercentage(50);
@@ -698,7 +696,7 @@ public class StepCreateFEFAContractFragment extends Fragment implements Step, Si
             tvCm.setTextColor(getResources().getColor(R.color.colorAccent));
             mCreateFEFAContractViewModel.setPercentage(0);
         }
-        mCreateFEFAContractViewModel.getStatus();
+        mCreateFEFAContractViewModel.getFEFAStatus();
         paintStatusChanges();
         mCreateFEFAContractViewModel.setImageSelected(true);
     }

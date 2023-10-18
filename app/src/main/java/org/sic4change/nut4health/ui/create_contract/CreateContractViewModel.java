@@ -1,30 +1,16 @@
 package org.sic4change.nut4health.ui.create_contract;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Build;
-import android.os.Environment;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
-import java.util.regex.Pattern;
 
-import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
-import androidx.room.ColumnInfo;
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
 
-import com.machinezoo.sourceafis.FingerprintTemplate;
-
-import org.apache.commons.collections4.Predicate;
 import org.joda.time.DateTime;
 import org.joda.time.Minutes;
 import org.joda.time.Seconds;
@@ -33,8 +19,6 @@ import org.sic4change.nut4health.data.entities.Contract;
 import org.sic4change.nut4health.data.entities.MalnutritionChildTable;
 import org.sic4change.nut4health.data.entities.Point;
 import org.sic4change.nut4health.data.entities.User;
-import org.sic4change.nut4health.data.names.DataPointNames;
-import org.sic4change.nut4health.utils.fingerprint.AndroidBmpUtil;
 import org.sic4change.nut4health.utils.location.Nut4HealthSingleShotLocationProvider;
 
 public class CreateContractViewModel extends ViewModel {
@@ -389,7 +373,7 @@ public class CreateContractViewModel extends ViewModel {
         return null;
     }
 
-    public String getStatus() {
+    public String getChildStatus() {
         if (imc != 0) {
             if (arm_circumference < 11.5) {
                 return "Aguda Severa";
@@ -412,6 +396,36 @@ public class CreateContractViewModel extends ViewModel {
             if (arm_circumference < 11.5) {
                 return "Aguda Severa";
             } else if (arm_circumference >= 11.5 && arm_circumference < 12.5) {
+                return "Aguda Moderada";
+            } else {
+                return "Normopeso";
+            }
+        }
+    }
+
+    public String getFEFAStatus() {
+        if (imc != 0) {
+            if (arm_circumference < 18.0) {
+                return "Aguda Severa";
+            } else if ((arm_circumference >= 18.0 && arm_circumference < 21.0)) {
+                if ((imc == -3.0)) {
+                    return "Aguda Severa";
+                } else {
+                    return "Aguda Moderada";
+                }
+            } else {
+                if ((imc == -3.0)) {
+                    return "Aguda Severa";
+                } else if (imc == -2.0) {
+                    return "Aguda Moderada";
+                } else {
+                    return "Normopeso";
+                }
+            }
+        } else {
+            if (arm_circumference < 18.0) {
+                return "Aguda Severa";
+            } else if (arm_circumference >= 18.0 && arm_circumference < 21.0) {
                 return "Aguda Moderada";
             } else {
                 return "Normopeso";
