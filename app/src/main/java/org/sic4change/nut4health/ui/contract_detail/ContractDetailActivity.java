@@ -139,10 +139,16 @@ public class ContractDetailActivity extends AppCompatActivity implements SimpleR
             CircleView ivIcon = findViewById(R.id.ivIcon);
             TextView tvStatus = findViewById(R.id.tvStatus);
             TextView tvSex = findViewById(R.id.tvSex);
+            TextView tvName = findViewById(R.id.tvName);
             EditText etName = findViewById(R.id.etName);
+            TextView tvSurname = findViewById(R.id.tvSurname);
             EditText etSurname = findViewById(R.id.etSurname);
+            TextView tvChildBirthdate = findViewById(R.id.tvChildBirthdate);
             EditText etChildBirthdate = findViewById(R.id.etChildBirthdate);
             EditText etTutor = findViewById(R.id.etTutor);
+            EditText etTutorBirthdate = findViewById(R.id.etTutorBirthdate);
+            EditText etTutorStatus = findViewById(R.id.etTutorStatus);
+            TextView tvTutorStatus = findViewById(R.id.tvTutorStatus);
             EditText etLocation = findViewById(R.id.etLocation);
             EditText spPoint = findViewById(R.id.spPoint);
             EditText etPhoneContact = findViewById(R.id.etPhoneContact);
@@ -152,10 +158,33 @@ public class ContractDetailActivity extends AppCompatActivity implements SimpleR
             TextView etConfirmationDate = findViewById(R.id.etConfirmationDate);
             TextView tvConfirmationDate = findViewById(R.id.tvConfirmationDate);
 
-            etName.setText(contract.getChildName());
-            etSurname.setText(contract.getChildSurname());
+            if (contract.getChildName() != null && !contract.getChildName().equals("")) {
+                etName.setText(contract.getChildName());
+            } else {
+                tvName.setVisibility(View.GONE);
+                etName.setVisibility(View.GONE);
+            }
+            if (contract.getChildSurname() != null && !contract.getChildSurname().equals("")) {
+                etSurname.setText(contract.getChildSurname());
+            } else {
+                tvSurname.setVisibility(View.GONE);
+                etSurname.setVisibility(View.GONE);
+            }
+            if (contract.getChildBirthdate() != null && !contract.getChildBirthdate().equals("") && !contract.getChildBirthdate().equals("1/1/1970")) {
+                etChildBirthdate.setText(contract.getChildBirthdate());
+            } else {
+                tvChildBirthdate.setVisibility(View.GONE);
+                etChildBirthdate.setVisibility(View.GONE);
+            }
             etChildBirthdate.setText(contract.getChildBirthdate());
             etTutor.setText(contract.getChildTutor());
+            etTutorBirthdate.setText(contract.getTutorBirthdate());
+            if (contract.getTutorStatus() != null && !contract.getTutorStatus().equals("")) {
+                etTutorStatus.setText(contract.getTutorStatus());
+            } else {
+                tvTutorStatus.setVisibility(View.GONE);
+                etTutorStatus.setVisibility(View.GONE);
+            }
             etLocation.setText(contract.getChildAddress());
             etPhoneContact.setText(contract.getChildPhoneContract());
             spPoint.setText(contract.getPointFullName());
@@ -214,7 +243,7 @@ public class ContractDetailActivity extends AppCompatActivity implements SimpleR
                 btnConfirm.setBackgroundColor(this.getResources().getColor(R.color.ms_material_grey_400));
             }
 
-            if (contract.getSex() == null || contract.getSex().equals("")) {
+            if ((contract.getTutorStatus() != null && !contract.getTutorStatus().equals("")) || contract.getSex() == null || contract.getSex().equals("")) {
                 tvSex.setVisibility(View.GONE);
             } else {
                 if (contract.getSex().equals("F")) {

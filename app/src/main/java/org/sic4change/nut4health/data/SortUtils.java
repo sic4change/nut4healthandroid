@@ -18,8 +18,11 @@ public class SortUtils {
     /**
      * A raw query at runtime to oder by column for getting filter and sorted contracts.
      * @param sortBy
+     * @param contractType
      * @param name
      * @param surname
+     * @param tutorName
+     * @param tutorStatus
      * @param status
      * @param dateStart
      * @param dataEnd
@@ -94,10 +97,13 @@ public class SortUtils {
 
 
     /**
-     * A raw query at runtime to oder by column for getting filter and sorted near contracts.
+     * A raw query at runtime to oder by column for getting filter and sorted contracts.
      * @param sortBy
+     * @param contractType
      * @param name
      * @param surname
+     * @param tutorName
+     * @param tutorStatus
      * @param status
      * @param dateStart
      * @param dataEnd
