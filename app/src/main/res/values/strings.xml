@@ -78,7 +78,8 @@
     <string name="diagnosis_show">diagnosis</string>
 
     <!--Create Contract-->
-    <string name="createContract">Create diagnosis</string>
+    <string name="createContract">Create child diagnosis</string>
+    <string name="createFEFAContract">Create FEFA diagnosis</string>
     <string name="profile_child">Child profile</string>
     <string name="profile_fefa">FEFA profile</string>
     <string name="next_step">Next</string>
@@ -99,9 +100,9 @@
     <string name="brothers">Older siblings of the child</string>
     <string name="child_birthdate">Date of birth of the minor</string>
     <string name="tutor_birthdate">Mother\'s date of birth</string>
-    <string name="tutor">Mother or father of the child</string>
-    <string name="check_verification">Mother, father or tutor authorizes the data collection of the minor</string>
-    <string name="dni">Identification document mother or father</string>
+    <string name="tutor">Mother of the child</string>
+    <string name="check_verification">Mother authorizes the data collection of the minor</string>
+    <string name="dni">Identification document mother</string>
     <string name="contact_phone">Contact phone</string>
     <string name="medical_point">Health Service</string>
     <string name="location">Location</string>

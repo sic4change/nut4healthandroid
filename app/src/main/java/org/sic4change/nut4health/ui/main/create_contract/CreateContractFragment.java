@@ -8,12 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 
 import androidx.fragment.app.Fragment;
 
 import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.ui.create_contract.CreateContractActivity;
+import org.sic4change.nut4health.ui.create_contract_fefa.CreateFEFAContractActivity;
 
 import static maes.tech.intentanim.CustomIntent.customType;
 
@@ -21,9 +21,9 @@ import static maes.tech.intentanim.CustomIntent.customType;
 public class CreateContractFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
+    private Button btnStartCreateChildContract;
 
-    private ImageView ivCreateContract;
-    private Button btnStartCreateContract;
+    private Button btnStartCreateFEFAContract;
 
     public CreateContractFragment() {
         // Required empty public constructor
@@ -38,10 +38,10 @@ public class CreateContractFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_create_contract, container, false);
-        ivCreateContract = view.findViewById(R.id.ivCreateContract);
-        btnStartCreateContract = view.findViewById(R.id.btnStartCreateContractChild);
-        ivCreateContract.setOnClickListener(v -> goToCreateContractActivity());
-        btnStartCreateContract.setOnClickListener(v -> goToCreateContractActivity());
+        btnStartCreateChildContract = view.findViewById(R.id.btnStartCreateContractChild);
+        btnStartCreateChildContract.setOnClickListener(v -> goToCreateChildContractActivity());
+        btnStartCreateFEFAContract = view.findViewById(R.id.btnStartCreateContractFefa);
+        btnStartCreateFEFAContract.setOnClickListener(v -> goToCreateFEFAContractActivity());
         return view;
     }
 
@@ -67,8 +67,14 @@ public class CreateContractFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-    private void goToCreateContractActivity() {
+    private void goToCreateChildContractActivity() {
         Intent intent = new Intent(getActivity(), CreateContractActivity.class);
+        startActivity(intent);
+        customType(getActivity(),"left-to-right");
+    }
+
+    private void goToCreateFEFAContractActivity() {
+        Intent intent = new Intent(getActivity(), CreateFEFAContractActivity.class);
         startActivity(intent);
         customType(getActivity(),"left-to-right");
     }

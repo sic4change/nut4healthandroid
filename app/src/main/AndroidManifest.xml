@@ -76,6 +76,11 @@
             android:parentActivityName=".ui.main.MainActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".ui.create_contract_fefa.CreateFEFAContractActivity"
+            android:label="@string/createFEFAContract"
+            android:parentActivityName=".ui.main.MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".ui.profile.ProfileActivity"
             android:label="@string/profile"
             android:parentActivityName=".ui.main.MainActivity"

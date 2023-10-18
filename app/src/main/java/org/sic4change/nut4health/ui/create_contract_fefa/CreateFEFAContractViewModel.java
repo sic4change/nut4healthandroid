@@ -1,30 +1,10 @@
-package org.sic4change.nut4health.ui.create_contract;
+package org.sic4change.nut4health.ui.create_contract_fefa;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Build;
-import android.os.Environment;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-import java.util.regex.Pattern;
-
-import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
-import androidx.room.ColumnInfo;
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
 
-import com.machinezoo.sourceafis.FingerprintTemplate;
-
-import org.apache.commons.collections4.Predicate;
 import org.joda.time.DateTime;
 import org.joda.time.Minutes;
 import org.joda.time.Seconds;
@@ -33,11 +13,16 @@ import org.sic4change.nut4health.data.entities.Contract;
 import org.sic4change.nut4health.data.entities.MalnutritionChildTable;
 import org.sic4change.nut4health.data.entities.Point;
 import org.sic4change.nut4health.data.entities.User;
-import org.sic4change.nut4health.data.names.DataPointNames;
-import org.sic4change.nut4health.utils.fingerprint.AndroidBmpUtil;
+import org.sic4change.nut4health.ui.create_contract.PointFormatted;
 import org.sic4change.nut4health.utils.location.Nut4HealthSingleShotLocationProvider;
 
-public class CreateContractViewModel extends ViewModel {
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.List;
+
+public class CreateFEFAContractViewModel extends ViewModel {
 
     private final DataRepository mRepository;
     private final LiveData<User> mUser;
@@ -80,7 +65,7 @@ public class CreateContractViewModel extends ViewModel {
 
     private boolean dialerOpened = false;
 
-    public CreateContractViewModel(DataRepository repository) {
+    public CreateFEFAContractViewModel(DataRepository repository) {
         this.mRepository = repository;
         mUser = this.mRepository.getCurrentUser();
 
@@ -444,4 +429,8 @@ public class CreateContractViewModel extends ViewModel {
         return imc;
     }
 }
+
+
+
+
 
