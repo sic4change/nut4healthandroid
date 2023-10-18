@@ -134,15 +134,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startFirebaseUploadWorker();
             }
         });
-//        mMainViewModel.getNotifications().observe(this, notifications -> {
-//            int notificationNoRead = mMainViewModel.getNotificationsNoRead();
-//            if (notificationNoRead > 0) {
-//                tvNotifications.setText(mMainViewModel.getNotificationsNoRead() + "");
-//                tvNotifications.setVisibility(View.VISIBLE);
-//            } else {
-//                tvNotifications.setVisibility(View.GONE);
-//            }
-//        });
         Fragment fragment = new CreateContractFragment();
         fragmentManager.beginTransaction()
                 .replace(R.id.lyMainContent, fragment)
@@ -199,10 +190,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         tvDrawerPoints = navigationView.getHeaderView(0).findViewById(R.id.tvPoints);
         this.navigationView.setCheckedItem(R.id.nav_ranking);
 
-//        tvNotifications = (TextView) navigationView.getMenu().findItem(R.id.nav_notifications).getActionView();
-//        tvNotifications.setTextColor(getResources().getColor(R.color.colorAccent));
-//        tvNotifications.setGravity(Gravity.CENTER_VERTICAL);
-//        tvNotifications.setTypeface(null, Typeface.BOLD);
     }
 
     @Override
@@ -257,11 +244,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     fragment = new ContractFragment();
                     setTitle(R.string.contracts);
                 }
-//                else if (id == R.id.nav_near) {
-//                    mMainViewModel.removeAllNearContracts();
-//                    fragment = new NearFragment();
-//                    setTitle(R.string.map_diagnostics);
-//                }
+                else if (id == R.id.nav_fefa_contracts) {
+                    fragment = new ContractFragment();
+                    setTitle(R.string.contracts_fefa);
+                }
                 else if (id == R.id.nav_ranking) {
                     fragment = new RankingFragment();
                     setTitle(R.string.ranking);

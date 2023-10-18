@@ -116,7 +116,8 @@
     <string name="check_phone_number">Verifique que el número de la persona de contacto sea válido/correcto. Para estar seguro, llame a este contacto, o hágase llamar desde el numero de contacto.</string>
 
     <!--Main menu-->
-    <string name="contracts">Histórico de Diagnósticos</string>
+    <string name="contracts">Diagnósticos niños/as</string>
+    <string name="contracts_fefa">Diagnósticos FEFA</string>
     <string name="ranking">Ranking</string>
     <string name="payments">Pagos</string>
     <string name="report">Reportar</string>

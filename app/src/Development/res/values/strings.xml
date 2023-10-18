@@ -116,7 +116,8 @@
     <string name="check_phone_number">Verify that the contact person number is valid/correct. To be sure, call this contact, or call yourself from the number itself / from the contact number</string>
 
     <!--Main menu-->
-    <string name="contracts">Diagnostics history</string>
+    <string name="contracts">Diagnostics child</string>
+    <string name="contracts_fefa">Diagnostics FEFA</string>
     <string name="ranking">Ranking</string>
     <string name="payments">Payments</string>
     <string name="report">Report</string>

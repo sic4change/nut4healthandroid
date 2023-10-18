@@ -11,12 +11,12 @@
             android:title="@string/capture"/>
         <item
             android:id="@+id/nav_contracts"
-            android:icon="@drawable/ic_contract"
+            android:icon="@drawable/ic_child"
             android:title="@string/contracts" />
-<!--        <item-->
-<!--            android:id="@+id/nav_near"-->
-<!--            android:icon="@drawable/ic_map_contract"-->
-<!--            android:title="@string/map_diagnostics" />-->
+        <item
+            android:id="@+id/nav_fefa_contracts"
+            android:icon="@drawable/ic_fefa"
+            android:title="@string/contracts_fefa" />
         <item
             android:id="@+id/nav_ranking"
             android:icon="@drawable/ic_ranking"
@@ -25,11 +25,6 @@
             android:id="@+id/nav_paids"
             android:icon="@drawable/ic_paid"
             android:title="@string/payments" />
-<!--        <item-->
-<!--            android:id="@+id/nav_notifications"-->
-<!--            android:icon="@drawable/ic_notification"-->
-<!--            android:title="@string/notifications"-->
-<!--            app:actionViewClass="android.widget.TextView"/>-->
         <item
             android:id="@+id/nav_report"
             android:icon="@drawable/ic_report"
