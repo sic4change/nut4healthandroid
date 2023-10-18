@@ -393,7 +393,7 @@ public class CreateContractViewModel extends ViewModel {
         if (imc != 0) {
             if (arm_circumference < 11.5) {
                 return "Aguda Severa";
-            } else if ((arm_circumference >= 11.5 && arm_circumference <= 12.5)) {
+            } else if ((arm_circumference >= 11.5 && arm_circumference < 12.5)) {
                 if ((imc == -3.0)) {
                     return "Aguda Severa";
                 } else {
@@ -411,7 +411,7 @@ public class CreateContractViewModel extends ViewModel {
         } else {
             if (arm_circumference < 11.5) {
                 return "Aguda Severa";
-            } else if (arm_circumference >= 11.5 && arm_circumference <= 12.5) {
+            } else if (arm_circumference >= 11.5 && arm_circumference < 12.5) {
                 return "Aguda Moderada";
             } else {
                 return "Normopeso";

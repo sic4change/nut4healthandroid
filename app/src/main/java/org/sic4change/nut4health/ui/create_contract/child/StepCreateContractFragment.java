@@ -780,7 +780,7 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
             rulerBackground.setBackgroundColor(getResources().getColor(R.color.error));
             tvCm.setTextColor(getResources().getColor(R.color.error));
             mCreateContractViewModel.setPercentage(100);
-        } else if (value >=11.5 && value <= 12.5) {
+        } else if (value >= 11.5 && value < 12.5) {
             rulerBackground.setBackgroundColor(getResources().getColor(R.color.orange));
             tvCm.setTextColor(getResources().getColor(R.color.orange));
             mCreateContractViewModel.setPercentage(50);
