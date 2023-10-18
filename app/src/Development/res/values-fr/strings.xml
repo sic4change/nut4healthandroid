@@ -114,8 +114,9 @@
     <string name="check_phone_number">Veuillez vérifier que le numéro de la personne à contacter est valide/correct. Pour être sûr, appeler ce contact ou faites-vous appeler depuis "celui-ci" / ce téléphone de contact.</string>
 
     <!--Main menu-->
-    <string name="contracts">Diagnósticos niños/as</string>
-    <string name="contracts_fefa">Diagnósticos FEFA</string>
+    <string name="contracts">Diagnostiques Enfants</string>
+    <string name="contracts_fefa">Diagnostiques FEFA</string>
+    <string name="contracts_child">Diagnostiques Enfants</string>
     <string name="ranking">Classement</string>
     <string name="payments">Paiements</string>
     <string name="report">Rapport</string>

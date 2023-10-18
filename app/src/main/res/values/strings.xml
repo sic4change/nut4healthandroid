@@ -119,6 +119,7 @@
 
     <!--Main menu-->
     <string name="contracts">Diagnostics child</string>
+    <string name="contracts_child">Diagnostics child</string>
     <string name="contracts_fefa">Diagnostics FEFA</string>
     <string name="ranking">Ranking</string>
     <string name="payments">Payments</string>

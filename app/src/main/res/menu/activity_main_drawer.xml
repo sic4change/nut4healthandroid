@@ -11,11 +11,11 @@
             android:title="@string/capture"/>
         <item
             android:id="@+id/nav_contracts"
-            android:icon="@drawable/ic_child"
-            android:title="@string/contracts" />
+            android:icon="@drawable/ic_action_child"
+            android:title="@string/contracts_child" />
         <item
             android:id="@+id/nav_fefa_contracts"
-            android:icon="@drawable/ic_fefa"
+            android:icon="@drawable/ic_action_fefa"
             android:title="@string/contracts_fefa" />
         <item
             android:id="@+id/nav_ranking"

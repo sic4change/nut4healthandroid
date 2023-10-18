@@ -117,6 +117,7 @@
     <!--Main menu-->
     <string name="contracts">Diagnostiques Enfants</string>
     <string name="contracts_fefa">Diagnostiques FEFA</string>
+    <string name="contracts_child">Diagnostiques Enfants</string>
     <string name="ranking">Classement</string>
     <string name="payments">Paiements</string>
     <string name="report">Rapport</string>
