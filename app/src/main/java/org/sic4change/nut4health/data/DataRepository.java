@@ -546,7 +546,7 @@ public class DataRepository {
      */
     public void createContract(String id, String role, String email, double latitude, double longitude, Uri photo,
                                String childName, String childSurname, String sex, String childBirthdate, String childDNI,
-                               int childBrothers, String code, String childTutor, String childAddress,
+                               int childBrothers, String code, String childTutor, String tutorBirthdate, String childAddress,
                                String childPhoneContact, String point, String pointFullName, int percentage,
                                double arm_circumference, double height, double weight, String fingerprint,
                                String duration) {
@@ -559,9 +559,10 @@ public class DataRepository {
             status = Contract.Status.REGISTERED.name();
         }
 
-       Contract contract = new Contract("", latitude, longitude, "", childName,
-                childSurname, sex, childBirthdate, childDNI, childBrothers, code, childTutor, childAddress, childPhoneContact, point,
-                pointFullName,  "", status, "", percentage,
+        Contract contract = new Contract("", latitude, longitude, "", childName,
+                childSurname, sex, childBirthdate, childDNI, childBrothers, code, childTutor, tutorBirthdate,
+                childAddress, childPhoneContact, point,
+                pointFullName, "", status, "", percentage,
                 new BigDecimal(arm_circumference).setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue(),
                 height, weight, duration);
 
@@ -569,6 +570,7 @@ public class DataRepository {
         contract.setId(newId);
         contract.setCreationDate(new Date().toString());
         contract.setChildBirthdateMiliseconds(Nut4HealthTimeUtil.convertDateSimpleToTimeMilis(childBirthdate));
+        contract.setTutorBirthdateMiliseconds(Nut4HealthTimeUtil.convertDateSimpleToTimeMilis(tutorBirthdate));
         contract.setCreationDateMiliseconds(new Date().getTime());
         if (fingerprint != null && fingerprint != "") {
             contract.setFingerprint(fingerprint);
@@ -674,6 +676,8 @@ public class DataRepository {
                                         contractIt.setChildBirthdateMiliseconds(Nut4HealthTimeUtil.convertDateSimpleToTimeMilis(childBirthdate));
                                         contractIt.setChildDNI(childDNI);
                                         contractIt.setChildTutor(childTutor);
+                                        contractIt.setTutorBirthdate(tutorBirthdate);
+                                        contractIt.setTutorBirthdateMiliseconds(Nut4HealthTimeUtil.convertDateSimpleToTimeMilis(tutorBirthdate));
                                         contractIt.setChildAddress(childAddress);
                                         contractIt.setChildPhoneContract(childPhoneContact);
                                         contractIt.setArm_circumference_medical(arm_circumference);

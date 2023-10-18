@@ -100,6 +100,7 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
     private TextView tvChildDNI;
     private EditText etChildDNI;
     private EditText etChildTutor;
+    private EditText etTutorBirthdate;
     private EditText etChildLocation;
     private EditText etChildContactPhone;
     private CountryCodePicker cpp;
@@ -271,6 +272,7 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
                             mCreateContractViewModel.getChildDNI(),
                             Integer.parseInt(mCreateContractViewModel.getChildBrothers()),
                             mCreateContractViewModel.getChildTutor(),
+                            mCreateContractViewModel.getTutorBirthdate(),
                             mCreateContractViewModel.getChildLocation(),
                             mCreateContractViewModel.getChildPhoneContact(),
                             mCreateContractViewModel.getPoint(),
@@ -295,6 +297,7 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
         etChildSurname = v.findViewById(R.id.etChildSurname);
         etChildBrothers = v.findViewById(R.id.etBrothers);
         etChildBirthdate = v.findViewById(R.id.etChildBirthdate);
+        etTutorBirthdate = v.findViewById(R.id.etTutorBirthdate);
 
         etChildBirthdate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -315,6 +318,27 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
                 datePickerDialog.show();
             }
         });
+
+        etTutorBirthdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int year = calendar.get(Calendar.YEAR);
+                int month = calendar.get(Calendar.MONTH);
+                int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(),
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(android.widget.DatePicker datePicker, int year, int month, int day) {
+                                String selectedDate = day + "/" + (month + 1) + "/" + year;
+                                etTutorBirthdate.setText(selectedDate);
+                            }
+                        }, year, month, day);
+
+                datePickerDialog.show();
+            }
+        });
+
         etChildBrothers.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -405,6 +429,7 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
                     || (etChildSurname.getText() == null) || (etChildSurname.getText().toString() == null) || (etChildSurname.getText().toString().isEmpty())
                     || (etChildBrothers.getText() == null) || (etChildBrothers.getText().toString() == null) || (etChildBrothers.getText().toString().isEmpty())
                     || (etChildTutor.getText() == null) || (etChildTutor.getText().toString() == null) || (etChildTutor.getText().toString().isEmpty())
+                    || (etChildBirthdate.getText().toString().isEmpty()) || (etTutorBirthdate.getText().toString().isEmpty())
                     || (etChildContactPhone.getText() == null) || (etChildContactPhone.getText().toString() == null) || (etChildContactPhone.getText().toString().isEmpty())
                     || (!cbVerification.isChecked())) {
                 return new VerificationError(getString(R.string.error_child_data));
@@ -417,6 +442,7 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
             mCreateContractViewModel.setChildBirthdate(etChildBirthdate.getText().toString());
             mCreateContractViewModel.setChildDNI(etChildDNI.getText().toString());
             mCreateContractViewModel.setChildTutor(etChildTutor.getText().toString());
+            mCreateContractViewModel.setTutorBirthdate(etTutorBirthdate.getText().toString());
             mCreateContractViewModel.setChildPhoneContact(etChildContactPhone.getText().toString());
             mCreateContractViewModel.setChildVerification(cbVerification.isChecked());
             if (mCreateContractViewModel.getUser().getValue().getRole().equals("Agente Salud") &&

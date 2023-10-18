@@ -61,6 +61,8 @@ public class CreateContractViewModel extends ViewModel {
     private String childBirthdate;
     private String code;
     private String childTutor;
+
+    private String tutorBirthdate;
     private String childLocation;
     private String childPhoneContact;
 
@@ -135,7 +137,7 @@ public class CreateContractViewModel extends ViewModel {
 
     public void createContract(String id, String role, String screener, float latitude, float longitude,
                                Uri photo, String childName, String childSurname, String sex, String childBirthdate,
-                               String childDNI, int childBrothers, String childTutor, String childAddress,
+                               String childDNI, int childBrothers, String childTutor, String tutorBirthdate, String childAddress,
                                String childPhoneContact, String point, String pointFullName,
                                int percentage, double arm_circumference, double height, double weight) {
         String code = childPhoneContact + "-" + childBrothers;
@@ -149,8 +151,8 @@ public class CreateContractViewModel extends ViewModel {
 
 
         mRepository.createContract(id, role, screener, latitude, longitude, photo, childName,
-                childSurname, sex, childBirthdate, childDNI, childBrothers, code, childTutor, childAddress, phone, point,
-                pointFullName, percentage, arm_circumference, height, weight,"",
+                childSurname, sex, childBirthdate, childDNI, childBrothers, code, childTutor, tutorBirthdate,
+                childAddress, phone, point, pointFullName, percentage, arm_circumference, height, weight,"",
                 minutes + seconds);
 
     }
@@ -249,6 +251,14 @@ public class CreateContractViewModel extends ViewModel {
 
     public void setChildTutor(String childTutor) {
         this.childTutor = childTutor;
+    }
+
+    public String getTutorBirthdate() {
+        return tutorBirthdate;
+    }
+
+    public void setTutorBirthdate(String tutorBirthdate) {
+        this.tutorBirthdate = tutorBirthdate;
     }
 
     public String getChildLocation() {
