@@ -798,5 +798,11 @@
     <string name="status">Status</string>
     <string name="call">Call</string>
 
+    <string-array name="array_fefa_options">
+        <item>Pregnant</item>
+        <item>Infant</item>
+        <item>Pregnant and Infant</item>
+    </string-array>
+
 
 </resources>

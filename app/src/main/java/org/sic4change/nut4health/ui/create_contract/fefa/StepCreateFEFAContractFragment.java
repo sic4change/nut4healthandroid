@@ -29,6 +29,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -92,6 +93,7 @@ public class StepCreateFEFAContractFragment extends Fragment implements Step, Si
     private TextView tvCm;
     private CardView cvChild;
     private EditText etChildTutor;
+    private Spinner spTutorStatus;
     private EditText etTutorBirthdate;
     private EditText etChildLocation;
     private EditText etChildContactPhone;
@@ -266,6 +268,7 @@ public class StepCreateFEFAContractFragment extends Fragment implements Step, Si
                             mCreateFEFAContractViewModel.getChildDNI(),
                             Integer.parseInt(mCreateFEFAContractViewModel.getChildBrothers()),
                             mCreateFEFAContractViewModel.getChildTutor(),
+                            mCreateFEFAContractViewModel.getTutorStatus(),
                             mCreateFEFAContractViewModel.getTutorBirthdate(),
                             mCreateFEFAContractViewModel.getChildLocation(),
                             mCreateFEFAContractViewModel.getChildPhoneContact(),
@@ -310,6 +313,7 @@ public class StepCreateFEFAContractFragment extends Fragment implements Step, Si
         });
 
         etChildTutor = v.findViewById(R.id.etChildTutor);
+        spTutorStatus = v.findViewById(R.id.spStatus);
         etChildContactPhone = v.findViewById(R.id.etContactPhone);
         cpp = v.findViewById(R.id.ccp);
         cbVerification = v.findViewById(R.id.cbVerification);
@@ -373,6 +377,7 @@ public class StepCreateFEFAContractFragment extends Fragment implements Step, Si
             mCreateFEFAContractViewModel.setChildBirthdate("1/1/1970");
             mCreateFEFAContractViewModel.setChildDNI("");
             mCreateFEFAContractViewModel.setChildTutor(etChildTutor.getText().toString());
+            mCreateFEFAContractViewModel.setTutorStatus(spTutorStatus.getSelectedItem().toString());
             mCreateFEFAContractViewModel.setTutorBirthdate(etTutorBirthdate.getText().toString());
             mCreateFEFAContractViewModel.setChildPhoneContact(etChildContactPhone.getText().toString());
             mCreateFEFAContractViewModel.setChildVerification(cbVerification.isChecked());
@@ -454,6 +459,9 @@ public class StepCreateFEFAContractFragment extends Fragment implements Step, Si
             clView.setVisibility(View.GONE);
             if (mCreateFEFAContractViewModel.getChildTutor() != null) {
                 etChildTutor.setText(mCreateFEFAContractViewModel.getChildTutor());
+            }
+            if (mCreateFEFAContractViewModel.getTutorStatus() != null) {
+                spTutorStatus.setSelection(((ArrayAdapter<String>) spTutorStatus.getAdapter()).getPosition(mCreateFEFAContractViewModel.getTutorStatus()));
             }
             if (mCreateFEFAContractViewModel.getChildPhoneContact() != null) {
                 etChildContactPhone.setText(mCreateFEFAContractViewModel.getChildPhoneContact());

@@ -88,6 +88,11 @@ public final class DataContractNames {
     public static final String COL_CHILD_TUTOR = "child_tutor";
 
     /**
+     * Column tutor status for contract
+     */
+    public static final String COL_TUTOR_STATUS = "tutor_status";
+
+    /**
      * Column tutor birthdate for contract
      */
     public static final String COL_TUTOR_BIRTHDATE = "tutor_birthdate";

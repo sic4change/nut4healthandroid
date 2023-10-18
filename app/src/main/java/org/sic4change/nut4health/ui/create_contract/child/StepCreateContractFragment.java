@@ -274,6 +274,7 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
                             mCreateContractViewModel.getChildDNI(),
                             Integer.parseInt(mCreateContractViewModel.getChildBrothers()),
                             mCreateContractViewModel.getChildTutor(),
+                            mCreateContractViewModel.getTutorStatus(),
                             mCreateContractViewModel.getTutorBirthdate(),
                             mCreateContractViewModel.getChildLocation(),
                             mCreateContractViewModel.getChildPhoneContact(),
@@ -444,6 +445,7 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
             mCreateContractViewModel.setChildBirthdate(etChildBirthdate.getText().toString());
             mCreateContractViewModel.setChildDNI(etChildDNI.getText().toString());
             mCreateContractViewModel.setChildTutor(etChildTutor.getText().toString());
+            mCreateContractViewModel.setTutorStatus("");
             mCreateContractViewModel.setTutorBirthdate(etTutorBirthdate.getText().toString());
             mCreateContractViewModel.setChildPhoneContact(etChildContactPhone.getText().toString());
             mCreateContractViewModel.setChildVerification(cbVerification.isChecked());

@@ -796,6 +796,12 @@
     <string name="locatoin_health_service">Localización Servicio Salud</string>
     <string name="status">Estado</string>
     <string name="call">Llamar</string>
-    
+
+
+    <string-array name="array_fefa_options">
+        <item>Embarazada</item>
+        <item>Lactante</item>
+        <item>Embarazada y lactante</item>
+    </string-array>
 
 </resources>

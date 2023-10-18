@@ -793,4 +793,10 @@
     <string name="status">État</string>
     <string name="call">Téléphoner à</string>
 
+    <string-array name="array_fefa_options">
+        <item>Enceinte</item>
+        <item>Allaitante</item>
+        <item>Enceinte et allaitante</item>
+    </string-array>
+
 </resources>
