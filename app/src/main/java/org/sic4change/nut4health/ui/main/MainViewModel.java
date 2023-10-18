@@ -44,6 +44,8 @@ public class MainViewModel extends ViewModel {
 
     private String name = "";
     private String surname = "";
+    private String tutorName = "";
+    private String tutorStatus = "";
     private String status = Contract.Status.EMPTY.name();
     private long dateStart = 0;
     private long dateEnd = 0;
@@ -77,17 +79,8 @@ public class MainViewModel extends ViewModel {
                 this.mRepository.getMalnutritionChildValues();
             }
         });
-        /*mUser.observeForever( user -> {
-            if (user != null) {
-                this.mRepository.getContracts(user.getEmail(), user.getRole());
-                this.mRepository.getRanking();
-                this.mRepository.getPayments(user.getEmail());
-                this.mRepository.getMalnutritionChildValues();
-            }
-        });*/
-        mContracts = this.mRepository.getSortedContracts("DATE", name, surname, status, dateStart, dateEnd, percentageMin, percentageMax);
-
-        mNear = this.mRepository.getSortedNearContracts("DATE", name, surname, status, dateStart, dateEnd, percentageMin, percentageMax);
+        mContracts = this.mRepository.getSortedContracts("DATE", "", name, surname, tutorName, tutorStatus, status, dateStart, dateEnd, percentageMin, percentageMax);
+        mNear = this.mRepository.getSortedNearContracts("DATE", "", name, surname, tutorName, tutorStatus, status, dateStart, dateEnd, percentageMin, percentageMax);
         mRanking = this.mRepository.getSortedRanking("POINTS", usernameRanking);
         mPayments = this.mRepository.getSortedPayments("DATE", statusPayment, dateStartPayment, dateEndPayment);
         mNotifications = this.mRepository.getSortedNotifications();
@@ -126,9 +119,13 @@ public class MainViewModel extends ViewModel {
         this.mRepository.getPoints();
     }
 
-    public void getSortedContracts(String sort, String name, String surname, String status, long dateStart, long dataEnd,
+    public void getSortedContracts(String sort, String contractType, String name, String surname,
+                                   String tutorName, String tutorStatus,
+                                   String status, long dateStart, long dataEnd,
                                    int percentageMin, int percentageMax) {
-        mContracts = this.mRepository.getSortedContracts(sort, name, surname, status, dateStart, dataEnd,
+        mContracts = this.mRepository.getSortedContracts(sort, contractType, name, surname,
+                tutorName, tutorStatus,
+                status, dateStart, dataEnd,
                 percentageMin, percentageMax);
     }
 
@@ -178,6 +175,22 @@ public class MainViewModel extends ViewModel {
 
     public void setSurname(String surname) {
         this.surname = surname;
+    }
+
+    public String getTutorName() {
+        return tutorName;
+    }
+
+    public void setTutorName(String tutorName) {
+        this.tutorName = tutorName;
+    }
+
+    public void setTutorStatus(String tutorStatus) {
+        this.tutorStatus = tutorStatus;
+    }
+
+    public String getTutorStatus() {
+        return tutorStatus;
     }
 
     public String getStatus() {
@@ -311,9 +324,13 @@ public class MainViewModel extends ViewModel {
         this.mRepository.retrieveNearContracts(latitude, longitude, RADIUS_NEAR);
     }
 
-    public void getSortedNearContracts(String sort, String name, String surname, String status, long dateStart, long dataEnd,
+    public void getSortedNearContracts(String sort, String contractType, String name, String surname,
+                                       String tutorName, String tutorStatus,
+                                       String status, long dateStart, long dataEnd,
                                    int percentageMin, int percentageMax) {
-        mNear = this.mRepository.getSortedNearContracts(sort, name, surname, status, dateStart, dataEnd,
+        mNear = this.mRepository.getSortedNearContracts(sort, contractType, name, surname,
+                tutorName, tutorStatus,
+                status, dateStart, dataEnd,
                 percentageMin, percentageMax);
     }
 

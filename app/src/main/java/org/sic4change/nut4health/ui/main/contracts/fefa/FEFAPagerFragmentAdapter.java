@@ -1,15 +1,15 @@
-package org.sic4change.nut4health.ui.main.contracts;
+package org.sic4change.nut4health.ui.main.contracts.fefa;
 
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
-public class PagerFragmentAdapter  extends FragmentStatePagerAdapter {
+public class FEFAPagerFragmentAdapter extends FragmentStatePagerAdapter {
     int mNumOfTabs;
     String role;
 
-    public PagerFragmentAdapter(FragmentManager fm, int NumOfTabs, String role) {
+    public FEFAPagerFragmentAdapter(FragmentManager fm, int NumOfTabs, String role) {
         super(fm);
         this.mNumOfTabs = NumOfTabs;
         this.role = role;
@@ -23,8 +23,8 @@ public class PagerFragmentAdapter  extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position) {
         switch (position) {
-            case 0: return new ContractsListFragment(role);
-            case 1: return new ContractsMapFragment(role);
+            case 0: return new FEFAContractsListFragment(role);
+            case 1: return new FEFAContractsMapFragment(role);
             default: return null;
         }
     }

@@ -1,4 +1,4 @@
-package org.sic4change.nut4health.ui.main.contracts;
+package org.sic4change.nut4health.ui.main.contracts.child;
 
 import android.content.Context;
 import android.view.View;
@@ -13,6 +13,7 @@ import com.github.pavlospt.CircleView;
 
 import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.data.entities.Contract;
+import org.sic4change.nut4health.ui.main.contracts.child.ContractsAdapter;
 
 import java.util.Date;
 import java.util.Locale;

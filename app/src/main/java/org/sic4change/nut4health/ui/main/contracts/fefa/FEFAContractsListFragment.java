@@ -1,5 +1,7 @@
-package org.sic4change.nut4health.ui.main.contracts;
+package org.sic4change.nut4health.ui.main.contracts.fefa;
 
+
+import static maes.tech.intentanim.CustomIntent.customType;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,10 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -26,15 +25,13 @@ import org.sic4change.nut4health.data.entities.Contract;
 import org.sic4change.nut4health.ui.contract_detail.ContractDetailActivity;
 import org.sic4change.nut4health.ui.main.MainViewModel;
 
-import static maes.tech.intentanim.CustomIntent.customType;
 
-
-public class ContractsListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class FEFAContractsListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     private OnFragmentInteractionListener mListener;
     private MainViewModel mMainViewModel;
 
-    private ContractsAdapter contractsAdapter;
+    private FEFAContractsAdapter FEFAContractsAdapter;
     private org.sic4change.nut4health.utils.view.Nut4HealthTextAwesome ivEmptyContracts;
     private SwipeRefreshLayout swipe_container;
     private RecyclerView rvContracts;
@@ -42,7 +39,7 @@ public class ContractsListFragment extends Fragment implements SwipeRefreshLayou
 
     private String role= "";
 
-    public ContractsListFragment(String role) {
+    public FEFAContractsListFragment(String role) {
         // Required empty public constructor
         this.role = role;
     }
@@ -58,10 +55,10 @@ public class ContractsListFragment extends Fragment implements SwipeRefreshLayou
         swipe_container.setOnRefreshListener(this);
         ivEmptyContracts = view.findViewById(R.id.ivEmptyContracts);
         rvContracts = view.findViewById(R.id.rvContracts);
-        contractsAdapter = new ContractsAdapter(getActivity().getApplicationContext());
+        FEFAContractsAdapter = new FEFAContractsAdapter(getActivity().getApplicationContext());
         rvContracts.setLayoutManager(new LinearLayoutManager(getActivity()));
-        rvContracts.setAdapter(contractsAdapter);
-        contractsAdapter.setItemOnClickAction((position, id) -> {
+        rvContracts.setAdapter(FEFAContractsAdapter);
+        FEFAContractsAdapter.setItemOnClickAction((position, id) -> {
             goToContractDetailActivity(id, role);
         });
         tvTotalCasesList = view.findViewById(R.id.tvTotalCasesList);
@@ -99,9 +96,9 @@ public class ContractsListFragment extends Fragment implements SwipeRefreshLayou
     }
 
     private void showContracts(PagedList<Contract> contracts) {
-        if (contractsAdapter != null) {
-            contractsAdapter.submitList(contracts);
-            contractsAdapter.notifyDataSetChanged();
+        if (FEFAContractsAdapter != null) {
+            FEFAContractsAdapter.submitList(contracts);
+            FEFAContractsAdapter.notifyDataSetChanged();
             if (contracts.size() > 0) {
                 ivEmptyContracts.setVisibility(View.GONE);
             } else {

@@ -27,11 +27,40 @@ public class SortUtils {
      * @param percentageMax
      * @return
      */
-    public static SimpleSQLiteQuery getFilterContracts(String sortBy, String name, String surname, String status, long dateStart, long dataEnd,
+    public static SimpleSQLiteQuery getFilterContracts(String sortBy, String contractType, String name, String surname,
+                                                       String tutorName, String tutorStatus,
+                                                       String status, long dateStart, long dataEnd,
                                                        int percentageMin, int percentageMax) {
         String query = "SELECT * FROM " + DataContractNames.TABLE_NAME;
+        if ((contractType != null) && (!contractType.isEmpty())) {
+            if (contractType.equals("fefa")) {
+                query = query + " WHERE " + DataContractNames.COL_TUTOR_STATUS + " != " + "''";
+            } else if (contractType.equals("child")) {
+                query = query + " WHERE " + DataContractNames.COL_TUTOR_STATUS + " = " + "''";
+            }
+        }
+        if ((tutorName != null) && (!tutorName.isEmpty())) {
+            if (query.contains("WHERE")) {
+                query = query + " AND " + DataContractNames.COL_CHILD_TUTOR + " LIKE " + "'%" + tutorName + "%'";
+            } else {
+                query = query + " WHERE " + DataContractNames.COL_CHILD_TUTOR + " LIKE " + "'%" + tutorName + "%'";
+            }
+
+        }
+        if ((tutorStatus != null) && (!tutorStatus.isEmpty())) {
+            if (query.contains("WHERE")) {
+                query = query + " AND " + DataContractNames.COL_TUTOR_STATUS + " LIKE " + "'%" + tutorStatus + "%'";
+            } else {
+                query = query + " WHERE " + DataContractNames.COL_TUTOR_STATUS + " LIKE " + "'%" + tutorStatus + "%'";
+            }
+
+        }
         if ((name != null) && (!name.isEmpty())) {
-            query = query + " WHERE " + DataContractNames.COL_CHILD_NAME + " LIKE " + "'%" + name + "%'";
+            if (query.contains("WHERE")) {
+                query = query + " AND " + DataContractNames.COL_CHILD_NAME + " LIKE " + "'%" + name + "%'";
+            } else {
+                query = query + " WHERE " + DataContractNames.COL_CHILD_NAME + " LIKE " + "'%" + name + "%'";
+            }
         }
         if ((surname != null) && (!surname.isEmpty())) {
             if (query.contains("WHERE")) {
@@ -76,11 +105,40 @@ public class SortUtils {
      * @param percentageMax
      * @return
      */
-    public static SimpleSQLiteQuery getFilterNearContracts(String sortBy, String name, String surname, String status, long dateStart, long dataEnd,
+    public static SimpleSQLiteQuery getFilterNearContracts(String sortBy, String contractType, String name, String surname,
+                                                           String tutorName, String tutorStatus,
+                                                           String status, long dateStart, long dataEnd,
                                                        int percentageMin, int percentageMax) {
-        String query = "SELECT * FROM " + DataNearNames.TABLE_NAME;
+        String query = "SELECT * FROM " + DataContractNames.TABLE_NAME;
+        if ((contractType != null) && (!contractType.isEmpty())) {
+            if (contractType.equals("fefa")) {
+                query = query + " WHERE " + DataContractNames.COL_TUTOR_STATUS + " != " + "''";
+            } else if (contractType.equals("child")) {
+                query = query + " WHERE " + DataContractNames.COL_TUTOR_STATUS + " = " + "''";
+            }
+        }
+        if ((tutorName != null) && (!tutorName.isEmpty())) {
+            if (query.contains("WHERE")) {
+                query = query + " AND " + DataContractNames.COL_CHILD_TUTOR + " LIKE " + "'%" + tutorName + "%'";
+            } else {
+                query = query + " WHERE " + DataContractNames.COL_CHILD_TUTOR + " LIKE " + "'%" + tutorName + "%'";
+            }
+
+        }
+        if ((tutorStatus != null) && (!tutorStatus.isEmpty())) {
+            if (query.contains("WHERE")) {
+                query = query + " AND " + DataContractNames.COL_TUTOR_STATUS + " LIKE " + "'%" + tutorStatus + "%'";
+            } else {
+                query = query + " WHERE " + DataContractNames.COL_TUTOR_STATUS + " LIKE " + "'%" + tutorStatus + "%'";
+            }
+
+        }
         if ((name != null) && (!name.isEmpty())) {
-            query = query + " WHERE " + DataNearNames.COL_CHILD_NAME + " LIKE " + "'%" + name + "%'";
+            if (query.contains("WHERE")) {
+                query = query + " AND " + DataContractNames.COL_CHILD_NAME + " LIKE " + "'%" + name + "%'";
+            } else {
+                query = query + " WHERE " + DataContractNames.COL_CHILD_NAME + " LIKE " + "'%" + name + "%'";
+            }
         }
         if ((surname != null) && (!surname.isEmpty())) {
             if (query.contains("WHERE")) {

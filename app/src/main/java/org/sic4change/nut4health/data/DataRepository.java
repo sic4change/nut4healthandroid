@@ -830,10 +830,11 @@ public class DataRepository {
      * @param percentageMax
      * @return
      */
-    public LiveData<PagedList<Contract>> getSortedContracts(String sort, String name, String surname,
+    public LiveData<PagedList<Contract>> getSortedContracts(String sort, String contractType, String name, String surname,
+                                                            String tutorName, String tutorStatus,
                                                             String status, long dateStart, long dateEnd,
                                                             int percentageMin, int percentageMax) {
-        SimpleSQLiteQuery query = SortUtils.getFilterContracts(sort, name, surname, status, dateStart, dateEnd,
+        SimpleSQLiteQuery query = SortUtils.getFilterContracts(sort, contractType, name, surname, tutorName, tutorStatus, status, dateStart, dateEnd,
                 percentageMin, percentageMax);
         LiveData<PagedList<Contract>> contracts = new LivePagedListBuilder<>(nut4HealtDao.getUserContracts(query), PAGE_SIZE).build();
         return contracts;
@@ -1250,10 +1251,13 @@ public class DataRepository {
      * @param percentageMax
      * @return
      */
-    public LiveData<PagedList<Near>> getSortedNearContracts(String sort, String name, String surname,
+    public LiveData<PagedList<Near>> getSortedNearContracts(String sort, String contractType, String name, String surname,
+                                                            String tutorName, String tutorStatus,
                                                             String status, long dateStart, long dateEnd,
                                                             int percentageMin, int percentageMax) {
-        SimpleSQLiteQuery query = SortUtils.getFilterNearContracts(sort, name, surname, status, dateStart, dateEnd,
+        SimpleSQLiteQuery query = SortUtils.getFilterNearContracts(sort, contractType, name, surname,
+                tutorName, tutorStatus,
+                status, dateStart, dateEnd,
                 percentageMin, percentageMax);
         return new LivePagedListBuilder<>(nut4HealtDao.getNearContracts(query), PAGE_SIZE).build();
     }

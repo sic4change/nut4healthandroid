@@ -1,4 +1,4 @@
-package org.sic4change.nut4health.ui.main.contracts;
+package org.sic4change.nut4health.ui.main.contracts.fefa;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -12,13 +12,13 @@ import androidx.recyclerview.widget.DiffUtil;
 import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.data.entities.Contract;
 
-public class ContractsAdapter extends PagedListAdapter<Contract, ContractViewHolder> {
+public class FEFAContractsAdapter extends PagedListAdapter<Contract, FEFAContractViewHolder> {
 
     private ItemAction mItemOnClickAction;
 
     Context context;
 
-    public ContractsAdapter(Context context) {
+    public FEFAContractsAdapter(Context context) {
         super(DIFF_CALLBACK);
         this.context = context;
     }
@@ -33,13 +33,13 @@ public class ContractsAdapter extends PagedListAdapter<Contract, ContractViewHol
 
     @NonNull
     @Override
-    public ContractViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(context).inflate(R.layout.item_contract, parent, false);
-        return new ContractViewHolder(itemView, context);
+    public FEFAContractViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(context).inflate(R.layout.item_fefa_contract, parent, false);
+        return new FEFAContractViewHolder(itemView, context);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ContractViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull FEFAContractViewHolder holder, int position) {
         Contract contract = getItem(position);
         if (contract != null) {
             holder.bindTo(position, contract, mItemOnClickAction);

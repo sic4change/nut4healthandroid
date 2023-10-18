@@ -1,4 +1,6 @@
-package org.sic4change.nut4health.ui.main.contracts;
+package org.sic4change.nut4health.ui.main.contracts.fefa;
+
+import static maes.tech.intentanim.CustomIntent.customType;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -41,10 +43,8 @@ import org.sic4change.nut4health.utils.location.Nut4HealthSingleShotLocationProv
 import java.util.Date;
 import java.util.Locale;
 
-import static maes.tech.intentanim.CustomIntent.customType;
 
-
-public class ContractsMapFragment extends Fragment implements OnMapReadyCallback {
+public class FEFAContractsMapFragment extends Fragment implements OnMapReadyCallback {
 
     private OnFragmentInteractionListener mListener;
     private MainViewModel mMainViewModel;
@@ -54,8 +54,8 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
 
     private CardView cvContract;
     private TextView nStatus;
-    private TextView tvSex;
-    private TextView nChildName;
+    private TextView tvTutorStatus;
+    private TextView nTutorName;
     private TextView nChildLocation;
     private CircleView nPercentage;
     private TextView nDate;
@@ -67,18 +67,18 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
 
     private String role= "";
 
-    public ContractsMapFragment(String role) {
+    public FEFAContractsMapFragment(String role) {
         this.role = role;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_contract_map, container, false);
+        View view = inflater.inflate(R.layout.fragment_fefa_contract_map, container, false);
         cvContract = view.findViewById(R.id.cvContract);
         cvContract.setOnClickListener(v -> goToContractDetailActivity(id, role));
         nStatus = view.findViewById(R.id.tvStatus);
-        tvSex = view.findViewById(R.id.tvSex);
-        nChildName = view.findViewById(R.id.tvNameItem);
+        tvTutorStatus = view.findViewById(R.id.tvSex);
+        nTutorName = view.findViewById(R.id.tvNameItem);
         nChildLocation = view.findViewById(R.id.tvLocationItem);
         nPercentage = view.findViewById(R.id.tvPercentageItem);
         nDate = view.findViewById(R.id.tvDateItem);
@@ -87,7 +87,7 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         initData();
-        if (ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 101);
         } else {
             showMyPosition();
@@ -100,13 +100,6 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
     private void initData() {
         mMainViewModel = ViewModelProviders.of(getActivity()).get(MainViewModel.class);
 
-        /*mMainViewModel.getContracts().observe(getActivity(), contracts -> {
-            if (contracts != null) {
-                showContracts(contracts);
-                showContractsNumber(contracts);
-            }
-        });*/
-
         try {
             mMainViewModel.getIsFiltered().observe(getActivity(), filtered ->{
                 mMainViewModel.getContracts().observe(getActivity(), contracts -> {
@@ -117,6 +110,10 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
         } catch (Exception e) {
             System.out.println("error");
         }
+        mMainViewModel.getSortedContracts("DATE", "fefa", mMainViewModel.getName(),
+                mMainViewModel.getSurname(), mMainViewModel.getTutorName(), mMainViewModel.getTutorStatus(),
+                mMainViewModel.getStatus(), mMainViewModel.getDateStart(), mMainViewModel.getDateEnd(),
+                mMainViewModel.getPercentageMin(), mMainViewModel.getPercentageMax());
     }
 
     private void showContractsNumber(PagedList<Contract> contracts) {
@@ -198,7 +195,7 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
     }
 
     private void showContractInformation(Contract contract) {
-        nChildName.setText(contract.getChildName() + " " + contract.getChildSurname());
+        nTutorName.setText(contract.getChildTutor());
         nChildLocation.setText(contract.getChildAddress());
         if (contract.getPercentage() < 50) {
             nPercentage.setTitleText(getResources().getString(R.string.normopeso_abrev));
@@ -246,17 +243,7 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
             nConfirmationDate.setVisibility(View.INVISIBLE);
         }
 
-        if (contract.getSex() == null || contract.getSex().equals("")) {
-            tvSex.setVisibility(View.GONE);
-        } else {
-            if (contract.getSex().equals("F")) {
-                tvSex.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_female_icon, 0, 0, 0);
-            } else {
-                tvSex.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_male_icon, 0, 0, 0);
-            }
-            tvSex.setVisibility(View.VISIBLE);
-        }
-
+        tvTutorStatus.setText(contract.getTutorStatus());
         Date date = new Date(contract.getCreationDate());
         Locale LocaleBylanguageTag = Locale.forLanguageTag("es");
         TimeAgoMessages messages = new TimeAgoMessages.Builder().withLocale(LocaleBylanguageTag).build();

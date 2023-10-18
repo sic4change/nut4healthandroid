@@ -1,4 +1,6 @@
-package org.sic4change.nut4health.ui.main.contracts;
+package org.sic4change.nut4health.ui.main.contracts.fefa;
+
+import static maes.tech.intentanim.CustomIntent.customType;
 
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -11,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+
 import androidx.cardview.widget.CardView;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
@@ -22,36 +25,26 @@ import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeSuccessDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.data.entities.Contract;
-import org.sic4change.nut4health.ui.create_contract.child.CreateContractActivity;
-import org.sic4change.nut4health.ui.create_contract.child.StepCreateContractAdapter;
+import org.sic4change.nut4health.ui.create_contract.fefa.CreateFEFAContractActivity;
 import org.sic4change.nut4health.ui.main.MainViewModel;
 import org.sic4change.nut4health.utils.Nut4HealthKeyboard;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.Calendar;
 
 import ru.slybeaver.slycalendarview.SlyCalendarDialog;
 
-import static maes.tech.intentanim.CustomIntent.customType;
 
-
-public class ContractFragment extends Fragment {
+public class FEFAContractFragment extends Fragment {
 
     private FloatingActionButton btnCreateContract;
     private FloatingActionButton btnFilterContracts;
     private FloatingActionButton btnExportContract;
     private CardView lyFilter;
-    private EditText etName;
-    private EditText etSurname;
+    private EditText etFefa;
+    private EditText etFefaStatus;
     private View ivStatus;
     private Spinner spStatus;
     private EditText tvDateRange;
@@ -64,7 +57,7 @@ public class ContractFragment extends Fragment {
     private MainViewModel mMainViewModel;
     private boolean exportContract = false;
 
-    public ContractFragment() {
+    public FEFAContractFragment() {
         // Required empty public constructor
     }
 
@@ -83,13 +76,13 @@ public class ContractFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_contract, container, false);
+        View view = inflater.inflate(R.layout.fragment_fefa_contract, container, false);
         TabLayout tabLayout = view.findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText(R.string.list));
         tabLayout.addTab(tabLayout.newTab().setText(R.string.map));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         final ViewPager viewPager = view.findViewById(R.id.pager);
-        final PagerFragmentAdapter adapter = new PagerFragmentAdapter
+        final FEFAPagerFragmentAdapter adapter = new FEFAPagerFragmentAdapter
                 (getActivity().getSupportFragmentManager(), tabLayout.getTabCount(), mMainViewModel.getCurrentUser().getValue().getRole());
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new
@@ -123,13 +116,13 @@ public class ContractFragment extends Fragment {
         });
         btnClear = view.findViewById(R.id.btnClear);
         btnClear.setOnClickListener(v -> {
-            Nut4HealthKeyboard.closeKeyboard(etName, getContext());
+            Nut4HealthKeyboard.closeKeyboard(etFefa, getContext());
             mMainViewModel.setIsFiltered(false);
             clear();
         });
         lyFilter = view.findViewById(R.id.lyFilter);
-        etName = view.findViewById(R.id.etName);
-        etSurname = view.findViewById(R.id.etSurname);
+        etFefa = view.findViewById(R.id.etName);
+        etFefaStatus = view.findViewById(R.id.etSurname);
         ivStatus = view.findViewById(R.id.ivStatus);
         spStatus = view.findViewById(R.id.spStatus);
         tvDateRange = view.findViewById(R.id.tvDateRange);
@@ -166,7 +159,7 @@ public class ContractFragment extends Fragment {
         });
         btnFilter = view.findViewById(R.id.btnFilter);
         btnFilter.setOnClickListener(v -> {
-            Nut4HealthKeyboard.closeKeyboard(etName, getContext());
+            Nut4HealthKeyboard.closeKeyboard(etFefa, getContext());
             filterContracts();
             lyFilter.setVisibility(View.GONE);
         });
@@ -227,10 +220,14 @@ public class ContractFragment extends Fragment {
             }
 
         });
+        mMainViewModel.getSortedContracts("DATE", "fefa", mMainViewModel.getName(),
+                mMainViewModel.getSurname(), mMainViewModel.getTutorName(), mMainViewModel.getTutorStatus(),
+                mMainViewModel.getStatus(),
+                mMainViewModel.getDateStart(), mMainViewModel.getDateEnd(), mMainViewModel.getPercentageMin(), mMainViewModel.getPercentageMax());
     }
 
     private void goToCreateContractActivity() {
-        Intent intent = new Intent(getActivity(), CreateContractActivity.class);
+        Intent intent = new Intent(getActivity(), CreateFEFAContractActivity.class);
         startActivity(intent);
         customType(getActivity(),"left-to-right");
     }
@@ -238,14 +235,15 @@ public class ContractFragment extends Fragment {
     private void showContractFilterMenu() {
         if (lyFilter.getVisibility() == View.VISIBLE) {
             lyFilter.setVisibility(View.GONE);
-            Nut4HealthKeyboard.closeKeyboard(etName, getContext());
+            Nut4HealthKeyboard.closeKeyboard(etFefa, getContext());
         } else if (lyFilter.getVisibility() == View.GONE) {
             lyFilter.setVisibility(View.VISIBLE);
         }
     }
 
     private void exportContractsToExcel() {
-            mMainViewModel.getContracts().observe(getActivity(), contracts -> {
+            /*mMainViewModel.getSortedContracts("DATE", "fefa", mMainViewModel.getName(), mMainViewModel.getSurname(), mMainViewModel.getStatus(),
+                    mMainViewModel.getDateStart(), mMainViewModel.getDateEnd(), mMainViewModel.getPercentageMin(), mMainViewModel.getPercentageMax())..observe(getActivity(), contracts -> {
                 if (exportContract) {
                     Workbook workbook = new XSSFWorkbook();
                     Sheet sheet = workbook.createSheet(getString(R.string.contracts));
@@ -255,14 +253,14 @@ public class ContractFragment extends Fragment {
                     rowHeader.createCell(2).setCellValue(getString(R.string.sex_export));
                     rowHeader.createCell(3).setCellValue(getString(R.string.address_export));
                     rowHeader.createCell(4).setCellValue(getString(R.string.phone_export));
-                    rowHeader.createCell(5).setCellValue(getString(R.string.date_export));
-                    rowHeader.createCell(6).setCellValue(getString(R.string.date_millis_export));
-                    rowHeader.createCell(7).setCellValue(getString(R.string.screener_export));
-                    rowHeader.createCell(8).setCellValue(getString(R.string.service_export));
-                    rowHeader.createCell(9).setCellValue(getString(R.string.date_health_service));
-                    rowHeader.createCell(10).setCellValue(getString(R.string.date_millis_health_service));
-                    rowHeader.createCell(11).setCellValue(getString(R.string.locatoin_health_service));
-                    rowHeader.createCell(12).setCellValue(getString(R.string.status));
+                    //rowHeader.createCell(5).setCellValue(getString(R.string.date_export));
+                    //rowHeader.createCell(5).setCellValue(getString(R.string.date_millis_export));
+                    rowHeader.createCell(5).setCellValue(getString(R.string.screener_export));
+                    rowHeader.createCell(6).setCellValue(getString(R.string.service_export));
+                    //rowHeader.createCell(9).setCellValue(getString(R.string.date_health_service));
+                    //rowHeader.createCell(10).setCellValue(getString(R.string.date_millis_health_service));
+                    rowHeader.createCell(7).setCellValue(getString(R.string.locatoin_health_service));
+                    rowHeader.createCell(8).setCellValue(getString(R.string.status));
                     for(int  i=0; i<contracts.size(); i++){
                         Row row = sheet.createRow(i+1);
                         String status = "";
@@ -278,14 +276,14 @@ public class ContractFragment extends Fragment {
                         row.createCell(2).setCellValue(contracts.get(i).getSex());
                         row.createCell(3).setCellValue(contracts.get(i).getChildAddress());
                         row.createCell(4).setCellValue(contracts.get(i).getChildPhoneContract());
-                        row.createCell(5).setCellValue(contracts.get(i).getCreationDate());
-                        row.createCell(6).setCellValue(contracts.get(i).getCreationDateMiliseconds());
-                        row.createCell(7).setCellValue(contracts.get(i).getScreener());
-                        row.createCell(8).setCellValue(contracts.get(i).getMedical());
-                        row.createCell(9).setCellValue(contracts.get(i).getMedicalDate());
-                        row.createCell(10).setCellValue(contracts.get(i).getMedicalDateMiliseconds());
-                        row.createCell(11).setCellValue(contracts.get(i).getPointFullName());
-                        row.createCell(12).setCellValue(status);
+                        //row.createCell(5).setCellValue(contracts.get(i).getCreationDate());
+                        //row.createCell(6).setCellValue(contracts.get(i).getCreationDateMiliseconds());
+                        row.createCell(5).setCellValue(contracts.get(i).getScreener());
+                        row.createCell(6).setCellValue(contracts.get(i).getMedical());
+                        //row.createCell(9).setCellValue(contracts.get(i).getMedicalDate());
+                        //row.createCell(10).setCellValue(contracts.get(i).getMedicalDateMiliseconds());
+                        row.createCell(7).setCellValue(contracts.get(i).getPointFullName());
+                        row.createCell(8).setCellValue(status);
                     }
                     File file = new File(getActivity().getExternalFilesDir(null), "contracts.xlsx");
                     try {
@@ -306,7 +304,7 @@ public class ContractFragment extends Fragment {
                     showDialogExportContractsResult();
                 }
 
-            });
+            });*/
     }
 
     public void showDialogExportContractsResult() {
@@ -340,8 +338,8 @@ public class ContractFragment extends Fragment {
     }
 
     private void clear() {
-        etName.setText("");
-        etSurname.setText("");
+        etFefa.setText("");
+        etFefaStatus.setText("");
         tvDateRange.setText("");
         spStatus.setSelection(0);
         mMainViewModel.setName("");
@@ -353,15 +351,16 @@ public class ContractFragment extends Fragment {
         mMainViewModel.setDateStart(timeRangeMax);
         mMainViewModel.setPercentageMax(100);
         mMainViewModel.setPercentageMin(0);
-        mMainViewModel.getSortedContracts("DATE", mMainViewModel.getName(), mMainViewModel.getSurname(), mMainViewModel.getStatus(),
+        mMainViewModel.getSortedContracts("DATE", "fefa", mMainViewModel.getName(), mMainViewModel.getSurname(),
+                mMainViewModel.getTutorName(), mMainViewModel.getTutorStatus(), mMainViewModel.getStatus(),
                 mMainViewModel.getDateStart(), mMainViewModel.getDateEnd(), mMainViewModel.getPercentageMin(), mMainViewModel.getPercentageMax());
         lyFilter.setVisibility(View.GONE);
         mMainViewModel.setIsFiltered(false);
     }
 
     private void filterContracts() {
-        mMainViewModel.setName(etName.getText().toString());
-        mMainViewModel.setSurname(etSurname.getText().toString());
+        mMainViewModel.setTutorName(etFefa.getText().toString());
+        mMainViewModel.setTutorStatus(etFefaStatus.getText().toString());
         switch (spStatus.getSelectedItemPosition()) {
             case 0:
                 mMainViewModel.setStatus(Contract.Status.EMPTY.name());
@@ -413,8 +412,10 @@ public class ContractFragment extends Fragment {
         } else {
             mMainViewModel.setDateStart(timeRangeMax);
         }
-        mMainViewModel.getSortedContracts("DATE", mMainViewModel.getName(), mMainViewModel.getSurname(), mMainViewModel.getStatus(),
-                mMainViewModel.getDateStart(), mMainViewModel.getDateEnd(), mMainViewModel.getPercentageMin(), mMainViewModel.getPercentageMax());
+        mMainViewModel.getSortedContracts("DATE", "fefa", mMainViewModel.getName(),
+                mMainViewModel.getSurname(), mMainViewModel.getTutorName(), mMainViewModel.getTutorStatus(),
+                mMainViewModel.getStatus(), mMainViewModel.getDateStart(), mMainViewModel.getDateEnd(),
+                mMainViewModel.getPercentageMin(), mMainViewModel.getPercentageMax());
         mMainViewModel.getContracts().observe(getActivity(), contracts -> mMainViewModel.setIsFiltered(true));
     }
 

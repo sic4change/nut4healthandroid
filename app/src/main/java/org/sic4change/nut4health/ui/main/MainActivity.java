@@ -41,9 +41,12 @@ import com.google.android.material.navigation.NavigationView;
 import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.data.entities.User;
 import org.sic4change.nut4health.service.FirebaseDataUploadWorker;
-import org.sic4change.nut4health.ui.main.contracts.ContractFragment;
-import org.sic4change.nut4health.ui.main.contracts.ContractsListFragment;
-import org.sic4change.nut4health.ui.main.contracts.ContractsMapFragment;
+import org.sic4change.nut4health.ui.main.contracts.child.ContractFragment;
+import org.sic4change.nut4health.ui.main.contracts.child.ContractsListFragment;
+import org.sic4change.nut4health.ui.main.contracts.child.ContractsMapFragment;
+import org.sic4change.nut4health.ui.main.contracts.fefa.FEFAContractsListFragment;
+import org.sic4change.nut4health.ui.main.contracts.fefa.FEFAContractsMapFragment;
+import org.sic4change.nut4health.ui.main.contracts.fefa.FEFAContractFragment;
 import org.sic4change.nut4health.ui.main.create_contract.CreateContractFragment;
 import org.sic4change.nut4health.ui.main.notifications.NotificationFragment;
 import org.sic4change.nut4health.ui.main.payments.PaymentFragment;
@@ -66,6 +69,7 @@ import static maes.tech.intentanim.CustomIntent.customType;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
         EmptyFragment.OnFragmentInteractionListener, CreateContractFragment.OnFragmentInteractionListener,
         ContractsListFragment.OnFragmentInteractionListener, ContractsMapFragment.OnFragmentInteractionListener,
+        FEFAContractsListFragment.OnFragmentInteractionListener, FEFAContractsMapFragment.OnFragmentInteractionListener,
         RankingFragment.OnFragmentInteractionListener, PaymentFragment.OnFragmentInteractionListener,
         ReportFragment.OnFragmentInteractionListener, NotificationFragment.OnFragmentInteractionListener {
 
@@ -245,7 +249,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     setTitle(R.string.contracts);
                 }
                 else if (id == R.id.nav_fefa_contracts) {
-                    fragment = new ContractFragment();
+                    fragment = new FEFAContractFragment();
                     setTitle(R.string.contracts_fefa);
                 }
                 else if (id == R.id.nav_ranking) {
