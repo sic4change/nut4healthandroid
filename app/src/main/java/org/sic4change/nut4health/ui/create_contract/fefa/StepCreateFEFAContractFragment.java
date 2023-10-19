@@ -64,6 +64,7 @@ import org.sic4change.nut4health.ui.serchablespinner.SearchableSpinner;
 import org.sic4change.nut4health.utils.Nut4HealthKeyboard;
 import org.sic4change.nut4health.utils.location.Nut4HealthSingleShotLocationProvider;
 import org.sic4change.nut4health.utils.ruler_picker.SimpleRulerViewer;
+import org.sic4change.nut4health.utils.time.Nut4HealthTimeUtil;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
@@ -93,6 +94,8 @@ public class StepCreateFEFAContractFragment extends Fragment implements Step, Si
     private EditText etChildTutor;
     private Spinner spTutorStatus;
     private EditText etTutorBirthdate;
+
+    private TextView tvTutorBirthdateResult;
     private EditText etTutorDNI;
     private EditText etChildLocation;
     private EditText etChildContactPhone;
@@ -305,6 +308,8 @@ public class StepCreateFEFAContractFragment extends Fragment implements Step, Si
                             public void onDateSet(android.widget.DatePicker datePicker, int year, int month, int day) {
                                 String selectedDate = day + "/" + (month + 1) + "/" + year;
                                 etTutorBirthdate.setText(selectedDate);
+                                tvTutorBirthdateResult.setVisibility(View.VISIBLE);
+                                tvTutorBirthdateResult.setText(Nut4HealthTimeUtil.yearsAndMonthCalculator(selectedDate, getString(R.string.andYear), getString(R.string.month)));
                             }
                         }, year, month, day);
 
@@ -316,6 +321,7 @@ public class StepCreateFEFAContractFragment extends Fragment implements Step, Si
         spTutorStatus = v.findViewById(R.id.spStatus);
         etChildContactPhone = v.findViewById(R.id.etContactPhone);
         etTutorDNI = v.findViewById(R.id.etTutorDNI);
+        tvTutorBirthdateResult = v.findViewById(R.id.tvTutorBirthdateResult);
         cpp = v.findViewById(R.id.ccp);
         cbVerification = v.findViewById(R.id.cbVerification);
 

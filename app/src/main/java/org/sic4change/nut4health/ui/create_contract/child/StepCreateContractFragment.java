@@ -107,7 +107,6 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
     private EditText etChildTutor;
     private EditText etTutorBirthdate;
     private TextView tvTutorBirthdateResult;
-
     private EditText etTutorDNI;
     private EditText etChildLocation;
     private EditText etChildContactPhone;

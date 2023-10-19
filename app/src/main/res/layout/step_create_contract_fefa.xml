@@ -321,6 +321,18 @@
                     app:layout_constraintTop_toBottomOf="@+id/tvTutorBirthdate" />
 
                 <TextView
+                    android:id="@+id/tvTutorBirthdateResult"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_default"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/etTutorBirthdate"
+                    android:visibility="gone"/>
+
+                <TextView
                     android:id="@+id/tvTutorDNI"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -332,7 +344,7 @@
                     android:layout_marginTop="@dimen/margin_default"
                     android:text="@string/dni_fefa"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/etTutorBirthdate" />
+                    app:layout_constraintTop_toBottomOf="@+id/tvTutorBirthdateResult" />
 
                 <EditText
                     android:id="@+id/etTutorDNI"
