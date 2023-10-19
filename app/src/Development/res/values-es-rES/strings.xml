@@ -95,9 +95,9 @@
     <string name="error_fingerprint_data">Debes introducir la huella dactilar del niña/o</string>
     <string name="error_not_gps_position">Debes activar la localización en tu dispositivo</string>
     <string name="child_data">DATOS DEL MENOR</string>
-    <string name="name">Nombre del niña/o</string>
-    <string name="surname">Apellidos del niña/o</string>
-    <string name="sex">Sexo del niña/o</string>
+    <string name="name">Nombre</string>
+    <string name="surname">Apellidos</string>
+    <string name="sex">Sexo</string>
     <string name="brothers">Hermanos/as mayores del niño/a</string>
     <string name="child_birthdate">Fecha de nacimiento del niño/a</string>
     <string name="tutor_birthdate">Fecha de nacimiento de la madre</string>

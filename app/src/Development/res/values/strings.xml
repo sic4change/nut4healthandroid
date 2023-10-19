@@ -95,9 +95,9 @@
     <string name="error_fingerprint_data">You must enter child fingerprint</string>
     <string name="error_not_gps_position">You must activate geolocalization</string>
     <string name="child_data">Information</string>
-    <string name="name">Child Name</string>
-    <string name="surname">Child Surname</string>
-    <string name="sex">Child Sex</string>
+    <string name="name">Name</string>
+    <string name="surname">Surname</string>
+    <string name="sex">Sex</string>
     <string name="brothers">Older siblings of the child</string>
     <string name="child_birthdate">Date of birth of the minor</string>
     <string name="tutor_birthdate">Mother\'s date of birth</string>

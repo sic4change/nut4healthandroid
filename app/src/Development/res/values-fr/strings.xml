@@ -91,9 +91,9 @@
     <string name="error_fingerprint_data">Vous devez entrer l\'empreinte digitale de l\'enfant</string>
     <string name="error_not_gps_position">Vous devez activer la localisation sur votre appareil</string>
     <string name="child_data">INFORMATIONS DE L\'ENFANT</string>
-    <string name="name">Nom de l\'enfant</string>
-    <string name="surname">Noms de famille de l\'enfant</string>
-    <string name="sex">Sexe de l\'enfant</string>
+    <string name="name">Nom</string>
+    <string name="surname">Noms de famille</string>
+    <string name="sex">Sexe</string>
     <string name="brothers">Frères et sœurs aînés de l\'enfant</string>
     <string name="child_birthdate">Date de naissance du mineur</string>
     <string name="tutor_birthdate">Date de naissance de la mère</string>
