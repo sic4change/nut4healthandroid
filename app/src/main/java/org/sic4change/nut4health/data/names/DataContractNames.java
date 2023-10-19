@@ -103,6 +103,11 @@ public final class DataContractNames {
     public static final String COL_TUTOR_BIRTHDATE_MILISECONDS = "tutor_birthdate_mili";
 
     /**
+     * Column tutor dni for contract
+     */
+    public static final String COL_TUTOR_DNI = "tutor_dni";
+
+    /**
      * Column child address for contract
      */
     public static final String COL_CHILD_ADDRESS = "child_address";

@@ -105,7 +105,8 @@
     <string name="tutor">Mother</string>
     <string name="tutor_child">Mother, father or tutor of the child</string>
     <string name="check_verification">Mother, father or tutor authorizes the data collection of the minor</string>
-    <string name="dni">Identification document mother</string>
+    <string name="dni">Identification document of the child</string>
+    <string name="dni_tutor">Identification document of the mother, father, or tutor</string>
     <string name="contact_phone">Contact phone</string>
     <string name="medical_point">Health Service</string>
     <string name="location">Location</string>

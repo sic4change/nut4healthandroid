@@ -106,6 +106,9 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
     private EditText etChildDNI;
     private EditText etChildTutor;
     private EditText etTutorBirthdate;
+    private TextView tvTutorBirthdateResult;
+
+    private EditText etTutorDNI;
     private EditText etChildLocation;
     private EditText etChildContactPhone;
     private CountryCodePicker cpp;
@@ -279,6 +282,7 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
                             mCreateContractViewModel.getChildTutor(),
                             mCreateContractViewModel.getTutorStatus(),
                             mCreateContractViewModel.getTutorBirthdate(),
+                            mCreateContractViewModel.getTutorDNI(),
                             mCreateContractViewModel.getChildLocation(),
                             mCreateContractViewModel.getChildPhoneContact(),
                             mCreateContractViewModel.getPoint(),
@@ -305,6 +309,8 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
         etChildBirthdate = v.findViewById(R.id.etChildBirthdate);
         tvChildBirthdateResult = v.findViewById(R.id.tvChildBirthdateResult);
         etTutorBirthdate = v.findViewById(R.id.etTutorBirthdate);
+        tvTutorBirthdateResult = v.findViewById(R.id.tvTutorBirthdateResult);
+        etTutorDNI = v.findViewById(R.id.etTutorDNI);
 
         etChildBirthdate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -342,6 +348,8 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
                             public void onDateSet(android.widget.DatePicker datePicker, int year, int month, int day) {
                                 String selectedDate = day + "/" + (month + 1) + "/" + year;
                                 etTutorBirthdate.setText(selectedDate);
+                                tvTutorBirthdateResult.setVisibility(View.VISIBLE);
+                                tvTutorBirthdateResult.setText(Nut4HealthTimeUtil.yearsAndMonthCalculator(selectedDate, getString(R.string.andYear), getString(R.string.month)));
                             }
                         }, year, month, day);
 
@@ -459,6 +467,7 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
             mCreateContractViewModel.setSex(ssSex.getDirection().name());
             mCreateContractViewModel.setChildBirthdate(etChildBirthdate.getText().toString());
             mCreateContractViewModel.setChildDNI(etChildDNI.getText().toString());
+            mCreateContractViewModel.setTutorDNI(etTutorDNI.getText().toString());
             mCreateContractViewModel.setChildTutor(etChildTutor.getText().toString());
             mCreateContractViewModel.setTutorStatus("");
             mCreateContractViewModel.setTutorBirthdate(etTutorBirthdate.getText().toString());
@@ -565,6 +574,9 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
             }
             if (mCreateContractViewModel.getChildDNI() != null) {
                 etChildDNI.setText(mCreateContractViewModel.getChildDNI());
+            }
+            if (mCreateContractViewModel.getTutorDNI() != null) {
+                etTutorDNI.setText(mCreateContractViewModel.getTutorDNI());
             }
             if (mCreateContractViewModel.getChildTutor() != null) {
                 etChildTutor.setText(mCreateContractViewModel.getChildTutor());

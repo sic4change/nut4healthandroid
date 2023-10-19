@@ -106,6 +106,7 @@
     <string name="tutor_child">Madre, padre o tutor del niña/o</string>
     <string name="check_verification">Madre autoriza la toma de datos del menor</string>
     <string name="dni">Documento identificación del niña/o</string>
+    <string name="dni_tutor">Documento identificación de la madre, padre o tutor</string>
     <string name="contact_phone">Teléfono de contacto</string>
     <string name="medical_point">Servicio de Salud</string>
     <string name="location">Ubicación</string>
