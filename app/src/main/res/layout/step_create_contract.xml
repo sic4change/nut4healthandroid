@@ -470,8 +470,6 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorPrimary"
                     android:fontFamily="@font/bariol_bold"
-                    android:maxLines="1"
-                    android:ellipsize="end"
                     android:textSize="18dp"
                     android:layout_marginStart="@dimen/margin_medium"
                     android:layout_marginLeft="@dimen/margin_medium"

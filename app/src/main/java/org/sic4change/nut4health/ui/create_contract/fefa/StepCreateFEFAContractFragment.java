@@ -93,6 +93,7 @@ public class StepCreateFEFAContractFragment extends Fragment implements Step, Si
     private EditText etChildTutor;
     private Spinner spTutorStatus;
     private EditText etTutorBirthdate;
+    private EditText etTutorDNI;
     private EditText etChildLocation;
     private EditText etChildContactPhone;
     private CountryCodePicker cpp;
@@ -268,7 +269,7 @@ public class StepCreateFEFAContractFragment extends Fragment implements Step, Si
                             mCreateFEFAContractViewModel.getChildTutor(),
                             mCreateFEFAContractViewModel.getTutorStatus(),
                             mCreateFEFAContractViewModel.getTutorBirthdate(),
-                            "", //Aqui debe ir el DNI de la madre
+                            mCreateFEFAContractViewModel.getTutorDNI(),
                             mCreateFEFAContractViewModel.getChildLocation(),
                             mCreateFEFAContractViewModel.getChildPhoneContact(),
                             mCreateFEFAContractViewModel.getPoint(),
@@ -314,6 +315,7 @@ public class StepCreateFEFAContractFragment extends Fragment implements Step, Si
         etChildTutor = v.findViewById(R.id.etChildTutor);
         spTutorStatus = v.findViewById(R.id.spStatus);
         etChildContactPhone = v.findViewById(R.id.etContactPhone);
+        etTutorDNI = v.findViewById(R.id.etTutorDNI);
         cpp = v.findViewById(R.id.ccp);
         cbVerification = v.findViewById(R.id.cbVerification);
 
@@ -375,6 +377,7 @@ public class StepCreateFEFAContractFragment extends Fragment implements Step, Si
             mCreateFEFAContractViewModel.setSex("F");
             mCreateFEFAContractViewModel.setChildBirthdate("1/1/1970");
             mCreateFEFAContractViewModel.setChildDNI("");
+            mCreateFEFAContractViewModel.setTutorDNI(etTutorDNI.getText().toString());
             mCreateFEFAContractViewModel.setChildTutor(etChildTutor.getText().toString());
             mCreateFEFAContractViewModel.setTutorStatus(spTutorStatus.getSelectedItem().toString());
             mCreateFEFAContractViewModel.setTutorBirthdate(etTutorBirthdate.getText().toString());
@@ -458,6 +461,9 @@ public class StepCreateFEFAContractFragment extends Fragment implements Step, Si
             clView.setVisibility(View.GONE);
             if (mCreateFEFAContractViewModel.getChildTutor() != null) {
                 etChildTutor.setText(mCreateFEFAContractViewModel.getChildTutor());
+            }
+            if (mCreateFEFAContractViewModel.getTutorDNI() != null) {
+                etTutorDNI.setText(mCreateFEFAContractViewModel.getTutorDNI());
             }
             if (mCreateFEFAContractViewModel.getTutorStatus() != null) {
                 spTutorStatus.setSelection(((ArrayAdapter<String>) spTutorStatus.getAdapter()).getPosition(mCreateFEFAContractViewModel.getTutorStatus()));

@@ -321,6 +321,35 @@
                     app:layout_constraintTop_toBottomOf="@+id/tvTutorBirthdate" />
 
                 <TextView
+                    android:id="@+id/tvTutorDNI"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimary"
+                    android:fontFamily="@font/bariol_bold"
+                    android:textSize="18dp"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_default"
+                    android:text="@string/dni_fefa"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/etTutorBirthdate" />
+
+                <EditText
+                    android:id="@+id/etTutorDNI"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:layout_marginRight="@dimen/margin_medium"
+                    android:ems="10"
+                    android:inputType="textCapWords"
+                    android:fontFamily="@font/bariol_regular"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvTutorDNI" />
+
+                <TextView
                     android:id="@+id/tvLocation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -332,7 +361,7 @@
                     android:textSize="18dp"
                     android:text="@string/location"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/etTutorBirthdate" />
+                    app:layout_constraintTop_toBottomOf="@+id/etTutorDNI" />
 
                 <EditText
                     android:id="@+id/etChildLocation"
