@@ -102,7 +102,7 @@
     <string name="child_birthdate">Date of birth of the minor</string>
     <string name="tutor_birthdate">Mother\'s date of birth</string>
     <string name="tutor">Mother of the child</string>
-    <string name="check_verification">Mother authorizes the data collection of the minor</string>
+    <string name="check_verification">Mother, father or tutor authorizes the data collection of the minor</string>
     <string name="dni">Identification document of the child</string>
     <string name="contact_phone">Contact phone</string>
     <string name="medical_point">Health Service</string>
