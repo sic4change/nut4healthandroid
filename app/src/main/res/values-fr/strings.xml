@@ -115,6 +115,7 @@
     <string name="check_phone_number">Veuillez vérifier que le numéro de la personne à contacter est valide/correct. Pour être sûr, appeler ce contact ou faites-vous appeler depuis "celui-ci" / ce téléphone de contact.</string>
 
     <!--Main menu-->
+    <string name="createDiagnosis">Établir un diagnostic</string>
     <string name="contracts">Diagnostiques Enfants</string>
     <string name="contracts_fefa">Diagnostiques FEFA</string>
     <string name="contracts_child">Diagnostiques Enfants</string>

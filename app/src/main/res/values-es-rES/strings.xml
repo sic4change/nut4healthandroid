@@ -78,6 +78,7 @@
     <string name="diagnosis_show">diagnósticos</string>
 
     <!--Create Contract-->
+    <string name="createDiagnosis">Crear diagnósitico</string>
     <string name="createContract">Crear diagnósitico niño/a</string>
     <string name="createFEFAContract">Crear diagnósitico FEFA</string>
     <string name="profile_child">Perfil niño/a</string>

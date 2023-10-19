@@ -78,6 +78,7 @@
     <string name="diagnosis_show">diagnosis</string>
 
     <!--Create Contract-->
+    <string name="createDiagnosis">Create diagnosis</string>
     <string name="createContract">Create child diagnosis</string>
     <string name="createFEFAContract">Create FEFA diagnosis</string>
     <string name="profile_child">Child profile</string>
