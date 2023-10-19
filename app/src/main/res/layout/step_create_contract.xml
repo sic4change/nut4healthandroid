@@ -466,11 +466,13 @@
 
                 <TextView
                     android:id="@+id/tvTutorBirthdate"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorPrimary"
                     android:fontFamily="@font/bariol_bold"
                     android:textSize="18dp"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:layout_marginRight="@dimen/margin_medium"
                     android:layout_marginStart="@dimen/margin_medium"
                     android:layout_marginLeft="@dimen/margin_medium"
                     android:layout_marginTop="@dimen/margin_default"
@@ -506,13 +508,15 @@
 
                 <TextView
                     android:id="@+id/tvTutorDNI"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorPrimary"
                     android:fontFamily="@font/bariol_bold"
                     android:textSize="18dp"
                     android:layout_marginStart="@dimen/margin_medium"
                     android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:layout_marginRight="@dimen/margin_medium"
                     android:layout_marginTop="@dimen/margin_default"
                     android:text="@string/dni_tutor"
                     app:layout_constraintStart_toStartOf="parent"
