@@ -225,7 +225,7 @@
                     android:layout_marginTop="@dimen/margin_medium"
                     android:textColor="@color/colorPrimary"
                     android:fontFamily="@font/bariol_bold"
-                    android:text="@string/tutor"
+                    android:text="@string/tutor_child"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvChildBirthdateResult" />
 
@@ -257,7 +257,7 @@
                     android:layout_marginTop="@dimen/margin_medium"
                     android:textColor="@color/colorPrimary"
                     android:fontFamily="@font/bariol_bold"
-                    android:text="@string/tutor_birthdate"
+                    android:text="@string/tutor_birthdate_completed"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/etTutor" />
 
