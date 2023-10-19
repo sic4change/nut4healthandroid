@@ -146,10 +146,14 @@ public class ContractDetailActivity extends AppCompatActivity implements SimpleR
             EditText etSurname = findViewById(R.id.etSurname);
             TextView tvChildBirthdate = findViewById(R.id.tvChildBirthdate);
             EditText etChildBirthdate = findViewById(R.id.etChildBirthdate);
+            TextView tvChildDNI = findViewById(R.id.tvChildDNI);
+            EditText etChildDNI = findViewById(R.id.etChildDNI);
             TextView tvChildBirthdateResult = findViewById(R.id.tvChildBirthdateResult);
             EditText etTutor = findViewById(R.id.etTutor);
             EditText etTutorBirthdate = findViewById(R.id.etTutorBirthdate);
             TextView tvTutorBirthdateResult = findViewById(R.id.tvTutorBirthdateResult);
+            TextView tvTutorDNI = findViewById(R.id.tvTutorDNI);
+            EditText etTutorDNI = findViewById(R.id.etTutorDNI);
             EditText etTutorStatus = findViewById(R.id.etTutorStatus);
             TextView tvTutorStatus = findViewById(R.id.tvTutorStatus);
             EditText etLocation = findViewById(R.id.etLocation);
@@ -180,9 +184,20 @@ public class ContractDetailActivity extends AppCompatActivity implements SimpleR
                 tvChildBirthdate.setVisibility(View.GONE);
                 etChildBirthdate.setVisibility(View.GONE);
             }
-            etChildBirthdate.setText(contract.getChildBirthdate());
+            if (contract.getChildDNI() != null && !contract.getChildDNI().equals("")) {
+                etChildDNI.setText(contract.getChildDNI());
+            } else {
+                etChildDNI.setVisibility(View.GONE);
+                tvChildDNI.setVisibility(View.GONE);
+            }
             etTutor.setText(contract.getChildTutor());
             etTutorBirthdate.setText(contract.getTutorBirthdate());
+            if (contract.getTutorDNI() != null && !contract.getTutorDNI().equals("")) {
+                etTutorDNI.setText(contract.getTutorDNI());
+            } else {
+                etTutorDNI.setVisibility(View.GONE);
+                tvTutorDNI.setVisibility(View.GONE);
+            }
             tvTutorBirthdateResult.setText(Nut4HealthTimeUtil.yearsAndMonthCalculator(contract.getTutorBirthdate(), getString(R.string.andYear), getString(R.string.month)));
             if (contract.getTutorStatus() != null && !contract.getTutorStatus().equals("")) {
                 etTutorStatus.setText(contract.getTutorStatus());
