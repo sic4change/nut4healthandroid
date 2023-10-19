@@ -64,6 +64,7 @@ import org.sic4change.nut4health.utils.Nut4HealthKeyboard;
 import org.sic4change.nut4health.utils.location.Nut4HealthSingleShotLocationProvider;
 import org.sic4change.nut4health.utils.ruler_picker.SimpleRulerViewer;
 import org.sic4change.nut4health.utils.time.Nut4HealthTimeUtil;
+import org.sic4change.nut4health.utils.view.NUT4HealthDialog;
 
 
 import java.io.IOException;
@@ -442,6 +443,14 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
                     || (etChildContactPhone.getText() == null) || (etChildContactPhone.getText().toString() == null) || (etChildContactPhone.getText().toString().isEmpty())
                     || (!cbVerification.isChecked())) {
                 return new VerificationError(getString(R.string.error_child_data));
+            }
+            if (Nut4HealthTimeUtil.calculateMonths(etChildBirthdate.getText().toString()) < 6) {
+                NUT4HealthDialog.showAlertDialog(getActivity(), getString(R.string.app_name), getString(R.string.error_pb_6), getString(R.string.ok));
+                return new VerificationError("");
+            }
+            if (Nut4HealthTimeUtil.calculateMonths(etChildBirthdate.getText().toString()) > 59) {
+                NUT4HealthDialog.showAlertDialog(getActivity(), getString(R.string.app_name), getString(R.string.error_pb_59), getString(R.string.ok));
+                return new VerificationError("");
             }
             mCreateContractViewModel.setChildLocation(etChildLocation.getText().toString());
             mCreateContractViewModel.setChildName(etChildName.getText().toString());

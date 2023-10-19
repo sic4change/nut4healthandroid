@@ -806,4 +806,7 @@
     <string name="month">mois</string>
     <string name="andYear">ans et</string>
 
+    <string name="error_pb_6">La circonférence du bras n\'est valable que pour les enfants de 6 à 59 mois, prenez la circonférence du bras de la mère</string>
+    <string name="error_pb_59">La circonférence du bras n\'est valable que pour les enfants de 6 à 59 mois</string>
+
 </resources>

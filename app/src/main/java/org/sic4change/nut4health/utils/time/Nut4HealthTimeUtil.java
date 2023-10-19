@@ -34,27 +34,46 @@ public class Nut4HealthTimeUtil {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
         try {
-            Date fechaNacimientoDate = sdf.parse(date);
+            Date birthdate = sdf.parse(date);
 
-            Calendar fechaActual = Calendar.getInstance();
+            Calendar currentDate = Calendar.getInstance();
 
-            Calendar fechaNacimientoCalendar = Calendar.getInstance();
-            fechaNacimientoCalendar.setTime(fechaNacimientoDate);
+            Calendar birthdateCalendar = Calendar.getInstance();
+            birthdateCalendar.setTime(birthdate);
 
-            int edad = fechaActual.get(Calendar.YEAR) - fechaNacimientoCalendar.get(Calendar.YEAR);
+            int yearData = currentDate.get(Calendar.YEAR) - birthdateCalendar.get(Calendar.YEAR);
 
-            int meses = fechaActual.get(Calendar.MONTH) - fechaNacimientoCalendar.get(Calendar.MONTH);
+            int monthsData = currentDate.get(Calendar.MONTH) - birthdateCalendar.get(Calendar.MONTH);
 
-            if (meses < 0) {
-                meses += 12;
-                edad--;
+            if (monthsData < 0) {
+                monthsData += 12;
+                yearData--;
             }
 
-            return("≈" + edad + " " + yearsAnd + " " + meses + " " + months + ".");
+            return("≈" + yearData + " " + yearsAnd + " " + monthsData + " " + months + ".");
 
         } catch (ParseException e) {
             e.printStackTrace();
             return "";
+        }
+    }
+
+    public static int calculateMonths(String dateOfBirth) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        try {
+            Date dobDate = sdf.parse(dateOfBirth);
+            Calendar currentDate = Calendar.getInstance();
+            Calendar dobCalendar = Calendar.getInstance();
+            dobCalendar.setTime(dobDate);
+            int monthDifference = 0;
+            while (!dobCalendar.after(currentDate)) {
+                dobCalendar.add(Calendar.MONTH, 1);
+                monthDifference++;
+            }
+            return monthDifference - 1;
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return -1;
         }
     }
 }

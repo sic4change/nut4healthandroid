@@ -811,4 +811,7 @@
     <string name="month">months</string>
     <string name="andYear">years and</string>
 
+    <string name="error_pb_6">The Brachial Perimeter is only valid for children aged 6 to 59 months, take the mother\'s brachial perimeter</string>
+    <string name="error_pb_59">The Brachial Perimeter is only valid for children aged 6 to 59 months</string>
+
 </resources>

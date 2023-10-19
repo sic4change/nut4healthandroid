@@ -808,4 +808,7 @@
     <string name="month">meses</string>
     <string name="andYear">años y</string>
 
+    <string name="error_pb_6">El Perímetro Braquial solo es válido para niños/as de 6 a 59 meses de edad, tomar perímetro braquial de la madre</string>
+    <string name="error_pb_59">El Perímetro Braquial solo es válido para niños/as de 6 a 59 meses de edad</string>
+
 </resources>
