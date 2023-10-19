@@ -365,6 +365,18 @@
                     app:layout_constraintTop_toBottomOf="@+id/tvChildBirthdate" />
 
                 <TextView
+                    android:id="@+id/tvChildBirthdateResult"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_default"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/etChildBirthdate"
+                    android:visibility="gone"/>
+
+                <TextView
                     android:id="@+id/tvBrothers"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -376,7 +388,7 @@
                     android:layout_marginTop="@dimen/margin_default"
                     android:text="@string/brothers"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/etChildBirthdate" />
+                    app:layout_constraintTop_toBottomOf="@+id/tvChildBirthdateResult" />
 
                 <EditText
                     android:id="@+id/etBrothers"

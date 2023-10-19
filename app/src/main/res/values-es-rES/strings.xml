@@ -808,4 +808,7 @@
         <item>Embarazada y lactante</item>
     </string-array>
 
+    <string name="month">meses</string>
+    <string name="andYear">años y</string>
+
 </resources>

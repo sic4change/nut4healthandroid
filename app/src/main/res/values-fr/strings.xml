@@ -803,4 +803,7 @@
         <item>Enceinte et allaitante</item>
     </string-array>
 
+    <string name="month">mois</string>
+    <string name="andYear">ans et</string>
+
 </resources>

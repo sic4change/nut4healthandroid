@@ -63,6 +63,7 @@ import org.sic4change.nut4health.ui.serchablespinner.SearchableSpinner;
 import org.sic4change.nut4health.utils.Nut4HealthKeyboard;
 import org.sic4change.nut4health.utils.location.Nut4HealthSingleShotLocationProvider;
 import org.sic4change.nut4health.utils.ruler_picker.SimpleRulerViewer;
+import org.sic4change.nut4health.utils.time.Nut4HealthTimeUtil;
 
 
 import java.io.IOException;
@@ -98,6 +99,7 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
     private EditText etChildSurname;
     private EditText etChildBrothers;
     private EditText etChildBirthdate;
+    private TextView tvChildBirthdateResult;
     private StickySwitch ssSex;
     private TextView tvChildDNI;
     private EditText etChildDNI;
@@ -300,6 +302,7 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
         etChildSurname = v.findViewById(R.id.etChildSurname);
         etChildBrothers = v.findViewById(R.id.etBrothers);
         etChildBirthdate = v.findViewById(R.id.etChildBirthdate);
+        tvChildBirthdateResult = v.findViewById(R.id.tvChildBirthdateResult);
         etTutorBirthdate = v.findViewById(R.id.etTutorBirthdate);
 
         etChildBirthdate.setOnClickListener(new View.OnClickListener() {
@@ -315,6 +318,9 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
                             public void onDateSet(android.widget.DatePicker datePicker, int year, int month, int day) {
                                 String selectedDate = day + "/" + (month + 1) + "/" + year;
                                 etChildBirthdate.setText(selectedDate);
+                                tvChildBirthdateResult.setVisibility(View.VISIBLE);
+                                tvChildBirthdateResult.setText(Nut4HealthTimeUtil.yearsAndMonthCalculator(selectedDate, getString(R.string.andYear), getString(R.string.month)));
+
                             }
                         }, year, month, day);
 

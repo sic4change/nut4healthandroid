@@ -808,5 +808,7 @@
         <item>Pregnant and Infant</item>
     </string-array>
 
+    <string name="month">months</string>
+    <string name="andYear">years and</string>
 
 </resources>
