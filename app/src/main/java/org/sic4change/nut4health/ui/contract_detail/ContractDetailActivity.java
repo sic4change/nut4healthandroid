@@ -26,6 +26,7 @@ import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.data.entities.Contract;
 import org.sic4change.nut4health.data.entities.MalnutritionChildTable;
 import org.sic4change.nut4health.utils.ruler_picker.SimpleRulerViewer;
+import org.sic4change.nut4health.utils.time.Nut4HealthTimeUtil;
 
 
 import java.text.DecimalFormat;
@@ -145,8 +146,10 @@ public class ContractDetailActivity extends AppCompatActivity implements SimpleR
             EditText etSurname = findViewById(R.id.etSurname);
             TextView tvChildBirthdate = findViewById(R.id.tvChildBirthdate);
             EditText etChildBirthdate = findViewById(R.id.etChildBirthdate);
+            TextView tvChildBirthdateResult = findViewById(R.id.tvChildBirthdateResult);
             EditText etTutor = findViewById(R.id.etTutor);
             EditText etTutorBirthdate = findViewById(R.id.etTutorBirthdate);
+            TextView tvTutorBirthdateResult = findViewById(R.id.tvTutorBirthdateResult);
             EditText etTutorStatus = findViewById(R.id.etTutorStatus);
             TextView tvTutorStatus = findViewById(R.id.tvTutorStatus);
             EditText etLocation = findViewById(R.id.etLocation);
@@ -172,6 +175,7 @@ public class ContractDetailActivity extends AppCompatActivity implements SimpleR
             }
             if (contract.getChildBirthdate() != null && !contract.getChildBirthdate().equals("") && !contract.getChildBirthdate().equals("1/1/1970")) {
                 etChildBirthdate.setText(contract.getChildBirthdate());
+                tvChildBirthdateResult.setText(Nut4HealthTimeUtil.yearsAndMonthCalculator(contract.getChildBirthdate(), getString(R.string.andYear), getString(R.string.month)));
             } else {
                 tvChildBirthdate.setVisibility(View.GONE);
                 etChildBirthdate.setVisibility(View.GONE);
@@ -179,6 +183,7 @@ public class ContractDetailActivity extends AppCompatActivity implements SimpleR
             etChildBirthdate.setText(contract.getChildBirthdate());
             etTutor.setText(contract.getChildTutor());
             etTutorBirthdate.setText(contract.getTutorBirthdate());
+            tvTutorBirthdateResult.setText(Nut4HealthTimeUtil.yearsAndMonthCalculator(contract.getTutorBirthdate(), getString(R.string.andYear), getString(R.string.month)));
             if (contract.getTutorStatus() != null && !contract.getTutorStatus().equals("")) {
                 etTutorStatus.setText(contract.getTutorStatus());
             } else {

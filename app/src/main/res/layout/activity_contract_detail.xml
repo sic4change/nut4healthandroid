@@ -206,6 +206,17 @@
                     android:focusable="false"/>
 
                 <TextView
+                    android:id="@+id/tvChildBirthdateResult"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:textColor="@color/colorPrimary"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/etChildBirthdate" />
+
+                <TextView
                     android:id="@+id/tvTutor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -216,7 +227,7 @@
                     android:fontFamily="@font/bariol_bold"
                     android:text="@string/tutor"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/etChildBirthdate" />
+                    app:layout_constraintTop_toBottomOf="@+id/tvChildBirthdateResult" />
 
                 <EditText
                     android:id="@+id/etTutor"
@@ -270,6 +281,17 @@
                     android:focusable="false"/>
 
                 <TextView
+                    android:id="@+id/tvTutorBirthdateResult"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:textColor="@color/colorPrimary"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/etTutorBirthdate" />
+
+                <TextView
                     android:id="@+id/tvTutorStatus"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -280,7 +302,7 @@
                     android:fontFamily="@font/bariol_bold"
                     android:text="@string/status"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/etTutorBirthdate" />
+                    app:layout_constraintTop_toBottomOf="@+id/tvTutorBirthdateResult" />
 
                 <EditText
                     android:id="@+id/etTutorStatus"
