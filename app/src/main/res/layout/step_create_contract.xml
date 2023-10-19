@@ -359,6 +359,8 @@
                     app:layout_constraintStart_toStartOf="parent"
                     android:layout_marginStart="@dimen/margin_medium"
                     android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:layout_marginRight="@dimen/margin_medium"
                     android:layout_marginTop="@dimen/margin_default"
                     app:layout_constraintTop_toBottomOf="@+id/tvChildBirthdate" />
 
@@ -431,7 +433,7 @@
                     android:layout_marginStart="@dimen/margin_medium"
                     android:layout_marginLeft="@dimen/margin_medium"
                     android:layout_marginTop="@dimen/margin_default"
-                    android:text="@string/tutor"
+                    android:text="@string/tutor_child"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/etChildDNI" />
 
@@ -456,11 +458,13 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorPrimary"
                     android:fontFamily="@font/bariol_bold"
+                    android:maxLines="1"
+                    android:ellipsize="end"
                     android:textSize="18dp"
                     android:layout_marginStart="@dimen/margin_medium"
                     android:layout_marginLeft="@dimen/margin_medium"
                     android:layout_marginTop="@dimen/margin_default"
-                    android:text="@string/tutor_birthdate"
+                    android:text="@string/tutor_birthdate_completed"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/etChildTutor" />
 
@@ -473,6 +477,8 @@
                     app:layout_constraintStart_toStartOf="parent"
                     android:layout_marginStart="@dimen/margin_medium"
                     android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:layout_marginRight="@dimen/margin_medium"
                     android:layout_marginTop="@dimen/margin_default"
                     app:layout_constraintTop_toBottomOf="@+id/tvTutorBirthdate" />
 

@@ -101,7 +101,9 @@
     <string name="brothers">Hermanos/as mayores del niño/a</string>
     <string name="child_birthdate">Fecha de nacimiento del niño/a</string>
     <string name="tutor_birthdate">Fecha de nacimiento de la madre</string>
+    <string name="tutor_birthdate_completed">Fecha de nacimiento de la madre, padre o tutor.</string>
     <string name="tutor">Madre</string>
+    <string name="tutor_child">Madre, padre o tutor del niña/o</string>
     <string name="check_verification">Madre autoriza la toma de datos del menor</string>
     <string name="dni">Documento identificación madre</string>
     <string name="contact_phone">Teléfono de contacto</string>
