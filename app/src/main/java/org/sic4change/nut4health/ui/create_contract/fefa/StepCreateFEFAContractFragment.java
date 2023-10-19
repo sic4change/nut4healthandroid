@@ -94,7 +94,6 @@ public class StepCreateFEFAContractFragment extends Fragment implements Step, Si
     private EditText etChildTutor;
     private Spinner spTutorStatus;
     private EditText etTutorBirthdate;
-
     private TextView tvTutorBirthdateResult;
     private EditText etTutorDNI;
     private EditText etChildLocation;
@@ -105,6 +104,12 @@ public class StepCreateFEFAContractFragment extends Fragment implements Step, Si
     private Button btnCheckMalnutrition;
     private AnimatedCircleLoadingView clView;
     private ImageView ivNewContract;
+
+    private TextView tvChildMinor;
+    private Spinner spChildMinor;
+
+    private TextView tvWeeks;
+    private TextView etWeeks;
 
     public static final int REQUEST_TAKE_FINGERPRINT = 2;
 
@@ -271,6 +276,8 @@ public class StepCreateFEFAContractFragment extends Fragment implements Step, Si
                             Integer.parseInt(mCreateFEFAContractViewModel.getChildBrothers()),
                             mCreateFEFAContractViewModel.getChildTutor(),
                             mCreateFEFAContractViewModel.getTutorStatus(),
+                            mCreateFEFAContractViewModel.getWeeks(),
+                            mCreateFEFAContractViewModel.getChildMinor(),
                             mCreateFEFAContractViewModel.getTutorBirthdate(),
                             mCreateFEFAContractViewModel.getTutorDNI(),
                             mCreateFEFAContractViewModel.getChildLocation(),
@@ -319,13 +326,39 @@ public class StepCreateFEFAContractFragment extends Fragment implements Step, Si
 
         etChildTutor = v.findViewById(R.id.etChildTutor);
         spTutorStatus = v.findViewById(R.id.spStatus);
+        spTutorStatus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (spTutorStatus.getSelectedItem().toString().equals(getResources().getStringArray(R.array.array_fefa_options)[0])) {
+                    tvWeeks.setVisibility(View.VISIBLE);
+                    etWeeks.setVisibility(View.VISIBLE);
+                    tvChildMinor.setVisibility(View.GONE);
+                    spChildMinor.setVisibility(View.GONE);
+                } else if (spTutorStatus.getSelectedItem().toString().equals(getResources().getStringArray(R.array.array_fefa_options)[1])){
+                    tvChildMinor.setVisibility(View.VISIBLE);
+                    spChildMinor.setVisibility(View.VISIBLE);
+                    tvWeeks.setVisibility(View.GONE);
+                    etWeeks.setVisibility(View.GONE);
+                } else if (spTutorStatus.getSelectedItem().toString().equals(getResources().getStringArray(R.array.array_fefa_options)[2])){
+                    tvChildMinor.setVisibility(View.VISIBLE);
+                    spChildMinor.setVisibility(View.VISIBLE);
+                    tvWeeks.setVisibility(View.VISIBLE);
+                    etWeeks.setVisibility(View.VISIBLE);
+                }
+            }
+
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
         etChildContactPhone = v.findViewById(R.id.etContactPhone);
         etTutorDNI = v.findViewById(R.id.etTutorDNI);
         tvTutorBirthdateResult = v.findViewById(R.id.tvTutorBirthdateResult);
         cpp = v.findViewById(R.id.ccp);
         cbVerification = v.findViewById(R.id.cbVerification);
-
         etChildLocation = v.findViewById(R.id.etChildLocation);
+        tvChildMinor = v.findViewById(R.id.tvChildMinor);
+        spChildMinor = v.findViewById(R.id.spChildMinor);
+        tvWeeks = v.findViewById(R.id.tvWeeks);
+        etWeeks = v.findViewById(R.id.etWeeks);
         cpp.setOnCountryChangeListener(new CountryCodePicker.OnCountryChangeListener() {
             @Override
             public void onCountrySelected(Country selectedCountry) {
@@ -386,6 +419,8 @@ public class StepCreateFEFAContractFragment extends Fragment implements Step, Si
             mCreateFEFAContractViewModel.setTutorDNI(etTutorDNI.getText().toString());
             mCreateFEFAContractViewModel.setChildTutor(etChildTutor.getText().toString());
             mCreateFEFAContractViewModel.setTutorStatus(spTutorStatus.getSelectedItem().toString());
+            mCreateFEFAContractViewModel.setWeeks(Integer.parseInt(etWeeks.getText().toString()));
+            mCreateFEFAContractViewModel.setChildMinor(spChildMinor.getSelectedItemPosition() == 0);
             mCreateFEFAContractViewModel.setTutorBirthdate(etTutorBirthdate.getText().toString());
             mCreateFEFAContractViewModel.setChildPhoneContact(etChildContactPhone.getText().toString());
             mCreateFEFAContractViewModel.setChildVerification(cbVerification.isChecked());
@@ -473,6 +508,17 @@ public class StepCreateFEFAContractFragment extends Fragment implements Step, Si
             }
             if (mCreateFEFAContractViewModel.getTutorStatus() != null) {
                 spTutorStatus.setSelection(((ArrayAdapter<String>) spTutorStatus.getAdapter()).getPosition(mCreateFEFAContractViewModel.getTutorStatus()));
+            }
+            if (mCreateFEFAContractViewModel.getWeeks() != 0) {
+                etWeeks.setText(mCreateFEFAContractViewModel.getWeeks());
+            }
+            if (mCreateFEFAContractViewModel.getTutorStatus() != null) {
+                if(mCreateFEFAContractViewModel.getChildMinor()) {
+                    spChildMinor.setSelection(0);
+                } else {
+                    spChildMinor.setSelection(1);
+                }
+
             }
             if (mCreateFEFAContractViewModel.getChildPhoneContact() != null) {
                 etChildContactPhone.setText(mCreateFEFAContractViewModel.getChildPhoneContact());

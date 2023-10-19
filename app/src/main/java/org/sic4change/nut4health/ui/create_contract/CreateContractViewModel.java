@@ -46,7 +46,8 @@ public class CreateContractViewModel extends ViewModel {
     private String childTutor;
     private String tutorDNI;
     private String tutorStatus;
-
+    private int weeks;
+    private boolean childMinor;
     private String tutorBirthdate;
     private String childLocation;
     private String childPhoneContact;
@@ -121,8 +122,9 @@ public class CreateContractViewModel extends ViewModel {
 
     public void createContract(String id, String role, String screener, float latitude, float longitude,
                                Uri photo, String childName, String childSurname, String sex, String childBirthdate,
-                               String childDNI, int childBrothers, String childTutor, String tutorStatus, String tutorBirthdate,
-                               String tutorDNI, String childAddress,
+                               String childDNI, int childBrothers, String childTutor, String tutorStatus,
+                               int weeks, boolean childMinor,
+                               String tutorBirthdate, String tutorDNI, String childAddress,
                                String childPhoneContact, String point, String pointFullName,
                                int percentage, double arm_circumference, double height, double weight) {
         String code = childPhoneContact + "-" + childBrothers;
@@ -136,9 +138,9 @@ public class CreateContractViewModel extends ViewModel {
 
 
         mRepository.createContract(id, role, screener, latitude, longitude, photo, childName,
-                childSurname, sex, childBirthdate, childDNI, childBrothers, code, childTutor, tutorStatus, tutorBirthdate,
-                tutorDNI, childAddress, phone, point, pointFullName, percentage, arm_circumference, height, weight,"",
-                minutes + seconds);
+                childSurname, sex, childBirthdate, childDNI, childBrothers, code, childTutor, tutorStatus,
+                weeks, childMinor, tutorBirthdate, tutorDNI, childAddress, phone, point, pointFullName,
+                percentage, arm_circumference, height, weight,"", minutes + seconds);
 
     }
 
@@ -252,6 +254,22 @@ public class CreateContractViewModel extends ViewModel {
 
     public void setTutorStatus(String tutorStatus) {
         this.tutorStatus = tutorStatus;
+    }
+
+    public int getWeeks() {
+        return weeks;
+    }
+
+    public void setWeeks(int weeks) {
+        this.weeks = weeks;
+    }
+
+    public boolean getChildMinor() {
+        return childMinor;
+    }
+
+    public void setChildMinor(boolean childMinor) {
+        this.childMinor = childMinor;
     }
 
     public String getTutorBirthdate() {

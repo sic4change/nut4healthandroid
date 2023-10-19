@@ -812,4 +812,12 @@
     <string name="error_pb_6">La circonférence du bras n\'est valable que pour les enfants de 6 à 59 mois, prenez la circonférence du bras de la mère</string>
     <string name="error_pb_59">La circonférence du bras n\'est valable que pour les enfants de 6 à 59 mois</string>
 
+    <string name="weeks">Nombre de semaines</string>
+    <string name="childMinor">Enfant de moins de 6 mois</string>
+
+    <string-array name="childMinor_options">
+        <item>Oui</item>
+        <item>Non</item>
+    </string-array>
+
 </resources>

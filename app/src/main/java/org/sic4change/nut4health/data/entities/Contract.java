@@ -68,6 +68,12 @@ public class Contract {
     @ColumnInfo(name = DataContractNames.COL_TUTOR_STATUS)
     private String tutorStatus;
 
+    @ColumnInfo(name = DataContractNames.COL_TUTOR_WEEKS)
+    private int weeks;
+
+    @ColumnInfo(name = DataContractNames.COL_TUTOR_CHILD_MINOR)
+    private boolean childMinor;
+
     @ColumnInfo(name = DataContractNames.COL_TUTOR_BIRTHDATE)
     private String tutorBirthdate;
 
@@ -137,33 +143,34 @@ public class Contract {
     private String duration;
 
     public Contract() {
-        this("", "", 0.0f, 0.0f, "", "", "", "", "", "", 0, "", 0, "","", "", "", 0,
+        this("", "", 0.0f, 0.0f, "", "", "", "", "", "", 0, "", 0, "","", "", 0, false, "", 0,
                 "","", "", "", "", "", Status.EMPTY.name(), "", "",0,  0, 0.0, "", 0, 0.0, 0.0, 0.0, "");
 
     }
 
     @Ignore
     public Contract(@NonNull String id) {
-        this(id, "", 0.0f, 0.0f, "", "", "", "", "", "", 0, "", 0, "","", "", "", 0,
+        this(id, "", 0.0f, 0.0f, "", "", "", "", "", "", 0, "", 0, "","", "",0, false, "", 0,
                 "","", "", "", "", "", Status.EMPTY.name(), "", "",0,  0, 0.0, "", 0, 0.0, 0.0, 0.0, "");
 
     }
 
     @Ignore
     public Contract(@NonNull String photo, double latitude, double longitude, @NonNull String screener) {
-        this("", photo, latitude, longitude, screener, "", "", "", "", "", 0, "", 0, "","", "", "", 0,
+        this("", photo, latitude, longitude, screener, "", "", "", "", "", 0, "", 0, "","", "",0, false, "", 0,
                 "","", "", "", "", "", Status.EMPTY.name(), "", "",0,  0, 0.0, "", 0, 0.0, 0.0, 0.0, "");
     }
 
     @Ignore
     public Contract(@NonNull String photo, double latitude, double longitude, @NonNull String screener,
                     String childName, String childSurname, String sex, String childBirthdate, String childDNI,
-                    int childBrothers, String code, String childTutor, String tutorStatus, String tutorBirthdate, String tutorDNI, String childAddress,
+                    int childBrothers, String code, String childTutor, String tutorStatus, int weeks, boolean childMinor,
+                    String tutorBirthdate, String tutorDNI, String childAddress,
                     String childPhoneContract, String point, String pointFullName, String fingerprint, String status, String creationDate,
                     int percentage, double arm_circumference, double height, double weight, String duration) {
         this("", photo, latitude, longitude, screener, "", childName, childSurname, sex, childBirthdate,
                 Nut4HealthTimeUtil.convertDateSimpleToTimeMilis(childBirthdate), childDNI, childBrothers, code,
-                childTutor, tutorStatus, tutorBirthdate, Nut4HealthTimeUtil.convertDateSimpleToTimeMilis(tutorBirthdate),
+                childTutor, tutorStatus, weeks, childMinor, tutorBirthdate, Nut4HealthTimeUtil.convertDateSimpleToTimeMilis(tutorBirthdate),
                 tutorDNI, childAddress, childPhoneContract, point, pointFullName, fingerprint, status, "",
                 creationDate, Nut4HealthTimeUtil.convertDateToTimeMilis(creationDate),
                 percentage, arm_circumference, "", 0, 0.0, height, weight, duration);
@@ -171,13 +178,14 @@ public class Contract {
     @Ignore
     public Contract(@NonNull String id, @NonNull String photo, double latitude, double longitude,
                     @NonNull String screener, String childName, String childSurname, String sex, String childBirthdate,
-                    long childBirthdateMiliseconds, String childDNI, int childBrothers, String code, String childTutor, String tutorStatus,
+                    long childBirthdateMiliseconds, String childDNI, int childBrothers, String code, String childTutor,
+                    String tutorStatus, int weeks, boolean childMinor,
                     String tutorBirthdate, long tutorBirthdateMiliseconds, String tutorDNI, String childAddress, String childPhoneContract,
                     String point, String pointFullName, String fingerprint, String status,
                     String creationDate, long creationDateMiliseconds, int percentage,
                     double arm_circumference) {
         this(id, photo, latitude, longitude, screener, "", childName, childSurname, sex, childBirthdate, childBirthdateMiliseconds,
-                childDNI, childBrothers, code, childTutor, tutorStatus, tutorBirthdate, tutorBirthdateMiliseconds, tutorDNI,
+                childDNI, childBrothers, code, childTutor, tutorStatus, weeks, childMinor, tutorBirthdate, tutorBirthdateMiliseconds, tutorDNI,
                 childAddress, childPhoneContract, point, pointFullName,
                 fingerprint, status, "", creationDate, creationDateMiliseconds, percentage, arm_circumference, "", 0, 0.0, 0.0, 0.0, "");
     }
@@ -185,7 +193,8 @@ public class Contract {
     public Contract(@NonNull String id, @NonNull String photo, double latitude, double longitude,
                     @NonNull String screener, String medical, String childName,  String childSurname,
                     String sex, String childBirthdate, long childBirthdateMiliseconds, String childDNI,
-                    int childBrothers, String code, String childTutor, String tutorStatus, String tutorBirthdate, long tutorBirthdateMiliseconds,
+                    int childBrothers, String code, String childTutor, String tutorStatus,
+                    int weeks, boolean childMinor, String tutorBirthdate, long tutorBirthdateMiliseconds,
                     String tutorDNI, String childAddress, String childPhoneContract, String point, String pointFullName,
                     String fingerprint, String status, String diagnosis, String creationDate,
                     long creationDateMiliseconds, int percentage, double arm_circumference, String medicalDate,
@@ -207,6 +216,8 @@ public class Contract {
         this.code = code;
         this.childTutor = childTutor;
         this.tutorStatus = tutorStatus;
+        this.weeks = weeks;
+        this.childMinor = childMinor;
         this.tutorBirthdate = tutorBirthdate;
         this.tutorBirthdateMiliseconds = tutorBirthdateMiliseconds;
         this.tutorDNI = tutorDNI;
@@ -358,6 +369,22 @@ public class Contract {
 
     public void setTutorStatus(String tutorStatus) {
         this.tutorStatus = tutorStatus;
+    }
+
+    public int getWeeks() {
+        return weeks;
+    }
+
+    public void setWeeks(int weeks) {
+        this.weeks = weeks;
+    }
+
+    public boolean getChildMinor() {
+        return childMinor;
+    }
+
+    public void setChildMinor(boolean childMinor) {
+        this.childMinor = childMinor;
     }
 
     public String getTutorBirthdate() {

@@ -546,8 +546,8 @@ public class DataRepository {
      */
     public void createContract(String id, String role, String email, double latitude, double longitude, Uri photo,
                                String childName, String childSurname, String sex, String childBirthdate, String childDNI,
-                               int childBrothers, String code, String childTutor, String tutorStatus, String tutorBirthdate,
-                               String tutorDNI, String childAddress,
+                               int childBrothers, String code, String childTutor, String tutorStatus,
+                               int weeks, boolean childMinor, String tutorBirthdate, String tutorDNI, String childAddress,
                                String childPhoneContact, String point, String pointFullName, int percentage,
                                double arm_circumference, double height, double weight, String fingerprint,
                                String duration) {
@@ -562,7 +562,7 @@ public class DataRepository {
 
         Contract contract = new Contract("", latitude, longitude, "", childName,
                 childSurname, sex, childBirthdate, childDNI, childBrothers, code, childTutor,
-                tutorStatus, tutorBirthdate, tutorDNI, childAddress, childPhoneContact, point,
+                tutorStatus, weeks, childMinor, tutorBirthdate, tutorDNI, childAddress, childPhoneContact, point,
                 pointFullName, "", status, "", percentage,
                 new BigDecimal(arm_circumference).setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue(),
                 height, weight, duration);
@@ -678,6 +678,8 @@ public class DataRepository {
                                         contractIt.setChildDNI(childDNI);
                                         contractIt.setChildTutor(childTutor);
                                         contractIt.setTutorStatus(tutorStatus);
+                                        contractIt.setWeeks(weeks);
+                                        contractIt.setChildMinor(childMinor);
                                         contractIt.setTutorBirthdate(tutorBirthdate);
                                         contractIt.setTutorBirthdateMiliseconds(Nut4HealthTimeUtil.convertDateSimpleToTimeMilis(tutorBirthdate));
                                         contractIt.setTutorDNI(tutorDNI);

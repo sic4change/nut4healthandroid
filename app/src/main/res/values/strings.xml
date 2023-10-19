@@ -817,4 +817,12 @@
     <string name="error_pb_6">The Brachial Perimeter is only valid for children aged 6 to 59 months, take the mother\'s brachial perimeter</string>
     <string name="error_pb_59">The Brachial Perimeter is only valid for children aged 6 to 59 months</string>
 
+    <string name="weeks">Number of weeks</string>
+    <string name="childMinor">Child under 6 months of age</string>
+
+    <string-array name="childMinor_options">
+        <item>Yes</item>
+        <item>No</item>
+    </string-array>
+
 </resources>

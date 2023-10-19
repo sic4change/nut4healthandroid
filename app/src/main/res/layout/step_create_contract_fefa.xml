@@ -293,6 +293,64 @@
                     app:layout_constraintTop_toBottomOf="@+id/tvTutorStatus"/>
 
                 <TextView
+                    android:id="@+id/tvChildMinor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimary"
+                    android:fontFamily="@font/bariol_bold"
+                    android:textSize="18dp"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:text="@string/childMinor"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/spStatus"
+                    android:visibility="gone"/>
+
+                <Spinner
+                    android:id="@+id/spChildMinor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:entries="@array/childMinor_options"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:layout_marginBottom="@dimen/margin_medium"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvChildMinor"
+                    android:visibility="gone"/>
+
+                <TextView
+                    android:id="@+id/tvWeeks"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimary"
+                    android:fontFamily="@font/bariol_bold"
+                    android:textSize="18dp"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:text="@string/weeks"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/spChildMinor"
+                    android:visibility="gone"/>
+
+                <EditText
+                    android:id="@+id/etWeeks"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:layout_marginRight="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_default"
+                    app:layout_constraintTop_toBottomOf="@+id/tvWeeks"
+                    android:visibility="gone"/>
+
+                <TextView
                     android:id="@+id/tvTutorBirthdate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -304,7 +362,7 @@
                     android:layout_marginTop="@dimen/margin_medium"
                     android:text="@string/tutor_birthdate"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/spStatus" />
+                    app:layout_constraintTop_toBottomOf="@+id/etWeeks" />
 
                 <EditText
                     android:id="@+id/etTutorBirthdate"

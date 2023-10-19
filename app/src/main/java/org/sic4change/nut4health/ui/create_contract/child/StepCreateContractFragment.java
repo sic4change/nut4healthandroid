@@ -280,6 +280,8 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
                             Integer.parseInt(mCreateContractViewModel.getChildBrothers()),
                             mCreateContractViewModel.getChildTutor(),
                             mCreateContractViewModel.getTutorStatus(),
+                            0,
+                            false,
                             mCreateContractViewModel.getTutorBirthdate(),
                             mCreateContractViewModel.getTutorDNI(),
                             mCreateContractViewModel.getChildLocation(),
