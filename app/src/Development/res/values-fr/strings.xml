@@ -102,7 +102,7 @@
     <string name="tutor_child">Mère, père ou tuteur de l\'enfant</string>
     <string name="check_verification">Mère, père ou le tuteur autorisant la collecte des informations de l\'enfant</string>
     <string name="check_verification_fefa">Autorise la collecte de données</string>
-    <string name="dni">Pièce d\'identité de l\'enfant</string>
+    <string name="dni">Piece d\'identité de l'enfant</string>
     <string name="dni_tutor">Document d\'identité de la mère, du père ou du tuteur</string>
     <string name="dni_fefa">Document d\'identification de la mère</string>
     <string name="contact_phone">Téléphone de contact</string>
