@@ -156,6 +156,10 @@ public class ContractDetailActivity extends AppCompatActivity implements SimpleR
             EditText etTutorDNI = findViewById(R.id.etTutorDNI);
             EditText etTutorStatus = findViewById(R.id.etTutorStatus);
             TextView tvTutorStatus = findViewById(R.id.tvTutorStatus);
+            EditText etWeeks = findViewById(R.id.etWeeks);
+            TextView tvWeeks = findViewById(R.id.tvWeeks);
+            EditText etChildMinor = findViewById(R.id.etChildMinor);
+            TextView tvChildMinor = findViewById(R.id.tvChildMinor);
             EditText etLocation = findViewById(R.id.etLocation);
             EditText spPoint = findViewById(R.id.spPoint);
             EditText etPhoneContact = findViewById(R.id.etPhoneContact);
@@ -201,9 +205,41 @@ public class ContractDetailActivity extends AppCompatActivity implements SimpleR
             tvTutorBirthdateResult.setText(Nut4HealthTimeUtil.yearsAndMonthCalculator(contract.getTutorBirthdate(), getString(R.string.andYear), getString(R.string.month)));
             if (contract.getTutorStatus() != null && !contract.getTutorStatus().equals("")) {
                 etTutorStatus.setText(contract.getTutorStatus());
+                if (contract.getTutorStatus().equals(getResources().getStringArray(R.array.array_fefa_options)[0] + "")) {
+                    etWeeks.setText(contract.getWeeks() + "");
+                    tvWeeks.setVisibility(View.VISIBLE);
+                    etWeeks.setVisibility(View.VISIBLE);
+                    tvChildMinor.setVisibility(View.GONE);
+                    etChildMinor.setVisibility(View.GONE);
+                } else if (contract.getTutorStatus().equals(getResources().getStringArray(R.array.array_fefa_options)[1] + "")) {
+                    if (contract.getChildMinor()) {
+                        etChildMinor.setText(getResources().getStringArray(R.array.childMinor_options)[0]);
+                    } else {
+                        etChildMinor.setText(getResources().getStringArray(R.array.childMinor_options)[1]);
+                    }
+                    tvChildMinor.setVisibility(View.VISIBLE);
+                    etChildMinor.setVisibility(View.VISIBLE);
+                    tvWeeks.setVisibility(View.GONE);
+                    etWeeks.setVisibility(View.GONE);
+                } else if (contract.getTutorStatus().equals(getResources().getStringArray(R.array.array_fefa_options)[2] + "")) {
+                    tvWeeks.setVisibility(View.VISIBLE);
+                    etWeeks.setVisibility(View.VISIBLE);
+                    etWeeks.setText(contract.getWeeks() + "");
+                    tvChildMinor.setVisibility(View.VISIBLE);
+                    etChildMinor.setVisibility(View.VISIBLE);
+                    if (contract.getChildMinor()) {
+                        etChildMinor.setText(getResources().getStringArray(R.array.childMinor_options)[0]);
+                    } else {
+                        etChildMinor.setText(getResources().getStringArray(R.array.childMinor_options)[1]);
+                    }
+                }
             } else {
                 tvTutorStatus.setVisibility(View.GONE);
                 etTutorStatus.setVisibility(View.GONE);
+                tvWeeks.setVisibility(View.GONE);
+                etWeeks.setVisibility(View.GONE);
+                tvChildMinor.setVisibility(View.GONE);
+                etChildMinor.setVisibility(View.GONE);
             }
             etLocation.setText(contract.getChildAddress());
             etPhoneContact.setText(contract.getChildPhoneContract());
