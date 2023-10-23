@@ -419,7 +419,11 @@ public class StepCreateFEFAContractFragment extends Fragment implements Step, Si
             mCreateFEFAContractViewModel.setTutorDNI(etTutorDNI.getText().toString());
             mCreateFEFAContractViewModel.setChildTutor(etChildTutor.getText().toString());
             mCreateFEFAContractViewModel.setTutorStatus(spTutorStatus.getSelectedItem().toString());
-            mCreateFEFAContractViewModel.setWeeks(Integer.parseInt(etWeeks.getText().toString()));
+            if (etWeeks.getText().toString().isEmpty()) {
+                mCreateFEFAContractViewModel.setWeeks(0);
+            } else {
+                mCreateFEFAContractViewModel.setWeeks(Integer.parseInt(etWeeks.getText().toString()));
+            }
             mCreateFEFAContractViewModel.setChildMinor(spChildMinor.getSelectedItemPosition() == 0);
             mCreateFEFAContractViewModel.setTutorBirthdate(etTutorBirthdate.getText().toString());
             mCreateFEFAContractViewModel.setChildPhoneContact(etChildContactPhone.getText().toString());
