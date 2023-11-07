@@ -537,13 +537,15 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
                 tvWeight.setVisibility(View.VISIBLE);
             }
         } else if (getPosition() == 1) {
-            if (mCreateContractViewModel.getPercentage() > 49) {
+            /*if (mCreateContractViewModel.getPercentage() > 49) {
                 etChildDNI.setVisibility(View.VISIBLE);
                 tvChildDNI.setVisibility(View.VISIBLE);
             } else {
                 etChildDNI.setVisibility(View.GONE);
                 tvChildDNI.setVisibility(View.GONE);
-            }
+            }*/
+            etChildDNI.setVisibility(View.GONE);
+            tvChildDNI.setVisibility(View.GONE);
             btnTakePhoto.setVisibility(View.GONE);
             tvPercentage.setVisibility(View.GONE);
             ruler.setVisibility(View.GONE);

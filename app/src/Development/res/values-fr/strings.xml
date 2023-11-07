@@ -95,12 +95,12 @@
     <string name="surname">Noms de famille</string>
     <string name="sex">Sexe</string>
     <string name="brothers">Frères et sœurs aînés de l\'enfant</string>
-    <string name="child_birthdate">Date de naissance du mineur</string>
-    <string name="tutor_birthdate">Date de naissance de la mère</string>
-    <string name="tutor_birthdate_completed">Date de naissance de la mère, père ou tuteur</string>
+    <string name="child_birthdate">Âge de l’enfant</string>
+    <string name="tutor_birthdate">Âge FEFA</string>
+    <string name="tutor_birthdate_completed">Âge FEFA</string>
     <string name="tutor">Nom complet</string>
-    <string name="tutor_child">Mère, père ou tuteur de l\'enfant</string>
-    <string name="check_verification">Mère, père ou le tuteur autorisant la collecte des informations de l\'enfant</string>
+    <string name="tutor_child">Nom de FEFA</string>
+    <string name="check_verification">FEFA autorisant la collecte des informations personelles</string>
     <string name="check_verification_fefa">Autorise la collecte de données</string>
     <string name="dni">Piece d\'identité de l\'enfant</string>
     <string name="dni_tutor">Document d\'identité de la mère, du père ou du tuteur</string>

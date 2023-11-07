@@ -95,12 +95,12 @@
     <string name="surname">اسم العائلة</string>
     <string name="sex">جنس</string>
     <string name="brothers">أشقاء الطفل الأكبر سنا</string>
-    <string name="child_birthdate">تاريخ ميلاد الطفل</string>
-    <string name="tutor_birthdate">تاريخ ميلاد امرأة</string>
-    <string name="tutor_birthdate_completed">تاريخ ميلاد الأم أو الأب أو الوصي</string>
+    <string name="child_birthdate">عمر الطفل</string>
+    <string name="tutor_birthdate">عمر المرأة الحامل أو المرضعة</string>
+    <string name="tutor_birthdate_completed">عمر المرأة الحامل أو المرضعة</string>
     <string name="tutor">الاسم الكامل</string>
-    <string name="tutor_child">والدة الطفل أو والده أو الوصي عليه</string>
-    <string name="check_verification">الأم أو الوالد أو الوصي الذي يأذن بجمع معلومات الطفل</string>
+    <string name="tutor_child">اسم المرأة الحامل أو المرضعة</string>
+    <string name="check_verification"> المرأة الحامل أو المرضعة التي تسمح بجمع المعلومات الشخصية</string>
     <string name="check_verification_fefa">يسمح بجمع البيانات</string>
     <string name="dni">بطاقة هوية الطفل  </string>
     <string name="dni_tutor">وثيقة هوية الأم أو الأب أو الوصي</string>
