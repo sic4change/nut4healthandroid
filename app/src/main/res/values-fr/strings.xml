@@ -96,15 +96,9 @@
     <string name="sex">Sexe</string>
     <string name="brothers">Frères et sœurs aînés de l\'enfant</string>
     <string name="child_birthdate">Âge de l’enfant</string>
-    <string name="tutor_birthdate">Âge FEFA</string>
-    <string name="tutor_birthdate_completed">Âge FEFA</string>
-    <string name="tutor">Nom complet</string>
-    <string name="tutor_child">Nom de FEFA</string>
     <string name="check_verification">FEFA autorisant la collecte des informations personelles</string>
     <string name="check_verification_fefa">Autorise la collecte de données</string>
     <string name="dni">Piece d\'identité de l\'enfant</string>
-    <string name="dni_tutor">Document d\'identité de la mère, du père ou du tuteur</string>
-    <string name="dni_fefa">Document d\'identification de la mère</string>
     <string name="contact_phone">Téléphone de contact</string>
     <string name="medical_point">Service de santé</string>
     <string name="location">Emplacement</string>
@@ -819,5 +813,12 @@
         <item>Oui</item>
         <item>Non</item>
     </string-array>
+
+    <string name="tutor">Nom de FEFA</string>
+    <string name="tutor_child">Nom de la mère</string>
+    <string name="tutor_birthdate">Âge FEFA</string>
+    <string name="tutor_birthdate_completed">Âge de la mère</string>
+    <string name="dni_tutor">Document d\'identité de la mère, du pere ou du tuteur</string>
+    <string name="dni_fefa">Document d\'identité de FEFA</string>
 
 </resources>

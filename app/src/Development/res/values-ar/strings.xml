@@ -96,15 +96,9 @@
     <string name="sex">جنس</string>
     <string name="brothers">أشقاء الطفل الأكبر سنا</string>
     <string name="child_birthdate">عمر الطفل</string>
-    <string name="tutor_birthdate">عمر المرأة الحامل أو المرضعة</string>
-    <string name="tutor_birthdate_completed">عمر المرأة الحامل أو المرضعة</string>
-    <string name="tutor">الاسم الكامل</string>
-    <string name="tutor_child">اسم المرأة الحامل أو المرضعة</string>
     <string name="check_verification"> المرأة الحامل أو المرضعة التي تسمح بجمع المعلومات الشخصية</string>
     <string name="check_verification_fefa">يسمح بجمع البيانات</string>
     <string name="dni">بطاقة هوية الطفل  </string>
-    <string name="dni_tutor">وثيقة هوية الأم أو الأب أو الوصي</string>
-    <string name="dni_fefa">وثيقة هوية امرأة حامل أو المرضعة </string>
     <string name="contact_phone">رقم الهاتف</string>
     <string name="medical_point">الخدمات الصحية</string>
     <string name="location">مكان</string>
@@ -820,5 +814,12 @@
         <item>نعم</item>
         <item>لا</item>
     </string-array>
+
+    <string name="tutor"> اسم المرأة الحامل أو المرضعة </string>
+    <string name="tutor_child"> اسم الأم</string>
+    <string name="tutor_birthdate"> عمر المرأة الحامل أو المرضعة</string>
+    <string name="tutor_birthdate_completed"> عمر المرأة الحامل أو المرضعة</string>
+    <string name="dni_tutor"> وثيقة هوية الأم أو الأب أو الوصي</string>
+    <string name="dni_fefa"> وثيقة هوية المرأة الحامل أو المرضعة </string>
 
 </resources>
