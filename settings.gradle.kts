@@ -15,3 +15,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "NUT4Health"
 include(":app")
+include(":domain")
+include(":usescase")
+include(":data")
