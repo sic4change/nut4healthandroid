@@ -2,8 +2,8 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    id("kotlin-kapt")
-    id("dagger.hilt.android.plugin")
+    kotlin("kapt")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -16,7 +16,7 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
-
+        multiDexEnabled = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
@@ -38,6 +38,10 @@ android {
     }
     kotlinOptions {
         jvmTarget = "17"
+    }
+    buildFeatures {
+        viewBinding = true
+        dataBinding = true
     }
     buildFeatures {
         compose = true
@@ -69,15 +73,19 @@ dependencies {
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
+    implementation ("androidx.constraintlayout:constraintlayout:2.1.4")
+
+/*    //Hilt
+    implementation ("com.google.dagger:hilt-android:${project.property("hilt_version")}")
+    kapt ("com.google.dagger:hilt-compiler:${project.property("hilt_version")}")
+    implementation ("androidx.hilt:hilt-navigation-compose:1.1.0")*/
 
     //Hilt
-    implementation ("com.google.dagger:hilt-android:${project.property("hilt_version")}")
-    implementation ("androidx.constraintlayout:constraintlayout:2.1.4")
-    implementation ("com.google.firebase:firebase-config-ktx:21.5.0")
-    implementation ("com.google.dagger:hilt-compiler:${project.property("hilt_version")}")//ojo aqui estaba kapt
-    implementation ("androidx.hilt:hilt-navigation-compose:1.1.0")
+    implementation("com.google.dagger:hilt-android:2.44")
+    kapt("com.google.dagger:hilt-android-compiler:2.44")
 
     //Firebase
+    implementation ("com.google.firebase:firebase-config-ktx:21.5.0")
     implementation(platform("com.google.firebase:firebase-bom:29.1.0"))
     implementation ("com.google.firebase:firebase-analytics")
     implementation ("com.google.firebase:firebase-auth:22.2.0")
@@ -133,4 +141,8 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
+}
+
+kapt {
+    correctErrorTypes = true
 }
