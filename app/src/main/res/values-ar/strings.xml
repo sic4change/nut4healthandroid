@@ -8,199 +8,190 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
-
     <!--Login-->
-    <string name="login">LOGIN</string>
-    <string name="email">Email</string>
-    <string name="password">Password</string>
-    <string name="sign_in">SIGN IN</string>
-    <string name="new_user">New user?</string>
-    <string name="sign_up">Sign Up</string>
-    <string name="terms_and_conditions">Terms and Conditions NUT4Health</string>
-    <string name="terms_and_conditions_sam">Terms and Conditions SAMPhoto</string>
-    <string name="i_forgot_my_password">I forgot my password</string>
+    <string name="login">دخول</string>
+    <string name="email">بريد إلكتروني</string>
+    <string name="password">كلمة السر</string>
+    <string name="sign_in">دخل</string>
+    <string name="new_user">مستخدم جديد?</string>
+    <string name="sign_up">إنشاء حساب</string>
+    <string name="terms_and_conditions">شروط وأحكام Nut4Health</string>
+    <string name="terms_and_conditions_sam">شروط وأحكام سامفوتو</string>
+    <string name="i_forgot_my_password">نسيت كلمة السر</string>
 
     <!--Create Account-->
-    <string name="createAccount">CREATE ACCOUNT</string>
-    <string name="username">Username</string>
-    <string name="role">Role</string>
-    <string name="repeat_password">Repeat password</string>
-    <string name="sign_up_uppercase">SIGN UP</string>
-    <string name="acept_terms_and_conditions">I accept the </string>
+    <string name="createAccount">إنشاء حساب</string>
+    <string name="username">اسم المستخدم</string>
+    <string name="role">دور</string>
+    <string name="repeat_password">كرر كلمة المرور</string>
+    <string name="sign_up_uppercase">إنشاء حساب</string>
+    <string name="acept_terms_and_conditions">أوافق على الشروط والأحكام  </string>
     <string-array name="array_role">
-        <item>Health Agent</item>
-        <item>Health Service</item>
+        <item>عامل صحي©</item>
+        <item>الخدمات الصحية</item>
     </string-array>
 
     <!--Error user login/create account-->
-    <string name="mandatory_field">Mandatory unfilled fields</string>
-    <string name="invalid_email">Invalid email</string>
-    <string name="password_matches">Password and confirm password does not match!!</string>
-    <string name="password_length">Password length must have at least 8 character!!</string>
-    <string name="incorrect_user_or_password">User or password incorrect</string>
-    <string name="user_exist">That registered user already exists</string>
-    <string name="error_terms_and_conditios">You must agree to terms and conditions</string>
+    <string name="mandatory_field">يجب عليك ملء الحقول المطلوبة</string>
+    <string name="invalid_email">البريد الإلكتروني غير صحيح</string>
+    <string name="password_matches">يجب أن تتطابق كلمة المرور وتأكيد كلمة المرور</string>
+    <string name="password_length">يجب أن تتكون كلمة المرور من 8 أحرف على الأقل</string>
+    <string name="incorrect_user_or_password">مستخدم أو كلمة مرور غير صحيحة</string>
+    <string name="user_exist">هذا المستخدم موجود بالفعل </string>
+    <string name="error_terms_and_conditios">يجب أن توافق على الشروط والأحكام</string>
 
     <!--Main-->
-    <string name="close_question">Click again to close</string>
+    <string name="close_question">اضغط مرة أخرى للإغلاق</string>
 
     <!--Error View-->
-    <string name="error_general_one">An unexpected eror ocurred.</string>
-    <string name="error_general_two">Sorry for the inconvenience.</string>
-    <string name="error_general_three">Restarting App...</string>
+    <string name="error_general_one">حدث خطأ غير متوقع.</string>
+    <string name="error_general_two">نأسف للإزعاج.</string>
+    <string name="error_general_three">إعادة تشغيل التطبيق...</string>
 
     <!--Profile-->
-    <string name="profile">View and edit profile</string>
-    <string name="edit_name">Edit your name</string>
-    <string name="edit_surname">Edit your surname</string>
-    <string name="edit_country">Edit your country</string>
-    <string name="edit_password">Change your password</string>
-    <string name="logout">Logout</string>
-    <string name="delete_account">Delete account</string>
-    <string name="ok">Ok</string>
-    <string name="cancel">Cancel</string>
-    <string name="search">Search...</string>
-    <string name="sent_instructions_to_change_password">If you accept, we will send you the instructions to change the password.</string>
-    <string name="sent_instructions_to_change_password_ok">Sent. Check your email. If you can not find it, look in the Spam folder</string>
-    <string name="logout_question">Are you sure you want to logout?</string>
-    <string name="delete_account_first_question">Are you sure you want to delete the account?</string>
-    <string name="delete_account_second_question">This removes all your data permanently, do you want to continue?</string>
+    <string name="profile">عرض وتحرير الملف الشخصي</string>
+    <string name="edit_name">تغيير اسمك</string>
+    <string name="edit_surname">تغيير اسم العائلة</string>
+    <string name="edit_country">تغيير جنسيتكstring></string>
+    <string name="edit_password">تغيير كلمة المرور </string>
+    <string name="logout">تسجيل الخروج</string>
+    <string name="delete_account">حذف الحساب</string>
+    <string name="ok">تقبل</string>
+    <string name="cancel">إلغاء </string>
+    <string name="search">بحث ...</string>
+    <string name="sent_instructions_to_change_password">إذا كنت توافق ، فسنرسل لك تعليمات حول كيفية تغيير كلمة المرور إلى عنوان بريدك الإلكتروني</string>
+    <string name="sent_instructions_to_change_password_ok">ارسل. تحقق من عنوان بريدك الإلكتروني. إذا لم تتمكن من العثور عليه, ابحث في مجلد البريد العشوائي أو البريد المزعج</string>
+    <string name="logout_question">هل أنت متأكد من أنك تريد الخروج؟</string>
+    <string name="delete_account_first_question">هل أنت متأكد من أنك تريد حذف الحساب؟</string>
+    <string name="delete_account_second_question">يؤدي هذا إلى حذف جميع معلوماتك نهائيا ، هل تريد المتابعة؟</string>
 
-    <string name="no_internet">Check your Internet Connection</string>
+    <string name="no_internet">تحقق من اتصالك بالإنترنت</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <!--Contracts-->
-    <string name="list">List</string>
-    <string name="map">Map</string>
-    <string name="showing">Showing</string>
-    <string name="diagnosis_show">diagnosis</string>
+    <string name="list">قائمة</string>
+    <string name="map">خريطة</string>
 
     <!--Create Contract-->
-    <string name="createDiagnosis">Create diagnosis</string>
-    <string name="createContract">Create child diagnosis</string>
-    <string name="createFEFAContract">Create FEFA diagnosis</string>
-    <string name="profile_child">Child profile</string>
-    <string name="profile_fefa">FEFA profile</string>
-    <string name="next_step">Next</string>
-    <string name="back_step">Back</string>
+    <string name="createContract">إنشاء تشخيص للطفل</string>
+    <string name="createFEFAContract">إنشاء تشخيص للمرأة الحامل أو المرضعة</string>
+    <string name="profile_child"> ملف الطفل</string>
+    <string name="profile_fefa">ملف تعريف المراة الحاملة و المرضعة</string>
+    <string name="next_step">مقبل</string>
+    <string name="back_step">سابق</string>
     <string name="complete_step"></string>
-    <string name="first_step_title">Diagnosis</string>
-    <string name="second_step_title">Child</string>
-    <string name="third_step_title">Send</string>
-    <string name="take_photo">Take photo</string>
-    <string name="error_photo">You must indicate the brachial perimeter of the child\'s arm</string>
-    <string name="error_child_data">You must enter child data</string>
-    <string name="error_fingerprint_data">You must enter child fingerprint</string>
-    <string name="error_not_gps_position">You must activate geolocalization</string>
-    <string name="child_data">Information</string>
-    <string name="name">Child\'s first name</string>
-    <string name="surname">Child\'s surname</string>
-    <string name="sex">Sex</string>
-    <string name="brothers">Older siblings of the child</string>
-    <string name="child_birthdate">Child\'s birthdate</string>
-    <string name="tutor_birthdate">Mother\'s date of birth</string>
-    <string name="tutor_birthdate_completed">Birthdate of the mother, father, or tutor</string>
-    <string name="tutor">Full name</string>
-    <string name="tutor_child">FEFA of the child</string>
-    <string name="check_verification">FEFA authorizes the data collection of the minor</string>
-    <string name="check_verification_fefa">Authorize the data collection</string>
-    <string name="dni">Identification document of the child</string>
-    <string name="dni_tutor">Identification document of the mother, father, or tutor</string>
-    <string name="dni_fefa">Mother\'s identification document</string>
-    <string name="contact_phone">Contact phone</string>
-    <string name="medical_point">Health Service</string>
-    <string name="location">Location</string>
-    <string name="check_malnutrition">Check malnutrition</string>
-    <string name="capture">Start diagnosis</string>
-    <string name="points">points</string>
-    <string name="your_position">You are here</string>
-    <string name="registerContract">Registrar diagnóstico</string>
-    <string name="select_medical">Selecciona el Servicio de Salud</string>
-    <string name="hight">Hight (cm)</string>
-    <string name="weight">Weight (Kg)</string>
+    <string name="first_step_title">تشخيصي</string>
+    <string name="second_step_title">معلومات</string>
+    <string name="third_step_title">ارسل</string>
+    <string name="take_photo">التقاط صورة</string>
+    <string name="error_photo">يجب أن تشير إلى محيط الذراع العلوي لذراع الطفل</string>
+    <string name="error_child_data">تحتاج إلى إدخال معلومات الطفل</string>
+    <string name="error_fingerprint_data">تحتاج إلى إدخال بصمة الطفل</string>
+    <string name="error_not_gps_position">تحتاج إلى تشغيل الموقع على جهازك</string>
+    <string name="child_data">معلومات الطفل</string>
+    <string name="name">اسم</string>
+    <string name="surname">اسم العائلة</string>
+    <string name="sex">جنس</string>
+    <string name="brothers">أشقاء الطفل الأكبر سنا</string>
+    <string name="child_birthdate">عمر الطفل</string>
+    <string name="check_verification"> المرأة الحامل أو المرضعة التي تسمح بجمع المعلومات الشخصية</string>
+    <string name="check_verification_fefa">يسمح بجمع البيانات</string>
+    <string name="dni">بطاقة هوية الطفل  </string>
+    <string name="contact_phone">رقم الهاتف</string>
+    <string name="medical_point">الخدمات الصحية</string>
+    <string name="location">مكان</string>
+    <string name="check_malnutrition">التحقق من سوء التغذية</string>
+    <string name="capture">بدء التشخيص</string>
+    <string name="points">النقاط</string>
+    <string name="your_position">أنت هنا</string>
+    <string name="registerContract">سجل التشخيص</string>
+    <string name="select_medical">اختر الخدمة الصحية</string>
+    <string name="hight">الارتفاع (سم)</string>
+    <string name="weight">الوزن (كجم)</string>
 
-    <string name="check_phone_number">Verify that the contact person number is valid/correct. To be sure, call this contact, or call yourself from the number itself / from the contact number</string>
+    <string name="check_phone_number">للتأكد ، اتصل بهذا الرقم أو اتصل من "هذا" / هاتف الاتصال.</string>
 
     <!--Main menu-->
-    <string name="contracts">Diagnostics child</string>
-    <string name="contracts_child">Diagnostics child</string>
-    <string name="contracts_fefa">Diagnostics FEFA</string>
-    <string name="ranking">Ranking</string>
-    <string name="payments">Payments</string>
-    <string name="report">Report</string>
-    <string name="notifications">Notifications</string>
-    <string name="map_diagnostics">Diagnostics map</string>
+    <string name="createDiagnosis">إجراء التشخيص</string>
+    <string name="contracts">تشخيص الأطفال</string>
+    <string name="contracts_fefa">إنشاء تشخيص للمرأة الحامل أو المرضعة</string>
+    <string name="contracts_child">تشخيص الأطفال</string>
+    <string name="ranking">ترتيب</string>
+    <string name="payments">الدفعات</string>
+    <string name="report">تقرير</string>
+    <string name="notifications">الاخطارات</string>
+    <string name="map_diagnostics"> تشخيص الخرائط </string>
 
     <!--Contract Detail-->
-    <string name="contractDetail">Diagnosis patient</string>
-    <string name="date">Date</string>
+    <string name="contractDetail">تفاصيل المريض</string>
+    <string name="date">تاريخ</string>
 
     <!--Contract Filter-->
     <string-array name="array_status">
-        <item>All</item>
-        <item>Admitted</item>
+        <item>كل</item>
+        <item>اعترف</item>
         <item>NW</item>
         <item>MAM</item>
         <item>SAM</item>
-        <item>Duplicated</item>
+        <item>مكرره</item>
     </string-array>
-
-    <string name="hintNameSearch">Name and/or surname</string>
-    <string name="dateRange">Date range</string>
-    <string name="filter">Filter</string>
-    <string name="clear">Clear</string>
+    <string name="hintNameSearch">الاسم واللقب</string>
+    <string name="dateRange">ترتيب التواريخ</string>
+    <string name="filter">راووق</string>
+    <string name="clear">نظيف</string>
 
     <!--Ranking Detail-->
-    <string name="ranking_detail">User detail</string>
-    <string name="ranking_points">Points</string>
-    <string name="ranking_position">Position</string>
+    <string name="ranking_detail">تفاصيل المستخدم</string>
+    <string name="ranking_points">النقاط</string>
+    <string name="ranking_position">موضع</string>
 
     <!--Payments -->
-    <string name="monthly_payment_text">Monthly payment</string>
-    <string name="confirmation_text">Confirmed diagnosis</string>
-    <string name="bonus_text">Diagnostics Bonus</string>
+    <string name="monthly_payment_text">الدفع شهريا</string>
+    <string name="confirmation_text">تم تأكيد التشخيص </string>
+    <string name="bonus_text">مكافأة التشخيص</string>
     <string-array name="array_status_payments">
-        <item>All</item>
-        <item>Monthly</item>
-        <item>Diagnosis</item>
-        <item>Confirmed</item>
+        <item>كل</item>
+        <item>شهري</item>
+        <item>تشخيصي</item>
+        <item>تأكيد</item>
     </string-array>
-    <string name="status_created">Created</string>
-    <string name="status_paid">Paid</string>
-    <string name="status_cancel">Cancel</string>
+    <string name="status_created">إنشاء</string>
+    <string name="status_paid">دفع</string>
+    <string name="status_cancel">الغاء</string>
 
     <!--Report -->
-    <string name="send_report">Send report</string>
-    <string name="reportQuestion">Do you have any idea to improve the application? Do you want to report an error? \n\nLeave us your comments here</string>
-    <string name="reportHint">Write here</string>
-    <string name="reportSend">Report sent correctly</string>
-    <string name="reportSendDescription">Thank you!! Soon we can contact you.</string>
+    <string name="send_report">إرسال تقرير</string>
+    <string name="reportQuestion">هل لديك أي أفكار لتحسين التطبيق؟ هل ترغب في الإبلاغ عن خطأ؟</string>
+    <string name="reportHint">اكتب هنا</string>
+    <string name="reportSend">تم إرسال التقرير بنجاح</string>
+    <string name="reportSendDescription">شكرا!! قريبا سنتمكن من الاتصال بك.</string>
 
     <!--Error create contract server -->
-    <string name="error_create_contract_server">You have previously diagnosed the child or have recently received treatment</string>
+    <string name="error_create_contract_server">قمت بالفعل بتشخيص الطفل أو تلقيت علاجا مؤخرا</string>
 
     <!--Diagnostic Map-->
-    <string name="near_me">Near me</string>
+    <string name="near_me">قريب مني</string>
 
     <!--Status-->
-    <string name="derived">Derived</string>
-    <string name="registered">Registered</string>
-    <string name="admitted">Admitted</string>
+    <string name="derived">مشتق</string>
+    <string name="registered">سجل</string>
+    <string name="admitted">اعترف</string>
 
     <!--Check messages-->
-    <string name="diagnosis_duplicated_7">Diagnosis created above. You must wait 7 days to be re-diagnosed</string>
-    <string name="diagnosis_duplicated_30">Diagnosis created above. You must wait 30 days to be re-diagnosed</string>
-    <string name="diagnosis_ok">Diagnosis created successfully</string>
-    <string name="diagnosis_paying">That diagnosis is already in the payment phase. You must wait days to diagnose it again</string>
-    <string name="diagnosis_updated">Diagnosis created previously. The data has been updated</string>
-    <string name="diagnosis_to_pay">Malnutrition checked. Paying</string>
-    <string name="diagnosis_finished">Diagnosis completed</string>
-    <string name="contracts_exported_ok">Contracts exported successfully</string>
-    <string name="contracts_exported_error">Contracts exported error</string>
-    <string name="validate_diagnosis">Validate diagnosis</string>
-    <string name="confirm_diagnosis">Confirm diagnosis</string>
+    <string name="diagnosis_duplicated_7">تم إنشاء التشخيص أعلاه. يجب الانتظار 7 أيام لإعادة التشخيص</string>
+    <string name="diagnosis_duplicated_30">Diagnostic تم إنشاء التشخيص أعلاه. عليك الانتظار 30 يوما لإعادة التشخيص</string>
+    <string name="diagnosis_ok">تم إنشاء التشخيص بنجاح</string>
+    <string name="diagnosis_paying">هذا التشخيص بالفعل في مرحلة الدفع. عليك الانتظار أياما لإعادة تشخيصه</string>
+    <string name="diagnosis_updated">تم إنشاء التشخيص في وقت سابق. تم تحديث المعلومات</string>
+    <string name="diagnosis_to_pay">حالات سوء التغذية المؤكدة. إجراء الدفع</string>
+    <string name="diagnosis_finished">اكتمل التشخيص</string>
+    <string name="contracts_exported_ok">عقود التصدير بنجاح</string>
+    <string name="contracts_exported_error">خطأ في تصدير العقود</string>
+    <string name="validate_diagnosis">التحقق من صحة التشخيص</string>
+    <string name="confirm_diagnosis">تأكد التشخيص
+</string>
 
     <!--Font awasome -->
     <string name="fa_adjust">&#xf042;</string>
@@ -756,73 +747,79 @@
     <string name="fa_youtube_square">&#xf166;</string>
 
     <!--Fingerprint-->
-
-    <string name="read_child_finger">Child fingerprint</string>
-    <string name="read_child_finger_description">Insert the index finger of the child right hand in the reader</string>
-    <string name="setting_up_reader">Setting up reader</string>
-    <string name="reader_powered_on">Reader powered on</string>
-    <string name="ready_to_scan_finger">Ready to scan finger</string>
-    <string name="finger_detected">Finger detected</string>
-    <string name="finger_has_been_lifted_off_reader">Finger has been lifted off reader</string>
-    <string name="reader_is_off">Reader is off</string>
-    <string name="fingerprint_successfully_captured">Fingerprint successfully captured</string>
-    <string name="receiving_image">Receiving image</string>
-
+    <string name="read_child_finger">بصمة الطفل</string>
+    <string name="read_child_finger_description">أدخل إصبع السبابة من يد الطفل اليمنى في الماسح الضوئي</string>
+    <string name="setting_up_reader">إعداد الماسح الضوئي</string>
+    <string name="reader_powered_on">تشغيل الماسح الضوئي</string>
+    <string name="ready_to_scan_finger">جاهز لمسح الإصبع</string>
+    <string name="finger_detected">تم اكتشاف الإصبع</string>
+    <string name="finger_has_been_lifted_off_reader">تم رفع الإصبع من الماسح الضوئي</string>
+    <string name="reader_is_off">إيقاف تشغيل الماسح الضوئي</string>
+    <string name="fingerprint_successfully_captured">تم التقاط بصمة الإصبع بنجاح</string>
+    <string name="receiving_image">استلام الصورة</string>
 
     <!--Confirm diagnosis-->
-    <string name="confirm_diagnosis_first_question">Are you sure you want to confirm the diagnosis?</string>
-    <string name="confirm_diagnosis_second_question">This action has no turning back, do you want to continue?</string>
+    <string name="confirm_diagnosis_first_question">هل أنت متأكد من رغبتك في تأكيد التشخيص؟?</string>
+    <string name="confirm_diagnosis_second_question">لا عودة إلى الوراء لهذا الإجراء ، هل تريد الاستمرار؟</string>
 
     <!--Type diagnosis-->
-    <string name="normopeso">Normopeso</string>
-    <string name="moderate_acute_malnutrition">Moderate Acute Malnutrition</string>
-    <string name="severe_acute_malnutrition">Severe Acute Malnutrition</string>
+    <string name="normopeso">الوزن الطبيعي</string>
+    <string name="moderate_acute_malnutrition">سوء التغذية الحاد المعتدل</string>
+    <string name="severe_acute_malnutrition">سوء التغذية الحاد الوخيم</string>
 
     <string name="normopeso_abrev">NW</string>
     <string name="moderate_acute_malnutrition_abrev">MAM</string>
     <string name="severe_acute_malnutrition_abrev">SAM</string>
     <string name="duplicated_abrev">DUP</string>
+    <string name="duplicated">تكرار</string>
 
-    <string name="normopeso_full">Normal Weight (NW)</string>
-    <string name="moderate_acute_malnutrition_full">Moderate Acute Malnutrition (MAM)</string>
-    <string name="severe_acute_malnutrition_full">Moderate Acute Malnutrition (SAM)</string>
-    <string name="duplicated">Duplicated</string>
-    <string name="help">Help</string>
+    <string name="normopeso_full">الوزن الطبيعي(NW)</string>
+    <string name="moderate_acute_malnutrition_full">الحاد المعتدل (MAM)</string>
+    <string name="severe_acute_malnutrition_full">سوء التغذية الحاد الوخيم </string>
+
+    <string name="help">تعليمات</string>
 
     <!--Excel export-->
-    <string name="name_export">Name</string>
-    <string name="surnname_export">Surnames</string>
-    <string name="sex_export">Sex</string>
-    <string name="address_export">Address</string>
-    <string name="phone_export">Phone</string>
-    <string name="date_export">Date</string>
-    <string name="date_millis_export">Address</string>
-    <string name="screener_export">Health Agent</string>
-    <string name="service_export">Health Service</string>
-    <string name="date_health_service">Date Health Service</string>
-    <string name="date_millis_health_service">Date Millis Health Service</string>
-    <string name="locatoin_health_service">Location Health Service</string>
-    <string name="status">Status</string>
-    <string name="call">Call</string>
+    <string name="name_export">اسم</string>
+    <string name="surnname_export">الالقاب</string>
+    <string name="sex_export">جنس</string>
+    <string name="address_export">عنوان</string>
+    <string name="phone_export">هاتف</string>
+    <string name="date_export">تاريخ</string>
+    <string name="date_millis_export">ميلي ديت</string>
+    <string name="screener_export">وكيل الصحة</string>
+    <string name="service_export">الخدمات الصحية</string>
+    <string name="date_health_service">خدمة صحة التمور</string>
+    <string name="date_millis_health_service">تاريخ الخدمات الصحية العسكرية</string>
+    <string name="locatoin_health_service">موقع الخدمات الصحية</string>
+    <string name="status">حالة</string>
+    <string name="call">اتصل ب </string>
 
     <string-array name="array_fefa_options">
-        <item>Pregnant</item>
-        <item>Infant</item>
-        <item>Pregnant and Infant</item>
+        <item>حامل</item>
+        <item> المرضعة</item>
+        <item>الحامل و المرضعة </item>
     </string-array>
 
-    <string name="month">months</string>
-    <string name="andYear">years and</string>
+    <string name="month">شهر</string>
+    <string name="andYear"> سنوات و</string>
 
-    <string name="error_pb_6">The Brachial Perimeter is only valid for children aged 6 to 59 months, take the mother\'s brachial perimeter</string>
-    <string name="error_pb_59">The Brachial Perimeter is only valid for children aged 6 to 59 months</string>
+    <string name="error_pb_6">محيط الذراع صالح فقط للأطفال من 6 إلى 59 شهرا, خذ محيط ذراع الأم</string>
+    <string name="error_pb_59">محيط الذراع صالح فقط للأطفال من 6 إلى 59 شهرا</string>
 
-    <string name="weeks">Number of weeks</string>
-    <string name="childMinor">Child under 6 months of age</string>
+    <string name="weeks">عدد الأسابيع</string>
+    <string name="childMinor">الأطفال دون سن 6 أشهر</string>
 
     <string-array name="childMinor_options">
-        <item>Yes</item>
-        <item>No</item>
+        <item>نعم</item>
+        <item>لا</item>
     </string-array>
+
+    <string name="tutor"> اسم المرأة الحامل أو المرضعة </string>
+    <string name="tutor_child"> اسم الأم</string>
+    <string name="tutor_birthdate"> عمر المرأة الحامل أو المرضعة</string>
+    <string name="tutor_birthdate_completed"> عمر المرأة الحامل أو المرضعة</string>
+    <string name="dni_tutor"> وثيقة هوية الأم أو الأب أو الوصي</string>
+    <string name="dni_fefa"> وثيقة هوية المرأة الحامل أو المرضعة </string>
 
 </resources>
