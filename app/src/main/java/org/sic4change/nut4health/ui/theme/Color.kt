@@ -2,10 +2,10 @@ package org.sic4change.nut4health.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Purple80 = Color(0xFFD0BCFF)
-val PurpleGrey80 = Color(0xFFCCC2DC)
-val Pink80 = Color(0xFFEFB8C8)
+val ColorPrimary = Color(0x379FF3)
+val ColorPrimaryDark = Color(0x379FF3)
+val ColorAccent = Color(0x9EC830)
 
-val Purple40 = Color(0xFF6650a4)
-val PurpleGrey40 = Color(0xFF625b71)
-val Pink40 = Color(0xFF7D5260)
+val ColorBackground = Color(0xFFFFFF)
+val ColorSurface = Color(0xFFFFFF)
+val ColorError = Color(0xB00020)

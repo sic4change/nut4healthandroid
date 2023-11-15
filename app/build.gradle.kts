@@ -12,7 +12,7 @@ android {
 
     defaultConfig {
         applicationId = "org.sic4change.nut4health"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -73,15 +73,19 @@ dependencies {
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
-    implementation ("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation("androidx.compose.material:material-icons-extended:1.5.4")
 
-/*    //Hilt
-    implementation ("com.google.dagger:hilt-android:${project.property("hilt_version")}")
-    kapt ("com.google.dagger:hilt-compiler:${project.property("hilt_version")}")
-    implementation ("androidx.hilt:hilt-navigation-compose:1.1.0")*/
+    implementation("androidx.navigation:navigation-runtime-ktx:2.7.5")
+    implementation("androidx.navigation:navigation-compose:2.7.5")
+
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
 
     //Hilt
     implementation("com.google.dagger:hilt-android:2.44")
+    implementation("androidx.navigation:navigation-runtime-ktx:2.7.5")
     kapt("com.google.dagger:hilt-android-compiler:2.44")
 
     //Firebase

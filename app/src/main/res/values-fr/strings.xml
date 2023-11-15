@@ -1,824 +1,402 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">NUT4Health</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
-    <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Settings</string>
-
-    <!--Login-->
-    <string name="login">Identifiez-vous</string>
-    <string name="email">e-mail</string>
-    <string name="password">Mot de passe</string>
-    <string name="sign_in">ENTRER</string>
-    <string name="new_user">Nouvel utilisateur?</string>
-    <string name="sign_up">Créer un compte</string>
-    <string name="terms_and_conditions">Termes et Conditions Nut4Health</string>
-    <string name="terms_and_conditions_sam">Termes et conditions SAMPhoto</string>
-    <string name="i_forgot_my_password">J\'ai oublié mon mot de passe</string>
-
-    <!--Create Account-->
-    <string name="createAccount">CRÉER COMPTE</string>
-    <string name="username">Nom d\'utilisateur</string>
+    <string name="username">Utilisateur</string>
     <string name="role">Rôle</string>
-    <string name="repeat_password">Répetér le mot de passe</string>
-    <string name="sign_up_uppercase">Créer compte</string>
-    <string name="acept_terms_and_conditions">J\'accepte les </string>
-    <string-array name="array_role">
-        <item>Agent de santé</item>
-        <item>Service de Sante</item>
-    </string-array>
-
-    <!--Error user login/create account-->
-    <string name="mandatory_field">Vous devez remplir les champs obligatoires</string>
-    <string name="invalid_email">Email invalide</string>
-    <string name="password_matches">Le mot de passe et la confirmation du mot de passe doivent correspondre</string>
-    <string name="password_length">Le mot de passe doit comporter au moins 8 caractères</string>
-    <string name="incorrect_user_or_password">Utilisateur ou mot de passe incorrect</string>
-    <string name="user_exist">Cet utilisateur existe déjà</string>
-    <string name="error_terms_and_conditios">Vous devez accepter les termes et conditions</string>
-
-    <!--Main-->
-    <string name="close_question">Appuyez à nouveau pour fermer</string>
-
-    <!--Error View-->
-    <string name="error_general_one">Une erreur imprévue s\'est produite.</string>
-    <string name="error_general_two">Désolé pour les dérangements.</string>
-    <string name="error_general_three">Redémarrage de l\'application...</string>
-
-    <!--Profile-->
-    <string name="profile">Voir et modifier le profil</string>
-    <string name="edit_name">Modifier votre nom</string>
-    <string name="edit_surname">Modifier votre noms de famille</string>
-    <string name="edit_country">Modifier votre nationalité</string>
-    <string name="edit_password">Changez votre mot de passe</string>
-    <string name="logout">Fermer la session</string>
-    <string name="delete_account">Supprimer le compte</string>
-    <string name="ok">Accepter</string>
+    <string name="centre">Poste de santé</string>
+    <string name="change_password">Changer de mot de passe</string>
+    <string name="reveal_password">Afficher le mot de passe</string>
+    <string name="hide_password">Masquer le mot de passe</string>
+    <string name="email">e-mail</string>
+    <string name="best_email">Utilisez votre e-mail</string>
+    <string name="password">Mot de passe</string>
+    <string name="forgot_password">Vous-avez oublié votre mot de passe ?</string>
+    <string name="login">ENTRER</string>
+    <string name="terms_and_conditions">Termes et conditions</string>
+    <string name="nut4health">NUT4Health</string>
+    <string name="forgot_password_question">Si vous acceptez, nous enverrons à votre e-mail les instructions pour définir votre mot de passe.</string>
+    <string name="send_email">Envoyer e-mail</string>
+    <string name="valid_email">Doit être un e-mail valide</string>
+    <string name="valid_pass">Le mot de passe doit comporter au moins 5 caractères</string>
+    <string name="congratulations">félicitations</string>
+    <string name="email_or_pass_incorrect">Adresse e-mail ou mot de passe incorrect</string>
+    <string name="no_error" />
+    <string name="accept">Accepter</string>
+    <string name="close">Fermé</string>
+    <string name="logout">Se déconnecter</string>
+    <string name="logout_question">Êtes-vous sûr de vouloir vous déconnecter?</string>
+    <string name="credential_error">Accès non autorisé</string>
     <string name="cancel">Annuler</string>
-    <string name="search">Chercher...</string>
-    <string name="sent_instructions_to_change_password">Si vous acceptez, nous vous enverrons les instructions pour changer le mot de passe à votre adresse e-mail</string>
-    <string name="sent_instructions_to_change_password_ok">EEnvoyer. Vérifie ton adresse e-mail. Si vous ne le trouvez pas, regardez dans le dossier spam ou Indésirable</string>
-    <string name="logout_question">Es-tu sûr de vouloir sortir?</string>
-    <string name="delete_account_first_question">Voulez-vous vraiment supprimer le compte?</string>
-    <string name="delete_account_second_question">Cela supprime définitivement totes vos informations, voulez-vous continuer?</string>
-
-    <string name="no_internet">Vérifiez votre connection internet</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
-    <!--Contracts-->
-    <string name="list">Liste</string>
-    <string name="map">Carte</string>
-
-    <!--Create Contract-->
-    <string name="createContract">Créer un diagnostic pour un enfant</string>
-    <string name="createFEFAContract">Créer un diagnostic pour un FEFA</string>
-    <string name="profile_child">Diagnostic enfant</string>
-    <string name="profile_fefa">Diagnostic FEFA</string>
-    <string name="next_step">Suivant</string>
-    <string name="back_step">Précédent</string>
-    <string name="complete_step"></string>
-    <string name="first_step_title">Diagnostique</string>
-    <string name="second_step_title">Information</string>
-    <string name="third_step_title">Envoyer</string>
-    <string name="take_photo">Prendre photo</string>
-    <string name="error_photo">Vous devez indiquer le périmètre brachial du bras de l’enfant</string>
-    <string name="error_child_data">Vous devez entrer les informations de l\'enfant</string>
-    <string name="error_fingerprint_data">Vous devez entrer l\'empreinte digitale de l\'enfant</string>
-    <string name="error_not_gps_position">Vous devez activer la localisation sur votre appareil</string>
-    <string name="child_data">INFORMATIONS DE L\'ENFANT</string>
-    <string name="name">Nom</string>
-    <string name="surname">Noms de famille</string>
-    <string name="sex">Sexe</string>
-    <string name="brothers">Frères et sœurs aînés de l\'enfant</string>
-    <string name="child_birthdate">Âge de l’enfant</string>
-    <string name="check_verification">FEFA autorisant la collecte des informations personelles</string>
-    <string name="check_verification_fefa">Autorise la collecte de données</string>
-    <string name="dni">Piece d\'identité de l\'enfant</string>
-    <string name="contact_phone">Téléphone de contact</string>
-    <string name="medical_point">Service de santé</string>
-    <string name="location">Emplacement</string>
-    <string name="check_malnutrition">Vérifier la malnutrition</string>
-    <string name="capture">Démarrer le diagnostique</string>
-    <string name="points">Points</string>
-    <string name="your_position">Vous êtes ici</string>
-    <string name="registerContract">Enregistrer le diagnostique</string>
-    <string name="select_medical">Sélectionêz le service de santé</string>
-    <string name="hight">La Taille (cm)</string>
-    <string name="weight">Lester (Kg)</string>
-
-    <string name="check_phone_number">Veuillez vérifier que le numéro de la personne à contacter est valide/correct. Pour être sûr, appeler ce contact ou faites-vous appeler depuis "celui-ci" / ce téléphone de contact.</string>
-
-    <!--Main menu-->
-    <string name="createDiagnosis">Créer un diagnostic</string>
-    <string name="contracts">Diagnostiques Enfants</string>
-    <string name="contracts_fefa">Diagnostiques FEFA</string>
-    <string name="contracts_child">Diagnostiques Enfants</string>
-    <string name="ranking">Classement</string>
-    <string name="payments">Paiements</string>
-    <string name="report">Rapport</string>
-    <string name="notifications">Notifications</string>
-    <string name="map_diagnostics">Carte de diagnostiques</string>
-
-    <!--Contract Detail-->
-    <string name="contractDetail">Détails du patient</string>
+    <string name="settings">Configuration</string>
+    <string name="more_actions">Plus d’actions</string>
+    <string name="go_to_detail">Voir le détail</string>
+    <string name="birthdate">Date de naissance</string>
     <string name="date">Date</string>
-
-    <!--Contract Filter-->
-    <string-array name="array_status">
-        <item>Toutes</item>
-        <item>Admis</item>
-        <item>NW</item>
-        <item>MAM</item>
-        <item>SAM</item>
-        <item>Dupliqué</item>
-    </string-array>
-    <string name="hintNameSearch">Nom et/ou prénom</string>
-    <string name="dateRange">Rang des dates</string>
-    <string name="filter">Filtrer</string>
-    <string name="clear">Nettoyer</string>
-
-    <!--Ranking Detail-->
-    <string name="ranking_detail">Details d\'utilisateur</string>
-    <string name="ranking_points">Points</string>
-    <string name="ranking_position">Position</string>
-
-    <!--Payments -->
-    <string name="monthly_payment_text">Paiement par mois</string>
-    <string name="confirmation_text">Diagnostique confirmé</string>
-    <string name="bonus_text">Bonus de diagnostique</string>
-    <string-array name="array_status_payments">
-        <item>Toutes</item>
-        <item>Mensuel</item>
-        <item>Diagnostiques</item>
-        <item>Confirmations</item>
-    </string-array>
-    <string name="status_created">Crée</string>
-    <string name="status_paid">Payé</string>
-    <string name="status_cancel">Annulé</string>
-
-    <!--Report -->
-    <string name="send_report">Envoyer un rapport</string>
-    <string name="reportQuestion">Avez-vous des idées pour améliorer l\'application? Vous souhaitez nous signaler une erreur?</string>
-    <string name="reportHint">Ecris ici</string>
-    <string name="reportSend">Rapport envoyé avec succès</string>
-    <string name="reportSendDescription">Merci!! Bientôt nous pourrons vous contacter.</string>
-
-    <!--Error create contract server -->
-    <string name="error_create_contract_server">Vous avez déjà diagnostique l\'enfant ou avez récemment recu un traitement</string>
-
-    <!--Diagnostic Map-->
-    <string name="near_me">Près de moi</string>
-
-    <!--Status-->
-    <string name="derived">Dérivée</string>
-    <string name="registered">Inscrit</string>
-    <string name="admitted">Admis</string>
-
-    <!--Check messages-->
-    <string name="diagnosis_duplicated_7">Diagnostic créé ci-dessus. Vous devez attendre 7 jours pour être re-diagnostiqué</string>
-    <string name="diagnosis_duplicated_30">Diagnostic créé ci-dessus. Vous devez attendre 30 jours pour être re-diagnostiqué</string>
-    <string name="diagnosis_ok">Diagnostique créé avec succès</string>
-    <string name="diagnosis_paying">Ce diagnostique est déjà en phase de paiement. Vous devez attendre des jours pour le re-diagnostiquer</string>
-    <string name="diagnosis_updated">Diagnostique créé plus tôt. Les informations ont été mises à jour</string>
-    <string name="diagnosis_to_pay">Cas avéré de malnutrition. Effectuant le paiement</string>
-    <string name="diagnosis_finished">Diagnostique terminé</string>
-    <string name="contracts_exported_ok">Contrats exportés avec succès</string>
-    <string name="contracts_exported_error">Erreur lors de l\'exportation des contrats</string>
-    <string name="validate_diagnosis">Valider le diagnostic</string>
-    <string name="confirm_diagnosis">Confirmer le diagnostic</string>
-
-    <!--Font awasome -->
-    <string name="fa_adjust">&#xf042;</string>
-    <string name="fa_adn">&#xf170;</string>
-    <string name="fa_align_center">&#xf037;</string>
-    <string name="fa_align_justify">&#xf039;</string>
-    <string name="fa_align_left">&#xf036;</string>
-    <string name="fa_align_right">&#xf038;</string>
-    <string name="fa_ambulance">&#xf0f9;</string>
-    <string name="fa_anchor">&#xf13d;</string>
-    <string name="fa_android">&#xf17b;</string>
-    <string name="fa_angellist">&#xf209;</string>
-    <string name="fa_angle_double_down">&#xf103;</string>
-    <string name="fa_angle_double_left">&#xf100;</string>
-    <string name="fa_angle_double_right">&#xf101;</string>
-    <string name="fa_angle_double_up">&#xf102;</string>
-    <string name="fa_angle_down">&#xf107;</string>
-    <string name="fa_angle_left">&#xf104;</string>
-    <string name="fa_angle_right">&#xf105;</string>
-    <string name="fa_angle_up">&#xf106;</string>
-    <string name="fa_apple">&#xf179;</string>
-    <string name="fa_archive">&#xf187;</string>
-    <string name="fa_area_chart">&#xf1fe;</string>
-    <string name="fa_arrow_circle_down">&#xf0ab;</string>
-    <string name="fa_arrow_circle_left">&#xf0a8;</string>
-    <string name="fa_arrow_circle_o_down">&#xf01a;</string>
-    <string name="fa_arrow_circle_o_left">&#xf190;</string>
-    <string name="fa_arrow_circle_o_right">&#xf18e;</string>
-    <string name="fa_arrow_circle_o_up">&#xf01b;</string>
-    <string name="fa_arrow_circle_right">&#xf0a9;</string>
-    <string name="fa_arrow_circle_up">&#xf0aa;</string>
-    <string name="fa_arrow_down">&#xf063;</string>
-    <string name="fa_arrow_left">&#xf060;</string>
-    <string name="fa_arrow_right">&#xf061;</string>
-    <string name="fa_arrow_up">&#xf062;</string>
-    <string name="fa_arrows">&#xf047;</string>
-    <string name="fa_arrows_alt">&#xf0b2;</string>
-    <string name="fa_arrows_h">&#xf07e;</string>
-    <string name="fa_arrows_v">&#xf07d;</string>
-    <string name="fa_asterisk">&#xf069;</string>
-    <string name="fa_at">&#xf1fa;</string>
-    <string name="fa_automobile">&#xf1b9;</string>
-    <string name="fa_backward">&#xf04a;</string>
-    <string name="fa_ban">&#xf05e;</string>
-    <string name="fa_bank">&#xf19c;</string>
-    <string name="fa_bar_chart">&#xf080;</string>
-    <string name="fa_bar_chart_o">&#xf080;</string>
-    <string name="fa_barcode">&#xf02a;</string>
-    <string name="fa_bars">&#xf0c9;</string>
-    <string name="fa_beer">&#xf0fc;</string>
-    <string name="fa_behance">&#xf1b4;</string>
-    <string name="fa_behance_square">&#xf1b5;</string>
-    <string name="fa_bell">&#xf0f3;</string>
-    <string name="fa_bell_o">&#xf0a2;</string>
-    <string name="fa_bell_slash">&#xf1f6;</string>
-    <string name="fa_bell_slash_o">&#xf1f7;</string>
-    <string name="fa_bicycle">&#xf206;</string>
-    <string name="fa_binoculars">&#xf1e5;</string>
-    <string name="fa_birthday_cake">&#xf1fd;</string>
-    <string name="fa_bitbucket">&#xf171;</string>
-    <string name="fa_bitbucket_square">&#xf172;</string>
-    <string name="fa_bitcoin">&#xf15a;</string>
-    <string name="fa_bold">&#xf032;</string>
-    <string name="fa_bolt">&#xf0e7;</string>
-    <string name="fa_bomb">&#xf1e2;</string>
-    <string name="fa_book">&#xf02d;</string>
-    <string name="fa_bookmark">&#xf02e;</string>
-    <string name="fa_bookmark_o">&#xf097;</string>
-    <string name="fa_briefcase">&#xf0b1;</string>
-    <string name="fa_btc">&#xf15a;</string>
-    <string name="fa_bug">&#xf188;</string>
-    <string name="fa_building">&#xf1ad;</string>
-    <string name="fa_building_o">&#xf0f7;</string>
-    <string name="fa_bullhorn">&#xf0a1;</string>
-    <string name="fa_bullseye">&#xf140;</string>
-    <string name="fa_bus">&#xf207;</string>
-    <string name="fa_cab">&#xf1ba;</string>
-    <string name="fa_calculator">&#xf1ec;</string>
-    <string name="fa_calendar">&#xf073;</string>
-    <string name="fa_calendar_o">&#xf133;</string>
-    <string name="fa_camera">&#xf030;</string>
-    <string name="fa_camera_retro">&#xf083;</string>
-    <string name="fa_car">&#xf1b9;</string>
-    <string name="fa_caret_down">&#xf0d7;</string>
-    <string name="fa_caret_left">&#xf0d9;</string>
-    <string name="fa_caret_right">&#xf0da;</string>
-    <string name="fa_caret_square_o_down">&#xf150;</string>
-    <string name="fa_caret_square_o_left">&#xf191;</string>
-    <string name="fa_caret_square_o_right">&#xf152;</string>
-    <string name="fa_caret_square_o_up">&#xf151;</string>
-    <string name="fa_caret_up">&#xf0d8;</string>
-    <string name="fa_cc">&#xf20a;</string>
-    <string name="fa_cc_amex">&#xf1f3;</string>
-    <string name="fa_cc_discover">&#xf1f2;</string>
-    <string name="fa_cc_mastercard">&#xf1f1;</string>
-    <string name="fa_cc_paypal">&#xf1f4;</string>
-    <string name="fa_cc_stripe">&#xf1f5;</string>
-    <string name="fa_cc_visa">&#xf1f0;</string>
-    <string name="fa_certificate">&#xf0a3;</string>
-    <string name="fa_chain">&#xf0c1;</string>
-    <string name="fa_chain_broken">&#xf127;</string>
-    <string name="fa_check">&#xf00c;</string>
-    <string name="fa_check_circle">&#xf058;</string>
-    <string name="fa_check_circle_o">&#xf05d;</string>
-    <string name="fa_check_square">&#xf14a;</string>
-    <string name="fa_check_square_o">&#xf046;</string>
-    <string name="fa_chevron_circle_down">&#xf13a;</string>
-    <string name="fa_chevron_circle_left">&#xf137;</string>
-    <string name="fa_chevron_circle_right">&#xf138;</string>
-    <string name="fa_chevron_circle_up">&#xf139;</string>
-    <string name="fa_chevron_down">&#xf078;</string>
-    <string name="fa_chevron_left">&#xf053;</string>
-    <string name="fa_chevron_right">&#xf054;</string>
-    <string name="fa_chevron_up">&#xf077;</string>
-    <string name="fa_child">&#xf1ae;</string>
-    <string name="fa_circle">&#xf111;</string>
-    <string name="fa_circle_o">&#xf10c;</string>
-    <string name="fa_circle_o_notch">&#xf1ce;</string>
-    <string name="fa_circle_thin">&#xf1db;</string>
-    <string name="fa_clipboard">&#xf0ea;</string>
-    <string name="fa_clock_o">&#xf017;</string>
-    <string name="fa_close">&#xf00d;</string>
-    <string name="fa_cloud">&#xf0c2;</string>
-    <string name="fa_cloud_download">&#xf0ed;</string>
-    <string name="fa_cloud_upload">&#xf0ee;</string>
-    <string name="fa_cny">&#xf157;</string>
-    <string name="fa_code">&#xf121;</string>
-    <string name="fa_code_fork">&#xf126;</string>
-    <string name="fa_codepen">&#xf1cb;</string>
-    <string name="fa_coffee">&#xf0f4;</string>
-    <string name="fa_cog">&#xf013;</string>
-    <string name="fa_cogs">&#xf085;</string>
-    <string name="fa_columns">&#xf0db;</string>
-    <string name="fa_comment">&#xf075;</string>
-    <string name="fa_comment_o">&#xf0e5;</string>
-    <string name="fa_comments">&#xf086;</string>
-    <string name="fa_comments_o">&#xf0e6;</string>
-    <string name="fa_compass">&#xf14e;</string>
-    <string name="fa_compress">&#xf066;</string>
-    <string name="fa_copy">&#xf0c5;</string>
-    <string name="fa_copyright">&#xf1f9;</string>
-    <string name="fa_credit_card">&#xf09d;</string>
-    <string name="fa_crop">&#xf125;</string>
-    <string name="fa_crosshairs">&#xf05b;</string>
-    <string name="fa_css3">&#xf13c;</string>
-    <string name="fa_cube">&#xf1b2;</string>
-    <string name="fa_cubes">&#xf1b3;</string>
-    <string name="fa_cut">&#xf0c4;</string>
-    <string name="fa_cutlery">&#xf0f5;</string>
-    <string name="fa_dashboard">&#xf0e4;</string>
-    <string name="fa_database">&#xf1c0;</string>
-    <string name="fa_dedent">&#xf03b;</string>
-    <string name="fa_delicious">&#xf1a5;</string>
-    <string name="fa_desktop">&#xf108;</string>
-    <string name="fa_deviantart">&#xf1bd;</string>
-    <string name="fa_digg">&#xf1a6;</string>
-    <string name="fa_dollar">&#xf155;</string>
-    <string name="fa_dot_circle_o">&#xf192;</string>
-    <string name="fa_download">&#xf019;</string>
-    <string name="fa_dribbble">&#xf17d;</string>
-    <string name="fa_dropbox">&#xf16b;</string>
-    <string name="fa_drupal">&#xf1a9;</string>
-    <string name="fa_edit">&#xf044;</string>
-    <string name="fa_eject">&#xf052;</string>
-    <string name="fa_ellipsis_h">&#xf141;</string>
-    <string name="fa_ellipsis_v">&#xf142;</string>
-    <string name="fa_empire">&#xf1d1;</string>
-    <string name="fa_envelope">&#xf0e0;</string>
-    <string name="fa_envelope_o">&#xf003;</string>
-    <string name="fa_envelope_square">&#xf199;</string>
-    <string name="fa_eraser">&#xf12d;</string>
-    <string name="fa_eur">&#xf153;</string>
-    <string name="fa_euro">&#xf153;</string>
-    <string name="fa_exchange">&#xf0ec;</string>
-    <string name="fa_exclamation">&#xf12a;</string>
-    <string name="fa_exclamation_circle">&#xf06a;</string>
-    <string name="fa_exclamation_triangle">&#xf071;</string>
-    <string name="fa_expand">&#xf065;</string>
-    <string name="fa_external_link">&#xf08e;</string>
-    <string name="fa_external_link_square">&#xf14c;</string>
-    <string name="fa_eye">&#xf06e;</string>
-    <string name="fa_eye_slash">&#xf070;</string>
-    <string name="fa_eyedropper">&#xf1fb;</string>
-    <string name="fa_facebook">&#xf09a;</string>
-    <string name="fa_facebook_square">&#xf082;</string>
-    <string name="fa_fast_backward">&#xf049;</string>
-    <string name="fa_fast_forward">&#xf050;</string>
-    <string name="fa_fax">&#xf1ac;</string>
-    <string name="fa_female">&#xf182;</string>
-    <string name="fa_fighter_jet">&#xf0fb;</string>
-    <string name="fa_file">&#xf15b;</string>
-    <string name="fa_file_archive_o">&#xf1c6;</string>
-    <string name="fa_file_audio_o">&#xf1c7;</string>
-    <string name="fa_file_code_o">&#xf1c9;</string>
-    <string name="fa_file_excel_o">&#xf1c3;</string>
-    <string name="fa_file_image_o">&#xf1c5;</string>
-    <string name="fa_file_movie_o">&#xf1c8;</string>
-    <string name="fa_file_o">&#xf016;</string>
-    <string name="fa_file_pdf_o">&#xf1c1;</string>
-    <string name="fa_file_photo_o">&#xf1c5;</string>
-    <string name="fa_file_picture_o">&#xf1c5;</string>
-    <string name="fa_file_powerpoint_o">&#xf1c4;</string>
-    <string name="fa_file_sound_o">&#xf1c7;</string>
-    <string name="fa_file_text">&#xf15c;</string>
-    <string name="fa_file_text_o">&#xf0f6;</string>
-    <string name="fa_file_video_o">&#xf1c8;</string>
-    <string name="fa_file_word_o">&#xf1c2;</string>
-    <string name="fa_file_zip_o">&#xf1c6;</string>
-    <string name="fa_files_o">&#xf0c5;</string>
-    <string name="fa_contract">&#xf56c;</string>
-    <string name="fa_film">&#xf008;</string>
-    <string name="fa_filter">&#xf0b0;</string>
-    <string name="fa_fire">&#xf06d;</string>
-    <string name="fa_fire_extinguisher">&#xf134;</string>
-    <string name="fa_flag">&#xf024;</string>
-    <string name="fa_flag_checkered">&#xf11e;</string>
-    <string name="fa_flag_o">&#xf11d;</string>
-    <string name="fa_flash">&#xf0e7;</string>
-    <string name="fa_flask">&#xf0c3;</string>
-    <string name="fa_flickr">&#xf16e;</string>
-    <string name="fa_floppy_o">&#xf0c7;</string>
-    <string name="fa_folder">&#xf07b;</string>
-    <string name="fa_folder_o">&#xf114;</string>
-    <string name="fa_folder_open">&#xf07c;</string>
-    <string name="fa_folder_open_o">&#xf115;</string>
-    <string name="fa_font">&#xf031;</string>
-    <string name="fa_forward">&#xf04e;</string>
-    <string name="fa_foursquare">&#xf180;</string>
-    <string name="fa_frown_o">&#xf119;</string>
-    <string name="fa_futbol_o">&#xf1e3;</string>
-    <string name="fa_gamepad">&#xf11b;</string>
-    <string name="fa_gavel">&#xf0e3;</string>
-    <string name="fa_gbp">&#xf154;</string>
-    <string name="fa_ge">&#xf1d1;</string>
-    <string name="fa_gear">&#xf013;</string>
-    <string name="fa_gears">&#xf085;</string>
-    <string name="fa_gift">&#xf06b;</string>
-    <string name="fa_git">&#xf1d3;</string>
-    <string name="fa_git_square">&#xf1d2;</string>
-    <string name="fa_github">&#xf09b;</string>
-    <string name="fa_github_alt">&#xf113;</string>
-    <string name="fa_github_square">&#xf092;</string>
-    <string name="fa_gittip">&#xf184;</string>
-    <string name="fa_glass">&#xf000;</string>
-    <string name="fa_globe">&#xf0ac;</string>
-    <string name="fa_google">&#xf1a0;</string>
-    <string name="fa_google_play">&#xf3ab;</string>
-    <string name="fa_google_plus">&#xf0d5;</string>
-    <string name="fa_google_plus_square">&#xf0d4;</string>
-    <string name="fa_google_wallet">&#xf1ee;</string>
-    <string name="fa_graduation_cap">&#xf19d;</string>
-    <string name="fa_group">&#xf0c0;</string>
-    <string name="fa_h_square">&#xf0fd;</string>
-    <string name="fa_hacker_news">&#xf1d4;</string>
-    <string name="fa_hand_o_down">&#xf0a7;</string>
-    <string name="fa_hand_o_left">&#xf0a5;</string>
-    <string name="fa_hand_o_right">&#xf0a4;</string>
-    <string name="fa_hand_o_up">&#xf0a6;</string>
-    <string name="fa_hdd_o">&#xf0a0;</string>
-    <string name="fa_header">&#xf1dc;</string>
-    <string name="fa_headphones">&#xf025;</string>
-    <string name="fa_heart">&#xf004;</string>
-    <string name="fa_heart_o">&#xf08a;</string>
-    <string name="fa_history">&#xf1da;</string>
-    <string name="fa_home">&#xf015;</string>
-    <string name="fa_hospital_o">&#xf0f8;</string>
-    <string name="fa_html5">&#xf13b;</string>
-    <string name="fa_ils">&#xf20b;</string>
-    <string name="fa_image">&#xf03e;</string>
-    <string name="fa_inbox">&#xf01c;</string>
-    <string name="fa_indent">&#xf03c;</string>
-    <string name="fa_info">&#xf129;</string>
-    <string name="fa_info_circle">&#xf05a;</string>
-    <string name="fa_inr">&#xf156;</string>
-    <string name="fa_instagram">&#xf16d;</string>
-    <string name="fa_institution">&#xf19c;</string>
-    <string name="fa_ioxhost">&#xf208;</string>
-    <string name="fa_italic">&#xf033;</string>
-    <string name="fa_joomla">&#xf1aa;</string>
-    <string name="fa_jpy">&#xf157;</string>
-    <string name="fa_jsfiddle">&#xf1cc;</string>
-    <string name="fa_key">&#xf084;</string>
-    <string name="fa_keyboard_o">&#xf11c;</string>
-    <string name="fa_krw">&#xf159;</string>
-    <string name="fa_language">&#xf1ab;</string>
-    <string name="fa_laptop">&#xf109;</string>
-    <string name="fa_lastfm">&#xf202;</string>
-    <string name="fa_lastfm_square">&#xf203;</string>
-    <string name="fa_leaf">&#xf06c;</string>
-    <string name="fa_legal">&#xf0e3;</string>
-    <string name="fa_lemon_o">&#xf094;</string>
-    <string name="fa_level_down">&#xf149;</string>
-    <string name="fa_level_up">&#xf148;</string>
-    <string name="fa_life_bouy">&#xf1cd;</string>
-    <string name="fa_life_buoy">&#xf1cd;</string>
-    <string name="fa_life_ring">&#xf1cd;</string>
-    <string name="fa_life_saver">&#xf1cd;</string>
-    <string name="fa_lightbulb_o">&#xf0eb;</string>
-    <string name="fa_line_chart">&#xf201;</string>
-    <string name="fa_link">&#xf0c1;</string>
-    <string name="fa_linkedin">&#xf0e1;</string>
-    <string name="fa_linkedin_square">&#xf08c;</string>
-    <string name="fa_linux">&#xf17c;</string>
-    <string name="fa_list">&#xf03a;</string>
-    <string name="fa_list_alt">&#xf022;</string>
-    <string name="fa_list_ol">&#xf0cb;</string>
-    <string name="fa_list_ul">&#xf0ca;</string>
-    <string name="fa_location_arrow">&#xf124;</string>
-    <string name="fa_lock">&#xf023;</string>
-    <string name="fa_long_arrow_down">&#xf175;</string>
-    <string name="fa_long_arrow_left">&#xf177;</string>
-    <string name="fa_long_arrow_right">&#xf178;</string>
-    <string name="fa_long_arrow_up">&#xf176;</string>
-    <string name="fa_magic">&#xf0d0;</string>
-    <string name="fa_magnet">&#xf076;</string>
-    <string name="fa_mail_forward">&#xf064;</string>
-    <string name="fa_mail_reply">&#xf112;</string>
-    <string name="fa_mail_reply_all">&#xf122;</string>
-    <string name="fa_male">&#xf183;</string>
-    <string name="fa_map_marker">&#xf041;</string>
-    <string name="fa_maxcdn">&#xf136;</string>
-    <string name="fa_meanpath">&#xf20c;</string>
-    <string name="fa_medkit">&#xf0fa;</string>
-    <string name="fa_meh_o">&#xf11a;</string>
-    <string name="fa_microphone">&#xf130;</string>
-    <string name="fa_microphone_slash">&#xf131;</string>
-    <string name="fa_minus">&#xf068;</string>
-    <string name="fa_minus_circle">&#xf056;</string>
-    <string name="fa_minus_square">&#xf146;</string>
-    <string name="fa_minus_square_o">&#xf147;</string>
-    <string name="fa_mobile">&#xf10b;</string>
-    <string name="fa_mobile_phone">&#xf10b;</string>
-    <string name="fa_money">&#xf0d6;</string>
-    <string name="fa_moon_o">&#xf186;</string>
-    <string name="fa_mortar_board">&#xf19d;</string>
-    <string name="fa_music">&#xf001;</string>
-    <string name="fa_navicon">&#xf0c9;</string>
-    <string name="fa_newspaper_o">&#xf1ea;</string>
-    <string name="fa_openid">&#xf19b;</string>
-    <string name="fa_outdent">&#xf03b;</string>
-    <string name="fa_pagelines">&#xf18c;</string>
-    <string name="fa_paint_brush">&#xf1fc;</string>
-    <string name="fa_paper_plane">&#xf1d8;</string>
-    <string name="fa_paper_plane_o">&#xf1d9;</string>
-    <string name="fa_paperclip">&#xf0c6;</string>
-    <string name="fa_paragraph">&#xf1dd;</string>
-    <string name="fa_paste">&#xf0ea;</string>
-    <string name="fa_pause">&#xf04c;</string>
-    <string name="fa_paw">&#xf1b0;</string>
-    <string name="fa_paypal">&#xf1ed;</string>
-    <string name="fa_pencil">&#xf040;</string>
-    <string name="fa_pencil_square">&#xf14b;</string>
-    <string name="fa_pencil_square_o">&#xf044;</string>
-    <string name="fa_phone">&#xf095;</string>
-    <string name="fa_phone_square">&#xf098;</string>
-    <string name="fa_photo">&#xf03e;</string>
-    <string name="fa_picture_o">&#xf03e;</string>
-    <string name="fa_pie_chart">&#xf200;</string>
-    <string name="fa_pied_piper">&#xf1a7;</string>
-    <string name="fa_pied_piper_alt">&#xf1a8;</string>
-    <string name="fa_pinterest">&#xf0d2;</string>
-    <string name="fa_pinterest_square">&#xf0d3;</string>
-    <string name="fa_plane">&#xf072;</string>
-    <string name="fa_play">&#xf04b;</string>
-    <string name="fa_play_circle">&#xf144;</string>
-    <string name="fa_play_circle_o">&#xf01d;</string>
-    <string name="fa_plug">&#xf1e6;</string>
-    <string name="fa_plus">&#xf067;</string>
-    <string name="fa_plus_circle">&#xf055;</string>
-    <string name="fa_plus_square">&#xf0fe;</string>
-    <string name="fa_plus_square_o">&#xf196;</string>
-    <string name="fa_power_off">&#xf011;</string>
-    <string name="fa_print">&#xf02f;</string>
-    <string name="fa_puzzle_piece">&#xf12e;</string>
-    <string name="fa_qq">&#xf1d6;</string>
-    <string name="fa_qrcode">&#xf029;</string>
-    <string name="fa_question">&#xf128;</string>
-    <string name="fa_question_circle">&#xf059;</string>
-    <string name="fa_quote_left">&#xf10d;</string>
-    <string name="fa_quote_right">&#xf10e;</string>
-    <string name="fa_ra">&#xf1d0;</string>
-    <string name="fa_random">&#xf074;</string>
-    <string name="fa_rebel">&#xf1d0;</string>
-    <string name="fa_recycle">&#xf1b8;</string>
-    <string name="fa_reddit">&#xf1a1;</string>
-    <string name="fa_reddit_square">&#xf1a2;</string>
-    <string name="fa_refresh">&#xf021;</string>
-    <string name="fa_remove">&#xf00d;</string>
-    <string name="fa_renren">&#xf18b;</string>
-    <string name="fa_reorder">&#xf0c9;</string>
-    <string name="fa_repeat">&#xf01e;</string>
-    <string name="fa_reply">&#xf112;</string>
-    <string name="fa_reply_all">&#xf122;</string>
-    <string name="fa_retweet">&#xf079;</string>
-    <string name="fa_rmb">&#xf157;</string>
-    <string name="fa_road">&#xf018;</string>
-    <string name="fa_rocket">&#xf135;</string>
-    <string name="fa_rotate_left">&#xf0e2;</string>
-    <string name="fa_rotate_right">&#xf01e;</string>
-    <string name="fa_rouble">&#xf158;</string>
-    <string name="fa_rss">&#xf09e;</string>
-    <string name="fa_rss_square">&#xf143;</string>
-    <string name="fa_rub">&#xf158;</string>
-    <string name="fa_ruble">&#xf158;</string>
-    <string name="fa_rupee">&#xf156;</string>
-    <string name="fa_save">&#xf0c7;</string>
-    <string name="fa_scissors">&#xf0c4;</string>
-    <string name="fa_search">&#xf002;</string>
-    <string name="fa_search_minus">&#xf010;</string>
-    <string name="fa_search_plus">&#xf00e;</string>
-    <string name="fa_send">&#xf1d8;</string>
-    <string name="fa_send_o">&#xf1d9;</string>
-    <string name="fa_share">&#xf064;</string>
-    <string name="fa_share_alt">&#xf1e0;</string>
-    <string name="fa_share_alt_square">&#xf1e1;</string>
-    <string name="fa_share_square">&#xf14d;</string>
-    <string name="fa_share_square_o">&#xf045;</string>
-    <string name="fa_shekel">&#xf20b;</string>
-    <string name="fa_sheqel">&#xf20b;</string>
-    <string name="fa_shield">&#xf132;</string>
-    <string name="fa_shopping_cart">&#xf07a;</string>
-    <string name="fa_sign_in">&#xf090;</string>
-    <string name="fa_sign_out">&#xf08b;</string>
-    <string name="fa_signal">&#xf012;</string>
-    <string name="fa_sitemap">&#xf0e8;</string>
-    <string name="fa_skype">&#xf17e;</string>
-    <string name="fa_slack">&#xf198;</string>
-    <string name="fa_sliders">&#xf1de;</string>
-    <string name="fa_slideshare">&#xf1e7;</string>
-    <string name="fa_smile_o">&#xf118;</string>
-    <string name="fa_soccer_ball_o">&#xf1e3;</string>
-    <string name="fa_sort">&#xf0dc;</string>
-    <string name="fa_sort_alpha_asc">&#xf15d;</string>
-    <string name="fa_sort_alpha_desc">&#xf15e;</string>
-    <string name="fa_sort_amount_asc">&#xf160;</string>
-    <string name="fa_sort_amount_desc">&#xf161;</string>
-    <string name="fa_sort_asc">&#xf0de;</string>
-    <string name="fa_sort_desc">&#xf0dd;</string>
-    <string name="fa_sort_down">&#xf0dd;</string>
-    <string name="fa_sort_numeric_asc">&#xf162;</string>
-    <string name="fa_sort_numeric_desc">&#xf163;</string>
-    <string name="fa_sort_up">&#xf0de;</string>
-    <string name="fa_soundcloud">&#xf1be;</string>
-    <string name="fa_space_shuttle">&#xf197;</string>
-    <string name="fa_spinner">&#xf110;</string>
-    <string name="fa_spoon">&#xf1b1;</string>
-    <string name="fa_spotify">&#xf1bc;</string>
-    <string name="fa_square">&#xf0c8;</string>
-    <string name="fa_square_o">&#xf096;</string>
-    <string name="fa_stack_exchange">&#xf18d;</string>
-    <string name="fa_stack_overflow">&#xf16c;</string>
-    <string name="fa_star">&#xf005;</string>
-    <string name="fa_star_half">&#xf089;</string>
-    <string name="fa_star_half_empty">&#xf123;</string>
-    <string name="fa_star_half_full">&#xf123;</string>
-    <string name="fa_star_half_o">&#xf123;</string>
-    <string name="fa_star_o">&#xf006;</string>
-    <string name="fa_steam">&#xf1b6;</string>
-    <string name="fa_steam_square">&#xf1b7;</string>
-    <string name="fa_step_backward">&#xf048;</string>
-    <string name="fa_step_forward">&#xf051;</string>
-    <string name="fa_stethoscope">&#xf0f1;</string>
-    <string name="fa_stop">&#xf04d;</string>
-    <string name="fa_strikethrough">&#xf0cc;</string>
-    <string name="fa_stumbleupon">&#xf1a4;</string>
-    <string name="fa_stumbleupon_circle">&#xf1a3;</string>
-    <string name="fa_subscript">&#xf12c;</string>
-    <string name="fa_suitcase">&#xf0f2;</string>
-    <string name="fa_sun_o">&#xf185;</string>
-    <string name="fa_superscript">&#xf12b;</string>
-    <string name="fa_support">&#xf1cd;</string>
-    <string name="fa_table">&#xf0ce;</string>
-    <string name="fa_tablet">&#xf10a;</string>
-    <string name="fa_tachometer">&#xf0e4;</string>
-    <string name="fa_tag">&#xf02b;</string>
-    <string name="fa_tags">&#xf02c;</string>
-    <string name="fa_tasks">&#xf0ae;</string>
-    <string name="fa_taxi">&#xf1ba;</string>
-    <string name="fa_tencent_weibo">&#xf1d5;</string>
-    <string name="fa_terminal">&#xf120;</string>
-    <string name="fa_text_height">&#xf034;</string>
-    <string name="fa_text_width">&#xf035;</string>
-    <string name="fa_th">&#xf00a;</string>
-    <string name="fa_th_large">&#xf009;</string>
-    <string name="fa_th_list">&#xf00b;</string>
-    <string name="fa_thumb_tack">&#xf08d;</string>
-    <string name="fa_thumbs_down">&#xf165;</string>
-    <string name="fa_thumbs_o_down">&#xf088;</string>
-    <string name="fa_thumbs_o_up">&#xf087;</string>
-    <string name="fa_thumbs_up">&#xf164;</string>
-    <string name="fa_ticket">&#xf145;</string>
-    <string name="fa_times">&#xf00d;</string>
-    <string name="fa_times_circle">&#xf057;</string>
-    <string name="fa_times_circle_o">&#xf05c;</string>
-    <string name="fa_tint">&#xf043;</string>
-    <string name="fa_toggle_down">&#xf150;</string>
-    <string name="fa_toggle_left">&#xf191;</string>
-    <string name="fa_toggle_off">&#xf204;</string>
-    <string name="fa_toggle_on">&#xf205;</string>
-    <string name="fa_toggle_right">&#xf152;</string>
-    <string name="fa_toggle_up">&#xf151;</string>
-    <string name="fa_trash">&#xf1f8;</string>
-    <string name="fa_trash_o">&#xf014;</string>
-    <string name="fa_tree">&#xf1bb;</string>
-    <string name="fa_trello">&#xf181;</string>
-    <string name="fa_trophy">&#xf091;</string>
-    <string name="fa_truck">&#xf0d1;</string>
-    <string name="fa_try">&#xf195;</string>
-    <string name="fa_tty">&#xf1e4;</string>
-    <string name="fa_tumblr">&#xf173;</string>
-    <string name="fa_tumblr_square">&#xf174;</string>
-    <string name="fa_turkish_lira">&#xf195;</string>
-    <string name="fa_twitch">&#xf1e8;</string>
-    <string name="fa_twitter">&#xf099;</string>
-    <string name="fa_twitter_square">&#xf081;</string>
-    <string name="fa_umbrella">&#xf0e9;</string>
-    <string name="fa_underline">&#xf0cd;</string>
-    <string name="fa_undo">&#xf0e2;</string>
-    <string name="fa_university">&#xf19c;</string>
-    <string name="fa_unlink">&#xf127;</string>
-    <string name="fa_unlock">&#xf09c;</string>
-    <string name="fa_unlock_alt">&#xf13e;</string>
-    <string name="fa_unsorted">&#xf0dc;</string>
-    <string name="fa_upload">&#xf093;</string>
-    <string name="fa_usd">&#xf155;</string>
-    <string name="fa_user">&#xf007;</string>
-    <string name="fa_user_md">&#xf0f0;</string>
-    <string name="fa_users">&#xf0c0;</string>
-    <string name="fa_video_camera">&#xf03d;</string>
-    <string name="fa_vimeo_square">&#xf194;</string>
-    <string name="fa_vine">&#xf1ca;</string>
-    <string name="fa_vk">&#xf189;</string>
-    <string name="fa_volume_down">&#xf027;</string>
-    <string name="fa_volume_off">&#xf026;</string>
-    <string name="fa_volume_up">&#xf028;</string>
-    <string name="fa_warning">&#xf071;</string>
-    <string name="fa_wechat">&#xf1d7;</string>
-    <string name="fa_weibo">&#xf18a;</string>
-    <string name="fa_weixin">&#xf1d7;</string>
-    <string name="fa_wheelchair">&#xf193;</string>
-    <string name="fa_wifi">&#xf1eb;</string>
-    <string name="fa_windows">&#xf17a;</string>
-    <string name="fa_won">&#xf159;</string>
-    <string name="fa_wordpress">&#xf19a;</string>
-    <string name="fa_wrench">&#xf0ad;</string>
-    <string name="fa_xing">&#xf168;</string>
-    <string name="fa_xing_square">&#xf169;</string>
-    <string name="fa_yahoo">&#xf19e;</string>
-    <string name="fa_yelp">&#xf1e9;</string>
-    <string name="fa_yen">&#xf157;</string>
-    <string name="fa_youtube">&#xf167;</string>
-    <string name="fa_youtube_play">&#xf16a;</string>
-    <string name="fa_youtube_square">&#xf166;</string>
-
-    <!--Fingerprint-->
-    <string name="read_child_finger">Empreinte de l\'enfant</string>
-    <string name="read_child_finger_description">Insérez l\'index de la main droit de l\'enfant dans le scanner</string>
-    <string name="setting_up_reader">Configuration du scanner</string>
-    <string name="reader_powered_on">Scanner allumé</string>
-    <string name="ready_to_scan_finger">Prêt à scanner le doigt</string>
-    <string name="finger_detected">Doigt détecté</string>
-    <string name="finger_has_been_lifted_off_reader">Le doigt a été levé du scanner</string>
-    <string name="reader_is_off">Scanner éteint</string>
-    <string name="fingerprint_successfully_captured">Empreinte digitale capturé avec succès</string>
-    <string name="receiving_image">Image en réception</string>
-
-    <!--Confirm diagnosis-->
-    <string name="confirm_diagnosis_first_question">Voulez-vous vraiment confirmer le diagnostique?</string>
-    <string name="confirm_diagnosis_second_question">Il n\'y a pas de retour en arrière pour cette action, voulez-vous continuer?</string>
-
-    <!--Type diagnosis-->
-    <string name="normopeso">Poids Normal</string>
-    <string name="moderate_acute_malnutrition">Malnutrition aiguë modérée</string>
-    <string name="severe_acute_malnutrition">Malnutrition aiguë sévère</string>
-
-    <string name="normopeso_abrev">NW</string>
-    <string name="moderate_acute_malnutrition_abrev">MAM</string>
-    <string name="severe_acute_malnutrition_abrev">SAM</string>
-    <string name="duplicated_abrev">DUP</string>
-    <string name="duplicated">Dupliqué</string>
-
-    <string name="normopeso_full">Poids Normal (NW)</string>
-    <string name="moderate_acute_malnutrition_full">Malnutrition aiguë modérée (MAM)</string>
-    <string name="severe_acute_malnutrition_full">Malnutrition aiguë sévère (SAM)</string>
-
-    <string name="help">Aider</string>
-
-    <!--Excel export-->
-    <string name="name_export">Nom</string>
-    <string name="surnname_export">Noms de famille</string>
-    <string name="sex_export">Sexe</string>
-    <string name="address_export">Adresse</string>
-    <string name="phone_export">Téléphone</string>
-    <string name="date_export">Date</string>
-    <string name="date_millis_export">Date mili</string>
-    <string name="screener_export">Agent de santé</string>
-    <string name="service_export">Services de santé</string>
-    <string name="date_health_service">Date Services de santé</string>
-    <string name="date_millis_health_service">Date Services de santé mili</string>
-    <string name="locatoin_health_service">Emplacement des services de santé</string>
+    <string name="female">Femme</string>
+    <string name="male">Homme</string>
+    <string name="pregnant">Enceinte</string>
+    <string name="infant">Allaitante</string>
+    <string name="pregnant_and_infant">Enceinte et allaitante</string>
+    <string name="nothing">Aucun</string>
+    <string name="baby_age">Âge du bébé (semaines)</string>
+    <string name="no_pregnant">Pas enceinte</string>
+    <string name="child">Enfant</string>
+    <string name="observations">Observations</string>
+    <string name="etnician">Langue</string>
+    <string name="sex">Sexe</string>
+    <string name="phone">Téléphone</string>
+    <string name="address">Quartier</string>
+    <string name="surnames">Nom</string>
+    <string name="name">Prénom</string>
+    <string name="creation_date">Date d’inscription</string>
+    <string name="last_date">Dernière visite</string>
+    <string name="total_visits">Nombre de visites</string>
+    <string name="today">Aujourd\'hui</string>
+    <string name="current_week">Cette semaine</string>
+    <string name="current_month">Ce mois-ci</string>
+    <string name="weeks">Semaines</string>
+    <string name="no_visits_found">Aucune visite trouvée</string>
+    <string name="create_tutor">Créer un profil de l’accompagnant ou FEFA</string>
+    <string name="save">Sauvegarder</string>
+    <string name="delete_tutor_question">Êtes-vous sûr de vouloir supprimer ce profil de l’accompagnant ou FEFA? Toutes les informations associées seront perdues</string>
+    <string name="editar_tutor">Modifier le profil de l’accompagnant</string>
+    <string name="remove_tutor">Supprimer le profil de l’accompagnant</string>
+    <string name="editar_tutor_fefa">Modifier le profil de FEFA</string>
+    <string name="remove_tutor_fefa">Supprimer le profil de FEFA</string>
+    <string name="create_child">Créer un profil d’enfant</string>
+    <string name="delete_child_question">Voulez-vous vraiment supprimer ce profil d’enfant ? Toutes les données associées seront perdues</string>
+    <string name="edit_child">Modifier profil d’enfant</string>
+    <string name="remove_child">Supprime profil d’enfant</string>
+    <string name="tutors">Profil de l’accompagnant ou FEFA</string>
+    <string name="tutor">Accompagnant</string>
+    <string name="fefa">Accompagnant FEFA</string>
+    <string name="cuadrante">Visitez le quadrant</string>
+    <string name="next_visits">Prochaines visites</string>
+    <string name="next_visit">Prochaine visite</string>
+    <string name="visits_title">"Visites"</string>
+    <string name="visits">"Visites: "</string>
+    <string name="visit">"Visite"</string>
+    <string name="last_visits">Dernière visite:</string>
+    <string name="tutors_title">Profil de l’accompagnant ou FEFA</string>
+    <string name="no_tutors">Pas encore de profils d\'accompagnateurs</string>
+    <string name="no_childs">Aucun profil d’enfant encore</string>
+    <string name="childs">Enfants</string>
+    <string name="childs_title">Enfants</string>
+    <string name="casos">Cas</string>
+    <string name="no_cases">Aucun cas encore</string>
+    <string name="create_case">Créer un cas</string>
+    <string name="remove_case">Supprime cas</string>
+    <string name="delete_case_question">Êtes-vous sûr de vouloir éliminer ce cas? Les données associées seront perdues</string>
     <string name="status">État</string>
-    <string name="call">Téléphoner à</string>
-
-    <string-array name="array_fefa_options">
-        <item>Enceinte</item>
-        <item>Allaitante</item>
-        <item>Enceinte et allaitante</item>
+    <string name="open">Ouvert</string>
+    <string name="rosa_desierto">Rosa del Desierto</string>
+    <string name="welcome">Bienvenue au poste de santé de Rosa del Desierto</string>
+    <string name="pulaar">Pulaar</string>
+    <string name="wolof">Wolof</string>
+    <string name="beydan">Beydan</string>
+    <string name="haratin">Haratin</string>
+    <string name="soninke">Soninke</string>
+    <string name="autre">Autre</string>
+    <string name="check_tutor">Entrez le numéro de téléphone de l’accompagnant ou FEFA pour valider qu’il existe</string>
+    <string name="edit_case">Modifier le cas</string>
+    <string name="visitas">Visites</string>
+    <string name="no_visits">Aucune visite encore</string>
+    <string name="weight">Poids (Kg)</string>
+    <string name="height">Taille (cm)</string>
+    <string name="imc">IMC</string>
+    <string name="arm_circunference">Périmètre brachial (cm)</string>
+    <string name="edema">Oedemes</string>
+    <string-array name="edemaOptions">
+        <item>(0) Non</item>
+        <item>(+) Léger</item>
+        <item>(++) Modéré</item>
+        <item>(++) Sévère</item>
     </string-array>
+    <string name="complications">Complications</string>
+    <string name="no_complications">Pas de complications</string>
+    <string name="delete_visit_question">Êtes-vous sûr de vouloir éliminer cette visite? Les données associées seront perdues</string>
+    <string name="symtoms">Symptômes</string>
+    <string name="treatments">Traitements</string>
+    <string name="create_visit">Créer une visite</string>
+    <string name="normopeso">Poids Normal</string>
+    <string name="aguda_moderada">Malnutrition Aiguë modérée</string>
+    <string name="aguda_severa">Malnutrition Aiguë Sévère</string>
+    <string name="objetive_weight">Poids Cible</string>
+    <string name="measlesVaccinated">L’enfant est-il vacciné contre la rougeole?</string>
+    <string name="vitamineAVaccinated">L\'enfant a-t-il été vacciné de la Vitamine A pendant les 4 derniers mois?</string>
+    <string name="vitamine_a_title">Vitamine A</string>
+    <string name="albendazole_a_title">Albendazole / Mebendazole</string>
+    <string name="ferro_title">Fer et acide folique</string>
+    <string name="ferro_admin">1 gélule pendant toute la durée du séjour.</string>
+    <string name="vaccine_title">Vaccins</string>
+    <string name="edit_visit">Modifier la visite</string>
+    <string name="years">ans</string>
+    <string name="months">mois</string>
+    <string name="searchByNameAndSurnames">Recherche par nom ou prénom</string>
+    <string name="searchTutorsByNameAndSurnames">Chercher par nom ou prénom du profil de l’accompagnant ou FEFA</string>
+    <string name="caso">Cas</string>
+    <string name="child_minor_six_month">Enfant de moins de 6 mois</string>
+    <string name="child_minor">Oui</string>
+    <string name="no_child_minor">Non</string>
+    <string name="child_brothers">Frères et sœurs aînés de l\'enfant</string>
 
-    <string name="month">mois</string>
-    <string name="andYear">ans et</string>
+    //Adults
+    <string name="adults_normal">Poids Normal</string>
+    <string name="adults_marginal">Maigreur marginale</string>
+    <string name="adults_moderate">Maigreur modérée</string>
+    <string name="adults_severe">Maigreur sévère</string>
 
-    <string name="error_pb_6">La circonférence du bras n\'est valable que pour les enfants de 6 à 59 mois, prenez la circonférence du bras de la mère</string>
-    <string name="error_pb_59">La circonférence du bras n\'est valable que pour les enfants de 6 à 59 mois</string>
+    //Relations
+    <string name="relation">Lien avec l\'enfant</string>
+    <string name="father">Père</string>
+    <string name="grandfather">Grand-père</string>
+    <string name="uncle">Oncle</string>
+    <string name="brother">Frère</string>
+    <string name="cousin">Cousin</string>
+    <string name="other">Autre</string>
 
-    <string name="weeks">Nombre de semaines</string>
-    <string name="childMinor">Enfant de moins de 6 mois</string>
+    <string name="boy">Garçon</string>
+    <string name="girl">Fille</string>
+    <string name="woman">Femme</string>
+    <string name="man">Homme</string>
 
-    <string-array name="childMinor_options">
+    <string name="new_tutor">Créer un accompagnant</string>
+
+    <string name="january">Janvier</string>
+    <string name="february">Février</string>
+    <string name="march">Mars</string>
+    <string name="april">Avril</string>
+    <string name="may">Mai</string>
+    <string name="june">Juin</string>
+    <string name="july">Juillet</string>
+    <string name="august">Août</string>
+    <string name="september">Septembre</string>
+    <string name="october">Octobre</string>
+    <string name="november">Novembre</string>
+    <string name="december">Décembre</string>
+
+    //Symthoms
+    <string name="infection">Infection (peau, yeux, oreilles)</string>
+    <string name="eyes">Yeux avec déficience en Vitamine A</string>
+    <string name="deshidratation">Déshydratation</string>
+    <string name="vomits">Vomissements</string>
+    <string name="diarrea">Diarrhée</string>
+    <string name="fiebre">Fièvre</string>
+    <string name="tos">Toux</string>
+    <string name="respiration">Respiration</string>
+    <string name="temperature">Température corporelle(º)</string>
+    <string name="apetit">Test d\'appétit</string>
+
+    <string name="vitamine_dosis">La dose à administrer est de :</string>
+    <string name="vitamine_blue">Capsule bleue (100 000 UI)</string>
+    <string name="vitamine_red">Capsule rouge (200 000 UI) ou deux capsules bleues (100 000*2)</string>
+
+    <string name="admin_dosis">Administrer la dose de :</string>
+    <string name="abendazol_400_half">Albendazole 400 mg : ½ comprimé</string>
+    <string name="mebendazol_400_half">Mebendazole 500 mg : ½ comprimé</string>
+    <string name="abendazol_400_full">Albendazole 400 mg : 1 comprimé</string>
+    <string name="mebendazol_400_full">Mebendazole 500 mg : 1 comprimé</string>
+
+    <string name="hierro_folico">Fer et acide folique</string>
+    <string name="capsules_hierro_folico_one">1 capsule toutes les 2 semaines</string>
+    <string name="capsules_hierro_folico_tow">2 capsules toutes les 2 semaines</string>
+    <string name="capsules_hierro_folico_checked">Avez-vous suivi un traitement à l\'acide folique et au fer ?</string>
+
+    <string name="amoxicilina">Amoxicilline: La dose à administrer est de:</string>
+    <string name="amoxicilina_125">125 mg * 2 fois par jour pendant 7 jours</string>
+    <string name="amoxicilina_250">250 mg * 2 fois par jour pendant 7 jours</string>
+    <string name="amoxicilina_500">500 mg *2 fois par jour pendant 7 jours </string>
+    <string name="amoxicilina_750">750 mg *2 fois par jour pendant 7 jours</string>
+    <string name="amoxicilina_1000">1000 mg *2 fois par jour pendant 7 jours</string>
+
+    <string name="amoxicilina_question">Avez-vous donné de l\'amoxicilline à l\'enfant?</string>
+    <string name="another_tratements">Autres traitements administrés</string>
+
+    <string name="administration_vitamine">Avez vous administré de la VitA a l\'enfant?</string>
+    <string name="cartilla">Carnet de vaccination:</string>
+    <string name="rubeola">L\'enfant est-il vacciné contre la rougeole?</string>
+    <string name="must_rubeola">L\'enfant doit se faire vacciner contre la rougeole</string>
+
+    <string name="plumpy_one">Le nombre de sachets de Plumpy\'Sup à prendre est de:</string>
+    <string name="plumpy_fiveteeen">15 sachets (1 sachet par jour)</string>
+
+    <string name="plumpy_two">Le nombre de sachets de Plumpy\'Nut à prendre est de:</string>
+    <string name="plumpy_mas_8">8 sachets (1 ¼ sachet par jour)</string>
+    <string name="plumpy_mas_10">10 sachets (1 ½ sachets par jour)</string>
+    <string name="plumpy_mas_15">15 sachets (2 sachets par jour)</string>
+    <string name="plumpy_mas_20">20 sachets (3 sachets par jour)</string>
+    <string name="plumpy_mas_30">30 sachets (4 sachets par jour)</string>
+    <string name="plumpy_mas_35">35 sachets (5 sachets par jour)</string>
+    <string name="plumpy_mas_40">40 sachets (6 sachets par jour)</string>
+    <string name="plumpy_mas_50">50 sachets (7 sachets par jour)</string>
+    <string name="plumpy_mas_55">55 sachets (8 sachets par jour)</string>
+
+    <string name="fefa_ration">S\'il vous plaît, donnez la portion à la femme.</string>
+    <string name="fefa_ration_pam">PAM: CSB + 250g/jour + 25g d\'huile/jour pendant 15 jours</string>
+    <string name="fefa_ration_csa">CSA:</string>
+
+    <string-array name="yesnooptions">
+        <item>--</item>
         <item>Oui</item>
         <item>Non</item>
     </string-array>
 
-    <string name="tutor">Nom de FEFA</string>
-    <string name="tutor_child">Nom de la mère</string>
-    <string name="tutor_birthdate">Âge FEFA</string>
-    <string name="tutor_birthdate_completed">Âge de la mère</string>
-    <string name="dni_tutor">Document d\'identité de la mère, du pere ou du tuteur</string>
-    <string name="dni_fefa">Document d\'identité de FEFA</string>
+    //Temperature  options
+    <string-array name="temperatureoptions">
+        <item>--</item>
+        <item>34.0</item>
+        <item>34.1</item>
+        <item>34.2</item>
+        <item>34.3</item>
+        <item>34.4</item>
+        <item>34.5</item>
+        <item>34.6</item>
+        <item>34.7</item>
+        <item>34.8</item>
+        <item>34.9</item>
+        <item>35.0</item>
+        <item>35.1</item>
+        <item>35.2</item>
+        <item>35.3</item>
+        <item>35.4</item>
+        <item>35.5</item>
+        <item>35.6</item>
+        <item>35.7</item>
+        <item>35.8</item>
+        <item>35.9</item>
+        <item>36.0</item>
+        <item>36.1</item>
+        <item>36.2</item>
+        <item>36.3</item>
+        <item>36.4</item>
+        <item>36.5</item>
+        <item>36.6</item>
+        <item>36.7</item>
+        <item>36.8</item>
+        <item>36.9</item>
+        <item>37.0</item>
+        <item>37.1</item>
+        <item>37.2</item>
+        <item>37.3</item>
+        <item>37.4</item>
+        <item>37.5</item>
+        <item>37.6</item>
+        <item>37.7</item>
+        <item>37.8</item>
+        <item>37.9</item>
+        <item>38.0</item>
+        <item>38.1</item>
+        <item>38.2</item>
+        <item>38.3</item>
+        <item>38.4</item>
+        <item>38.5</item>
+        <item>38.6</item>
+        <item>38.7</item>
+        <item>38.8</item>
+        <item>38.9</item>
+        <item>39.0</item>
+        <item>39.1</item>
+        <item>39.2</item>
+        <item>39.3</item>
+        <item>39.4</item>
+        <item>39.5</item>
+        <item>39.6</item>
+        <item>39.7</item>
+        <item>39.8</item>
+        <item>39.9</item>
+        <item>40.0</item>
+        <item>40.1</item>
+        <item>40.2</item>
+        <item>40.3</item>
+        <item>40.4</item>
+        <item>40.5</item>
+        <item>40.6</item>
+        <item>40.7</item>
+        <item>40.8</item>
+        <item>40.9</item>
+        <item>41.0</item>
+        <item>41.1</item>
+        <item>41.2</item>
+        <item>41.3</item>
+        <item>41.4</item>
+        <item>41.5</item>
+        <item>41.6</item>
+        <item>41.7</item>
+        <item>41.8</item>
+        <item>41.9</item>
+        <item>42.0</item>
+        <item>42.1</item>
+        <item>42.2</item>
+        <item>42.3</item>
+        <item>42.4</item>
+        <item>42.5</item>
+        <item>42.6</item>
+        <item>42.7</item>
+        <item>42.8</item>
+        <item>42.9</item>
+        <item>43.0</item>
+        <item>43.1</item>
+        <item>43.2</item>
+        <item>43.3</item>
+        <item>43.4</item>
+        <item>43.5</item>
+        <item>43.6</item>
+        <item>43.7</item>
+        <item>43.8</item>
+        <item>43.9</item>
+        <item>44.0</item>
+    </string-array>
+
+    //Apetit options
+    <string-array name="apetitOptions">
+        <item>--</item>
+        <item>Bien</item>
+        <item>Moyen</item>
+        <item>Bas</item>
+    </string-array>
+
+    //Respiration options
+    <string-array name="respirationOptions">
+        <item>--</item>
+        <item>Normale</item>
+        <item>Rapide</item>
+    </string-array>
+
+    //Frecuency
+    <string-array name="frecuencyOptions">
+        <item>--</item>
+        <item>Non</item>
+        <item>1 fois par jour</item>
+        <item>2 fois par jour</item>
+        <item>3 fois par jour</item>
+        <item>plus de 3 fois par jour</item>
+    </string-array>
+
+    <string name="day">Jour</string>
+    <string name="month">Mois</string>
+    <string name="year">Année</string>
+
+    //Étapes
+    <string name="step1">D.anthropométriques</string>
+    <string name="step2">Symptômes</string>
+    <string name="step3">Tr.systémique</string>
+    <string name="step4">Tr.nutritionnel</string>
+    <string name="step1_title">Données anthropométriques</string>
+    <string name="step2_title">Symptômes</string>
+    <string name="step3_title">Traitement systémique</string>
+    <string name="step4_title">Traitement nutritionnel</string>
+
+    <string name="admissionType">Type d\'admission</string>
+    <string-array name="addmisionTypeOptions">
+        <item>Nouvelle admission</item>
+        <item>Dérivé</item>
+        <item>Transféré</item>
+        <item>Rechute</item>
+    </string-array>
+
+    <string name="new_version">Il y a une nouvelle version disponible sur Google Play.</string>
+    <string name="update">Mettre à jour</string>
+
+    <string name="no_duplicated_visit_same_day">Il y a déjà une visite créée aujourd\'hui, souhaitez-vous la supprimer et saisir à nouveau les données ?</string>
+
 
 </resources>
