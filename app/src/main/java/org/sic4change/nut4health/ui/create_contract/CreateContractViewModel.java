@@ -7,8 +7,10 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import org.joda.time.DateTime;
@@ -82,38 +84,45 @@ public class CreateContractViewModel extends ViewModel {
     }
 
     public LiveData<List<Point>> getPoints(String pointDefaultId) {
+        MutableLiveData<List<Point>> activePoints = new MutableLiveData<>();
         try {
             if (pointDefaultId == null || pointDefaultId.isEmpty() || mPoints.getValue() == null) {
                 return mPoints;
             } else {
-                Point pointDefault = null;
-                for (Point point : mPoints.getValue()) {
-                    if (point.getPointId().equals(pointDefaultId)) {
-                        pointDefault = point;
-                        break;
-                    }
+                Point pointDefault = mPoints.getValue().stream()
+                        .filter(point -> point.getPointId().equals(pointDefaultId))
+                        .findFirst()
+                        .orElse(null);
+
+                if (pointDefault == null) {
+                    return mPoints;
                 }
-                List<PointFormatted> points = new ArrayList<PointFormatted>();
-                for (Point i : mPoints.getValue()) {
+
+                List<Point> filteredPoints = mPoints.getValue().stream()
+                        .filter(Point::getActive)
+                        .collect(Collectors.toList());
+
+                List<PointFormatted> pointsFormatted = new ArrayList<>();
+                for (Point point : filteredPoints) {
                     int count = 0;
-                    for (String j : i.getFullName().split(",")) {
-                        if (pointDefault.getFullName().replace(" ", "").contains(j.replace(" ", ""))) {
+                    for (String namePart : point.getFullName().split(",")) {
+                        if (pointDefault.getFullName().replace(" ", "").contains(namePart.replace(" ", ""))) {
                             count++;
                         }
                     }
-                    points.add(new PointFormatted(i.getPointId(), i.getFullName(), i.getPhoneCode(), count));
+                    pointsFormatted.add(new PointFormatted(point.getPointId(), point.getActive(), point.getFullName(), point.getPhoneCode(), count));
                 }
-                mPoints.getValue().clear();
-                Collections.sort(points, Comparator.comparingInt(PointFormatted::getOrder).reversed());
-                for (PointFormatted k : points) {
-                    mPoints.getValue().add(new Point(k.getPointId(), k.getFullName(), k.getPhoneCode()));
-                }
-                return mPoints;
+                Collections.sort(pointsFormatted, Comparator.comparingInt(PointFormatted::getOrder).reversed());
+
+                List<Point> sortedAndFilteredPoints = pointsFormatted.stream()
+                        .map(pf -> new Point(pf.getPointId(), pf.getActive(), pf.getFullName(), pf.getPhoneCode()))
+                        .collect(Collectors.toList());
+                activePoints.setValue(sortedAndFilteredPoints);
             }
         } catch (Exception e) {
             return mPoints;
         }
-
+        return activePoints;
     }
 
     public LiveData<Contract> getContract() {

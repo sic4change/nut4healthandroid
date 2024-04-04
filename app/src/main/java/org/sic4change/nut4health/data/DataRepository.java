@@ -1291,7 +1291,9 @@ public class DataRepository {
                     }
                     for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
                         Point point = document.toObject(Point.class);
-                        nut4HealtDao.insert(point);
+                        if (point.getActive() && !point.getFullName().isEmpty()) {
+                            nut4HealtDao.insert(point);
+                        }
                     }
                 } else {
                     nut4HealtDao.deleteAllPoint();
