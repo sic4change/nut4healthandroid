@@ -14,6 +14,7 @@ import android.widget.Spinner;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 
@@ -208,7 +209,9 @@ public class ContractFragment extends Fragment {
     }
 
     private void initData() {
+        System.out.println("Aqui iniciando data");
         mMainViewModel = ViewModelProviders.of(getActivity()).get(MainViewModel.class);
+        mMainViewModel.initContracts(mMainViewModel.getUser().getEmail(), mMainViewModel.getUser().getRole());
         mMainViewModel.getIsFiltered().observe(getActivity(), filtered -> {
             try {
                 if (filtered) {

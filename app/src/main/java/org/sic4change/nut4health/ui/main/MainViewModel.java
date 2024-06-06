@@ -59,6 +59,8 @@ public class MainViewModel extends ViewModel {
     private long dateStartPayment = 0;
     private long dateEndPayment = 0;
 
+    private User user;
+
     private LatLng currentPosition = new LatLng(0.0, 0.0);
     public static final double RADIUS_NEAR = 30.0;
 
@@ -70,19 +72,34 @@ public class MainViewModel extends ViewModel {
         mConfiguration = this.mRepository.getCurrentConfiguration();
     }
 
+    public void initContracts(String email, String role) {
+        this.mRepository.getContracts(email, role);
+        mContracts = this.mRepository.getSortedContracts("DATE", "", name, surname, tutorName, tutorStatus, status, dateStart, dateEnd, percentageMin, percentageMax);
+        mNear = this.mRepository.getSortedNearContracts("DATE", "", name, surname, tutorName, tutorStatus, status, dateStart, dateEnd, percentageMin, percentageMax);
+
+    }
+
+    public void initRanking() {
+        this.mRepository.getRanking();
+        mRanking = this.mRepository.getSortedRanking("POINTS", usernameRanking);
+    }
+
+    public void initPayments(String email) {
+        this.mRepository.getPayments(email);
+        mPayments = this.mRepository.getSortedPayments("DATE", statusPayment, dateStartPayment, dateEndPayment);
+    }
+
     public void init(Activity activity) {
         mUser.observe((LifecycleOwner) activity, user -> {
             if (user != null) {
-                this.mRepository.getContracts(user.getEmail(), user.getRole());
-                this.mRepository.getRanking();
-                this.mRepository.getPayments(user.getEmail());
+                setUser(user);
+                initRanking();
+                initPayments(user.getEmail());
                 this.mRepository.getMalnutritionChildValues();
             }
         });
-        mContracts = this.mRepository.getSortedContracts("DATE", "", name, surname, tutorName, tutorStatus, status, dateStart, dateEnd, percentageMin, percentageMax);
-        mNear = this.mRepository.getSortedNearContracts("DATE", "", name, surname, tutorName, tutorStatus, status, dateStart, dateEnd, percentageMin, percentageMax);
-        mRanking = this.mRepository.getSortedRanking("POINTS", usernameRanking);
-        mPayments = this.mRepository.getSortedPayments("DATE", statusPayment, dateStartPayment, dateEndPayment);
+
+
         mNotifications = this.mRepository.getSortedNotifications();
         isFiltered.setValue(false);
     }
@@ -109,10 +126,6 @@ public class MainViewModel extends ViewModel {
 
     public void updateCurrentLocation(String email, String country, String state, String city) {
         this.mRepository.updateCurrentLocation(email, country, state, city);
-    }
-
-    public void getContracts(String email, String role) {
-        this.mRepository.getContracts(email, role);
     }
 
     public void getPoints() {
@@ -346,4 +359,11 @@ public class MainViewModel extends ViewModel {
         this.mRepository.subscribeToNotificationTopic(city);
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 }

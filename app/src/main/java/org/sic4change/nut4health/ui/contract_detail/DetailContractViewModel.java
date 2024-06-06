@@ -150,8 +150,8 @@ public class DetailContractViewModel extends ViewModel {
         return imc;
     }
 
-    public void validateDiagnosis(String id) {
-        mRepository.validateDiagnosis(id, getArmCircumferenceMedical(), getHeight(), getWeight());
+    public void validateDiagnosis(String id, int percentage) {
+        mRepository.validateDiagnosis(id, percentage, getArmCircumferenceMedical(), getHeight(), getWeight());
     }
 
 }

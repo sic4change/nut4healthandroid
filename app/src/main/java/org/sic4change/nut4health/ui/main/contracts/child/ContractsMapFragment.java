@@ -139,8 +139,12 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
                 }
                 if (contract.getStatus().equals(Contract.Status.ADMITTED.name())) {
                     markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET));
+                } else if (contract.getStatus().equals(Contract.Status.REFERED_NOT_VALIDATED.name())) {
+                    markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
                 } else if (contract.getStatus().equals(Contract.Status.DUPLICATED.name())) {
                     markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE));
+                } else if (contract.getStatus().equals(Contract.Status.REFERED_ABSENT.name())) {
+                    markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
                 }
                 Marker marker = mMap.addMarker(markerOptions);
                 marker.setTag(contract);
@@ -233,6 +237,36 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
             }
             nStatus.setText(getResources().getString(R.string.admitted));
             nStatus.setTextColor(getResources().getColor(R.color.violet));
+            nConfirmationDate.setVisibility(View.VISIBLE);
+        } else if (contract.getStatus().equals(Contract.Status.REFERED_NOT_VALIDATED.name())) {
+            nPercentage.setFillColor(getResources().getColor(R.color.colorPrimary));
+            nPercentage.setStrokeColor(getResources().getColor(R.color.colorPrimary));
+            try {
+                Date date = new Date(contract.getMedicalDate());
+                Locale LocaleBylanguageTag = Locale.forLanguageTag("es");
+                TimeAgoMessages messages = new TimeAgoMessages.Builder().withLocale(LocaleBylanguageTag).build();
+                String text = TimeAgo.using(date.getTime(), messages);
+                nConfirmationDate.setText(text);
+            } catch (Exception e) {
+                nConfirmationDate.setText("");
+            }
+            nStatus.setText(getResources().getString(R.string.refered_not_validated));
+            nStatus.setTextColor(getResources().getColor(R.color.colorPrimary));
+            nConfirmationDate.setVisibility(View.VISIBLE);
+        } else if (contract.getStatus().equals(Contract.Status.REFERED_ABSENT.name())) {
+            nPercentage.setFillColor(getResources().getColor(R.color.ms_errorColor));
+            nPercentage.setStrokeColor(getResources().getColor(R.color.ms_errorColor));
+            try {
+                Date date = new Date(contract.getMedicalDate());
+                Locale LocaleBylanguageTag = Locale.forLanguageTag("es");
+                TimeAgoMessages messages = new TimeAgoMessages.Builder().withLocale(LocaleBylanguageTag).build();
+                String text = TimeAgo.using(date.getTime(), messages);
+                nConfirmationDate.setText(text);
+            } catch (Exception e) {
+                nConfirmationDate.setText("");
+            }
+            nStatus.setText(getResources().getString(R.string.refered_absent));
+            nStatus.setTextColor(getResources().getColor(R.color.ms_errorColor));
             nConfirmationDate.setVisibility(View.VISIBLE);
         } else if (contract.getStatus().equals(Contract.Status.DUPLICATED.name())) {
             nPercentage.setTitleText(getResources().getString(R.string.duplicated_abrev));

@@ -259,7 +259,7 @@ public class Near {
     }
 
     public enum Status {
-        EMPTY, DERIVED, REGISTERED, ADMITTED
+        EMPTY, NOT_REFERED, REFERED, ADMITTED, REFERED_NOT_VALIDATED
     }
 
 

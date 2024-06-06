@@ -42,6 +42,7 @@ public class ContractDetailActivity extends AppCompatActivity implements SimpleR
     private DetailContractViewModel mDetailContractViewModel;
 
     private TextView tvPercentage;
+    private int percentage;
     private TextView tvCm;
     private View rulerBackground;
     private SimpleRulerViewer ruler;
@@ -57,6 +58,7 @@ public class ContractDetailActivity extends AppCompatActivity implements SimpleR
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contract_detail);
         this.activity = this;
+        percentage = 0;
         tvPercentage = findViewById(R.id.tvPercentage);
         tvCm = findViewById(R.id.tvCm);
         rulerBackground = findViewById(R.id.rulerBackground);
@@ -280,6 +282,38 @@ public class ContractDetailActivity extends AppCompatActivity implements SimpleR
                 } catch (Exception e) {
                     System.out.println("error parsing confirmation date");
                 }
+            } else if (contract.getStatus().equals(Contract.Status.REFERED_NOT_VALIDATED.name())) {
+                ivIcon.setFillColor(getResources().getColor(R.color.colorPrimary));
+                ivIcon.setStrokeColor(getResources().getColor(R.color.colorPrimary));
+                tvStatus.setText(getResources().getString(R.string.refered_not_validated));
+                tvStatus.setTextColor(getResources().getColor(R.color.colorPrimary));
+                etConfirmationDate.setVisibility(View.VISIBLE);
+                tvConfirmationDate.setVisibility(View.VISIBLE);
+                try {
+                    Date date = new Date(contract.getMedicalDate());
+                    Locale LocaleBylanguageTag = Locale.forLanguageTag("es");
+                    TimeAgoMessages messages = new TimeAgoMessages.Builder().withLocale(LocaleBylanguageTag).build();
+                    String text = TimeAgo.using(date.getTime(), messages);
+                    etConfirmationDate.setText(text);
+                } catch (Exception e) {
+                    System.out.println("error parsing confirmation date");
+                }
+            } else if (contract.getStatus().equals(Contract.Status.REFERED_ABSENT.name())) {
+                ivIcon.setFillColor(getResources().getColor(R.color.ms_errorColor));
+                ivIcon.setStrokeColor(getResources().getColor(R.color.ms_errorColor));
+                tvStatus.setText(getResources().getString(R.string.refered_absent));
+                tvStatus.setTextColor(getResources().getColor(R.color.ms_errorColor));
+                etConfirmationDate.setVisibility(View.VISIBLE);
+                tvConfirmationDate.setVisibility(View.VISIBLE);
+                try {
+                    Date date = new Date(contract.getMedicalDate());
+                    Locale LocaleBylanguageTag = Locale.forLanguageTag("es");
+                    TimeAgoMessages messages = new TimeAgoMessages.Builder().withLocale(LocaleBylanguageTag).build();
+                    String text = TimeAgo.using(date.getTime(), messages);
+                    etConfirmationDate.setText(text);
+                } catch (Exception e) {
+                    System.out.println("error parsing confirmation date");
+                }
             } else if (contract.getStatus().equals(Contract.Status.DUPLICATED.name())) {
                 ivIcon.setTitleText(getResources().getString(R.string.duplicated_abrev));
                 ivIcon.setFillColor(getResources().getColor(R.color.rose));
@@ -287,7 +321,7 @@ public class ContractDetailActivity extends AppCompatActivity implements SimpleR
                 tvStatus.setText(getResources().getString(R.string.duplicated));
                 tvStatus.setTextColor(getResources().getColor(R.color.rose));
             }
-            if (contract.getStatus().equals("DIAGNOSIS") && role.equals("Servicio Salud")) {
+            if (contract.getStatus().equals(Contract.Status.REFERED.name()) && role.equals("Servicio Salud")) {
                 btnConfirm.setEnabled(true);
                 btnConfirm.setClickable(true);
                 btnConfirm.setVisibility(View.VISIBLE);
@@ -354,7 +388,7 @@ public class ContractDetailActivity extends AppCompatActivity implements SimpleR
     private void showDialogConfirmDiagnosisSecondQuestion(String id) {
         new AlertDialog.Builder(this)
                 .setTitle(R.string.confirm_diagnosis_second_question)
-                .setPositiveButton(R.string.ok, (dialog, which) -> mDetailContractViewModel.validateDiagnosis(id))
+                .setPositiveButton(R.string.ok, (dialog, which) -> mDetailContractViewModel.validateDiagnosis(id, percentage))
                 .setIcon(R.mipmap.icon)
                 .show();
     }
@@ -384,12 +418,15 @@ public class ContractDetailActivity extends AppCompatActivity implements SimpleR
 
     private void paintStatusChanges() {
         if (mDetailContractViewModel.getStatus().equals("Aguda Severa")) {
+            percentage = 100;
             tvPercentage.setText(getResources().getString(R.string.severe_acute_malnutrition_full));
             tvPercentage.setTextColor(getResources().getColor(R.color.error));
         } else if (mDetailContractViewModel.getStatus().equals("Aguda Moderada")) {
+            percentage = 50;
             tvPercentage.setText(getResources().getString(R.string.moderate_acute_malnutrition_full));
             tvPercentage.setTextColor(getResources().getColor(R.color.orange));
         } else {
+            percentage = 0;
             tvPercentage.setText(getResources().getString(R.string.normopeso_full));
             tvPercentage.setTextColor(getResources().getColor(R.color.colorAccent));
         }

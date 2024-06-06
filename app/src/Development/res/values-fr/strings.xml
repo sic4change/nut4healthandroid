@@ -174,9 +174,12 @@
     <string name="near_me">Près de moi</string>
 
     <!--Status-->
-    <string name="derived">Dérivée</string>
-    <string name="registered">Inscrit</string>
+    <string name="not_refered">Non Référé</string>
+    <string name="refered">Referido</string>
     <string name="admitted">Admis</string>
+    <string name="refered_not_validated">Référé non validé</string>
+    <string name="duplicated">Doublon</string>
+    <string name="refered_absent">Refered absent</string>
 
     <!--Check messages-->
     <string name="diagnosis_duplicated_7">Diagnostic créé ci-dessus. Vous devez attendre 7 jours pour être re-diagnostiqué</string>
@@ -769,7 +772,6 @@
     <string name="moderate_acute_malnutrition_abrev">MAM</string>
     <string name="severe_acute_malnutrition_abrev">SAM</string>
     <string name="duplicated_abrev">DUP</string>
-    <string name="duplicated">Dupliqué</string>
 
     <string name="normopeso_full">Poids Normal (NW)</string>
     <string name="moderate_acute_malnutrition_full">Malnutrition aiguë modérée (MAM)</string>

@@ -90,7 +90,37 @@ private Context context;
             nStatus.setText(context.getResources().getString(R.string.admitted));
             nStatus.setTextColor(context.getResources().getColor(R.color.violet));
             nConfirmationDate.setVisibility(View.VISIBLE);
-        }  else if (contract.getStatus().equals(Contract.Status.DUPLICATED.name())) {
+        } else if (contract.getStatus().equals(Contract.Status.REFERED_NOT_VALIDATED.name())) {
+            nPercentage.setFillColor(context.getResources().getColor(R.color.colorPrimary));
+            nPercentage.setStrokeColor(context.getResources().getColor(R.color.colorPrimary));
+            try {
+                Date date = new Date(contract.getMedicalDate());
+                Locale LocaleBylanguageTag = Locale.forLanguageTag("es");
+                TimeAgoMessages messages = new TimeAgoMessages.Builder().withLocale(LocaleBylanguageTag).build();
+                String text = TimeAgo.using(date.getTime(), messages);
+                nConfirmationDate.setText(text);
+            } catch (Exception e) {
+                nConfirmationDate.setText("");
+            }
+            nStatus.setText(context.getResources().getString(R.string.refered_not_validated));
+            nStatus.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+            nConfirmationDate.setVisibility(View.VISIBLE);
+        } else if (contract.getStatus().equals(Contract.Status.REFERED_ABSENT.name())) {
+            nPercentage.setFillColor(context.getResources().getColor(R.color.ms_errorColor));
+            nPercentage.setStrokeColor(context.getResources().getColor(R.color.ms_errorColor));
+            try {
+                Date date = new Date(contract.getMedicalDate());
+                Locale LocaleBylanguageTag = Locale.forLanguageTag("es");
+                TimeAgoMessages messages = new TimeAgoMessages.Builder().withLocale(LocaleBylanguageTag).build();
+                String text = TimeAgo.using(date.getTime(), messages);
+                nConfirmationDate.setText(text);
+            } catch (Exception e) {
+                nConfirmationDate.setText("");
+            }
+            nStatus.setText(context.getResources().getString(R.string.refered_absent));
+            nStatus.setTextColor(context.getResources().getColor(R.color.ms_errorColor));
+            nConfirmationDate.setVisibility(View.VISIBLE);
+        } else if (contract.getStatus().equals(Contract.Status.DUPLICATED.name())) {
             nPercentage.setTitleText(context.getResources().getString(R.string.duplicated_abrev));
             nPercentage.setFillColor(context.getResources().getColor(R.color.rose));
             nPercentage.setStrokeColor(context.getResources().getColor(R.color.rose));

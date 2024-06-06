@@ -46,21 +46,26 @@ public class NearDetailActivity extends AppCompatActivity {
         etSurname.setText(contract.getChildSurname());
         etLocation.setText(contract.getChildAddress());
         ivIcon.setTitleText(contract.getPercentage() + "%");
-        if (contract.getStatus().equals(Near.Status.DERIVED.name())) {
+        if (contract.getStatus().equals(Near.Status.REFERED.name())) {
             ivIcon.setFillColor(getApplicationContext().getResources().getColor(R.color.ms_errorColor));
             ivIcon.setStrokeColor(getApplicationContext().getResources().getColor(R.color.ms_errorColor));
-            tvStatus.setText(this.getResources().getString(R.string.derived));
+            tvStatus.setText(this.getResources().getString(R.string.refered));
             tvStatus.setTextColor(this.getResources().getColor(R.color.ms_errorColor));
-        } else if (contract.getStatus().equals(Near.Status.REGISTERED.name())) {
+        } else if (contract.getStatus().equals(Near.Status.NOT_REFERED.name())) {
             ivIcon.setFillColor(getApplicationContext().getResources().getColor(R.color.colorPrimaryDark));
             ivIcon.setStrokeColor(getApplicationContext().getResources().getColor(R.color.colorPrimaryDark));
-            tvStatus.setText(this.getResources().getString(R.string.registered));
+            tvStatus.setText(this.getResources().getString(R.string.not_refered));
             tvStatus.setTextColor(this.getResources().getColor(R.color.colorPrimaryDark));
         } else if (contract.getStatus().equals(Near.Status.ADMITTED.name())) {
             ivIcon.setFillColor(getApplicationContext().getResources().getColor(R.color.orange));
             ivIcon.setStrokeColor(getApplicationContext().getResources().getColor(R.color.orange));
             tvStatus.setText(this.getResources().getString(R.string.admitted));
             tvStatus.setTextColor(this.getResources().getColor(R.color.orange));
+        } else if (contract.getStatus().equals(Near.Status.REFERED_NOT_VALIDATED.name())) {
+            ivIcon.setFillColor(getApplicationContext().getResources().getColor(R.color.colorPrimaryDark));
+            ivIcon.setStrokeColor(getApplicationContext().getResources().getColor(R.color.colorPrimaryDark));
+            tvStatus.setText(this.getResources().getString(R.string.not_refered));
+            tvStatus.setTextColor(this.getResources().getColor(R.color.colorPrimaryDark));
         }
         Date date = new Date(contract.getCreationDate());
         Locale LocaleBylanguageTag = Locale.forLanguageTag("es");

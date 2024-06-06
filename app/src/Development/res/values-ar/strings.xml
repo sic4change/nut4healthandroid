@@ -175,9 +175,12 @@
     <string name="near_me">قريب مني</string>
 
     <!--Status-->
-    <string name="derived">مشتق</string>
-    <string name="registered">سجل</string>
-    <string name="admitted">اعترف</string>
+    <string name="not_refered">Non Référé> عدم الإحالة</string>
+    <string name="refered">Reféré> الاحاله </string>
+    <string name="admitted">Admis> اعترف </string>
+    <string name="refered_not_validated">Référé non validé> لم يتم التحقق من صحة الإحالة </string>
+    <string name="duplicated">Duplication > مكرره </string>
+    <string name="refered_absent">Refered absent</string>
 
     <!--Check messages-->
     <string name="diagnosis_duplicated_7">تم إنشاء التشخيص أعلاه. يجب الانتظار 7 أيام لإعادة التشخيص</string>
@@ -771,7 +774,6 @@
     <string name="moderate_acute_malnutrition_abrev">MAM</string>
     <string name="severe_acute_malnutrition_abrev">SAM</string>
     <string name="duplicated_abrev">DUP</string>
-    <string name="duplicated">تكرار</string>
 
     <string name="normopeso_full">الوزن الطبيعي(NW)</string>
     <string name="moderate_acute_malnutrition_full">الحاد المعتدل (MAM)</string>

@@ -514,7 +514,7 @@ public class StepCreateFEFAContractFragment extends Fragment implements Step, Si
                 spTutorStatus.setSelection(((ArrayAdapter<String>) spTutorStatus.getAdapter()).getPosition(mCreateFEFAContractViewModel.getTutorStatus()));
             }
             if (mCreateFEFAContractViewModel.getWeeks() != 0) {
-                etWeeks.setText(mCreateFEFAContractViewModel.getWeeks());
+                etWeeks.setText(mCreateFEFAContractViewModel.getWeeks() + "");
             }
             if (mCreateFEFAContractViewModel.getTutorStatus() != null) {
                 if(mCreateFEFAContractViewModel.getChildMinor()) {

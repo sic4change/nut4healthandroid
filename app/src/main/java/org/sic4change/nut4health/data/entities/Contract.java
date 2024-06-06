@@ -550,7 +550,7 @@ public class Contract {
     }
 
     public enum Status {
-        EMPTY, REGISTERED, DERIVED, ADMITTED, DUPLICATED
+        EMPTY, NOT_REFERED, REFERED, ADMITTED, REFERED_NOT_VALIDATED, DUPLICATED, REFERED_ABSENT
     }
 
 

@@ -118,6 +118,7 @@ public class RankingFragment extends Fragment implements SwipeRefreshLayout.OnRe
         mMainViewModel.getCurrentUser().observe(getActivity(), user -> {
             if (user != null) {
                 rankingAdapter.setUser(user);
+                mMainViewModel.initRanking();
                 mMainViewModel.getRankingUser();
                 mMainViewModel.getRanking().observe(getActivity(), rankings -> {
                     rankingAdapter.submitList(rankings);

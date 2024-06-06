@@ -555,9 +555,9 @@ public class DataRepository {
         CollectionReference contractRef = db.collection(DataContractNames.TABLE_FIREBASE_NAME);
         String status;
         if (percentage > 49) {
-            status = Contract.Status.DERIVED.name();
+            status = Contract.Status.REFERED.name();
         } else {
-            status = Contract.Status.REGISTERED.name();
+            status = Contract.Status.NOT_REFERED.name();
         }
 
         Contract contract = new Contract("", latitude, longitude, "", childName,
@@ -592,7 +592,7 @@ public class DataRepository {
                                 boolean olderThan30 = new Date().before(new Date((eventStartDate + day30)));
                                 boolean olderThan7 = new Date().before(new Date((eventStartDate + day7)));
                                 if (contractIt.getCode().equals(contract.getCode())) {
-                                    if (contractIt.getStatus().equals(Contract.Status.REGISTERED.name())) {
+                                    if (contractIt.getStatus().equals(Contract.Status.NOT_REFERED.name())) {
                                         // Lo añade como duplicado y lo hago esperar 7 días para registrar a ese menor
                                         if (olderThan7) {
                                             contract.setScreener(email);
@@ -662,7 +662,7 @@ public class DataRepository {
                             for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
                                 Contract contractIt = document.toObject(Contract.class);
                                 if (contractIt.getCode().equals(contract.getCode())) {
-                                    if (contractIt.getStatus().equals(Contract.Status.REGISTERED.name())) {
+                                    if (contractIt.getStatus().equals(Contract.Status.NOT_REFERED.name())) {
                                         contractIt.setArm_circumference_medical(arm_circumference);
                                         contractIt.setHeight(height);
                                         contractIt.setWeight(weight);
@@ -690,7 +690,7 @@ public class DataRepository {
                                         contractIt.setWeight(weight);
                                         contractIt.setPercentage(percentage);
                                         contractIt.setMedical(email);
-                                        if (contractIt.getStatus().equals(Contract.Status.DERIVED.name())) {
+                                        if (contractIt.getStatus().equals(Contract.Status.REFERED.name())) {
                                             if (count != 0) {
                                                 contractIt.setStatus(Contract.Status.DUPLICATED.name());
                                             } else {
@@ -766,57 +766,50 @@ public class DataRepository {
         Query query;
         if (role.equals("Agente Salud")) {
             query = contractRef.whereEqualTo(DataContractNames.COL_SCREENER, email);
-            query.addSnapshotListener(mIoExecutor, (queryDocumentSnapshots, e) -> {
-                try {
-                    if ((queryDocumentSnapshots != null) && (queryDocumentSnapshots.getDocuments() != null)
-                            && (queryDocumentSnapshots.getDocuments().size() > 0)) {
-                        for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
-                            Contract contract = document.toObject(Contract.class);
-                            if (contract.getId() != null && !contract.getId().isEmpty()) {
-                                nut4HealtDao.insert(contract);
-                            }
+            query.get().addOnCompleteListener(mIoExecutor, task -> {
+                if (task.isSuccessful() && task.getResult() != null && !task.getResult().isEmpty()) {
+                    System.out.println("Aqui Get contracts: " + task.getResult().getDocuments().size());
+                    for (DocumentSnapshot document : task.getResult().getDocuments()) {
+                        Contract contract = document.toObject(Contract.class);
+                        if (contract.getId() != null && !contract.getId().isEmpty()) {
+                            nut4HealtDao.insert(contract);
                         }
-                    } else {
-                        nut4HealtDao.deleteAllContract();
-                        Log.d(TAG, "Get contracts: " + "empty");
                     }
-                } catch (Exception error) {
-                    Log.d(TAG, "Get contracts: " + "empty");
+                } else {
+                    nut4HealtDao.deleteAllContract();
+                    System.out.println("Aqui clean contracts: ");
                 }
+            }).addOnFailureListener(e -> {
+                Log.d(TAG, "Get contracts: error", e);
             });
         } else {
             CollectionReference userRef = db.collection(DataUserNames.TABLE_FIREBASE_NAME);
             query = userRef.whereEqualTo(DataUserNames.COL_EMAIL, email).limit(1);
-            query.addSnapshotListener(mIoExecutor, (queryDocumentSnapshots, e) -> {
-                try {
-                    if ((queryDocumentSnapshots != null) && (queryDocumentSnapshots.getDocuments() != null)
-                            && (queryDocumentSnapshots.getDocuments().size() > 0)) {
-                        User user = queryDocumentSnapshots.getDocuments().get(0).toObject(User.class);
-                        Query queryContracts = contractRef.whereEqualTo(DataContractNames.COL_POINT, user.getPoint());
-                        queryContracts.addSnapshotListener(mIoExecutor, (queryDocumentSnapshots2, e2) -> {
-                            try {
-                                if ((queryDocumentSnapshots2 != null) && (queryDocumentSnapshots2.getDocuments() != null)
-                                        && (queryDocumentSnapshots2.getDocuments().size() > 0)) {
-                                    for (DocumentSnapshot document : queryDocumentSnapshots2.getDocuments()) {
-                                        Contract contract = document.toObject(Contract.class);
-                                        if (contract.getId() != null && !contract.getId().isEmpty()) {
-                                            nut4HealtDao.insert(contract);
-                                        }
-                                    }
-                                } else {
-                                    nut4HealtDao.deleteAllContract();
-                                    Log.d(TAG, "Get contracts: " + "empty");
+            query.get().addOnCompleteListener(mIoExecutor, task -> {
+                if (task.isSuccessful() && task.getResult() != null && !task.getResult().isEmpty()) {
+                    User user = task.getResult().getDocuments().get(0).toObject(User.class);
+                    Query queryContracts = contractRef.whereEqualTo(DataContractNames.COL_POINT, user.getPoint());
+                    queryContracts.get().addOnCompleteListener(mIoExecutor, taskContracts -> {
+                        if (taskContracts.isSuccessful() && taskContracts.getResult() != null && !taskContracts.getResult().isEmpty()) {
+                            Log.d(TAG, "Aqui Get contracts: " + taskContracts.getResult().getDocuments().size());
+                            for (DocumentSnapshot document : taskContracts.getResult().getDocuments()) {
+                                Contract contract = document.toObject(Contract.class);
+                                if (contract.getId() != null && !contract.getId().isEmpty()) {
+                                    nut4HealtDao.insert(contract);
                                 }
-                            } catch (Exception error) {
-                                Log.d(TAG, "Get contracts: " + "empty");
                             }
-                        });
-                    } else {
-                        Log.d(TAG, "Get user from firebase: " + "empty");
-                    }
-                } catch (Exception error) {
-                    Log.d(TAG, "Get user: " + "empty");
+                        } else {
+                            nut4HealtDao.deleteAllContract();
+                            System.out.println("Aqui clean contracts: ");
+                        }
+                    }).addOnFailureListener(e -> {
+                        Log.d(TAG, "Get contracts: error", e);
+                    });
+                } else {
+                    Log.d(TAG, "Get user from firebase: empty");
                 }
+            }).addOnFailureListener(e -> {
+                Log.d(TAG, "Get user: error", e);
             });
         }
 
@@ -1326,7 +1319,7 @@ public class DataRepository {
      * Method to validate diagnosis
      * @param contractId
      */
-    public void validateDiagnosis(String contractId, Double arm_circunference_medical, double height, double weight) {
+    public void validateDiagnosis(String contractId, int percentage, Double arm_circunference_medical, double height, double weight) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference contractRef = db.collection(DataContractNames.TABLE_FIREBASE_NAME);
         Query query = contractRef.whereEqualTo(DataContractNames.COL_CONTRACT_ID, contractId).limit(1);
@@ -1338,15 +1331,22 @@ public class DataRepository {
                     contract.setArm_circumference_medical(arm_circunference_medical);
                     contract.setHeight(height);
                     contract.setWeight(weight);
-                    contract.setStatus("FINISH");
-                    queryDocumentSnapshots.getDocuments().get(0).getReference().update("status", "FINISH");
+                    if (percentage > 49) {
+                        contract.setStatus(Contract.Status.ADMITTED.name());
+                        queryDocumentSnapshots.getDocuments().get(0).getReference().update("status", Contract.Status.ADMITTED.name());
+                        nut4HealtDao.updateContractStatus(contractId, Contract.Status.ADMITTED.name());
+                    } else {
+                        contract.setStatus(Contract.Status.REFERED_NOT_VALIDATED.name());
+                        queryDocumentSnapshots.getDocuments().get(0).getReference().update("status", Contract.Status.REFERED_NOT_VALIDATED.name());
+                        nut4HealtDao.updateContractStatus(contractId, Contract.Status.REFERED_NOT_VALIDATED.name());
+                    }
                     queryDocumentSnapshots.getDocuments().get(0).getReference().update("arm_circumference_medical", arm_circunference_medical);
                     queryDocumentSnapshots.getDocuments().get(0).getReference().update("height", height);
                     queryDocumentSnapshots.getDocuments().get(0).getReference().update("weight", weight);
                     nut4HealtDao.updateArmCircunferenceMedical(contractId, arm_circunference_medical);
                     nut4HealtDao.updateHeight(contractId, height);
                     nut4HealtDao.updateWeight(contractId, weight);
-                    nut4HealtDao.updateContractStatus(contractId, "FINISH");
+
                     nut4HealtDao.updateMedicalDate(contractId, new Date().toString());
                     listenerQuery.remove();
                 } else {
