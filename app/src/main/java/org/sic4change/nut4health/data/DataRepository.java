@@ -1403,65 +1403,6 @@ public class DataRepository {
             return null;
         }
     }
-
-   /* public LiveData<Double> checkDesnutritionByHeightAndWeight(double height, double weight) {
-        SimpleSQLiteQuery query = SortUtils.getChildMalnutritionTable();
-        try {
-            mIoExecutor.submit(() -> {
-                LiveData<PagedList<MalnutritionChildTable>> table = new LivePagedListBuilder<>(nut4HealtDao.getCurrentMalnutritionChildTable(query), PAGE_SIZE).build();
-                if (table != null) {
-                    for (MalnutritionChildTable value : table.getValue()) {
-                        System.out.println("Aqui " + value);
-                        if (Double.parseDouble(value.getCm()) >= (height - 0.1)) {
-                            try {
-                                if (weight >= Double.parseDouble(value.getMinusone())) {
-                                    return 0.0;
-                                } else if (weight >= Double.parseDouble(value.getMinustwo())) {
-                                    return -1.0;
-                                } else if (weight >= Double.parseDouble(value.getMinusthree())) {
-                                    return -1.5;
-                                } else {
-                                    return -3.0;
-                                }
-                            } catch (Exception e) {
-                                if (height == 100) {
-                                    MalnutritionChildTable malNutritionChldTable = new MalnutritionChildTable(
-                                            "X3fX5g2Fd9lpy0OVYkgA",
-                                            "100",
-                                            "14.2",
-                                            "13.6",
-                                            "12.1",
-                                            "13.1",
-                                            "15.4"
-                                    );
-                                    if (weight >= Double.parseDouble(malNutritionChldTable.getMinusone())) {
-                                        return 0.0;
-                                    } else if (weight >= Double.parseDouble(malNutritionChldTable.getMinustwo())) {
-                                        return -1.0;
-                                    } else if (weight >= Double.parseDouble(malNutritionChldTable.getMinusthree())) {
-                                        return -1.5;
-                                    } else {
-                                        return -3.0;
-                                    }
-                                }
-                            }
-                        }
-
-                    }
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }*/
-
-    /**
-     * Method to get malnutrition child values from local bd
-     * @return
-     */
-    /*public LiveData<List<MalnutritionChildTable>> getSortedMalnutritionChildValues() {
-        return nut4HealtDao.getMalnutritionChildTable();
-    }*/
+    
 
 }

@@ -63,7 +63,7 @@ public class ContractDetailActivity extends AppCompatActivity implements SimpleR
         tvCm = findViewById(R.id.tvCm);
         rulerBackground = findViewById(R.id.rulerBackground);
         ruler = findViewById(R.id.ruler);
-        ruler.setSelectedValue(28.0f);
+        //ruler.setSelectedValue(28.0f);
         rulerBackground.setBackgroundColor(getResources().getColor(R.color.colorAccent));
         tvPercentage.setText(getResources().getString(R.string.normopeso_full));
         tvPercentage.setTextColor(getResources().getColor(R.color.colorAccent));
@@ -170,6 +170,54 @@ public class ContractDetailActivity extends AppCompatActivity implements SimpleR
 
             TextView etConfirmationDate = findViewById(R.id.etConfirmationDate);
             TextView tvConfirmationDate = findViewById(R.id.tvConfirmationDate);
+
+            rulerBackground = findViewById(R.id.rulerBackground);
+            ruler = findViewById(R.id.ruler);
+            ruler.setSelectedValue((float) contract.getArm_circumference());
+            tvCm = findViewById(R.id.tvCm);
+            tvCm.setText(contract.getArm_circumference() + " cm");
+            tvPercentage = findViewById(R.id.tvPercentage);
+            mDetailContractViewModel.setArmCircumferenceMedical(Double.parseDouble(tvCm.getText().toString().replace(",", ".").replace(" cm", "")));
+
+            if (contract.getTutorStatus() != null && !contract.getTutorStatus().equals("")) {
+                ruler.setMaxValue(50.0f);
+                if (contract.getArm_circumference() < 18.0) {
+                    tvPercentage.setText(getResources().getString(R.string.severe_acute_malnutrition_full));
+                    tvPercentage.setTextColor(getResources().getColor(R.color.error));
+                    rulerBackground.setBackgroundColor(getResources().getColor(R.color.error));
+                    tvCm.setTextColor(getResources().getColor(R.color.error));
+                } else if (contract.getArm_circumference() >= 18.0 && contract.getArm_circumference() <= 21.0) {
+                    tvPercentage.setText(getResources().getString(R.string.moderate_acute_malnutrition_full));
+                    tvPercentage.setTextColor(getResources().getColor(R.color.orange));
+                    rulerBackground.setBackgroundColor(getResources().getColor(R.color.orange));
+                    tvCm.setTextColor(getResources().getColor(R.color.orange));
+                } else {
+                    tvPercentage.setText(getResources().getString(R.string.normopeso_full));
+                    tvPercentage.setTextColor(getResources().getColor(R.color.colorAccent));
+                    rulerBackground.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+                    tvCm.setTextColor(getResources().getColor(R.color.colorAccent));
+                }
+            } else {
+                if (contract.getArm_circumference() < 11.5) {
+                    tvPercentage.setText(getResources().getString(R.string.severe_acute_malnutrition_full));
+                    tvPercentage.setTextColor(getResources().getColor(R.color.error));
+                    rulerBackground.setBackgroundColor(getResources().getColor(R.color.error));
+                    tvCm.setTextColor(getResources().getColor(R.color.error));
+                } else if (contract.getArm_circumference() >= 11.5 && contract.getArm_circumference() <= 12.5) {
+                    tvPercentage.setText(getResources().getString(R.string.moderate_acute_malnutrition_full));
+                    tvPercentage.setTextColor(getResources().getColor(R.color.orange));
+                    rulerBackground.setBackgroundColor(getResources().getColor(R.color.orange));
+                    tvCm.setTextColor(getResources().getColor(R.color.orange));
+                } else {
+                    tvPercentage.setText(getResources().getString(R.string.normopeso_full));
+                    tvPercentage.setTextColor(getResources().getColor(R.color.colorAccent));
+                    rulerBackground.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+                    tvCm.setTextColor(getResources().getColor(R.color.colorAccent));
+                }
+            }
+
+            mDetailContractViewModel.getStatus();
+            paintStatusChanges();
 
             if (contract.getChildName() != null && !contract.getChildName().equals("")) {
                 etName.setText(contract.getChildName());
@@ -437,16 +485,42 @@ public class ContractDetailActivity extends AppCompatActivity implements SimpleR
         mDetailContractViewModel.setArmCircumferenceMedical(value);
         DecimalFormat df = new DecimalFormat("#.0");
         tvCm.setText(df.format(value) + " cm");
-        if (value < 11.5) {
-            rulerBackground.setBackgroundColor(getResources().getColor(R.color.error));
-            tvCm.setTextColor(getResources().getColor(R.color.error));
-        } else if (value >= 11.5 && value <= 12.5) {
-            rulerBackground.setBackgroundColor(getResources().getColor(R.color.orange));
-            tvCm.setTextColor(getResources().getColor(R.color.orange));
+        if (mDetailContractViewModel.getContract().getValue().getTutorStatus() != null && !mDetailContractViewModel.getContract().getValue().equals("")) {
+            if (value < 18.0) {
+                tvPercentage.setText(getResources().getString(R.string.severe_acute_malnutrition_full));
+                tvPercentage.setTextColor(getResources().getColor(R.color.error));
+                rulerBackground.setBackgroundColor(getResources().getColor(R.color.error));
+                tvCm.setTextColor(getResources().getColor(R.color.error));
+            } else if (value >= 18.0 && value <= 21.0) {
+                tvPercentage.setText(getResources().getString(R.string.moderate_acute_malnutrition_full));
+                tvPercentage.setTextColor(getResources().getColor(R.color.orange));
+                rulerBackground.setBackgroundColor(getResources().getColor(R.color.orange));
+                tvCm.setTextColor(getResources().getColor(R.color.orange));
+            } else {
+                tvPercentage.setText(getResources().getString(R.string.normopeso_full));
+                tvPercentage.setTextColor(getResources().getColor(R.color.colorAccent));
+                rulerBackground.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+                tvCm.setTextColor(getResources().getColor(R.color.colorAccent));
+            }
         } else {
-            rulerBackground.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-            tvCm.setTextColor(getResources().getColor(R.color.colorAccent));
+            if (value < 11.5) {
+                tvPercentage.setText(getResources().getString(R.string.severe_acute_malnutrition_full));
+                tvPercentage.setTextColor(getResources().getColor(R.color.error));
+                rulerBackground.setBackgroundColor(getResources().getColor(R.color.error));
+                tvCm.setTextColor(getResources().getColor(R.color.error));
+            } else if (value >= 11.5 && value <= 12.5) {
+                tvPercentage.setText(getResources().getString(R.string.moderate_acute_malnutrition_full));
+                tvPercentage.setTextColor(getResources().getColor(R.color.orange));
+                rulerBackground.setBackgroundColor(getResources().getColor(R.color.orange));
+                tvCm.setTextColor(getResources().getColor(R.color.orange));
+            } else {
+                tvPercentage.setText(getResources().getString(R.string.normopeso_full));
+                tvPercentage.setTextColor(getResources().getColor(R.color.colorAccent));
+                rulerBackground.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+                tvCm.setTextColor(getResources().getColor(R.color.colorAccent));
+            }
         }
+
         mDetailContractViewModel.getStatus();
         paintStatusChanges();
     }
