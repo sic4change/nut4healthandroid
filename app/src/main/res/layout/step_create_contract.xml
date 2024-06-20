@@ -52,7 +52,7 @@
             <View
                 android:id="@+id/rulerBackground"
                 android:layout_width="match_parent"
-                android:layout_height="190dp"
+                android:layout_height="100dp"
                 android:visibility="gone"
                 android:layout_marginStart="@dimen/margin_card"
                 android:layout_marginTop="@dimen/margin_card"
@@ -67,7 +67,7 @@
                 android:id="@+id/ruler"
                 android:layout_width="match_parent"
                 android:visibility="gone"
-                android:layout_height="180dp"
+                android:layout_height="90dp"
                 android:layout_marginStart="@dimen/margin_card"
                 android:layout_marginTop="@dimen/margin_card"
                 android:layout_marginEnd="@dimen/margin_card"
