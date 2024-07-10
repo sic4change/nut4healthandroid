@@ -217,10 +217,10 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
             nConfirmationDate.setVisibility(View.INVISIBLE);
         } else {
             nPercentage.setTitleText(getResources().getString(R.string.severe_acute_malnutrition_abrev));
-            nPercentage.setFillColor(getResources().getColor(R.color.ms_errorColor));
-            nPercentage.setStrokeColor(getResources().getColor(R.color.ms_errorColor));
+            nPercentage.setFillColor(getResources().getColor(R.color.error));
+            nPercentage.setStrokeColor(getResources().getColor(R.color.error));
             nStatus.setText(getResources().getString(R.string.severe_acute_malnutrition));
-            nStatus.setTextColor(getResources().getColor(R.color.ms_errorColor));
+            nStatus.setTextColor(getResources().getColor(R.color.error));
             nConfirmationDate.setVisibility(View.INVISIBLE);
         }
         if (contract.getStatus().equals(Contract.Status.ADMITTED.name())) {
@@ -254,8 +254,8 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
             nStatus.setTextColor(getResources().getColor(R.color.colorPrimary));
             nConfirmationDate.setVisibility(View.VISIBLE);
         } else if (contract.getStatus().equals(Contract.Status.REFERED_ABSENT.name())) {
-            nPercentage.setFillColor(getResources().getColor(R.color.ms_errorColor));
-            nPercentage.setStrokeColor(getResources().getColor(R.color.ms_errorColor));
+            nPercentage.setFillColor(getResources().getColor(R.color.error));
+            nPercentage.setStrokeColor(getResources().getColor(R.color.error));
             try {
                 Date date = new Date(contract.getMedicalDate());
                 Locale LocaleBylanguageTag = Locale.forLanguageTag("es");
@@ -266,7 +266,7 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
                 nConfirmationDate.setText("");
             }
             nStatus.setText(getResources().getString(R.string.refered_absent));
-            nStatus.setTextColor(getResources().getColor(R.color.ms_errorColor));
+            nStatus.setTextColor(getResources().getColor(R.color.error));
             nConfirmationDate.setVisibility(View.VISIBLE);
         } else if (contract.getStatus().equals(Contract.Status.DUPLICATED.name())) {
             nPercentage.setTitleText(getResources().getString(R.string.duplicated_abrev));

@@ -182,7 +182,7 @@ public class ProfileActivity extends AppCompatActivity {
                 })
                 .setImage(R.mipmap.ic_launcher, 15)
                 .setEditText(true, false, tvName.getText().toString(), ir.androidexception.andexalertdialog.InputType.TEXT_SINGLE_LINE)
-                .setMessageTextColor(getResources().getColor(R.color.ms_black_38_opacity))
+                .setMessageTextColor(getResources().getColor(com.stepstone.stepper.R.color.ms_black_38_opacity))
                 .setButtonTextColor(getResources().getColor(R.color.colorPrimaryDark))
                 .build();
     }
@@ -200,7 +200,7 @@ public class ProfileActivity extends AppCompatActivity {
                 })
                 .setImage(R.mipmap.ic_launcher, 15)
                 .setEditText(true, false, tvSurname.getText().toString(), ir.androidexception.andexalertdialog.InputType.TEXT_SINGLE_LINE)
-                .setMessageTextColor(getResources().getColor(R.color.ms_black_38_opacity))
+                .setMessageTextColor(getResources().getColor(com.stepstone.stepper.R.color.ms_black_38_opacity))
                 .setButtonTextColor(getResources().getColor(R.color.colorPrimaryDark))
                 .build();
     }

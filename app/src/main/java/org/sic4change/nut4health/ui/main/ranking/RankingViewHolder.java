@@ -82,9 +82,9 @@ private Context context;
             mRankingUsername.setTextColor(context.getResources().getColor(R.color.colorAccent));
             mRankingPoints.setTextColor(context.getResources().getColor(R.color.colorAccent));
         } else {
-            mPosition.setTextColor(context.getResources().getColor(R.color.common_google_signin_btn_text_light_default));
-            mRankingUsername.setTextColor(context.getResources().getColor(R.color.common_google_signin_btn_text_light_default));
-            mRankingPoints.setTextColor(context.getResources().getColor(R.color.common_google_signin_btn_text_light_default));
+            mPosition.setTextColor(context.getResources().getColor(com.google.android.gms.base.R.color.common_google_signin_btn_text_light_default));
+            mRankingUsername.setTextColor(context.getResources().getColor(com.google.android.gms.base.R.color.common_google_signin_btn_text_light_default));
+            mRankingPoints.setTextColor(context.getResources().getColor(com.google.android.gms.base.R.color.common_google_signin_btn_text_light_default));
         }
         setClickAction(this.itemAction);
         cvRanking.setOnClickListener(v -> itemAction.onClick(getRanking().getUsername(), ranking.getPosition()));

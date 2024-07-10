@@ -309,10 +309,10 @@ public class ContractDetailActivity extends AppCompatActivity implements SimpleR
                 tvStatus.setTextColor(getResources().getColor(R.color.orange));
             } else {
                 ivIcon.setTitleText(getResources().getString(R.string.severe_acute_malnutrition_abrev));
-                ivIcon.setFillColor(getResources().getColor(R.color.ms_errorColor));
-                ivIcon.setStrokeColor(getResources().getColor(R.color.ms_errorColor));
+                ivIcon.setFillColor(getResources().getColor(R.color.error));
+                ivIcon.setStrokeColor(getResources().getColor(R.color.error));
                 tvStatus.setText(getResources().getString(R.string.severe_acute_malnutrition));
-                tvStatus.setTextColor(getResources().getColor(R.color.ms_errorColor));
+                tvStatus.setTextColor(getResources().getColor(R.color.error));
             }
             if (contract.getStatus().equals(Contract.Status.ADMITTED.name())) {
                 ivIcon.setFillColor(getResources().getColor(R.color.violet));
@@ -347,10 +347,10 @@ public class ContractDetailActivity extends AppCompatActivity implements SimpleR
                     System.out.println("error parsing confirmation date");
                 }
             } else if (contract.getStatus().equals(Contract.Status.REFERED_ABSENT.name())) {
-                ivIcon.setFillColor(getResources().getColor(R.color.ms_errorColor));
-                ivIcon.setStrokeColor(getResources().getColor(R.color.ms_errorColor));
+                ivIcon.setFillColor(getResources().getColor(R.color.error));
+                ivIcon.setStrokeColor(getResources().getColor(R.color.error));
                 tvStatus.setText(getResources().getString(R.string.refered_absent));
-                tvStatus.setTextColor(getResources().getColor(R.color.ms_errorColor));
+                tvStatus.setTextColor(getResources().getColor(R.color.error));
                 etConfirmationDate.setVisibility(View.VISIBLE);
                 tvConfirmationDate.setVisibility(View.VISIBLE);
                 try {
@@ -378,7 +378,7 @@ public class ContractDetailActivity extends AppCompatActivity implements SimpleR
                 btnConfirm.setEnabled(false);
                 btnConfirm.setClickable(false);
                 btnConfirm.setVisibility(View.INVISIBLE);
-                btnConfirm.setBackgroundColor(this.getResources().getColor(R.color.ms_material_grey_400));
+                btnConfirm.setBackgroundColor(this.getResources().getColor(com.stepstone.stepper.R.color.ms_material_grey_400));
             }
 
             if ((contract.getTutorStatus() != null && !contract.getTutorStatus().equals("")) || contract.getSex() == null || contract.getSex().equals("")) {

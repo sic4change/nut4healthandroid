@@ -123,7 +123,7 @@ public class PaymentFragment extends Fragment implements SwipeRefreshLayout.OnRe
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
                     case 0:
-                        ivStatus.setBackgroundColor(getResources().getColor(R.color.ms_black));
+                        ivStatus.setBackgroundColor(getResources().getColor(com.stepstone.stepper.R.color.ms_black_38_opacity));
                         break;
                     case 1:
                         ivStatus.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));

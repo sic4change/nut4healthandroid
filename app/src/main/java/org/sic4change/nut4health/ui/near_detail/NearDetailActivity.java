@@ -47,10 +47,10 @@ public class NearDetailActivity extends AppCompatActivity {
         etLocation.setText(contract.getChildAddress());
         ivIcon.setTitleText(contract.getPercentage() + "%");
         if (contract.getStatus().equals(Near.Status.REFERED.name())) {
-            ivIcon.setFillColor(getApplicationContext().getResources().getColor(R.color.ms_errorColor));
-            ivIcon.setStrokeColor(getApplicationContext().getResources().getColor(R.color.ms_errorColor));
+            ivIcon.setFillColor(getApplicationContext().getResources().getColor(R.color.error));
+            ivIcon.setStrokeColor(getApplicationContext().getResources().getColor(R.color.error));
             tvStatus.setText(this.getResources().getString(R.string.refered));
-            tvStatus.setTextColor(this.getResources().getColor(R.color.ms_errorColor));
+            tvStatus.setTextColor(this.getResources().getColor(R.color.error));
         } else if (contract.getStatus().equals(Near.Status.NOT_REFERED.name())) {
             ivIcon.setFillColor(getApplicationContext().getResources().getColor(R.color.colorPrimaryDark));
             ivIcon.setStrokeColor(getApplicationContext().getResources().getColor(R.color.colorPrimaryDark));
