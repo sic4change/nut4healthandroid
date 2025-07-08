@@ -14,8 +14,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.paging.PagedList;
+import androidx.paging.PagingData;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -67,18 +68,13 @@ public class FEFAContractsListFragment extends Fragment implements SwipeRefreshL
     }
 
     private void initData() {
-        mMainViewModel = ViewModelProviders.of(getActivity()).get(MainViewModel.class);
-
-        /*mMainViewModel.getContracts().observe(getActivity(), contracts -> {
-            showContracts(contracts);
-            showContractNumber(contracts);
-        });*/
+        mMainViewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
 
         try {
             mMainViewModel.getIsFiltered().observe(getActivity(), filtered ->{
                 mMainViewModel.getContracts().observe(getActivity(), contracts -> {
                     showContracts(contracts);
-                    showContractNumber(contracts);
+                    showContractNumber();
                 });
             });
         } catch (Exception e) {
@@ -87,23 +83,20 @@ public class FEFAContractsListFragment extends Fragment implements SwipeRefreshL
 
     }
 
-    private void showContractNumber(PagedList<Contract> contracts) {
-        try {
-            tvTotalCasesList.setText(getString(R.string.showing) + " " + contracts.size() + " " + getString(R.string.diagnosis_show));
-        } catch (Exception e) {
-            System.out.println("null contracts");
-        }
+    private void showContractNumber() {
+        int count = FEFAContractsAdapter.getItemCountSafe();
+        tvTotalCasesList.setText(getString(R.string.showing) + " " + count + " " + getString(R.string.diagnosis_show));
     }
 
-    private void showContracts(PagedList<Contract> contracts) {
+
+    private void showContracts(PagingData<Contract> contracts) {
         if (FEFAContractsAdapter != null) {
-            FEFAContractsAdapter.submitList(contracts);
-            FEFAContractsAdapter.notifyDataSetChanged();
-            if (contracts.size() > 0) {
-                ivEmptyContracts.setVisibility(View.GONE);
-            } else {
-                ivEmptyContracts.setVisibility(View.VISIBLE);
-            }
+            FEFAContractsAdapter.submitData(getLifecycle(), contracts);
+
+            rvContracts.postDelayed(() -> showContractNumber(), 300); // ajustar tiempo si hace falta
+
+            ivEmptyContracts.setVisibility(View.GONE);
+
             if (swipe_container != null && swipe_container.isRefreshing()) {
                 swipe_container.setRefreshing(false);
             }

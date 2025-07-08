@@ -17,11 +17,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.data.entities.User;
 import org.sic4change.nut4health.ui.create_account.CreateAccountActivity;
+import org.sic4change.nut4health.ui.create_account.CreateAccountViewModel;
 import org.sic4change.nut4health.ui.main.MainActivity;
 import org.sic4change.nut4health.utils.Nut4HealthKeyboard;
 import org.sic4change.nut4health.utils.Nut4HealthVibrator;
@@ -32,8 +33,7 @@ import org.sic4change.nut4health.utils.view.Nut4HealthSnackbar;
 
 import static maes.tech.intentanim.CustomIntent.customType;
 
-import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeInfoDialog;
-import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeSuccessDialog;
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -57,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
         initView();
         enableView();
         LoginViewModelFactory loginViewModelFactory = LoginViewModelFactory.createFactory(this);
-        mLoginViewModel = ViewModelProviders.of(this, loginViewModelFactory).get(LoginViewModel.class);
+        mLoginViewModel = new ViewModelProvider(this, loginViewModelFactory).get(LoginViewModel.class);
         mLoginViewModel.getUser().observe(this, this::hasUser);
     }
 
@@ -183,21 +183,35 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void showToastChangePassword() {
-        new AwesomeInfoDialog(this)
-                .setTitle(getResources().getString(R.string.app_name))
-                .setMessage(getResources().getString(R.string.sent_instructions_to_change_password))
-                .setPositiveButtonText(getResources().getString(R.string.ok))
-                .setPositiveButtonClick(() -> {
+        final LoginActivity context = this;
+        new SweetAlertDialog(this)
+                .setTitleText(getResources().getString(R.string.app_name))
+                .setContentText(getResources().getString(R.string.sent_instructions_to_change_password))
+                .setConfirmText(getResources().getString(R.string.ok))
+                .setConfirmClickListener(dialog -> {
+                    dialog.dismissWithAnimation();
                     mLoginViewModel.resetPassword(etEmail.getText().toString());
-                    new AwesomeSuccessDialog(this)
-                            .setTitle(getResources().getString(R.string.app_name))
-                            .setMessage(getResources().getString(R.string.sent_instructions_to_change_password_ok))
-                            .setPositiveButtonText(getResources().getString(R.string.ok))
-                            .setPositiveButtonClick(() -> {
-
+                    new SweetAlertDialog(this)
+                            .setTitleText(getResources().getString(R.string.app_name))
+                            .setContentText(getResources().getString(R.string.sent_instructions_to_change_password))
+                            .setConfirmText(getResources().getString(R.string.ok))
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismissWithAnimation();
+                                    new SweetAlertDialog(context, SweetAlertDialog.SUCCESS_TYPE)
+                                            .setTitleText(getResources().getString(R.string.app_name))
+                                            .setContentText(getResources().getString(R.string.sent_instructions_to_change_password_ok))
+                                            .setConfirmText(getResources().getString(R.string.ok))
+                                            .setConfirmClickListener(sweetAlertDialog -> {
+                                                sDialog.dismissWithAnimation();
+                                            })
+                                            .show();
+                                }
                             })
                             .show();
-                }).show();
+                })
+                .show();
     }
 
     public void goToCreateAccount(View view) {

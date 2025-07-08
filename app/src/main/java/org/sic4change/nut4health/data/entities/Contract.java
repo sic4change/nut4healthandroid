@@ -553,5 +553,18 @@ public class Contract {
         EMPTY, NOT_REFERED, REFERED, ADMITTED, REFERED_NOT_VALIDATED, DUPLICATED, REFERED_ABSENT
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Contract other = (Contract) obj;
+        return id != null && id.equals(other.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
+    }
+
 
 }

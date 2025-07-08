@@ -10,6 +10,7 @@ import androidx.paging.PagedListAdapter;
 import androidx.recyclerview.widget.DiffUtil;
 
 import org.sic4change.nut4health.R;
+import org.sic4change.nut4health.data.entities.Notification;
 import org.sic4change.nut4health.data.entities.Payment;
 
 public class PaymentAdapter extends PagedListAdapter<Payment, PaymentViewHolder> {
@@ -63,12 +64,12 @@ public class PaymentAdapter extends PagedListAdapter<Payment, PaymentViewHolder>
             new DiffUtil.ItemCallback<Payment>() {
                 @Override
                 public boolean areItemsTheSame(@NonNull Payment oldItem, @NonNull Payment newItem) {
-                    return (oldItem.getId() == newItem.getId());
+                    return oldItem.getId().equals(newItem.getId());
                 }
 
                 @Override
                 public boolean areContentsTheSame(@NonNull Payment oldItem, @NonNull Payment newItem) {
-                    return oldItem == newItem;
+                    return oldItem.getId().equals(newItem.getId());
                 }
             };
 

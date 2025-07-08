@@ -13,7 +13,6 @@ import com.github.marlonlom.utilities.timeago.TimeAgoMessages;
 
 import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.data.entities.Payment;
-import org.sic4change.nut4health.ui.main.ranking.RankingAdapter;
 
 
 import java.util.Date;
@@ -30,7 +29,6 @@ private TextView tvStatus;
 private Button btnContractDetail;
 private TextView tvDate;
 private Payment mPayment;
-private RankingAdapter.ItemAction itemAction;
 private Context context;
 
     PaymentViewHolder(View itemView, Context context) {
@@ -80,7 +78,6 @@ private Context context;
         TimeAgoMessages messages = new TimeAgoMessages.Builder().withLocale(LocaleBylanguageTag).build();
         String text = TimeAgo.using(date.getTime(), messages);
         tvDate.setText(text);
-        setClickAction(this.itemAction);
         btnContractDetail.setOnClickListener(v -> itemAction.onClick(getPayment().getContractId()));
     }
 
@@ -91,7 +88,4 @@ private Context context;
         tvDate.invalidate();
     }
 
-    void setClickAction(RankingAdapter.ItemAction itemClickAction) {
-        itemAction = itemClickAction;
-    }
 }

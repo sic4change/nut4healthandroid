@@ -17,11 +17,9 @@ import android.widget.Spinner;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
-import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeErrorDialog;
-import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeSuccessDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
@@ -34,6 +32,7 @@ import org.sic4change.nut4health.utils.Nut4HealthKeyboard;
 import java.io.File;
 import java.util.Calendar;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import ru.slybeaver.slycalendarview.SlyCalendarDialog;
 
 
@@ -168,7 +167,7 @@ public class FEFAContractFragment extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
                     case 0:
-                        ivStatus.setBackgroundColor(getResources().getColor(com.stepstone.stepper.R.color.ms_black_38_opacity));
+                        ivStatus.setBackgroundColor(getResources().getColor(R.color.black));
                         break;
                     case 1:
                         ivStatus.setBackgroundColor(getResources().getColor(R.color.violet));
@@ -196,18 +195,13 @@ public class FEFAContractFragment extends Fragment {
 
             }
         });
-        //mMainViewModel = ViewModelProviders.of(getActivity()).get(MainViewModel.class);
 
         return view;
     }
 
     private void initData() {
-        mMainViewModel = ViewModelProviders.of(getActivity()).get(MainViewModel.class);
-        /*mMainViewModel.getCurrentUser().observe(getActivity(), user -> {
-            if (user != null) {
-                mMainViewModel.getContracts(user.getEmail(), user.getRole());
-            }
-        });*/
+        mMainViewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
+
         mMainViewModel.getIsFiltered().observe(getActivity(), filtered -> {
             try {
                 if (filtered) {
@@ -308,24 +302,27 @@ public class FEFAContractFragment extends Fragment {
     }
 
     public void showDialogExportContractsResult() {
-        new AwesomeSuccessDialog(getActivity())
-                .setTitle(getResources().getString(R.string.app_name))
-                .setMessage(getResources().getString(R.string.contracts_exported_ok))
-                .setPositiveButtonText(getResources().getString(R.string.ok))
-                .setPositiveButtonClick(() -> {
+        new SweetAlertDialog(getActivity())
+                .setTitleText(getResources().getString(R.string.app_name))
+                .setContentText(getResources().getString(R.string.contracts_exported_ok))
+                .setConfirmText(getResources().getString(R.string.ok))
+                .setConfirmClickListener(sweetAlertDialog -> {
+                    sweetAlertDialog.dismissWithAnimation();
                     openFile();
                 })
                 .show();
     }
 
     public void showDialogErrorExportContractsResult() {
-        new AwesomeErrorDialog(getActivity())
-                .setTitle(getResources().getString(R.string.app_name))
-                .setMessage(getResources().getString(R.string.contracts_exported_error))
-                .setButtonText(getResources().getString(R.string.ok))
-                .setErrorButtonClick(() -> {
+        new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE)
+                .setTitleText(getResources().getString(R.string.app_name))
+                .setContentText(getResources().getString(R.string.contracts_exported_error))
+                .setConfirmText(getResources().getString(R.string.ok))
+                .setCancelClickListener(sweetAlertDialog -> {
+                    sweetAlertDialog.dismissWithAnimation();
 
-                }).show();
+                })
+                .show();
     }
 
     private void openFile() {

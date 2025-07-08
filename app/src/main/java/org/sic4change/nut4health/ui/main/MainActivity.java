@@ -29,7 +29,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.work.Constraints;
 import androidx.work.NetworkType;
 import androidx.work.PeriodicWorkRequest;
@@ -41,6 +41,7 @@ import com.google.android.material.navigation.NavigationView;
 import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.data.entities.User;
 import org.sic4change.nut4health.service.FirebaseDataUploadWorker;
+import org.sic4change.nut4health.ui.contract_detail.DetailContractViewModel;
 import org.sic4change.nut4health.ui.main.contracts.child.ContractFragment;
 import org.sic4change.nut4health.ui.main.contracts.child.ContractsListFragment;
 import org.sic4change.nut4health.ui.main.contracts.child.ContractsMapFragment;
@@ -50,7 +51,6 @@ import org.sic4change.nut4health.ui.main.contracts.fefa.FEFAContractFragment;
 import org.sic4change.nut4health.ui.main.create_contract.CreateContractFragment;
 import org.sic4change.nut4health.ui.main.notifications.NotificationFragment;
 import org.sic4change.nut4health.ui.main.payments.PaymentFragment;
-import org.sic4change.nut4health.ui.main.ranking.RankingFragment;
 import org.sic4change.nut4health.ui.profile.ProfileActivity;
 import org.sic4change.nut4health.ui.main.report.ReportFragment;
 import org.sic4change.nut4health.utils.location.Nut4HealthSingleShotLocationProvider;
@@ -70,7 +70,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         EmptyFragment.OnFragmentInteractionListener, CreateContractFragment.OnFragmentInteractionListener,
         ContractsListFragment.OnFragmentInteractionListener, ContractsMapFragment.OnFragmentInteractionListener,
         FEFAContractsListFragment.OnFragmentInteractionListener, FEFAContractsMapFragment.OnFragmentInteractionListener,
-        RankingFragment.OnFragmentInteractionListener, PaymentFragment.OnFragmentInteractionListener,
         ReportFragment.OnFragmentInteractionListener, NotificationFragment.OnFragmentInteractionListener {
 
     private boolean doubleBackToExitPressedOnce = false;
@@ -100,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         initView();
         MainViewModelFactory mainViewModelFactory = MainViewModelFactory.createFactory(this);
-        mMainViewModel = ViewModelProviders.of(this, mainViewModelFactory).get(MainViewModel.class);
+        mMainViewModel = new ViewModelProvider(this, mainViewModelFactory).get(MainViewModel.class);
         mMainViewModel.init(this);
         mMainViewModel.getCurrentUser().observe(this, user -> {
             if (user != null) {
@@ -109,13 +108,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 tvDrawerRole.setText(user.getRole());
                 if (!user.getRole().equals("Agente Salud")) {
                     tvDrawerPoints.setVisibility(View.GONE);
-                    navigationView.getMenu().findItem(R.id.nav_ranking).setVisible(false);
                     navigationView.getMenu().findItem(R.id.nav_paids).setVisible(false);
                     //navigationView.getMenu().findItem(R.id.nav_near).setVisible(true);
                 } else {
                     tvDrawerPoints.setText(user.getPoints() + " " + getString(R.string.points));
                     tvDrawerPoints.setVisibility(View.VISIBLE);
-                    navigationView.getMenu().findItem(R.id.nav_ranking).setVisible(true);
                     navigationView.getMenu().findItem(R.id.nav_paids).setVisible(true);
                     //navigationView.getMenu().findItem(R.id.nav_near).setVisible(false);
                 }
@@ -192,12 +189,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         tvDrawerRole = navigationView.getHeaderView(0).findViewById(R.id.tvDrawerRole);
         ivUser = navigationView.getHeaderView(0).findViewById(R.id.ivUser);
         tvDrawerPoints = navigationView.getHeaderView(0).findViewById(R.id.tvPoints);
-        this.navigationView.setCheckedItem(R.id.nav_ranking);
 
     }
 
     @Override
     public void onBackPressed() {
+        super.onBackPressed();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
@@ -252,17 +249,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     fragment = new FEFAContractFragment();
                     setTitle(R.string.contracts_fefa);
                 }
-                else if (id == R.id.nav_ranking) {
-                    fragment = new RankingFragment();
-                    setTitle(R.string.ranking);
-                } else if (id == R.id.nav_paids) {
+                else if (id == R.id.nav_paids) {
                     fragment = new PaymentFragment();
                     setTitle(R.string.payments);
                 }
-//                else if (id == R.id.nav_notifications) {
-//                    fragment = new NotificationFragment();
-//                    setTitle(R.string.notifications);
-//                }
                 else if (id == R.id.nav_report) {
                     fragment = new ReportFragment();
                     setTitle(R.string.report);

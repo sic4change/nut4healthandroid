@@ -1,13 +1,8 @@
 package org.sic4change.nut4health.ui.create_contract.child;
 
-import static maes.tech.intentanim.CustomIntent.customType;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.Toast;
 
 import androidx.annotation.IntRange;
 import androidx.annotation.NonNull;
@@ -15,10 +10,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
 import com.stepstone.stepper.Step;
-import com.stepstone.stepper.StepperLayout;
-import com.stepstone.stepper.VerificationError;
 import com.stepstone.stepper.adapter.AbstractFragmentStepAdapter;
 import com.stepstone.stepper.viewmodel.StepViewModel;
+
 
 import org.sic4change.nut4health.R;
 

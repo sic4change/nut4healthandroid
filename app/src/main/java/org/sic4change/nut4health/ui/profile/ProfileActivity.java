@@ -2,47 +2,36 @@ package org.sic4change.nut4health.ui.profile;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.InputType;
-import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
-import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeErrorDialog;
-import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeInfoDialog;
-import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeSuccessDialog;
-import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeWarningDialog;
-import com.awesomedialog.blennersilva.awesomedialoglibrary.interfaces.Closure;
 import com.bumptech.glide.Glide;
 import com.github.dhaval2404.imagepicker.ImagePicker;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 
 import org.sic4change.country_selector.CountryPicker;
 import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.data.entities.User;
 import org.sic4change.nut4health.ui.login.LoginActivity;
-import org.sic4change.nut4health.utils.view.Nut4HealthSnackbar;
 import org.sic4change.nut4health.utils.view.Nut4HealthTextAwesome;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import de.hdodenhof.circleimageview.CircleImageView;
-import ir.androidexception.andexalertdialog.AndExAlertDialog;
-import ir.androidexception.andexalertdialog.AndExAlertDialogListener;
 
 import static maes.tech.intentanim.CustomIntent.customType;
 
@@ -65,6 +54,13 @@ public class ProfileActivity extends AppCompatActivity {
 
     private boolean created = false;
 
+    LayoutInflater inflater = LayoutInflater.from(this);
+    View dialogViewName = inflater.inflate(R.layout.dialog_edit_text_name, null);
+    View dialogViewSurname = inflater.inflate(R.layout.dialog_edit_text_surname, null);
+
+    EditText inputName = dialogViewName.findViewById(R.id.dialog_input_name);
+    EditText inputSurname = dialogViewSurname.findViewById(R.id.dialog_input_name);
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +69,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         initView();
         ProfileViewModelFactory mainViewModelFactory = ProfileViewModelFactory.createFactory(this);
-        mProfileViewModel = ViewModelProviders.of(this, mainViewModelFactory).get(ProfileViewModel.class);
+        mProfileViewModel = new ViewModelProvider(this, mainViewModelFactory).get(ProfileViewModel.class);
         mProfileViewModel.init();
         mProfileViewModel.getCurrentUser().observe(this, user -> {
             if (user != null) {
@@ -127,6 +123,10 @@ public class ProfileActivity extends AppCompatActivity {
         ivUser = findViewById(R.id.ivProfileUser);
         ivEditPhoto = findViewById(R.id.ivEditPhoto);
         ivProfileUser = findViewById(R.id.ivProfileUser);
+
+       dialogViewName = inflater.inflate(R.layout.dialog_edit_text_name, null);
+       dialogViewSurname = inflater.inflate(R.layout.dialog_edit_text_surname, null);
+
     }
 
     @Override
@@ -171,38 +171,36 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     public void showDialogEditName(View view) {
-        new AndExAlertDialog.Builder(this)
-                .setMessage(getString(R.string.edit_name))
-                .setPositiveBtnText(getString(R.string.ok))
-                .setCancelableOnTouchOutside(true)
-                .OnPositiveClicked(input -> {
-                    if (input != null && !input.isEmpty()) {
-                         mProfileViewModel.updateName(tvEmail.getText().toString(), input.substring(0, 1).toUpperCase() + input.substring(1).toLowerCase());
+        new MaterialAlertDialogBuilder(this)
+                .setView(dialogViewName)
+                .setCancelable(true)
+                .setPositiveButton(getString(R.string.ok), (dialog, which) -> {
+                    String input = inputName.getText().toString().trim();
+                    if (!input.isEmpty()) {
+                        if (input != null && !input.isEmpty()) {
+                            mProfileViewModel.updateName(tvEmail.getText().toString(), input.substring(0, 1).toUpperCase() + input.substring(1).toLowerCase());
+                        }
                     }
                 })
-                .setImage(R.mipmap.ic_launcher, 15)
-                .setEditText(true, false, tvName.getText().toString(), ir.androidexception.andexalertdialog.InputType.TEXT_SINGLE_LINE)
-                .setMessageTextColor(getResources().getColor(com.stepstone.stepper.R.color.ms_black_38_opacity))
-                .setButtonTextColor(getResources().getColor(R.color.colorPrimaryDark))
-                .build();
+                .setNegativeButton(android.R.string.cancel, null)
+                .show();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void showDialogEditSurname(View view) {
-        new AndExAlertDialog.Builder(this)
-                .setMessage(getString(R.string.edit_surname))
-                .setPositiveBtnText(getString(R.string.ok))
-                .setCancelableOnTouchOutside(true)
-                .OnPositiveClicked(input -> {
-                    if (input != null && !input.isEmpty()) {
-                        mProfileViewModel.updateSurname(tvEmail.getText().toString(), input.substring(0, 1).toUpperCase() + input.substring(1).toLowerCase());
+        new MaterialAlertDialogBuilder(this)
+                .setView(dialogViewSurname)
+                .setCancelable(true)
+                .setPositiveButton(getString(R.string.ok), (dialog, which) -> {
+                    String input = inputSurname.getText().toString().trim();
+                    if (!input.isEmpty()) {
+                        if (input != null && !input.isEmpty()) {
+                            mProfileViewModel.updateSurname(tvEmail.getText().toString(), input.substring(0, 1).toUpperCase() + input.substring(1).toLowerCase());
+                        }
                     }
                 })
-                .setImage(R.mipmap.ic_launcher, 15)
-                .setEditText(true, false, tvSurname.getText().toString(), ir.androidexception.andexalertdialog.InputType.TEXT_SINGLE_LINE)
-                .setMessageTextColor(getResources().getColor(com.stepstone.stepper.R.color.ms_black_38_opacity))
-                .setButtonTextColor(getResources().getColor(R.color.colorPrimaryDark))
-                .build();
+                .setNegativeButton(android.R.string.cancel, null)
+                .show();
     }
 
     public void showDialogEditCountry(View view) {
@@ -218,21 +216,22 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     public void showToastChangePassword(View view) {
-        new AwesomeInfoDialog(this)
-                .setTitle(getResources().getString(R.string.app_name))
-                .setMessage(getResources().getString(R.string.sent_instructions_to_change_password))
-                .setPositiveButtonText(getResources().getString(R.string.ok))
-                .setPositiveButtonClick(() -> {
+        new SweetAlertDialog(this)
+                .setTitleText(getResources().getString(R.string.app_name))
+                .setContentText(getResources().getString(R.string.sent_instructions_to_change_password))
+                .setConfirmText(getResources().getString(R.string.ok))
+                .setConfirmClickListener(sweetAlertDialog -> {
                     mProfileViewModel.resetPassword(tvEmail.getText().toString());
-                    new AwesomeSuccessDialog(this)
-                            .setTitle(getResources().getString(R.string.app_name))
-                            .setMessage(getResources().getString(R.string.sent_instructions_to_change_password_ok))
-                            .setPositiveButtonText(getResources().getString(R.string.ok))
-                            .setPositiveButtonClick(() -> {
-
+                    new SweetAlertDialog(this)
+                            .setTitleText(getResources().getString(R.string.app_name))
+                            .setContentText(getResources().getString(R.string.sent_instructions_to_change_password_ok))
+                            .setConfirmText(getResources().getString(R.string.ok))
+                            .setConfirmClickListener(sweetAlertDialog2 -> {
+                                sweetAlertDialog.dismissWithAnimation();
                             })
                             .show();
-                }).show();
+                })
+                .show();
     }
 
     private void goToLoginActivity() {
@@ -248,13 +247,15 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     public void showDialogToLogout(View view) {
-        new AwesomeWarningDialog(this)
-                .setTitle(getResources().getString(R.string.app_name))
-                .setMessage(getResources().getString(R.string.logout_question))
-                .setButtonText(getResources().getString(R.string.logout))
-                .setWarningButtonClick(() -> {
-                   logout();
-                }).show();
+        new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+                .setTitleText(getResources().getString(R.string.app_name))
+                .setContentText(getResources().getString(R.string.logout_question))
+                .setConfirmText(getResources().getString(R.string.logout))
+                .setConfirmClickListener(sweetAlertDialog -> {
+                    logout();
+
+                })
+                .show();
     }
 
     public void showDialogTermsAndConditions(View view) {
@@ -266,23 +267,27 @@ public class ProfileActivity extends AppCompatActivity {
 
 
     public void showDialogRemoveAccount(View view) {
-        new AwesomeErrorDialog(this)
-                .setTitle(getResources().getString(R.string.app_name))
-                .setMessage(getResources().getString(R.string.delete_account_first_question))
-                .setButtonText(getResources().getString(R.string.delete_account))
-                .setErrorButtonClick(() -> {
+        new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
+                .setTitleText(getResources().getString(R.string.app_name))
+                .setContentText(getResources().getString(R.string.delete_account_first_question))
+                .setConfirmText(getResources().getString(R.string.ok))
+                .setConfirmClickListener(sweetAlertDialog -> {
                     showDialogRemoveAccountSecondQuestion();
-                }).show();
+
+                })
+                .show();
     }
 
     private void showDialogRemoveAccountSecondQuestion() {
-        new AwesomeErrorDialog(this)
-                .setTitle(getResources().getString(R.string.app_name))
-                .setMessage(getResources().getString(R.string.delete_account_second_question))
-                .setButtonText(getResources().getString(R.string.delete_account))
-                .setErrorButtonClick(() -> {
+        new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
+                .setTitleText(getResources().getString(R.string.app_name))
+                .setContentText(getResources().getString(R.string.delete_account_second_question))
+                .setConfirmText(getResources().getString(R.string.ok))
+                .setConfirmClickListener(sweetAlertDialog -> {
                     removeAccount();
-                }).show();
+
+                })
+                .show();
     }
 
     public void removeAccount() {

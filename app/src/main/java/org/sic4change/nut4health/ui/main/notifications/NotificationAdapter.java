@@ -10,6 +10,7 @@ import androidx.paging.PagedListAdapter;
 import androidx.recyclerview.widget.DiffUtil;
 
 import org.sic4change.nut4health.R;
+import org.sic4change.nut4health.data.entities.Contract;
 import org.sic4change.nut4health.data.entities.Notification;
 
 public class NotificationAdapter extends PagedListAdapter<Notification, NotificationViewHolder> {
@@ -66,12 +67,12 @@ public class NotificationAdapter extends PagedListAdapter<Notification, Notifica
             new DiffUtil.ItemCallback<Notification>() {
                 @Override
                 public boolean areItemsTheSame(@NonNull Notification oldItem, @NonNull Notification newItem) {
-                    return (oldItem.getId() == newItem.getId());
+                    return oldItem.getId().equals(newItem.getId());
                 }
 
                 @Override
                 public boolean areContentsTheSame(@NonNull Notification oldItem, @NonNull Notification newItem) {
-                    return oldItem == newItem;
+                    return oldItem.getId().equals(newItem.getId());
                 }
             };
 

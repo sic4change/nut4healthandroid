@@ -36,16 +36,12 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
-import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeInfoDialog;
-import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeSuccessDialog;
-import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeWarningDialog;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.rilixtech.widget.countrycodepicker.Country;
-import com.rilixtech.widget.countrycodepicker.CountryCodePicker;
+import com.hbb20.CountryCodePicker;
 import com.shivtechs.maplocationpicker.MapUtility;
 import com.stepstone.stepper.Step;
 import com.stepstone.stepper.VerificationError;
@@ -57,9 +53,9 @@ import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.data.entities.MalnutritionChildTable;
 import org.sic4change.nut4health.data.entities.Point;
 import org.sic4change.nut4health.data.events.MessageEvent;
+import org.sic4change.nut4health.ui.create_account.CreateAccountViewModel;
 import org.sic4change.nut4health.ui.create_contract.CreateContractViewModel;
 import org.sic4change.nut4health.ui.create_contract.CreateContractViewModelFactory;
-import org.sic4change.nut4health.ui.fingerprint.ScanActivity;
 import org.sic4change.nut4health.ui.serchablespinner.SearchableSpinner;
 import org.sic4change.nut4health.utils.Nut4HealthKeyboard;
 import org.sic4change.nut4health.utils.location.Nut4HealthSingleShotLocationProvider;
@@ -74,6 +70,8 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class StepCreateFEFAContractFragment extends Fragment implements Step, SimpleRulerViewer.OnValueChangeListener{
 
@@ -208,7 +206,7 @@ public class StepCreateFEFAContractFragment extends Fragment implements Step, Si
         ivNewContract = v.findViewById(R.id.ivNewContract);
         spPoint = v.findViewById(R.id.spPoint);
         CreateContractViewModelFactory createFEFAContractViewModelFactory = CreateContractViewModelFactory.createFactory(getActivity());
-        mCreateFEFAContractViewModel = ViewModelProviders.of(getActivity(), createFEFAContractViewModelFactory).get(CreateContractViewModel.class);
+        mCreateFEFAContractViewModel = new ViewModelProvider(this, createFEFAContractViewModelFactory).get(CreateContractViewModel.class);
         mCreateFEFAContractViewModel.getUser().observe(getActivity(), user -> {
             try {
                 mCreateFEFAContractViewModel.setRole(user.getRole());
@@ -361,8 +359,9 @@ public class StepCreateFEFAContractFragment extends Fragment implements Step, Si
         etWeeks = v.findViewById(R.id.etWeeks);
         cpp.setOnCountryChangeListener(new CountryCodePicker.OnCountryChangeListener() {
             @Override
-            public void onCountrySelected(Country selectedCountry) {
-                mCreateFEFAContractViewModel.setPhoneCode(selectedCountry.getPhoneCode());
+            public void onCountrySelected() {
+                String phoneCode = cpp.getSelectedCountryCode();
+                mCreateFEFAContractViewModel.setPhoneCode(phoneCode);
             }
         });
         clView = v.findViewById(R.id.clView);
@@ -432,19 +431,15 @@ public class StepCreateFEFAContractFragment extends Fragment implements Step, Si
                     mCreateFEFAContractViewModel.getArmCircumference() < CreateContractViewModel.MINIUM_DESNUTRITION_VALUE_MUAC &&
             !mCreateFEFAContractViewModel.isDialerOpened()) {
                 mCreateFEFAContractViewModel.setDialerOpened(true);
-                new AwesomeInfoDialog(getActivity())
-                        .setColoredCircle(R.color.colorPrimaryDark)
-                        .setTitle("+" + mCreateFEFAContractViewModel.getPhoneCode() + mCreateFEFAContractViewModel.getChildPhoneContact())
-                        .setMessage(getString(R.string.check_phone_number))
-                        .setPositiveButtonbackgroundColor(R.color.colorPrimaryDark)
-                        .setPositiveButtonText(getResources().getString(R.string.ok))
-                        .setPositiveButtonClick(() -> {
+                new SweetAlertDialog(getActivity())
+                        .setTitleText("+" + mCreateFEFAContractViewModel.getPhoneCode() + mCreateFEFAContractViewModel.getChildPhoneContact())
+                        .setContentText(getString(R.string.check_phone_number))
+                        .setConfirmText(getResources().getString(R.string.ok))
+                        .setConfirmClickListener(sweetAlertDialog -> {
 
                         })
-                        .setNegativeButtonbackgroundColor(R.color.colorAccent)
-                        .setNegativeButtonTextColor(R.color.white)
-                        .setNegativeButtonText(getResources().getString(R.string.call))
-                        .setNegativeButtonClick(() -> {
+                        .setCancelText(getResources().getString(R.string.call))
+                        .setCancelClickListener(sweetAlertDialog -> {
                             openDialer();
                         })
                         .show();
@@ -581,14 +576,14 @@ public class StepCreateFEFAContractFragment extends Fragment implements Step, Si
             if (!isGpsEnabled) {
                 openGpsEnableSetting();
             }
-        } else if (requestCode == REQUEST_TAKE_FINGERPRINT && resultCode == RESULT_OK){
+        } /*else if (requestCode == REQUEST_TAKE_FINGERPRINT && resultCode == RESULT_OK){
             byte[] fingerprint = data.getByteArrayExtra(ScanActivity.FINGERPRINT);
             if ((fingerprint != null) && (fingerprint.length > 0)) {
                 mCreateFEFAContractViewModel.setFingerPrint(fingerprint);
             } else {
                 mCreateFEFAContractViewModel.setFingerPrint(null);
             }
-        } else if (requestCode == ADDRESS_PICKER_REQUEST && resultCode == RESULT_OK){
+        }*/ else if (requestCode == ADDRESS_PICKER_REQUEST && resultCode == RESULT_OK){
             double currentLatitude = data.getDoubleExtra(MapUtility.LATITUDE, 0.0);
             double currentLongitude = data.getDoubleExtra(MapUtility.LONGITUDE, 0.0);
 
@@ -707,32 +702,36 @@ public class StepCreateFEFAContractFragment extends Fragment implements Step, Si
 
             public void onFinish() {
                 if (eventResult.equals(getString(R.string.diagnosis_duplicated_30))) {
-                    new AwesomeWarningDialog(getActivity())
-                            .setTitle(getResources().getString(R.string.app_name))
-                            .setMessage(eventResult)
-                            .setButtonText(getResources().getString(R.string.ok))
-                            .setWarningButtonClick(() -> {
+                    new SweetAlertDialog(getActivity(), SweetAlertDialog.WARNING_TYPE)
+                            .setTitleText(getResources().getString(R.string.app_name))
+                            .setContentText(eventResult)
+                            .setConfirmText(getResources().getString(R.string.ok))
+                            .setConfirmClickListener(sweetAlertDialog -> {
+                                sweetAlertDialog.dismissWithAnimation();
                                 goToMainActivity();
                             })
                             .show();
                 } else if (eventResult.equals(getString(R.string.diagnosis_duplicated_7))) {
-                    new AwesomeWarningDialog(getActivity())
-                            .setTitle(getResources().getString(R.string.app_name))
-                            .setMessage(eventResult)
-                            .setButtonText(getResources().getString(R.string.ok))
-                            .setWarningButtonClick(() -> {
+                    new SweetAlertDialog(getActivity(), SweetAlertDialog.WARNING_TYPE)
+                            .setTitleText(getResources().getString(R.string.app_name))
+                            .setContentText(eventResult)
+                            .setConfirmText(getResources().getString(R.string.ok))
+                            .setConfirmClickListener(sweetAlertDialog -> {
+                                sweetAlertDialog.dismissWithAnimation();
                                 goToMainActivity();
                             })
                             .show();
                 } else {
-                    new AwesomeSuccessDialog(getActivity())
-                            .setTitle(getResources().getString(R.string.app_name))
-                            .setMessage(eventResult)
-                            .setPositiveButtonText(getResources().getString(R.string.ok))
-                            .setPositiveButtonClick(() -> {
+                    new SweetAlertDialog(getActivity(), SweetAlertDialog.SUCCESS_TYPE)
+                            .setTitleText(getResources().getString(R.string.app_name))
+                            .setContentText(eventResult)
+                            .setConfirmText(getResources().getString(R.string.ok))
+                            .setConfirmClickListener(sweetAlertDialog -> {
+                                sweetAlertDialog.dismissWithAnimation();
                                 goToMainActivity();
                             })
                             .show();
+
                 }
 
             }

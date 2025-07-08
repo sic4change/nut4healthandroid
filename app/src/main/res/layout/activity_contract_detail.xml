@@ -11,9 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.contract_detail.ContractDetailActivity">
-        
-        <com.github.pavlospt.CircleView
-            xmlns:app="http://schemas.android.com/apk/res-auto"
+
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/ivIcon"
             android:layout_width="100dp"
             android:layout_height="100dp"
@@ -23,19 +22,25 @@
             android:layout_marginEnd="@dimen/margin_card"
             android:layout_marginRight="@dimen/margin_card"
             android:layout_marginBottom="@dimen/margin_default"
-            app:cv_backgroundColorValue="@color/white"
-            app:cv_fillColor="@color/white"
-            app:cv_fillRadius="0.9"
-            app:cv_strokeColorValue="@color/ms_errorColor"
-            app:cv_strokeWidthSize="5"
-            app:cv_subtitleColor="@color/colorAccent"
-            app:cv_subtitleSize="0dp"
-            app:cv_titleColor="@color/white"
-            app:cv_titleSize="30dp"
-            app:cv_titleText="50%"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:civ_border_width="5dp"
+            app:civ_border_color="@color/error"
+            app:civ_circle_background_color="@color/white" />
+
+        <TextView
+            android:id="@+id/tvIconText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="50%"
+            android:textColor="@color/colorPrimary"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="@id/ivIcon"
+            app:layout_constraintBottom_toBottomOf="@id/ivIcon"
+            app:layout_constraintStart_toStartOf="@id/ivIcon"
+            app:layout_constraintEnd_toEndOf="@id/ivIcon" />
 
         <TextView
             android:id="@+id/tvStatus"
@@ -662,8 +667,8 @@
                     seek:maxValue ="28.0"
                     seek:intervalValue="0.1"
                     seek:retainLength ="5"
-                    seek:rulerColor="@color/ms_black"
-                    seek:textColor ="@color/ms_black"
+                    seek:rulerColor="@color/quantum_black_100"
+                    seek:textColor ="@color/quantum_black_100"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvCm" />

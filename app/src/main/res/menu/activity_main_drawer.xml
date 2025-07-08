@@ -18,10 +18,6 @@
             android:icon="@drawable/ic_action_fefa"
             android:title="@string/contracts_fefa" />
         <item
-            android:id="@+id/nav_ranking"
-            android:icon="@drawable/ic_ranking"
-            android:title="@string/ranking" />
-        <item
             android:id="@+id/nav_paids"
             android:icon="@drawable/ic_paid"
             android:title="@string/payments" />

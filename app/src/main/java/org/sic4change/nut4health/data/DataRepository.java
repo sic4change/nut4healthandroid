@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.paging.LivePagedListBuilder;
 import androidx.paging.PagedList;
+import androidx.paging.PagingSource;
 import androidx.sqlite.db.SimpleSQLiteQuery;
 
 import java.math.BigDecimal;
@@ -827,14 +828,21 @@ public class DataRepository {
      * @param percentageMax
      * @return
      */
-    public LiveData<PagedList<Contract>> getSortedContracts(String sort, String contractType, String name, String surname,
-                                                            String tutorName, String tutorStatus,
-                                                            String status, long dateStart, long dateEnd,
-                                                            int percentageMin, int percentageMax) {
+    public PagingSource<Integer, Contract> getSortedContracts(String sort, String contractType, String name, String surname,
+                                                              String tutorName, String tutorStatus,
+                                                              String status, long dateStart, long dateEnd,
+                                                              int percentageMin, int percentageMax) {
         SimpleSQLiteQuery query = SortUtils.getFilterContracts(sort, contractType, name, surname, tutorName, tutorStatus, status, dateStart, dateEnd,
                 percentageMin, percentageMax);
-        LiveData<PagedList<Contract>> contracts = new LivePagedListBuilder<>(nut4HealtDao.getUserContracts(query), PAGE_SIZE).build();
-        return contracts;
+        return nut4HealtDao.getUserContracts(query);
+    }
+
+    public LiveData<List<Contract>> getAllContractsForExport() {
+        return nut4HealtDao.getAllContractsForExport();
+    }
+
+    public LiveData<List<Contract>> getAllContracts() {
+        return nut4HealtDao.getAllContracts();
     }
 
     /**

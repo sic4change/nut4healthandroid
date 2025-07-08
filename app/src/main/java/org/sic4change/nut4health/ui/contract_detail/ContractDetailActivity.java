@@ -16,15 +16,15 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.github.marlonlom.utilities.timeago.TimeAgo;
 import com.github.marlonlom.utilities.timeago.TimeAgoMessages;
-import com.github.pavlospt.CircleView;
 
 import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.data.entities.Contract;
 import org.sic4change.nut4health.data.entities.MalnutritionChildTable;
+import org.sic4change.nut4health.ui.create_account.CreateAccountViewModel;
 import org.sic4change.nut4health.utils.ruler_picker.SimpleRulerViewer;
 import org.sic4change.nut4health.utils.time.Nut4HealthTimeUtil;
 
@@ -36,6 +36,8 @@ import java.util.Date;
 import java.util.Locale;
 
 import static maes.tech.intentanim.CustomIntent.customType;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ContractDetailActivity extends AppCompatActivity implements SimpleRulerViewer.OnValueChangeListener {
 
@@ -127,7 +129,7 @@ public class ContractDetailActivity extends AppCompatActivity implements SimpleR
         btnValidate = findViewById(R.id.btnValidate);
         ruler.setOnValueChangeListener(this);
         ContractDetailViewModelFactory contractDetailViewModelFactory = ContractDetailViewModelFactory.createFactory(this, getIntent().getStringExtra("CONTRACT_ID"));
-        mDetailContractViewModel = ViewModelProviders.of(this, contractDetailViewModelFactory).get(DetailContractViewModel.class);
+        mDetailContractViewModel = new ViewModelProvider(this, contractDetailViewModelFactory).get(DetailContractViewModel.class);
         mDetailContractViewModel.setRole(getIntent().getStringExtra("ROLE"));
         mDetailContractViewModel.getContract().observe(this, new Observer<Contract>() {
             @Override
@@ -139,7 +141,8 @@ public class ContractDetailActivity extends AppCompatActivity implements SimpleR
 
     private void showContractDetail(Contract contract, String role) {
         if (contract != null) {
-            CircleView ivIcon = findViewById(R.id.ivIcon);
+            CircleImageView ivIcon = findViewById(R.id.ivIcon);
+            TextView tvIconText = findViewById(R.id.tvIconText);
             TextView tvStatus = findViewById(R.id.tvStatus);
             TextView tvSex = findViewById(R.id.tvSex);
             TextView tvName = findViewById(R.id.tvName);
@@ -294,29 +297,29 @@ public class ContractDetailActivity extends AppCompatActivity implements SimpleR
             etLocation.setText(contract.getChildAddress());
             etPhoneContact.setText(contract.getChildPhoneContract());
             spPoint.setText(contract.getPointFullName());
-            ivIcon.setTitleText(contract.getPercentage() + "%");
+            tvIconText.setText(contract.getPercentage() + "%");
             if (contract.getPercentage() < 50) {
-                ivIcon.setTitleText(getResources().getString(R.string.normopeso_abrev));
-                ivIcon.setFillColor(getResources().getColor(R.color.colorPrimaryDark));
-                ivIcon.setStrokeColor(getResources().getColor(R.color.colorPrimaryDark));
+                tvIconText.setText(getResources().getString(R.string.normopeso_abrev));
+                ivIcon.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+                ivIcon.setBorderColor(getResources().getColor(R.color.colorPrimaryDark));
                 tvStatus.setText(getResources().getString(R.string.normopeso));
                 tvStatus.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
             } else if (contract.getPercentage() == 50) {
-                ivIcon.setTitleText(getResources().getString(R.string.moderate_acute_malnutrition_abrev));
-                ivIcon.setFillColor(getResources().getColor(R.color.orange));
-                ivIcon.setStrokeColor(getResources().getColor(R.color.orange));
+                tvIconText.setText(getResources().getString(R.string.moderate_acute_malnutrition_abrev));
+                ivIcon.setCircleBackgroundColor(getResources().getColor(R.color.orange));
+                ivIcon.setBorderColor(getResources().getColor(R.color.orange));
                 tvStatus.setText(getResources().getString(R.string.moderate_acute_malnutrition));
                 tvStatus.setTextColor(getResources().getColor(R.color.orange));
             } else {
-                ivIcon.setTitleText(getResources().getString(R.string.severe_acute_malnutrition_abrev));
-                ivIcon.setFillColor(getResources().getColor(R.color.error));
-                ivIcon.setStrokeColor(getResources().getColor(R.color.error));
+                tvIconText.setText(getResources().getString(R.string.severe_acute_malnutrition_abrev));
+                ivIcon.setCircleBackgroundColor(getResources().getColor(R.color.error));
+                ivIcon.setBorderColor(getResources().getColor(R.color.error));
                 tvStatus.setText(getResources().getString(R.string.severe_acute_malnutrition));
                 tvStatus.setTextColor(getResources().getColor(R.color.error));
             }
             if (contract.getStatus().equals(Contract.Status.ADMITTED.name())) {
-                ivIcon.setFillColor(getResources().getColor(R.color.violet));
-                ivIcon.setStrokeColor(getResources().getColor(R.color.violet));
+                ivIcon.setCircleBackgroundColor(getResources().getColor(R.color.violet));
+                ivIcon.setBorderColor(getResources().getColor(R.color.violet));
                 tvStatus.setText(getResources().getString(R.string.admitted));
                 tvStatus.setTextColor(getResources().getColor(R.color.violet));
                 etConfirmationDate.setVisibility(View.VISIBLE);
@@ -331,8 +334,8 @@ public class ContractDetailActivity extends AppCompatActivity implements SimpleR
                     System.out.println("error parsing confirmation date");
                 }
             } else if (contract.getStatus().equals(Contract.Status.REFERED_NOT_VALIDATED.name())) {
-                ivIcon.setFillColor(getResources().getColor(R.color.colorPrimary));
-                ivIcon.setStrokeColor(getResources().getColor(R.color.colorPrimary));
+                ivIcon.setCircleBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                ivIcon.setBorderColor(getResources().getColor(R.color.colorPrimary));
                 tvStatus.setText(getResources().getString(R.string.refered_not_validated));
                 tvStatus.setTextColor(getResources().getColor(R.color.colorPrimary));
                 etConfirmationDate.setVisibility(View.VISIBLE);
@@ -347,8 +350,8 @@ public class ContractDetailActivity extends AppCompatActivity implements SimpleR
                     System.out.println("error parsing confirmation date");
                 }
             } else if (contract.getStatus().equals(Contract.Status.REFERED_ABSENT.name())) {
-                ivIcon.setFillColor(getResources().getColor(R.color.error));
-                ivIcon.setStrokeColor(getResources().getColor(R.color.error));
+                ivIcon.setCircleBackgroundColor(getResources().getColor(R.color.error));
+                ivIcon.setBorderColor(getResources().getColor(R.color.error));
                 tvStatus.setText(getResources().getString(R.string.refered_absent));
                 tvStatus.setTextColor(getResources().getColor(R.color.error));
                 etConfirmationDate.setVisibility(View.VISIBLE);
@@ -363,9 +366,9 @@ public class ContractDetailActivity extends AppCompatActivity implements SimpleR
                     System.out.println("error parsing confirmation date");
                 }
             } else if (contract.getStatus().equals(Contract.Status.DUPLICATED.name())) {
-                ivIcon.setTitleText(getResources().getString(R.string.duplicated_abrev));
-                ivIcon.setFillColor(getResources().getColor(R.color.rose));
-                ivIcon.setStrokeColor(getResources().getColor(R.color.rose));
+                tvIconText.setText(getResources().getString(R.string.duplicated_abrev));
+                ivIcon.setCircleBackgroundColor(getResources().getColor(R.color.rose));
+                ivIcon.setBorderColor(getResources().getColor(R.color.rose));
                 tvStatus.setText(getResources().getString(R.string.duplicated));
                 tvStatus.setTextColor(getResources().getColor(R.color.rose));
             }
@@ -378,7 +381,7 @@ public class ContractDetailActivity extends AppCompatActivity implements SimpleR
                 btnConfirm.setEnabled(false);
                 btnConfirm.setClickable(false);
                 btnConfirm.setVisibility(View.INVISIBLE);
-                btnConfirm.setBackgroundColor(this.getResources().getColor(com.stepstone.stepper.R.color.ms_material_grey_400));
+                btnConfirm.setBackgroundColor(this.getResources().getColor(R.color.frutorial_title));
             }
 
             if ((contract.getTutorStatus() != null && !contract.getTutorStatus().equals("")) || contract.getSex() == null || contract.getSex().equals("")) {

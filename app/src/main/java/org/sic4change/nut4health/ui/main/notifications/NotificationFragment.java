@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -61,7 +61,7 @@ public class NotificationFragment extends Fragment implements SwipeRefreshLayout
     }
 
     private void initData() {
-        mMainViewModel = ViewModelProviders.of(getActivity()).get(MainViewModel.class);
+        mMainViewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
 
         mMainViewModel.getCurrentUser().observe(getActivity(), user -> {
             if (user != null) {

@@ -1,2 +1,23 @@
-include ':app', ':country_selector', ':animation_check'
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        maven { url 'https://jitpack.io' }
+    }
+}
+
+rootProject.name = "NUT4Health"
+include ':app'
+include ':animation_check'
+include ':country_selector'
 include ':maplocationpicker'
+include ':material-stepper'

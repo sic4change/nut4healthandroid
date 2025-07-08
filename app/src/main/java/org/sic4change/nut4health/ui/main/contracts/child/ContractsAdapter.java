@@ -6,13 +6,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.paging.PagedListAdapter;
 import androidx.recyclerview.widget.DiffUtil;
+import androidx.paging.PagingDataAdapter;
 
 import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.data.entities.Contract;
 
-public class ContractsAdapter extends PagedListAdapter<Contract, ContractViewHolder> {
+public class ContractsAdapter extends PagingDataAdapter<Contract, ContractViewHolder> {
 
     private ItemAction mItemOnClickAction;
 

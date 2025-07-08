@@ -48,24 +48,26 @@
             android:layout_height="wrap_content"
             android:background="@color/white">
 
-            <com.github.pavlospt.CircleView xmlns:app="http://schemas.android.com/apk/res-auto"
+            <de.hdodenhof.circleimageview.CircleImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/tvPercentageItem"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                app:cv_backgroundColorValue="@color/white"
-                app:cv_fillColor="@color/white"
-                app:cv_fillRadius="0.9"
-                app:cv_strokeColorValue="@color/ms_errorColor"
-                app:cv_strokeWidthSize="5"
-                app:cv_subtitleColor="@color/colorAccent"
-                app:cv_subtitleSize="0dp"
-                app:cv_titleColor="@color/white"
-                app:cv_titleSize="25dp"
-                app:cv_titleText="50%"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="16dp"/>
+
+            <TextView
+                android:id="@+id/tvIconText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="50%"
+                android:textColor="@color/colorPrimary"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toTopOf="@id/tvPercentageItem"
+                app:layout_constraintBottom_toBottomOf="@id/tvPercentageItem"
+                app:layout_constraintStart_toStartOf="@id/tvPercentageItem"
+                app:layout_constraintEnd_toEndOf="@id/tvPercentageItem" />
 
             <TextView
                 android:id="@+id/tvStatus"

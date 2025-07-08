@@ -14,12 +14,9 @@ import android.widget.Spinner;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
-import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeErrorDialog;
-import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeSuccessDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
@@ -39,6 +36,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Calendar;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import ru.slybeaver.slycalendarview.SlyCalendarDialog;
 
 import static maes.tech.intentanim.CustomIntent.customType;
@@ -175,7 +173,7 @@ public class ContractFragment extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
                     case 0:
-                        ivStatus.setBackgroundColor(getResources().getColor(com.stepstone.stepper.R.color.ms_black_38_opacity));
+                        ivStatus.setBackgroundColor(getResources().getColor(R.color.black));
                         break;
                     case 1:
                         ivStatus.setBackgroundColor(getResources().getColor(R.color.violet));
@@ -203,14 +201,12 @@ public class ContractFragment extends Fragment {
 
             }
         });
-        //mMainViewModel = ViewModelProviders.of(getActivity()).get(MainViewModel.class);
 
         return view;
     }
 
     private void initData() {
-        System.out.println("Aqui iniciando data");
-        mMainViewModel = ViewModelProviders.of(getActivity()).get(MainViewModel.class);
+        mMainViewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
         mMainViewModel.initContracts(mMainViewModel.getUser().getEmail(), mMainViewModel.getUser().getRole());
         mMainViewModel.getIsFiltered().observe(getActivity(), filtered -> {
             try {
@@ -246,7 +242,7 @@ public class ContractFragment extends Fragment {
     }
 
     private void exportContractsToExcel() {
-            mMainViewModel.getContracts().observe(getActivity(), contracts -> {
+            mMainViewModel.getAllContractsForExport().observe(getActivity(), contracts -> {
                 if (exportContract) {
                     Workbook workbook = new XSSFWorkbook();
                     Sheet sheet = workbook.createSheet(getString(R.string.contracts));
@@ -311,24 +307,27 @@ public class ContractFragment extends Fragment {
     }
 
     public void showDialogExportContractsResult() {
-        new AwesomeSuccessDialog(getActivity())
-                .setTitle(getResources().getString(R.string.app_name))
-                .setMessage(getResources().getString(R.string.contracts_exported_ok))
-                .setPositiveButtonText(getResources().getString(R.string.ok))
-                .setPositiveButtonClick(() -> {
+        new SweetAlertDialog(getActivity())
+                .setTitleText(getResources().getString(R.string.app_name))
+                .setContentText(getResources().getString(R.string.contracts_exported_ok))
+                .setConfirmText(getResources().getString(R.string.ok))
+                .setConfirmClickListener(sweetAlertDialog -> {
+                    sweetAlertDialog.dismissWithAnimation();
                     openFile();
                 })
                 .show();
     }
 
     public void showDialogErrorExportContractsResult() {
-        new AwesomeErrorDialog(getActivity())
-                .setTitle(getResources().getString(R.string.app_name))
-                .setMessage(getResources().getString(R.string.contracts_exported_error))
-                .setButtonText(getResources().getString(R.string.ok))
-                .setErrorButtonClick(() -> {
+        new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE)
+                .setTitleText(getResources().getString(R.string.app_name))
+                .setContentText(getResources().getString(R.string.contracts_exported_error))
+                .setConfirmText(getResources().getString(R.string.ok))
+                .setCancelClickListener(sweetAlertDialog -> {
+                    sweetAlertDialog.dismissWithAnimation();
 
-                }).show();
+                })
+                .show();
     }
 
     private void openFile() {

@@ -17,12 +17,10 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.paging.PagedList;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.github.marlonlom.utilities.timeago.TimeAgo;
 import com.github.marlonlom.utilities.timeago.TimeAgoMessages;
-import com.github.pavlospt.CircleView;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -39,9 +37,12 @@ import org.sic4change.nut4health.ui.main.MainViewModel;
 import org.sic4change.nut4health.utils.location.Nut4HealthSingleShotLocationProvider;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import static maes.tech.intentanim.CustomIntent.customType;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class ContractsMapFragment extends Fragment implements OnMapReadyCallback {
@@ -57,7 +58,8 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
     private TextView tvSex;
     private TextView nChildName;
     private TextView nChildLocation;
-    private CircleView nPercentage;
+    private CircleImageView nPercentage;
+    private TextView tvIconText;
     private TextView nDate;
     private TextView nConfirmationDate;
 
@@ -81,6 +83,7 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
         nChildName = view.findViewById(R.id.tvNameItem);
         nChildLocation = view.findViewById(R.id.tvLocationItem);
         nPercentage = view.findViewById(R.id.tvPercentageItem);
+        tvIconText = view.findViewById(R.id.tvIconText);
         nDate = view.findViewById(R.id.tvDateItem);
         nConfirmationDate = view.findViewById(R.id.tvDateConfirmationItem);
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
@@ -98,11 +101,11 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
 
 
     private void initData() {
-        mMainViewModel = ViewModelProviders.of(getActivity()).get(MainViewModel.class);
+        mMainViewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
 
         try {
             mMainViewModel.getIsFiltered().observe(getActivity(), filtered ->{
-                mMainViewModel.getContracts().observe(getActivity(), contracts -> {
+                mMainViewModel.getAllContracts().observe(getActivity(), contracts -> {
                     showContracts(contracts);
                     showContractsNumber(contracts);
                 });
@@ -116,15 +119,13 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
                 mMainViewModel.getPercentageMin(), mMainViewModel.getPercentageMax());
     }
 
-    private void showContractsNumber(PagedList<Contract> contracts) {
-        try {
+    private void showContractsNumber(List<Contract> contracts) {
+        if (contracts != null) {
             tvTotalCasesMap.setText(getString(R.string.showing) + " " + contracts.size() + " " + getString(R.string.diagnosis_show));
-        } catch (Exception e) {
-            System.out.println("null contracts");
         }
     }
 
-    private void showContracts(PagedList<Contract> contracts) {
+    private void showContracts(List<Contract> contracts) {
         if (mMap != null) {
             mMap.clear();
             for (Contract contract : contracts) {
@@ -194,7 +195,7 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
         mMap.setOnMapClickListener(latLng -> cvContract.setVisibility(View.GONE));
         mMap.setOnMapLongClickListener(latLng -> cvContract.setVisibility(View.GONE));
         if (mMainViewModel.getContracts().getValue() != null) {
-            showContracts(mMainViewModel.getContracts().getValue());
+            showContracts(mMainViewModel.getAllContracts().getValue());
         }
     }
 
@@ -202,30 +203,26 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
         nChildName.setText(contract.getChildName() + " " + contract.getChildSurname());
         nChildLocation.setText(contract.getChildAddress());
         if (contract.getPercentage() < 50) {
-            nPercentage.setTitleText(getResources().getString(R.string.normopeso_abrev));
-            nPercentage.setFillColor(getResources().getColor(R.color.colorPrimaryDark));
-            nPercentage.setStrokeColor(getResources().getColor(R.color.colorPrimaryDark));
+            tvIconText.setText(getResources().getString(R.string.normopeso_abrev));
+            tvIconText.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
             nStatus.setText(getResources().getString(R.string.normopeso));
             nStatus.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
             nConfirmationDate.setVisibility(View.INVISIBLE);
         } else if (contract.getPercentage() == 50) {
-            nPercentage.setTitleText(getResources().getString(R.string.moderate_acute_malnutrition_abrev));
-            nPercentage.setFillColor(getResources().getColor(R.color.orange));
-            nPercentage.setStrokeColor(getResources().getColor(R.color.orange));
+            tvIconText.setText(getResources().getString(R.string.moderate_acute_malnutrition_abrev));
+            tvIconText.setTextColor(getResources().getColor(R.color.orange));
             nStatus.setText(getResources().getString(R.string.moderate_acute_malnutrition));
             nStatus.setTextColor(getResources().getColor(R.color.orange));
             nConfirmationDate.setVisibility(View.INVISIBLE);
         } else {
-            nPercentage.setTitleText(getResources().getString(R.string.severe_acute_malnutrition_abrev));
-            nPercentage.setFillColor(getResources().getColor(R.color.error));
-            nPercentage.setStrokeColor(getResources().getColor(R.color.error));
+            tvIconText.setText(getResources().getString(R.string.severe_acute_malnutrition_abrev));
+            tvIconText.setTextColor(getResources().getColor(R.color.error));
             nStatus.setText(getResources().getString(R.string.severe_acute_malnutrition));
             nStatus.setTextColor(getResources().getColor(R.color.error));
             nConfirmationDate.setVisibility(View.INVISIBLE);
         }
         if (contract.getStatus().equals(Contract.Status.ADMITTED.name())) {
-            nPercentage.setFillColor(getResources().getColor(R.color.violet));
-            nPercentage.setStrokeColor(getResources().getColor(R.color.violet));
+            tvIconText.setTextColor(getResources().getColor(R.color.violet));
             try {
                 Date date = new Date(contract.getMedicalDate());
                 Locale LocaleBylanguageTag = Locale.forLanguageTag("es");
@@ -239,8 +236,7 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
             nStatus.setTextColor(getResources().getColor(R.color.violet));
             nConfirmationDate.setVisibility(View.VISIBLE);
         } else if (contract.getStatus().equals(Contract.Status.REFERED_NOT_VALIDATED.name())) {
-            nPercentage.setFillColor(getResources().getColor(R.color.colorPrimary));
-            nPercentage.setStrokeColor(getResources().getColor(R.color.colorPrimary));
+            tvIconText.setTextColor(getResources().getColor(R.color.colorPrimary));
             try {
                 Date date = new Date(contract.getMedicalDate());
                 Locale LocaleBylanguageTag = Locale.forLanguageTag("es");
@@ -254,8 +250,7 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
             nStatus.setTextColor(getResources().getColor(R.color.colorPrimary));
             nConfirmationDate.setVisibility(View.VISIBLE);
         } else if (contract.getStatus().equals(Contract.Status.REFERED_ABSENT.name())) {
-            nPercentage.setFillColor(getResources().getColor(R.color.error));
-            nPercentage.setStrokeColor(getResources().getColor(R.color.error));
+            tvIconText.setTextColor(getResources().getColor(R.color.error));
             try {
                 Date date = new Date(contract.getMedicalDate());
                 Locale LocaleBylanguageTag = Locale.forLanguageTag("es");
@@ -269,9 +264,8 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
             nStatus.setTextColor(getResources().getColor(R.color.error));
             nConfirmationDate.setVisibility(View.VISIBLE);
         } else if (contract.getStatus().equals(Contract.Status.DUPLICATED.name())) {
-            nPercentage.setTitleText(getResources().getString(R.string.duplicated_abrev));
-            nPercentage.setFillColor(getResources().getColor(R.color.rose));
-            nPercentage.setStrokeColor(getResources().getColor(R.color.rose));
+            tvIconText.setText(getResources().getString(R.string.duplicated_abrev));
+            tvIconText.setTextColor(getResources().getColor(R.color.rose));
             nStatus.setText(getResources().getString(R.string.duplicated));
             nStatus.setTextColor(getResources().getColor(R.color.rose));
             nConfirmationDate.setVisibility(View.INVISIBLE);

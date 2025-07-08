@@ -6,17 +6,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.paging.PagedListAdapter;
+import androidx.paging.PagingDataAdapter;
 import androidx.recyclerview.widget.DiffUtil;
 
 import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.data.entities.Contract;
 
-public class FEFAContractsAdapter extends PagedListAdapter<Contract, FEFAContractViewHolder> {
+public class FEFAContractsAdapter extends PagingDataAdapter<Contract, FEFAContractViewHolder> {
 
+    private final Context context;
     private ItemAction mItemOnClickAction;
-
-    Context context;
 
     public FEFAContractsAdapter(Context context) {
         super(DIFF_CALLBACK);
@@ -30,6 +29,11 @@ public class FEFAContractsAdapter extends PagedListAdapter<Contract, FEFAContrac
     public void setItemOnClickAction(ItemAction itemOnClickAction) {
         mItemOnClickAction = itemOnClickAction;
     }
+
+    public int getItemCountSafe() {
+        return getItemCount();
+    }
+
 
     @NonNull
     @Override
@@ -48,18 +52,15 @@ public class FEFAContractsAdapter extends PagedListAdapter<Contract, FEFAContrac
         }
     }
 
-    private static final DiffUtil.ItemCallback<Contract> DIFF_CALLBACK =
-            new DiffUtil.ItemCallback<Contract>() {
-                @Override
-                public boolean areItemsTheSame(@NonNull Contract oldItem, @NonNull Contract newItem) {
-                    return oldItem.getId().equals(newItem.getId());
-                }
+    private static final DiffUtil.ItemCallback<Contract> DIFF_CALLBACK = new DiffUtil.ItemCallback<Contract>() {
+        @Override
+        public boolean areItemsTheSame(@NonNull Contract oldItem, @NonNull Contract newItem) {
+            return oldItem.getId().equals(newItem.getId());
+        }
 
-                @Override
-                public boolean areContentsTheSame(@NonNull Contract oldItem, @NonNull Contract newItem) {
-                    return oldItem.getId().equals(newItem.getId());
-                }
-            };
-
-
+        @Override
+        public boolean areContentsTheSame(@NonNull Contract oldItem, @NonNull Contract newItem) {
+            return oldItem.equals(newItem);
+        }
+    };
 }

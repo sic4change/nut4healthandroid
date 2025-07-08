@@ -18,7 +18,7 @@ import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -123,7 +123,7 @@ public class PaymentFragment extends Fragment implements SwipeRefreshLayout.OnRe
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
                     case 0:
-                        ivStatus.setBackgroundColor(getResources().getColor(com.stepstone.stepper.R.color.ms_black_38_opacity));
+                        ivStatus.setBackgroundColor(getResources().getColor(R.color.frutorial_title));
                         break;
                     case 1:
                         ivStatus.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
@@ -159,13 +159,8 @@ public class PaymentFragment extends Fragment implements SwipeRefreshLayout.OnRe
     }
 
     private void initData() {
-        mMainViewModel = ViewModelProviders.of(getActivity()).get(MainViewModel.class);
-        /*mMainViewModel.getCurrentUser().observe(getActivity(), user -> {
-            if (user != null) {
-                mMainViewModel.getContracts(user.getEmail(), user.getRole());
-                mMainViewModel.getPayments(user.getEmail());
-            }
-        });*/
+        mMainViewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
+
         mMainViewModel.getCurrentConfiguration().observe(getActivity(), config -> {
             if (config != null) {
                 paymentAdapter.setMoney(config.getMoney());

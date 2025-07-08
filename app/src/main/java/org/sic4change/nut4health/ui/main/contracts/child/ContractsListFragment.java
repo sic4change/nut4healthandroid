@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,12 +22,9 @@ import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.data.entities.Contract;
 import org.sic4change.nut4health.ui.contract_detail.ContractDetailActivity;
 import org.sic4change.nut4health.ui.main.MainViewModel;
-import org.sic4change.nut4health.ui.main.contracts.child.ContractsAdapter;
 
 import static maes.tech.intentanim.CustomIntent.customType;
 
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class ContractsListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
@@ -71,14 +68,11 @@ public class ContractsListFragment extends Fragment implements SwipeRefreshLayou
     }
 
     private void initData() {
-        mMainViewModel = ViewModelProviders.of(getActivity()).get(MainViewModel.class);
+        mMainViewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
 
         try {
-            mMainViewModel.getIsFiltered().observe(getActivity(), filtered ->{
-                mMainViewModel.getContracts().observe(getActivity(), contracts -> {
-                    showContracts(contracts);
-                    showContractNumber(contracts);
-                });
+            mMainViewModel.getContracts().observe(getViewLifecycleOwner(), pagingData -> {
+                contractsAdapter.submitData(getLifecycle(), pagingData);
             });
         } catch (Exception e) {
             System.out.println("error");
@@ -91,22 +85,6 @@ public class ContractsListFragment extends Fragment implements SwipeRefreshLayou
             tvTotalCasesList.setText(getString(R.string.showing) + " " + contracts.size() + " " + getString(R.string.diagnosis_show));
         } catch (Exception e) {
             System.out.println("null contracts");
-        }
-    }
-
-
-    private void showContracts(PagedList<Contract> contracts) {
-        if (contractsAdapter != null) {
-            contractsAdapter.submitList(contracts);
-            contractsAdapter.notifyDataSetChanged();
-            if (contracts.size() > 0) {
-                ivEmptyContracts.setVisibility(View.GONE);
-            } else {
-                ivEmptyContracts.setVisibility(View.VISIBLE);
-            }
-            if (swipe_container != null && swipe_container.isRefreshing()) {
-                swipe_container.setRefreshing(false);
-            }
         }
     }
 

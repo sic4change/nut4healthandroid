@@ -32,16 +32,12 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
-import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeInfoDialog;
-import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeSuccessDialog;
-import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeWarningDialog;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.rilixtech.widget.countrycodepicker.Country;
-import com.rilixtech.widget.countrycodepicker.CountryCodePicker;
+import com.hbb20.CountryCodePicker;
 import com.shivtechs.maplocationpicker.MapUtility;
 import com.stepstone.stepper.Step;
 import com.stepstone.stepper.VerificationError;
@@ -58,7 +54,6 @@ import org.sic4change.nut4health.data.entities.Point;
 import org.sic4change.nut4health.data.events.MessageEvent;
 import org.sic4change.nut4health.ui.create_contract.CreateContractViewModel;
 import org.sic4change.nut4health.ui.create_contract.CreateContractViewModelFactory;
-import org.sic4change.nut4health.ui.fingerprint.ScanActivity;
 import org.sic4change.nut4health.ui.serchablespinner.SearchableSpinner;
 import org.sic4change.nut4health.utils.Nut4HealthKeyboard;
 import org.sic4change.nut4health.utils.location.Nut4HealthSingleShotLocationProvider;
@@ -78,6 +73,7 @@ import java.util.Locale;
 import static android.app.Activity.RESULT_OK;
 import static maes.tech.intentanim.CustomIntent.customType;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import io.ghyeok.stickyswitch.widget.StickySwitch;
 
 public class StepCreateContractFragment extends Fragment implements Step, SimpleRulerViewer.OnValueChangeListener{
@@ -214,7 +210,7 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
         ivNewContract = v.findViewById(R.id.ivNewContract);
         spPoint = v.findViewById(R.id.spPoint);
         CreateContractViewModelFactory createContractViewModelFactory = CreateContractViewModelFactory.createFactory(getActivity());
-        mCreateContractViewModel = ViewModelProviders.of(getActivity(), createContractViewModelFactory).get(CreateContractViewModel.class);
+        mCreateContractViewModel = new ViewModelProvider(this, createContractViewModelFactory).get(CreateContractViewModel.class);
         mCreateContractViewModel.getUser().observe(getActivity(), user -> {
             try {
                 mCreateContractViewModel.setRole(user.getRole());
@@ -402,8 +398,9 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
         etChildLocation = v.findViewById(R.id.etChildLocation);
         cpp.setOnCountryChangeListener(new CountryCodePicker.OnCountryChangeListener() {
             @Override
-            public void onCountrySelected(Country selectedCountry) {
-                mCreateContractViewModel.setPhoneCode(selectedCountry.getPhoneCode());
+            public void onCountrySelected() {
+                String phoneCode = cpp.getSelectedCountryCode();
+                mCreateContractViewModel.setPhoneCode(phoneCode);
             }
         });
         clView = v.findViewById(R.id.clView);
@@ -478,19 +475,15 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
                     mCreateContractViewModel.getArmCircumference() < CreateContractViewModel.MINIUM_DESNUTRITION_VALUE_MUAC &&
             !mCreateContractViewModel.isDialerOpened()) {
                 mCreateContractViewModel.setDialerOpened(true);
-                new AwesomeInfoDialog(getActivity())
-                        .setColoredCircle(R.color.colorPrimaryDark)
-                        .setTitle("+" + mCreateContractViewModel.getPhoneCode() + mCreateContractViewModel.getChildPhoneContact())
-                        .setMessage(getString(R.string.check_phone_number))
-                        .setPositiveButtonbackgroundColor(R.color.colorPrimaryDark)
-                        .setPositiveButtonText(getResources().getString(R.string.ok))
-                        .setPositiveButtonClick(() -> {
+                new SweetAlertDialog(getActivity())
+                        .setTitleText("+" + mCreateContractViewModel.getPhoneCode() + mCreateContractViewModel.getChildPhoneContact())
+                        .setContentText(getString(R.string.check_phone_number))
+                        .setConfirmText(getResources().getString(R.string.ok))
+                        .setConfirmClickListener(sweetAlertDialog -> {
 
                         })
-                        .setNegativeButtonbackgroundColor(R.color.colorAccent)
-                        .setNegativeButtonTextColor(R.color.white)
-                        .setNegativeButtonText(getResources().getString(R.string.call))
-                        .setNegativeButtonClick(() -> {
+                        .setCancelText(getResources().getString(R.string.call))
+                        .setCancelClickListener(sweetAlertDialog -> {
                             openDialer();
                         })
                         .show();
@@ -641,14 +634,14 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
             if (!isGpsEnabled) {
                 openGpsEnableSetting();
             }
-        } else if (requestCode == REQUEST_TAKE_FINGERPRINT && resultCode == RESULT_OK){
+        } /*else if (requestCode == REQUEST_TAKE_FINGERPRINT && resultCode == RESULT_OK){
             byte[] fingerprint = data.getByteArrayExtra(ScanActivity.FINGERPRINT);
             if ((fingerprint != null) && (fingerprint.length > 0)) {
                 mCreateContractViewModel.setFingerPrint(fingerprint);
             } else {
                 mCreateContractViewModel.setFingerPrint(null);
             }
-        } else if (requestCode == ADDRESS_PICKER_REQUEST && resultCode == RESULT_OK){
+        }*/ else if (requestCode == ADDRESS_PICKER_REQUEST && resultCode == RESULT_OK){
             double currentLatitude = data.getDoubleExtra(MapUtility.LATITUDE, 0.0);
             double currentLongitude = data.getDoubleExtra(MapUtility.LONGITUDE, 0.0);
 
@@ -767,29 +760,32 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
 
             public void onFinish() {
                 if (eventResult.equals(getString(R.string.diagnosis_duplicated_30))) {
-                    new AwesomeWarningDialog(getActivity())
-                            .setTitle(getResources().getString(R.string.app_name))
-                            .setMessage(eventResult)
-                            .setButtonText(getResources().getString(R.string.ok))
-                            .setWarningButtonClick(() -> {
+                    new SweetAlertDialog(getActivity(), SweetAlertDialog.WARNING_TYPE)
+                            .setTitleText(getResources().getString(R.string.app_name))
+                            .setContentText(eventResult)
+                            .setConfirmText(getResources().getString(R.string.ok))
+                            .setConfirmClickListener(sweetAlertDialog -> {
+                                sweetAlertDialog.dismissWithAnimation();
                                 goToMainActivity();
                             })
                             .show();
                 } else if (eventResult.equals(getString(R.string.diagnosis_duplicated_7))) {
-                    new AwesomeWarningDialog(getActivity())
-                            .setTitle(getResources().getString(R.string.app_name))
-                            .setMessage(eventResult)
-                            .setButtonText(getResources().getString(R.string.ok))
-                            .setWarningButtonClick(() -> {
+                    new SweetAlertDialog(getActivity(), SweetAlertDialog.WARNING_TYPE)
+                            .setTitleText(getResources().getString(R.string.app_name))
+                            .setContentText(eventResult)
+                            .setConfirmText(getResources().getString(R.string.ok))
+                            .setConfirmClickListener(sweetAlertDialog -> {
+                                sweetAlertDialog.dismissWithAnimation();
                                 goToMainActivity();
                             })
                             .show();
                 } else {
-                    new AwesomeSuccessDialog(getActivity())
-                            .setTitle(getResources().getString(R.string.app_name))
-                            .setMessage(eventResult)
-                            .setPositiveButtonText(getResources().getString(R.string.ok))
-                            .setPositiveButtonClick(() -> {
+                    new SweetAlertDialog(getActivity(), SweetAlertDialog.SUCCESS_TYPE)
+                            .setTitleText(getResources().getString(R.string.app_name))
+                            .setContentText(eventResult)
+                            .setConfirmText(getResources().getString(R.string.ok))
+                            .setConfirmClickListener(sweetAlertDialog -> {
+                                sweetAlertDialog.dismissWithAnimation();
                                 goToMainActivity();
                             })
                             .show();
