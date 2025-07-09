@@ -200,7 +200,7 @@ public class CreateAccountActivity extends AppCompatActivity {
     }
 
     public void showDialogTermsAndConditions(View view) {
-        String url = "https://www.sic4change.org/politica-de-privacidad";
+        String url = "https://www.sic4change.org/politica-privacidad";
         Intent i = new Intent(Intent.ACTION_VIEW);
         i.setData(Uri.parse(url));
         startActivity(i);
