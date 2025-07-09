@@ -45,21 +45,21 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView tvName;
     private TextView tvSurname;
     private TextView tvCountry;
-    private CircleImageView ivUser;
-    private Nut4HealthTextAwesome ivEditPhoto;
-    private CircleImageView ivProfileUser;
+    //private CircleImageView ivUser;
+    //private Nut4HealthTextAwesome ivEditPhoto;
+    //private CircleImageView ivProfileUser;
 
     public static final int IMAGE_COMPRESS_QUALITY = 100;
     public static final int IMAGE_ASPECT_RATIO_X_Y = 3;
 
     private boolean created = false;
 
-    LayoutInflater inflater = LayoutInflater.from(this);
-    View dialogViewName = inflater.inflate(R.layout.dialog_edit_text_name, null);
-    View dialogViewSurname = inflater.inflate(R.layout.dialog_edit_text_surname, null);
+    LayoutInflater inflater;
+    View dialogViewName;
+    View dialogViewSurname;
 
-    EditText inputName = dialogViewName.findViewById(R.id.dialog_input_name);
-    EditText inputSurname = dialogViewSurname.findViewById(R.id.dialog_input_name);
+    EditText inputName;
+    EditText inputSurname;
 
 
     @Override
@@ -87,14 +87,14 @@ public class ProfileActivity extends AppCompatActivity {
         tvEmail.setText(user.getEmail());
         tvUsername.setText(user.getUsername());
         tvRole.setText(user.getRole());
-        if (user.getPhoto() != null && !user.getPhoto().isEmpty()) {
+        /*if (user.getPhoto() != null && !user.getPhoto().isEmpty()) {
             Glide.with(getApplicationContext())
                     .load(user.getPhoto())
                     .into(ivUser);
             ivEditPhoto.setVisibility(View.GONE);
         } else {
             ivEditPhoto.setVisibility(View.VISIBLE);
-        }
+        }*/
         if (user.getName() != null && !user.getName().isEmpty()) {
             tvName.setText(user.getName());
         }
@@ -114,15 +114,21 @@ public class ProfileActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
         }
+        inflater = LayoutInflater.from(this);
+        dialogViewName = inflater.inflate(R.layout.dialog_edit_text_name, null);
+        dialogViewSurname = inflater.inflate(R.layout.dialog_edit_text_surname, null);
+
+        inputName = dialogViewName.findViewById(R.id.dialog_input_name);
+        inputSurname = dialogViewSurname.findViewById(R.id.dialog_input_name);
         tvEmail = findViewById(R.id.tvProfileEmail);
         tvUsername = findViewById(R.id.tvProfileUsername);
         tvRole = findViewById(R.id.tvRole);
         tvName = findViewById(R.id.tvName);
         tvSurname = findViewById(R.id.tvSurname);
         tvCountry = findViewById(R.id.tvCountry);
-        ivUser = findViewById(R.id.ivProfileUser);
-        ivEditPhoto = findViewById(R.id.ivEditPhoto);
-        ivProfileUser = findViewById(R.id.ivProfileUser);
+        //ivUser = findViewById(R.id.ivProfileUser);
+        //ivEditPhoto = findViewById(R.id.ivEditPhoto);
+        //ivProfileUser = findViewById(R.id.ivProfileUser);
 
        dialogViewName = inflater.inflate(R.layout.dialog_edit_text_name, null);
        dialogViewSurname = inflater.inflate(R.layout.dialog_edit_text_surname, null);
@@ -157,7 +163,7 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK) {
+        /*if (resultCode == Activity.RESULT_OK) {
             Uri uri = data.getData();
             Glide.with(getApplicationContext())
                     .load(uri)
@@ -167,7 +173,7 @@ public class ProfileActivity extends AppCompatActivity {
             Toast.makeText(this, ImagePicker.getError(data), Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(this, "Task Cancelled", Toast.LENGTH_SHORT).show();
-        }
+        }*/
     }
 
     public void showDialogEditName(View view) {
