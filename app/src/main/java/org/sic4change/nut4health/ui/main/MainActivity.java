@@ -256,10 +256,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 else if (id == R.id.nav_report) {
                     fragment = new ReportFragment();
                     setTitle(R.string.report);
-                } else if (id == R.id.nav_help) {
-                    fragment = new EmptyFragment();
-                    setTitle(getString(R.string.help));
-                }
+                } 
                 fragmentManager.beginTransaction()
                         .replace(R.id.lyMainContent, fragment)
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
