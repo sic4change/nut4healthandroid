@@ -82,13 +82,13 @@ public class ReportFragment extends Fragment {
                             .setTitleText(getResources().getString(R.string.reportSend))
                             .setContentText(getResources().getString(R.string.reportSendDescription))
                             .setConfirmText(getResources().getString(R.string.ok))
-                            .setCancelClickListener(sweetAlertDialog -> {
+                            .setConfirmClickListener(sweetAlertDialog -> {
                                 etReport.setEnabled(true);
                                 etReport.setClickable(true);
                                 etReport.setText("");
                                 btnSendReport.setEnabled(true);
                                 btnSendReport.setClickable(true);
-                                cancel();
+                                sweetAlertDialog.dismissWithAnimation();
 
                             })
                             .show();
