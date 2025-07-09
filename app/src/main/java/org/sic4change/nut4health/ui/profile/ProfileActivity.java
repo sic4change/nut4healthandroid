@@ -1,6 +1,6 @@
 package org.sic4change.nut4health.ui.profile;
 
-import android.app.Activity;
+
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -12,15 +12,12 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.bumptech.glide.Glide;
-import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 
@@ -28,10 +25,8 @@ import org.sic4change.country_selector.CountryPicker;
 import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.data.entities.User;
 import org.sic4change.nut4health.ui.login.LoginActivity;
-import org.sic4change.nut4health.utils.view.Nut4HealthTextAwesome;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
-import de.hdodenhof.circleimageview.CircleImageView;
 
 import static maes.tech.intentanim.CustomIntent.customType;
 
@@ -45,9 +40,6 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView tvName;
     private TextView tvSurname;
     private TextView tvCountry;
-    //private CircleImageView ivUser;
-    //private Nut4HealthTextAwesome ivEditPhoto;
-    //private CircleImageView ivProfileUser;
 
     public static final int IMAGE_COMPRESS_QUALITY = 100;
     public static final int IMAGE_ASPECT_RATIO_X_Y = 3;
@@ -82,14 +74,6 @@ public class ProfileActivity extends AppCompatActivity {
         tvEmail.setText(user.getEmail());
         tvUsername.setText(user.getUsername());
         tvRole.setText(user.getRole());
-        /*if (user.getPhoto() != null && !user.getPhoto().isEmpty()) {
-            Glide.with(getApplicationContext())
-                    .load(user.getPhoto())
-                    .into(ivUser);
-            ivEditPhoto.setVisibility(View.GONE);
-        } else {
-            ivEditPhoto.setVisibility(View.VISIBLE);
-        }*/
         if (user.getName() != null && !user.getName().isEmpty()) {
             tvName.setText(user.getName());
         }
@@ -116,9 +100,6 @@ public class ProfileActivity extends AppCompatActivity {
         tvName = findViewById(R.id.tvName);
         tvSurname = findViewById(R.id.tvSurname);
         tvCountry = findViewById(R.id.tvCountry);
-        //ivUser = findViewById(R.id.ivProfileUser);
-        //ivEditPhoto = findViewById(R.id.ivEditPhoto);
-        //ivProfileUser = findViewById(R.id.ivProfileUser);
 
     }
 
@@ -139,28 +120,10 @@ public class ProfileActivity extends AppCompatActivity {
         getSupportFragmentManager().popBackStackImmediate();
     }
 
-    public void changePhoto(View view) {
-        ImagePicker.with(this)
-                .crop()	    			//Crop image(Optional), Check Customization for more option
-                .compress(1024)			//Final image size will be less than 1 MB(Optional)
-                .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
-                .start();
-    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        /*if (resultCode == Activity.RESULT_OK) {
-            Uri uri = data.getData();
-            Glide.with(getApplicationContext())
-                    .load(uri)
-                    .into(ivUser);
-            mProfileViewModel.changePhoto(tvEmail.getText().toString(), tvUsername.getText().toString(), uri.getPath());
-        } else if (resultCode == ImagePicker.RESULT_ERROR) {
-            Toast.makeText(this, ImagePicker.getError(data), Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, "Task Cancelled", Toast.LENGTH_SHORT).show();
-        }*/
     }
 
     public void showDialogEditName(View view) {
@@ -186,7 +149,6 @@ public class ProfileActivity extends AppCompatActivity {
                 .show();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public void showDialogEditSurname(View view) {
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_edit_text_surname, null);
 
@@ -224,6 +186,28 @@ public class ProfileActivity extends AppCompatActivity {
 
     public void showToastChangePassword(View view) {
         new SweetAlertDialog(this)
+                .setConfirmButtonBackgroundColor(getResources().getColor(R.color.colorPrimary))
+                .setTitleText(getResources().getString(R.string.app_name))
+                .setContentText(getResources().getString(R.string.sent_instructions_to_change_password))
+                .setConfirmText(getResources().getString(R.string.ok))
+                .setConfirmClickListener(dialog -> {
+                    dialog.dismissWithAnimation();
+                    mProfileViewModel.resetPassword(tvEmail.getText().toString());
+                    new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
+                            .setConfirmButtonBackgroundColor(getResources().getColor(R.color.colorPrimary))
+                            .setTitleText(getResources().getString(R.string.app_name))
+                            .setContentText(getResources().getString(R.string.sent_instructions_to_change_password_ok))
+                            .setConfirmText(getResources().getString(R.string.ok))
+                            .setConfirmClickListener(sweetAlertDialog -> {
+                                sweetAlertDialog.dismissWithAnimation();
+                            })
+                            .show();
+                })
+                .show();
+    }
+
+    /*public void showToastChangePassword(View view) {
+        new SweetAlertDialog(this)
                 .setTitleText(getResources().getString(R.string.app_name))
                 .setContentText(getResources().getString(R.string.sent_instructions_to_change_password))
                 .setConfirmText(getResources().getString(R.string.ok))
@@ -239,7 +223,7 @@ public class ProfileActivity extends AppCompatActivity {
                             .show();
                 })
                 .show();
-    }
+    }*/
 
     private void goToLoginActivity() {
         Intent intent = new Intent(this, LoginActivity.class);

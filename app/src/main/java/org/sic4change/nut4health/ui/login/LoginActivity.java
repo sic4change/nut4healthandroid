@@ -182,40 +182,6 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-/*    public void showToastChangePassword() {
-        final LoginActivity context = this;
-        new SweetAlertDialog(this)
-                .setTitleText(getResources().getString(R.string.app_name))
-                .setContentText(getResources().getString(R.string.sent_instructions_to_change_password))
-                .setConfirmText(getResources().getString(R.string.ok))
-                .setConfirmClickListener(dialog -> {
-                    dialog.dismissWithAnimation();
-                    mLoginViewModel.resetPassword(etEmail.getText().toString());
-                    new SweetAlertDialog(this)
-                            .setConfirmButtonBackgroundColor(getResources().getColor(R.color.colorPrimary))
-                            .setTitleText(getResources().getString(R.string.app_name))
-                            .setContentText(getResources().getString(R.string.sent_instructions_to_change_password))
-                            .setConfirmText(getResources().getString(R.string.ok))
-                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                @Override
-                                public void onClick(SweetAlertDialog sDialog) {
-                                    sDialog.dismissWithAnimation();
-                                    new SweetAlertDialog(context, SweetAlertDialog.SUCCESS_TYPE)
-                                            .setConfirmButtonBackgroundColor(getResources().getColor(R.color.colorPrimary))
-                                            .setTitleText(getResources().getString(R.string.app_name))
-                                            .setContentText(getResources().getString(R.string.sent_instructions_to_change_password_ok))
-                                            .setConfirmText(getResources().getString(R.string.ok))
-                                            .setConfirmClickListener(sweetAlertDialog -> {
-                                                sDialog.dismissWithAnimation();
-                                            })
-                                            .show();
-                                }
-                            })
-                            .show();
-                })
-                .show();
-    }*/
-
     public void showToastChangePassword() {
         final LoginActivity context = this;
         new SweetAlertDialog(this)
