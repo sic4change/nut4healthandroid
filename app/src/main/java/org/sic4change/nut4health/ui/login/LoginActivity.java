@@ -182,7 +182,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    public void showToastChangePassword() {
+/*    public void showToastChangePassword() {
         final LoginActivity context = this;
         new SweetAlertDialog(this)
                 .setTitleText(getResources().getString(R.string.app_name))
@@ -192,6 +192,7 @@ public class LoginActivity extends AppCompatActivity {
                     dialog.dismissWithAnimation();
                     mLoginViewModel.resetPassword(etEmail.getText().toString());
                     new SweetAlertDialog(this)
+                            .setConfirmButtonBackgroundColor(getResources().getColor(R.color.colorPrimary))
                             .setTitleText(getResources().getString(R.string.app_name))
                             .setContentText(getResources().getString(R.string.sent_instructions_to_change_password))
                             .setConfirmText(getResources().getString(R.string.ok))
@@ -200,6 +201,7 @@ public class LoginActivity extends AppCompatActivity {
                                 public void onClick(SweetAlertDialog sDialog) {
                                     sDialog.dismissWithAnimation();
                                     new SweetAlertDialog(context, SweetAlertDialog.SUCCESS_TYPE)
+                                            .setConfirmButtonBackgroundColor(getResources().getColor(R.color.colorPrimary))
                                             .setTitleText(getResources().getString(R.string.app_name))
                                             .setContentText(getResources().getString(R.string.sent_instructions_to_change_password_ok))
                                             .setConfirmText(getResources().getString(R.string.ok))
@@ -208,6 +210,29 @@ public class LoginActivity extends AppCompatActivity {
                                             })
                                             .show();
                                 }
+                            })
+                            .show();
+                })
+                .show();
+    }*/
+
+    public void showToastChangePassword() {
+        final LoginActivity context = this;
+        new SweetAlertDialog(this)
+                .setConfirmButtonBackgroundColor(getResources().getColor(R.color.colorPrimary))
+                .setTitleText(getResources().getString(R.string.app_name))
+                .setContentText(getResources().getString(R.string.sent_instructions_to_change_password))
+                .setConfirmText(getResources().getString(R.string.ok))
+                .setConfirmClickListener(dialog -> {
+                    dialog.dismissWithAnimation();
+                    mLoginViewModel.resetPassword(etEmail.getText().toString());
+                    new SweetAlertDialog(context, SweetAlertDialog.SUCCESS_TYPE)
+                            .setConfirmButtonBackgroundColor(getResources().getColor(R.color.colorPrimary))
+                            .setTitleText(getResources().getString(R.string.app_name))
+                            .setContentText(getResources().getString(R.string.sent_instructions_to_change_password_ok))
+                            .setConfirmText(getResources().getString(R.string.ok))
+                            .setConfirmClickListener(sweetAlertDialog -> {
+                                sweetAlertDialog.dismissWithAnimation();
                             })
                             .show();
                 })
