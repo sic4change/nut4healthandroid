@@ -15,7 +15,7 @@
 
     <EditText
         android:id="@+id/dialog_input_name"
-        android:hint="@string/name"
+        android:hint="@string/edit_name"
         android:layout_marginTop="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

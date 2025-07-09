@@ -7,14 +7,14 @@
 
     <TextView
         android:id="@+id/dialog_name"
-        android:text="@string/edit_name"
+        android:text="@string/edit_surname"
         android:textSize="16sp"
         android:textColor="@color/ms_material_grey_400"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <EditText
-        android:id="@+id/dialog_input_name"
+        android:id="@+id/dialog_input_surname"
         android:hint="@string/name"
         android:layout_marginTop="16dp"
         android:layout_width="match_parent"

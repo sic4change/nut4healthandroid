@@ -55,11 +55,6 @@ public class ProfileActivity extends AppCompatActivity {
     private boolean created = false;
 
     LayoutInflater inflater;
-    View dialogViewName;
-    View dialogViewSurname;
-
-    EditText inputName;
-    EditText inputSurname;
 
 
     @Override
@@ -115,11 +110,6 @@ public class ProfileActivity extends AppCompatActivity {
             window.setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
         }
         inflater = LayoutInflater.from(this);
-        dialogViewName = inflater.inflate(R.layout.dialog_edit_text_name, null);
-        dialogViewSurname = inflater.inflate(R.layout.dialog_edit_text_surname, null);
-
-        inputName = dialogViewName.findViewById(R.id.dialog_input_name);
-        inputSurname = dialogViewSurname.findViewById(R.id.dialog_input_name);
         tvEmail = findViewById(R.id.tvProfileEmail);
         tvUsername = findViewById(R.id.tvProfileUsername);
         tvRole = findViewById(R.id.tvRole);
@@ -129,9 +119,6 @@ public class ProfileActivity extends AppCompatActivity {
         //ivUser = findViewById(R.id.ivProfileUser);
         //ivEditPhoto = findViewById(R.id.ivEditPhoto);
         //ivProfileUser = findViewById(R.id.ivProfileUser);
-
-       dialogViewName = inflater.inflate(R.layout.dialog_edit_text_name, null);
-       dialogViewSurname = inflater.inflate(R.layout.dialog_edit_text_surname, null);
 
     }
 
@@ -177,15 +164,22 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     public void showDialogEditName(View view) {
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_edit_text_name, null);
+
+        final EditText inputNameInDialog = dialogView.findViewById(R.id.dialog_input_name);
+        try {
+            inputNameInDialog.setText(mProfileViewModel.getCurrentUser().getValue().getName());
+        } catch (Exception e) {
+            inputNameInDialog.setText("");
+        }
         new MaterialAlertDialogBuilder(this)
-                .setView(dialogViewName)
+                .setView(dialogView)
                 .setCancelable(true)
                 .setPositiveButton(getString(R.string.ok), (dialog, which) -> {
-                    String input = inputName.getText().toString().trim();
+                    String input = inputNameInDialog.getText().toString().trim();
+
                     if (!input.isEmpty()) {
-                        if (input != null && !input.isEmpty()) {
-                            mProfileViewModel.updateName(tvEmail.getText().toString(), input.substring(0, 1).toUpperCase() + input.substring(1).toLowerCase());
-                        }
+                        mProfileViewModel.updateName(tvEmail.getText().toString(), input);
                     }
                 })
                 .setNegativeButton(android.R.string.cancel, null)
@@ -194,15 +188,22 @@ public class ProfileActivity extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void showDialogEditSurname(View view) {
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_edit_text_surname, null);
+
+        final EditText inputSurnameInDialog = dialogView.findViewById(R.id.dialog_input_surname);
+        try {
+            inputSurnameInDialog.setText(mProfileViewModel.getCurrentUser().getValue().getSurname());
+        } catch (Exception e) {
+            inputSurnameInDialog.setText("");
+        }
         new MaterialAlertDialogBuilder(this)
-                .setView(dialogViewSurname)
+                .setView(dialogView)
                 .setCancelable(true)
                 .setPositiveButton(getString(R.string.ok), (dialog, which) -> {
-                    String input = inputSurname.getText().toString().trim();
+                    String input = inputSurnameInDialog.getText().toString().trim();
+
                     if (!input.isEmpty()) {
-                        if (input != null && !input.isEmpty()) {
-                            mProfileViewModel.updateSurname(tvEmail.getText().toString(), input.substring(0, 1).toUpperCase() + input.substring(1).toLowerCase());
-                        }
+                        mProfileViewModel.updateSurname(tvEmail.getText().toString(), input);
                     }
                 })
                 .setNegativeButton(android.R.string.cancel, null)
