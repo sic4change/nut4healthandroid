@@ -69,7 +69,6 @@ public class CreateContractViewModel extends ViewModel {
     private boolean dialerOpened = false;
 
     public CreateContractViewModel(DataRepository repository) {
-        Log.d("Aqui ViewModelLifecycle", "--- UN NUEVO VIEWMODEL HA SIDO CREADO ---");
         this.mRepository = repository;
         mUser = this.mRepository.getCurrentUser();
 

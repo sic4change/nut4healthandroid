@@ -205,8 +205,9 @@ public class StepCreateFEFAContractFragment extends Fragment implements Step, Si
         btnCheckMalnutrition = v.findViewById(R.id.btnCheckMalnutrition);
         ivNewContract = v.findViewById(R.id.ivNewContract);
         spPoint = v.findViewById(R.id.spPoint);
-        CreateContractViewModelFactory createFEFAContractViewModelFactory = CreateContractViewModelFactory.createFactory(getActivity());
-        mCreateFEFAContractViewModel = new ViewModelProvider(this, createFEFAContractViewModelFactory).get(CreateContractViewModel.class);
+        mCreateFEFAContractViewModel = new ViewModelProvider(requireActivity(),
+                CreateContractViewModelFactory.createFactory(getActivity()))
+                .get(CreateContractViewModel.class);
         mCreateFEFAContractViewModel.getUser().observe(getActivity(), user -> {
             try {
                 mCreateFEFAContractViewModel.setRole(user.getRole());
