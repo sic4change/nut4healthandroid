@@ -29,6 +29,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
@@ -206,11 +207,23 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
 
             }
         });
+        tvPercentage = v.findViewById(R.id.tvPercentage);
+        tvCm = v.findViewById(R.id.tvCm);
+        cvChild = v.findViewById(R.id.cvChild);
+        etChildName = v.findViewById(R.id.etChildName);
+        etChildSurname = v.findViewById(R.id.etChildSurname);
+        etChildBrothers = v.findViewById(R.id.etBrothers);
+        etChildBirthdate = v.findViewById(R.id.etChildBirthdate);
+        tvChildBirthdateResult = v.findViewById(R.id.tvChildBirthdateResult);
+        etTutorBirthdate = v.findViewById(R.id.etTutorBirthdate);
+        tvTutorBirthdateResult = v.findViewById(R.id.tvTutorBirthdateResult);
+        etTutorDNI = v.findViewById(R.id.etTutorDNI);
         btnCheckMalnutrition = v.findViewById(R.id.btnCheckMalnutrition);
         ivNewContract = v.findViewById(R.id.ivNewContract);
         spPoint = v.findViewById(R.id.spPoint);
-        CreateContractViewModelFactory createContractViewModelFactory = CreateContractViewModelFactory.createFactory(getActivity());
-        mCreateContractViewModel = new ViewModelProvider(this, createContractViewModelFactory).get(CreateContractViewModel.class);
+        mCreateContractViewModel = new ViewModelProvider(requireActivity(),
+                CreateContractViewModelFactory.createFactory(getActivity()))
+                .get(CreateContractViewModel.class);
         mCreateContractViewModel.getUser().observe(getActivity(), user -> {
             try {
                 mCreateContractViewModel.setRole(user.getRole());
@@ -262,13 +275,16 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
             btnCheckMalnutrition.setVisibility(View.GONE);
             ivNewContract.setVisibility(View.GONE);
             clView.startDeterminate();
+
             mCreateContractViewModel.getUser().observe(getActivity(), user -> {
                 if ((mCreateContractViewModel != null) && (user != null)) {
                     mCreateContractViewModel.createContract(user.getId(),
                             user.getRole(),
                             user.getEmail(),
-                            mCreateContractViewModel.getLocation().latitude, mCreateContractViewModel.getLocation().longitude,
-                            mCreateContractViewModel.getUriPhoto(), mCreateContractViewModel.getChildName(),
+                            mCreateContractViewModel.getLocation().latitude,
+                            mCreateContractViewModel.getLocation().longitude,
+                            mCreateContractViewModel.getUriPhoto(),
+                            mCreateContractViewModel.getChildName(),
                             mCreateContractViewModel.getChildSurname(),
                             mCreateContractViewModel.getSex(),
                             mCreateContractViewModel.getChildBirthdate(),
@@ -297,17 +313,7 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
             clView.stopOk();
 
         });
-        tvPercentage = v.findViewById(R.id.tvPercentage);
-        tvCm = v.findViewById(R.id.tvCm);
-        cvChild = v.findViewById(R.id.cvChild);
-        etChildName = v.findViewById(R.id.etChildName);
-        etChildSurname = v.findViewById(R.id.etChildSurname);
-        etChildBrothers = v.findViewById(R.id.etBrothers);
-        etChildBirthdate = v.findViewById(R.id.etChildBirthdate);
-        tvChildBirthdateResult = v.findViewById(R.id.tvChildBirthdateResult);
-        etTutorBirthdate = v.findViewById(R.id.etTutorBirthdate);
-        tvTutorBirthdateResult = v.findViewById(R.id.tvTutorBirthdateResult);
-        etTutorDNI = v.findViewById(R.id.etTutorDNI);
+
 
         etChildBirthdate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -424,6 +430,16 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
     }
 
     @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+    }
+
+    @Override
     public void onStart() {
         super.onStart();
         EventBus.getDefault().register(this);
@@ -492,7 +508,9 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
             }
             return null;
         }
-        return null;
+         else {
+             return null;
+        }
     }
 
     @Override

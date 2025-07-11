@@ -1,6 +1,7 @@
 package org.sic4change.nut4health.ui.create_contract;
 
 import android.net.Uri;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -68,6 +69,7 @@ public class CreateContractViewModel extends ViewModel {
     private boolean dialerOpened = false;
 
     public CreateContractViewModel(DataRepository repository) {
+        Log.d("Aqui ViewModelLifecycle", "--- UN NUEVO VIEWMODEL HA SIDO CREADO ---");
         this.mRepository = repository;
         mUser = this.mRepository.getCurrentUser();
 
