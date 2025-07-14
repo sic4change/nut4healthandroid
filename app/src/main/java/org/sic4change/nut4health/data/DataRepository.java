@@ -28,6 +28,7 @@ import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.gson.Gson;
 
 import org.greenrobot.eventbus.EventBus;
 import org.imperiumlabs.geofirestore.GeoFirestore;
@@ -58,7 +59,9 @@ import org.sic4change.nut4health.utils.time.Nut4HealthTimeUtil;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -793,10 +796,28 @@ public class DataRepository {
                     queryContracts.get().addOnCompleteListener(mIoExecutor, taskContracts -> {
                         if (taskContracts.isSuccessful() && taskContracts.getResult() != null && !taskContracts.getResult().isEmpty()) {
                             Log.d(TAG, "Aqui Get contracts: " + taskContracts.getResult().getDocuments().size());
-                            for (DocumentSnapshot document : taskContracts.getResult().getDocuments()) {
+                            /*for (DocumentSnapshot document : taskContracts.getResult().getDocuments()) {
                                 Contract contract = document.toObject(Contract.class);
                                 if (contract.getId() != null && !contract.getId().isEmpty()) {
                                     nut4HealtDao.insert(contract);
+                                }
+                            }*/
+                            for (DocumentSnapshot document : task.getResult().getDocuments()) {
+                                try {
+                                    // Corregimos solo si creationDate no es String
+                                    Object rawCreationDate = document.get("creationDate");
+                                    if (rawCreationDate instanceof com.google.firebase.Timestamp) {
+                                        com.google.firebase.Timestamp ts = (com.google.firebase.Timestamp) rawCreationDate;
+                                        Map<String, Object> data = new HashMap<>(document.getData());
+                                        data.put("creationDate", ts.toDate().toString()); // o tu formato deseado
+                                        Contract contract = new Gson().fromJson(new Gson().toJson(data), Contract.class);
+                                        nut4HealtDao.insert(contract);
+                                    } else {
+                                        Contract contract = document.toObject(Contract.class);
+                                        nut4HealtDao.insert(contract);
+                                    }
+                                } catch (Exception e) {
+                                    Log.e(TAG, "Error deserializing contract: " + e.getMessage());
                                 }
                             }
                         } else {

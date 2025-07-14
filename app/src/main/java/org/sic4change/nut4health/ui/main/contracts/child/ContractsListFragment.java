@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.paging.LoadState;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -63,6 +64,13 @@ public class ContractsListFragment extends Fragment implements SwipeRefreshLayou
             goToContractDetailActivity(id, role);
         });
         tvTotalCasesList = view.findViewById(R.id.tvTotalCasesList);
+        contractsAdapter.addLoadStateListener(loadStates -> {
+            if (loadStates.getRefresh() instanceof LoadState.NotLoading) {
+                int itemCount = contractsAdapter.getItemCount();
+                tvTotalCasesList.setText(getString(R.string.showing) + " " + itemCount + " " + getString(R.string.diagnosis_show));
+            }
+            return null;
+        });
         initData();
         return view;
     }

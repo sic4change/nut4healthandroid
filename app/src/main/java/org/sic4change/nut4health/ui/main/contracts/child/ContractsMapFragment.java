@@ -126,7 +126,7 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
     }
 
     private void showContracts(List<Contract> contracts) {
-        if (mMap != null) {
+        if (mMap != null && contracts != null && !contracts.isEmpty()) {
             mMap.clear();
             for (Contract contract : contracts) {
                 MarkerOptions markerOptions = new MarkerOptions();

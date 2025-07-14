@@ -1,6 +1,7 @@
 package org.sic4change.nut4health.ui.main.contracts.child;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -14,6 +15,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.data.entities.Contract;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
@@ -22,7 +24,8 @@ public class ContractViewHolder extends RecyclerView.ViewHolder {
 
 private TextView nChildName;
 private TextView nChildLocation;
-private CircleImageView nPercentage;
+private View tvPercentageItem;
+private View tvPercentageItemExt;
 private TextView tvIconText;
 private TextView nStatus;
 private TextView nDate;
@@ -40,7 +43,8 @@ private Context context;
         nStatus = itemView.findViewById(R.id.tvStatus);
         tvSex = itemView.findViewById(R.id.tvSex);
         nChildLocation = itemView.findViewById(R.id.tvLocationItem);
-        nPercentage = itemView.findViewById(R.id.tvPercentageItem);
+        tvPercentageItem = itemView.findViewById(R.id.tvPercentageItem);
+        tvPercentageItemExt = itemView.findViewById(R.id.tvPercentageItemExt);
         tvIconText = itemView.findViewById(R.id.tvIconText);
         cvContract = itemView.findViewById(R.id.cvContractItem);
         nDate = itemView.findViewById(R.id.tvDateItem);
@@ -57,25 +61,29 @@ private Context context;
         nChildLocation.setText(contract.getChildAddress());
         if (contract.getPercentage() < 50) {
             tvIconText.setText(context.getResources().getString(R.string.normopeso_abrev));
-            tvIconText.setTextColor(context.getResources().getColor(R.color.colorPrimaryDark));
+            tvPercentageItem.setBackgroundResource(R.drawable.bg_circle_primary);
+            tvPercentageItemExt.setBackgroundResource(R.drawable.bg_circle_white_primary);
             nStatus.setText(context.getResources().getString(R.string.normopeso));
             nStatus.setTextColor(context.getResources().getColor(R.color.colorPrimaryDark));
             nConfirmationDate.setVisibility(View.INVISIBLE);
         } else if (contract.getPercentage() == 50) {
             tvIconText.setText(context.getResources().getString(R.string.moderate_acute_malnutrition_abrev));
-            tvIconText.setTextColor(context.getResources().getColor(R.color.orange));
+            tvPercentageItem.setBackgroundResource(R.drawable.bg_circle_yellow);
+            tvPercentageItemExt.setBackgroundResource(R.drawable.bg_circle_white_yellow);
             nStatus.setText(context.getResources().getString(R.string.moderate_acute_malnutrition));
             nStatus.setTextColor(context.getResources().getColor(R.color.orange));
             nConfirmationDate.setVisibility(View.INVISIBLE);
         } else {
             tvIconText.setText(context.getResources().getString(R.string.severe_acute_malnutrition_abrev));
-            tvIconText.setTextColor(context.getResources().getColor(R.color.error));
+            tvPercentageItem.setBackgroundResource(R.drawable.bg_circle_red);
+            tvPercentageItemExt.setBackgroundResource(R.drawable.bg_circle_white_red);
             nStatus.setText(context.getResources().getString(R.string.severe_acute_malnutrition));
             nStatus.setTextColor(context.getResources().getColor(R.color.error));
             nConfirmationDate.setVisibility(View.INVISIBLE);
         }
         if (contract.getStatus().equals(Contract.Status.ADMITTED.name())) {
-            tvIconText.setTextColor(context.getResources().getColor(R.color.violet));
+            tvPercentageItem.setBackgroundResource(R.drawable.bg_circle_violet);
+            tvPercentageItemExt.setBackgroundResource(R.drawable.bg_circle_white_violet);
             try {
                 Date date = new Date(contract.getMedicalDate());
                 Locale LocaleBylanguageTag = Locale.forLanguageTag("es");
@@ -89,7 +97,8 @@ private Context context;
             nStatus.setTextColor(context.getResources().getColor(R.color.violet));
             nConfirmationDate.setVisibility(View.VISIBLE);
         } else if (contract.getStatus().equals(Contract.Status.REFERED_NOT_VALIDATED.name())) {
-            tvIconText.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+            tvPercentageItem.setBackgroundResource(R.drawable.bg_circle_primary);
+            tvPercentageItemExt.setBackgroundResource(R.drawable.bg_circle_white_primary);
             try {
                 Date date = new Date(contract.getMedicalDate());
                 Locale LocaleBylanguageTag = Locale.forLanguageTag("es");
@@ -103,7 +112,8 @@ private Context context;
             nStatus.setTextColor(context.getResources().getColor(R.color.colorPrimary));
             nConfirmationDate.setVisibility(View.VISIBLE);
         } else if (contract.getStatus().equals(Contract.Status.REFERED_ABSENT.name())) {
-            tvIconText.setTextColor(context.getResources().getColor(R.color.error));
+            tvPercentageItem.setBackgroundResource(R.drawable.bg_circle_red);
+            tvPercentageItemExt.setBackgroundResource(R.drawable.bg_circle_white_red);
             try {
                 Date date = new Date(contract.getMedicalDate());
                 Locale LocaleBylanguageTag = Locale.forLanguageTag("es");
@@ -118,7 +128,8 @@ private Context context;
             nConfirmationDate.setVisibility(View.VISIBLE);
         } else if (contract.getStatus().equals(Contract.Status.DUPLICATED.name())) {
             tvIconText.setText(context.getResources().getString(R.string.duplicated_abrev));
-            tvIconText.setTextColor(context.getResources().getColor(R.color.rose));
+            tvPercentageItem.setBackgroundResource(R.drawable.bg_circle_rose);
+            tvPercentageItemExt.setBackgroundResource(R.drawable.bg_circle_white_rose);
             nStatus.setText(context.getResources().getString(R.string.duplicated));
             nStatus.setTextColor(context.getResources().getColor(R.color.rose));
             nConfirmationDate.setVisibility(View.INVISIBLE);
@@ -134,7 +145,14 @@ private Context context;
             }
             tvSex.setVisibility(View.VISIBLE);
         }
-        Date date = new Date(contract.getCreationDate());
+        Date date = null;
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH);
+            date = sdf.parse(contract.getCreationDate());
+        } catch (Exception e) {
+            Log.e("ContractViewHolder", "Error parsing creationDate: " + contract.getCreationDate(), e);
+            date = new Date(); // fallback
+        }
         Locale LocaleBylanguageTag = Locale.forLanguageTag("es");
         TimeAgoMessages messages = new TimeAgoMessages.Builder().withLocale(LocaleBylanguageTag).build();
         String text = TimeAgo.using(date.getTime(), messages);
