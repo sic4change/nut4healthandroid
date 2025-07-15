@@ -43,6 +43,8 @@ public class ContractDetailActivity extends AppCompatActivity implements SimpleR
 
     private DetailContractViewModel mDetailContractViewModel;
 
+    private View tvPercentageItem;
+    private View tvPercentageItemExt;
     private TextView tvPercentage;
     private int percentage;
     private TextView tvCm;
@@ -61,6 +63,8 @@ public class ContractDetailActivity extends AppCompatActivity implements SimpleR
         setContentView(R.layout.activity_contract_detail);
         this.activity = this;
         percentage = 0;
+        tvPercentageItem = findViewById(R.id.tvPercentageDetail);
+        tvPercentageItemExt = findViewById(R.id.tvPercentageDetailExt);
         tvPercentage = findViewById(R.id.tvPercentage);
         tvCm = findViewById(R.id.tvCm);
         rulerBackground = findViewById(R.id.rulerBackground);
@@ -141,7 +145,8 @@ public class ContractDetailActivity extends AppCompatActivity implements SimpleR
 
     private void showContractDetail(Contract contract, String role) {
         if (contract != null) {
-            CircleImageView ivIcon = findViewById(R.id.ivIcon);
+            View tvPercentageItem = findViewById(R.id.tvPercentageDetail);
+            View tvPercentageItemExt = findViewById(R.id.tvPercentageDetailExt);
             TextView tvIconText = findViewById(R.id.tvIconText);
             TextView tvStatus = findViewById(R.id.tvStatus);
             TextView tvSex = findViewById(R.id.tvSex);
@@ -185,16 +190,22 @@ public class ContractDetailActivity extends AppCompatActivity implements SimpleR
             if (contract.getTutorStatus() != null && !contract.getTutorStatus().equals("")) {
                 ruler.setMaxValue(50.0f);
                 if (contract.getArm_circumference() < 18.0) {
+                    tvPercentageItem.setBackgroundResource(R.drawable.bg_circle_red);
+                    tvPercentageItemExt.setBackgroundResource(R.drawable.bg_circle_white_red);
                     tvPercentage.setText(getResources().getString(R.string.severe_acute_malnutrition_full));
                     tvPercentage.setTextColor(getResources().getColor(R.color.error));
                     rulerBackground.setBackgroundColor(getResources().getColor(R.color.error));
                     tvCm.setTextColor(getResources().getColor(R.color.error));
                 } else if (contract.getArm_circumference() >= 18.0 && contract.getArm_circumference() <= 21.0) {
+                    tvPercentageItem.setBackgroundResource(R.drawable.bg_circle_yellow);
+                    tvPercentageItemExt.setBackgroundResource(R.drawable.bg_circle_white_yellow);
                     tvPercentage.setText(getResources().getString(R.string.moderate_acute_malnutrition_full));
                     tvPercentage.setTextColor(getResources().getColor(R.color.orange));
                     rulerBackground.setBackgroundColor(getResources().getColor(R.color.orange));
                     tvCm.setTextColor(getResources().getColor(R.color.orange));
                 } else {
+                    tvPercentageItem.setBackgroundResource(R.drawable.bg_circle_green);
+                    tvPercentageItemExt.setBackgroundResource(R.drawable.bg_circle_white_green);
                     tvPercentage.setText(getResources().getString(R.string.normopeso_full));
                     tvPercentage.setTextColor(getResources().getColor(R.color.colorAccent));
                     rulerBackground.setBackgroundColor(getResources().getColor(R.color.colorAccent));
@@ -202,16 +213,22 @@ public class ContractDetailActivity extends AppCompatActivity implements SimpleR
                 }
             } else {
                 if (contract.getArm_circumference() < 11.5) {
+                    tvPercentageItem.setBackgroundResource(R.drawable.bg_circle_red);
+                    tvPercentageItemExt.setBackgroundResource(R.drawable.bg_circle_white_red);
                     tvPercentage.setText(getResources().getString(R.string.severe_acute_malnutrition_full));
                     tvPercentage.setTextColor(getResources().getColor(R.color.error));
                     rulerBackground.setBackgroundColor(getResources().getColor(R.color.error));
                     tvCm.setTextColor(getResources().getColor(R.color.error));
                 } else if (contract.getArm_circumference() >= 11.5 && contract.getArm_circumference() <= 12.5) {
+                    tvPercentageItem.setBackgroundResource(R.drawable.bg_circle_yellow);
+                    tvPercentageItemExt.setBackgroundResource(R.drawable.bg_circle_white_yellow);
                     tvPercentage.setText(getResources().getString(R.string.moderate_acute_malnutrition_full));
                     tvPercentage.setTextColor(getResources().getColor(R.color.orange));
                     rulerBackground.setBackgroundColor(getResources().getColor(R.color.orange));
                     tvCm.setTextColor(getResources().getColor(R.color.orange));
                 } else {
+                    tvPercentageItem.setBackgroundResource(R.drawable.bg_circle_green);
+                    tvPercentageItemExt.setBackgroundResource(R.drawable.bg_circle_white_green);
                     tvPercentage.setText(getResources().getString(R.string.normopeso_full));
                     tvPercentage.setTextColor(getResources().getColor(R.color.colorAccent));
                     rulerBackground.setBackgroundColor(getResources().getColor(R.color.colorAccent));
@@ -300,26 +317,26 @@ public class ContractDetailActivity extends AppCompatActivity implements SimpleR
             tvIconText.setText(contract.getPercentage() + "%");
             if (contract.getPercentage() < 50) {
                 tvIconText.setText(getResources().getString(R.string.normopeso_abrev));
-                ivIcon.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
-                ivIcon.setBorderColor(getResources().getColor(R.color.colorPrimaryDark));
+                tvPercentageItem.setBackgroundResource(R.drawable.bg_circle_primary);
+                tvPercentageItemExt.setBackgroundResource(R.drawable.bg_circle_white_primary);
                 tvStatus.setText(getResources().getString(R.string.normopeso));
                 tvStatus.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
             } else if (contract.getPercentage() == 50) {
                 tvIconText.setText(getResources().getString(R.string.moderate_acute_malnutrition_abrev));
-                ivIcon.setCircleBackgroundColor(getResources().getColor(R.color.orange));
-                ivIcon.setBorderColor(getResources().getColor(R.color.orange));
+                tvPercentageItem.setBackgroundResource(R.drawable.bg_circle_yellow);
+                tvPercentageItemExt.setBackgroundResource(R.drawable.bg_circle_white_yellow);
                 tvStatus.setText(getResources().getString(R.string.moderate_acute_malnutrition));
                 tvStatus.setTextColor(getResources().getColor(R.color.orange));
             } else {
                 tvIconText.setText(getResources().getString(R.string.severe_acute_malnutrition_abrev));
-                ivIcon.setCircleBackgroundColor(getResources().getColor(R.color.error));
-                ivIcon.setBorderColor(getResources().getColor(R.color.error));
+                tvPercentageItem.setBackgroundResource(R.drawable.bg_circle_red);
+                tvPercentageItemExt.setBackgroundResource(R.drawable.bg_circle_white_red);
                 tvStatus.setText(getResources().getString(R.string.severe_acute_malnutrition));
                 tvStatus.setTextColor(getResources().getColor(R.color.error));
             }
             if (contract.getStatus().equals(Contract.Status.ADMITTED.name())) {
-                ivIcon.setCircleBackgroundColor(getResources().getColor(R.color.violet));
-                ivIcon.setBorderColor(getResources().getColor(R.color.violet));
+                tvPercentageItem.setBackgroundResource(R.drawable.bg_circle_violet);
+                tvPercentageItemExt.setBackgroundResource(R.drawable.bg_circle_white_violet);
                 tvStatus.setText(getResources().getString(R.string.admitted));
                 tvStatus.setTextColor(getResources().getColor(R.color.violet));
                 etConfirmationDate.setVisibility(View.VISIBLE);
@@ -334,8 +351,8 @@ public class ContractDetailActivity extends AppCompatActivity implements SimpleR
                     System.out.println("error parsing confirmation date");
                 }
             } else if (contract.getStatus().equals(Contract.Status.REFERED_NOT_VALIDATED.name())) {
-                ivIcon.setCircleBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                ivIcon.setBorderColor(getResources().getColor(R.color.colorPrimary));
+                tvPercentageItem.setBackgroundResource(R.drawable.bg_circle_primary);
+                tvPercentageItemExt.setBackgroundResource(R.drawable.bg_circle_white_primary);
                 tvStatus.setText(getResources().getString(R.string.refered_not_validated));
                 tvStatus.setTextColor(getResources().getColor(R.color.colorPrimary));
                 etConfirmationDate.setVisibility(View.VISIBLE);
@@ -350,8 +367,8 @@ public class ContractDetailActivity extends AppCompatActivity implements SimpleR
                     System.out.println("error parsing confirmation date");
                 }
             } else if (contract.getStatus().equals(Contract.Status.REFERED_ABSENT.name())) {
-                ivIcon.setCircleBackgroundColor(getResources().getColor(R.color.error));
-                ivIcon.setBorderColor(getResources().getColor(R.color.error));
+                tvPercentageItem.setBackgroundResource(R.drawable.bg_circle_red);
+                tvPercentageItemExt.setBackgroundResource(R.drawable.bg_circle_white_red);
                 tvStatus.setText(getResources().getString(R.string.refered_absent));
                 tvStatus.setTextColor(getResources().getColor(R.color.error));
                 etConfirmationDate.setVisibility(View.VISIBLE);
@@ -367,8 +384,8 @@ public class ContractDetailActivity extends AppCompatActivity implements SimpleR
                 }
             } else if (contract.getStatus().equals(Contract.Status.DUPLICATED.name())) {
                 tvIconText.setText(getResources().getString(R.string.duplicated_abrev));
-                ivIcon.setCircleBackgroundColor(getResources().getColor(R.color.rose));
-                ivIcon.setBorderColor(getResources().getColor(R.color.rose));
+                tvPercentageItem.setBackgroundResource(R.drawable.bg_circle_rose);
+                tvPercentageItemExt.setBackgroundResource(R.drawable.bg_circle_white_rose);
                 tvStatus.setText(getResources().getString(R.string.duplicated));
                 tvStatus.setTextColor(getResources().getColor(R.color.rose));
             }
@@ -470,14 +487,20 @@ public class ContractDetailActivity extends AppCompatActivity implements SimpleR
     private void paintStatusChanges() {
         if (mDetailContractViewModel.getStatus().equals("Aguda Severa")) {
             percentage = 100;
+            tvPercentageItem.setBackgroundResource(R.drawable.bg_circle_red);
+            tvPercentageItemExt.setBackgroundResource(R.drawable.bg_circle_white_red);
             tvPercentage.setText(getResources().getString(R.string.severe_acute_malnutrition_full));
             tvPercentage.setTextColor(getResources().getColor(R.color.error));
         } else if (mDetailContractViewModel.getStatus().equals("Aguda Moderada")) {
             percentage = 50;
+            tvPercentageItem.setBackgroundResource(R.drawable.bg_circle_yellow);
+            tvPercentageItemExt.setBackgroundResource(R.drawable.bg_circle_white_yellow);
             tvPercentage.setText(getResources().getString(R.string.moderate_acute_malnutrition_full));
             tvPercentage.setTextColor(getResources().getColor(R.color.orange));
         } else {
             percentage = 0;
+            tvPercentageItem.setBackgroundResource(R.drawable.bg_circle_green);
+            tvPercentageItemExt.setBackgroundResource(R.drawable.bg_circle_white_green);
             tvPercentage.setText(getResources().getString(R.string.normopeso_full));
             tvPercentage.setTextColor(getResources().getColor(R.color.colorAccent));
         }
@@ -490,16 +513,22 @@ public class ContractDetailActivity extends AppCompatActivity implements SimpleR
         tvCm.setText(df.format(value) + " cm");
         if (mDetailContractViewModel.getContract().getValue().getTutorStatus() != null && !mDetailContractViewModel.getContract().getValue().equals("")) {
             if (value < 18.0) {
+                tvPercentageItem.setBackgroundResource(R.drawable.bg_circle_red);
+                tvPercentageItemExt.setBackgroundResource(R.drawable.bg_circle_white_red);
                 tvPercentage.setText(getResources().getString(R.string.severe_acute_malnutrition_full));
                 tvPercentage.setTextColor(getResources().getColor(R.color.error));
                 rulerBackground.setBackgroundColor(getResources().getColor(R.color.error));
                 tvCm.setTextColor(getResources().getColor(R.color.error));
             } else if (value >= 18.0 && value <= 21.0) {
+                tvPercentageItem.setBackgroundResource(R.drawable.bg_circle_yellow);
+                tvPercentageItemExt.setBackgroundResource(R.drawable.bg_circle_white_yellow);
                 tvPercentage.setText(getResources().getString(R.string.moderate_acute_malnutrition_full));
                 tvPercentage.setTextColor(getResources().getColor(R.color.orange));
                 rulerBackground.setBackgroundColor(getResources().getColor(R.color.orange));
                 tvCm.setTextColor(getResources().getColor(R.color.orange));
             } else {
+                tvPercentageItem.setBackgroundResource(R.drawable.bg_circle_green);
+                tvPercentageItemExt.setBackgroundResource(R.drawable.bg_circle_white_green);
                 tvPercentage.setText(getResources().getString(R.string.normopeso_full));
                 tvPercentage.setTextColor(getResources().getColor(R.color.colorAccent));
                 rulerBackground.setBackgroundColor(getResources().getColor(R.color.colorAccent));
@@ -507,17 +536,23 @@ public class ContractDetailActivity extends AppCompatActivity implements SimpleR
             }
         } else {
             if (value < 11.5) {
+                tvPercentageItem.setBackgroundResource(R.drawable.bg_circle_red);
+                tvPercentageItemExt.setBackgroundResource(R.drawable.bg_circle_white_red);
                 tvPercentage.setText(getResources().getString(R.string.severe_acute_malnutrition_full));
                 tvPercentage.setTextColor(getResources().getColor(R.color.error));
                 rulerBackground.setBackgroundColor(getResources().getColor(R.color.error));
                 tvCm.setTextColor(getResources().getColor(R.color.error));
             } else if (value >= 11.5 && value <= 12.5) {
+                tvPercentageItem.setBackgroundResource(R.drawable.bg_circle_yellow);
+                tvPercentageItemExt.setBackgroundResource(R.drawable.bg_circle_white_yellow);
                 tvPercentage.setText(getResources().getString(R.string.moderate_acute_malnutrition_full));
                 tvPercentage.setTextColor(getResources().getColor(R.color.orange));
                 rulerBackground.setBackgroundColor(getResources().getColor(R.color.orange));
                 tvCm.setTextColor(getResources().getColor(R.color.orange));
             } else {
                 tvPercentage.setText(getResources().getString(R.string.normopeso_full));
+                tvPercentageItem.setBackgroundResource(R.drawable.bg_circle_green);
+                tvPercentageItemExt.setBackgroundResource(R.drawable.bg_circle_white_green);
                 tvPercentage.setTextColor(getResources().getColor(R.color.colorAccent));
                 rulerBackground.setBackgroundColor(getResources().getColor(R.color.colorAccent));
                 tvCm.setTextColor(getResources().getColor(R.color.colorAccent));
