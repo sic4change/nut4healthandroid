@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -83,6 +84,8 @@ public class ContractFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_contract, container, false);
         TabLayout tabLayout = view.findViewById(R.id.tab_layout);
+        tabLayout.setTabTextColors(ContextCompat.getColorStateList(getActivity(), R.color.white));
+        tabLayout.setSelectedTabIndicatorColor(ContextCompat.getColor(getActivity(), R.color.colorAccent));
         tabLayout.addTab(tabLayout.newTab().setText(R.string.list));
         tabLayout.addTab(tabLayout.newTab().setText(R.string.map));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
@@ -107,10 +110,14 @@ public class ContractFragment extends Fragment {
             }
         });
         btnCreateContract = view.findViewById(R.id.btnCreateContract);
+        btnCreateContract.setBackgroundTintList(ContextCompat.getColorStateList(getActivity(), R.color.colorPrimaryDark));
+        btnCreateContract.setColorFilter(ContextCompat.getColor(getActivity(), R.color.white));
         btnCreateContract.setOnClickListener(v -> {
             goToCreateContractActivity();
         });
         btnFilterContracts = view.findViewById(R.id.btnFilterContracts);
+        btnFilterContracts.setBackgroundTintList(ContextCompat.getColorStateList(getActivity(), R.color.colorPrimaryDark));
+        btnFilterContracts.setColorFilter(ContextCompat.getColor(getActivity(), R.color.white));
         btnFilterContracts.setOnClickListener(v -> {
             showContractFilterMenu();
         });

@@ -176,8 +176,7 @@
                 android:minWidth="80dp"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/divider"
-                app:layout_constraintTop_toBottomOf="@+id/tvMinRange" />
+                app:layout_constraintEnd_toStartOf="@+id/divider" />
 
             <View
                 android:id="@+id/divider"
