@@ -62,9 +62,10 @@ public class ContractFragment extends Fragment {
 
     private MainViewModel mMainViewModel;
     private boolean exportContract = false;
+    private String patient;
 
-    public ContractFragment() {
-        // Required empty public constructor
+    public ContractFragment(String patient) {
+        this.patient = patient;
     }
 
     @Override
@@ -91,7 +92,9 @@ public class ContractFragment extends Fragment {
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         final ViewPager viewPager = view.findViewById(R.id.pager);
         final PagerFragmentAdapter adapter = new PagerFragmentAdapter
-                (getActivity().getSupportFragmentManager(), tabLayout.getTabCount(), mMainViewModel.getCurrentUser().getValue().getRole());
+                (getActivity().getSupportFragmentManager(),
+                        tabLayout.getTabCount(), mMainViewModel.getCurrentUser().getValue().getRole(),
+                        patient);
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new
                 TabLayout.TabLayoutOnPageChangeListener(tabLayout));
@@ -227,7 +230,7 @@ public class ContractFragment extends Fragment {
             }
 
         });
-        mMainViewModel.getSortedContracts("DATE", "child", mMainViewModel.getName(),
+        mMainViewModel.getSortedContracts("DATE", patient, mMainViewModel.getName(),
                 mMainViewModel.getSurname(), mMainViewModel.getTutorName(), mMainViewModel.getTutorStatus(),
                 mMainViewModel.getStatus(), mMainViewModel.getDateStart(), mMainViewModel.getDateEnd(),
                 mMainViewModel.getPercentageMin(), mMainViewModel.getPercentageMax());
@@ -360,7 +363,7 @@ public class ContractFragment extends Fragment {
         mMainViewModel.setDateStart(timeRangeMax);
         mMainViewModel.setPercentageMax(100);
         mMainViewModel.setPercentageMin(0);
-        mMainViewModel.getSortedContracts("DATE", "child", mMainViewModel.getName(),
+        mMainViewModel.getSortedContracts("DATE", patient, mMainViewModel.getName(),
                 mMainViewModel.getSurname(), mMainViewModel.getTutorName(), mMainViewModel.getTutorStatus(),
                 mMainViewModel.getStatus(), mMainViewModel.getDateStart(), mMainViewModel.getDateEnd(),
                 mMainViewModel.getPercentageMin(), mMainViewModel.getPercentageMax());
@@ -369,6 +372,7 @@ public class ContractFragment extends Fragment {
     }
 
     private void filterContracts() {
+        //Aqui hay que mirar si son los nombres del child o de la fefa
         mMainViewModel.setName(etName.getText().toString());
         mMainViewModel.setSurname(etSurname.getText().toString());
         switch (spStatus.getSelectedItemPosition()) {
@@ -422,7 +426,7 @@ public class ContractFragment extends Fragment {
         } else {
             mMainViewModel.setDateStart(timeRangeMax);
         }
-        mMainViewModel.getSortedContracts("DATE", "child", mMainViewModel.getName(),
+        mMainViewModel.getSortedContracts("DATE", patient, mMainViewModel.getName(),
                 mMainViewModel.getSurname(), mMainViewModel.getTutorName(), mMainViewModel.getTutorStatus(),
                 mMainViewModel.getStatus(), mMainViewModel.getDateStart(), mMainViewModel.getDateEnd(),
                 mMainViewModel.getPercentageMin(), mMainViewModel.getPercentageMax());

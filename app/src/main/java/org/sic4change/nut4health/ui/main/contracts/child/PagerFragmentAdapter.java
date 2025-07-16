@@ -8,11 +8,13 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 public class PagerFragmentAdapter  extends FragmentStatePagerAdapter {
     int mNumOfTabs;
     String role;
+    String patient;
 
-    public PagerFragmentAdapter(FragmentManager fm, int NumOfTabs, String role) {
+    public PagerFragmentAdapter(FragmentManager fm, int NumOfTabs, String role, String patient) {
         super(fm);
         this.mNumOfTabs = NumOfTabs;
         this.role = role;
+        this.patient = patient;
     }
 
     /**
@@ -24,7 +26,7 @@ public class PagerFragmentAdapter  extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0: return new ContractsListFragment(role);
-            case 1: return new ContractsMapFragment(role);
+            case 1: return new ContractsMapFragment(role, patient);
             default: return null;
         }
     }

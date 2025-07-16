@@ -88,14 +88,6 @@ public class ContractsListFragment extends Fragment implements SwipeRefreshLayou
 
     }
 
-    private void showContractNumber(PagedList<Contract> contracts) {
-        try {
-            tvTotalCasesList.setText(getString(R.string.showing) + " " + contracts.size() + " " + getString(R.string.diagnosis_show));
-        } catch (Exception e) {
-            System.out.println("null contracts");
-        }
-    }
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);

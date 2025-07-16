@@ -242,11 +242,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     fragment = new CreateContractFragment();
                     setTitle(R.string.capture);
                 } else if (id == R.id.nav_contracts) {
-                    fragment = new ContractFragment();
+                    fragment = new ContractFragment("child");
                     setTitle(R.string.contracts);
                 }
                 else if (id == R.id.nav_fefa_contracts) {
-                    fragment = new FEFAContractFragment();
+                    fragment = new ContractFragment("fefa");
                     setTitle(R.string.contracts_fefa);
                 }
                 else if (id == R.id.nav_paids) {

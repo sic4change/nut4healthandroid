@@ -36,9 +36,11 @@ import org.sic4change.nut4health.ui.contract_detail.ContractDetailActivity;
 import org.sic4change.nut4health.ui.main.MainViewModel;
 import org.sic4change.nut4health.utils.location.Nut4HealthSingleShotLocationProvider;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 import static maes.tech.intentanim.CustomIntent.customType;
 
@@ -68,10 +70,12 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
 
     private String id;
 
-    private String role= "";
+    private String role = "";
+    private String patient = "" ;
 
-    public ContractsMapFragment(String role) {
+    public ContractsMapFragment(String role, String patient) {
         this.role = role;
+        this.patient = patient;
     }
 
     @Override
@@ -115,22 +119,38 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
         } catch (Exception e) {
             System.out.println("error");
         }
-        mMainViewModel.getSortedContracts("DATE", "child", mMainViewModel.getName(),
-                mMainViewModel.getSurname(), mMainViewModel.getTutorName(), mMainViewModel.getTutorStatus(),
-                mMainViewModel.getStatus(), mMainViewModel.getDateStart(), mMainViewModel.getDateEnd(),
-                mMainViewModel.getPercentageMin(), mMainViewModel.getPercentageMax());
     }
 
     private void showContractsNumber(List<Contract> contracts) {
         if (contracts != null) {
-            tvTotalCasesMap.setText(getString(R.string.showing) + " " + contracts.size() + " " + getString(R.string.diagnosis_show));
+            List<Contract> filteredContracts = new ArrayList<>();
+            if (patient.equals("child")) {
+                filteredContracts = contracts.stream()
+                        .filter(contract -> contract.getTutorStatus() != null && contract.getTutorStatus().isEmpty())
+                        .collect(Collectors.toList());
+            } else {
+                filteredContracts = contracts.stream()
+                        .filter(contract -> contract.getTutorStatus() != null && !contract.getTutorStatus().isEmpty())
+                        .collect(Collectors.toList());
+            }
+            tvTotalCasesMap.setText(getString(R.string.showing) + " " + filteredContracts.size() + " " + getString(R.string.diagnosis_show));
         }
     }
 
     private void showContracts(List<Contract> contracts) {
         if (mMap != null && contracts != null && !contracts.isEmpty()) {
+            List<Contract> filteredContracts = new ArrayList<>();
+            if (patient.equals("child")) {
+                filteredContracts = contracts.stream()
+                        .filter(contract -> contract.getTutorStatus() != null && contract.getTutorStatus().isEmpty())
+                        .collect(Collectors.toList());
+            } else {
+                filteredContracts = contracts.stream()
+                        .filter(contract -> contract.getTutorStatus() != null && !contract.getTutorStatus().isEmpty())
+                        .collect(Collectors.toList());
+            }
             mMap.clear();
-            for (Contract contract : contracts) {
+            for (Contract contract : filteredContracts) {
                 MarkerOptions markerOptions = new MarkerOptions();
                 markerOptions.position(new LatLng(contract.getLatitude(), contract.getLongitude()));
                 if (contract.getPercentage() < 50) {
