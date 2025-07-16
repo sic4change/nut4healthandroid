@@ -58,6 +58,7 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
     private CardView cvContract;
     private TextView nStatus;
     private TextView tvSex;
+    private TextView tvFefaStatus;
     private TextView nChildName;
     private TextView nChildLocation;
     private View tvPercentageItem;
@@ -85,6 +86,7 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
         cvContract.setOnClickListener(v -> goToContractDetailActivity(id, role));
         nStatus = view.findViewById(R.id.tvStatus);
         tvSex = view.findViewById(R.id.tvSex);
+        tvFefaStatus = view.findViewById(R.id.tvFefaStatus);
         nChildName = view.findViewById(R.id.tvNameItem);
         nChildLocation = view.findViewById(R.id.tvLocationItem);
         tvPercentageItem = view.findViewById(R.id.tvPercentageItem);
@@ -222,7 +224,25 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
     }
 
     private void showContractInformation(Contract contract) {
-        nChildName.setText(contract.getChildName() + " " + contract.getChildSurname());
+        if (patient.equals("child")) {
+            tvFefaStatus.setVisibility(View.GONE);
+            tvSex.setVisibility(View.VISIBLE);
+            nChildName.setText(contract.getChildName() + " " + contract.getChildSurname());
+            if (contract.getSex() == null || contract.getSex().equals("")) {
+                tvSex.setVisibility(View.GONE);
+            } else {
+                if (contract.getSex().equals("F")) {
+                    tvSex.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_female_icon, 0, 0, 0);
+                } else {
+                    tvSex.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_male_icon, 0, 0, 0);
+                }
+            }
+        } else {
+            tvFefaStatus.setVisibility(View.VISIBLE);
+            tvSex.setVisibility(View.GONE);
+            nChildName.setText(contract.getChildTutor());
+            tvFefaStatus.setText(contract.getTutorStatus());
+        }
         nChildLocation.setText(contract.getChildAddress());
         tvIconText.setTextColor(getResources().getColor(R.color.white));
         if (contract.getPercentage() < 50) {
@@ -299,17 +319,6 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
             nStatus.setText(getResources().getString(R.string.duplicated));
             nStatus.setTextColor(getResources().getColor(R.color.rose));
             nConfirmationDate.setVisibility(View.INVISIBLE);
-        }
-
-        if (contract.getSex() == null || contract.getSex().equals("")) {
-            tvSex.setVisibility(View.GONE);
-        } else {
-            if (contract.getSex().equals("F")) {
-                tvSex.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_female_icon, 0, 0, 0);
-            } else {
-                tvSex.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_male_icon, 0, 0, 0);
-            }
-            tvSex.setVisibility(View.VISIBLE);
         }
 
         Date date = new Date(contract.getCreationDate());
