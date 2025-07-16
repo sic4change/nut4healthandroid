@@ -46,7 +46,6 @@ import org.sic4change.nut4health.ui.main.contracts.ContractsListFragment;
 import org.sic4change.nut4health.ui.main.contracts.ContractsMapFragment;
 import org.sic4change.nut4health.ui.main.create_contract.CreateContractFragment;
 import org.sic4change.nut4health.ui.main.notifications.NotificationFragment;
-import org.sic4change.nut4health.ui.main.payments.PaymentFragment;
 import org.sic4change.nut4health.ui.profile.ProfileActivity;
 import org.sic4change.nut4health.ui.main.report.ReportFragment;
 import org.sic4change.nut4health.utils.location.Nut4HealthSingleShotLocationProvider;
@@ -101,16 +100,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 tvDrawerEmail.setText(user.getEmail());
                 tvDrawerUsername.setText(user.getUsername());
                 tvDrawerRole.setText(user.getRole());
-                if (!user.getRole().equals("Agente Salud")) {
-                    tvDrawerPoints.setVisibility(View.GONE);
-                    navigationView.getMenu().findItem(R.id.nav_paids).setVisible(false);
-                    //navigationView.getMenu().findItem(R.id.nav_near).setVisible(true);
-                } else {
-                    tvDrawerPoints.setText(user.getPoints() + " " + getString(R.string.points));
-                    tvDrawerPoints.setVisibility(View.VISIBLE);
-                    navigationView.getMenu().findItem(R.id.nav_paids).setVisible(true);
-                    //navigationView.getMenu().findItem(R.id.nav_near).setVisible(false);
-                }
                 Glide.with(getApplicationContext())
                         .load(user.getPhoto())
                         .into(ivUser);
@@ -243,10 +232,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 else if (id == R.id.nav_fefa_contracts) {
                     fragment = new ContractFragment("fefa");
                     setTitle(R.string.contracts_fefa);
-                }
-                else if (id == R.id.nav_paids) {
-                    fragment = new PaymentFragment();
-                    setTitle(R.string.payments);
                 }
                 else if (id == R.id.nav_report) {
                     fragment = new ReportFragment();
