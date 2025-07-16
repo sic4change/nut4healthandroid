@@ -58,7 +58,8 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
     private TextView tvSex;
     private TextView nChildName;
     private TextView nChildLocation;
-    private CircleImageView nPercentage;
+    private View tvPercentageItem;
+    private View tvPercentageItemExt;
     private TextView tvIconText;
     private TextView nDate;
     private TextView nConfirmationDate;
@@ -82,7 +83,8 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
         tvSex = view.findViewById(R.id.tvSex);
         nChildName = view.findViewById(R.id.tvNameItem);
         nChildLocation = view.findViewById(R.id.tvLocationItem);
-        nPercentage = view.findViewById(R.id.tvPercentageItem);
+        tvPercentageItem = view.findViewById(R.id.tvPercentageItem);
+        tvPercentageItemExt = view.findViewById(R.id.tvPercentageItemExt);
         tvIconText = view.findViewById(R.id.tvIconText);
         nDate = view.findViewById(R.id.tvDateItem);
         nConfirmationDate = view.findViewById(R.id.tvDateConfirmationItem);
@@ -202,27 +204,32 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
     private void showContractInformation(Contract contract) {
         nChildName.setText(contract.getChildName() + " " + contract.getChildSurname());
         nChildLocation.setText(contract.getChildAddress());
+        tvIconText.setTextColor(getResources().getColor(R.color.white));
         if (contract.getPercentage() < 50) {
+            tvPercentageItem.setBackgroundResource(R.drawable.bg_circle_primary);
+            tvPercentageItemExt.setBackgroundResource(R.drawable.bg_circle_white_primary);
             tvIconText.setText(getResources().getString(R.string.normopeso_abrev));
-            tvIconText.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
             nStatus.setText(getResources().getString(R.string.normopeso));
             nStatus.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
             nConfirmationDate.setVisibility(View.INVISIBLE);
         } else if (contract.getPercentage() == 50) {
             tvIconText.setText(getResources().getString(R.string.moderate_acute_malnutrition_abrev));
-            tvIconText.setTextColor(getResources().getColor(R.color.orange));
+            tvPercentageItem.setBackgroundResource(R.drawable.bg_circle_yellow);
+            tvPercentageItemExt.setBackgroundResource(R.drawable.bg_circle_white_yellow);
             nStatus.setText(getResources().getString(R.string.moderate_acute_malnutrition));
             nStatus.setTextColor(getResources().getColor(R.color.orange));
             nConfirmationDate.setVisibility(View.INVISIBLE);
         } else {
             tvIconText.setText(getResources().getString(R.string.severe_acute_malnutrition_abrev));
-            tvIconText.setTextColor(getResources().getColor(R.color.error));
+            tvPercentageItem.setBackgroundResource(R.drawable.bg_circle_red);
+            tvPercentageItemExt.setBackgroundResource(R.drawable.bg_circle_white_red);
             nStatus.setText(getResources().getString(R.string.severe_acute_malnutrition));
             nStatus.setTextColor(getResources().getColor(R.color.error));
             nConfirmationDate.setVisibility(View.INVISIBLE);
         }
         if (contract.getStatus().equals(Contract.Status.ADMITTED.name())) {
-            tvIconText.setTextColor(getResources().getColor(R.color.violet));
+            tvPercentageItem.setBackgroundResource(R.drawable.bg_circle_violet);
+            tvPercentageItemExt.setBackgroundResource(R.drawable.bg_circle_white_violet);
             try {
                 Date date = new Date(contract.getMedicalDate());
                 Locale LocaleBylanguageTag = Locale.forLanguageTag("es");
@@ -236,7 +243,8 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
             nStatus.setTextColor(getResources().getColor(R.color.violet));
             nConfirmationDate.setVisibility(View.VISIBLE);
         } else if (contract.getStatus().equals(Contract.Status.REFERED_NOT_VALIDATED.name())) {
-            tvIconText.setTextColor(getResources().getColor(R.color.colorPrimary));
+            tvPercentageItem.setBackgroundResource(R.drawable.bg_circle_primary);
+            tvPercentageItemExt.setBackgroundResource(R.drawable.bg_circle_white_primary);
             try {
                 Date date = new Date(contract.getMedicalDate());
                 Locale LocaleBylanguageTag = Locale.forLanguageTag("es");
@@ -250,7 +258,8 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
             nStatus.setTextColor(getResources().getColor(R.color.colorPrimary));
             nConfirmationDate.setVisibility(View.VISIBLE);
         } else if (contract.getStatus().equals(Contract.Status.REFERED_ABSENT.name())) {
-            tvIconText.setTextColor(getResources().getColor(R.color.error));
+            tvPercentageItem.setBackgroundResource(R.drawable.bg_circle_red);
+            tvPercentageItemExt.setBackgroundResource(R.drawable.bg_circle_white_red);
             try {
                 Date date = new Date(contract.getMedicalDate());
                 Locale LocaleBylanguageTag = Locale.forLanguageTag("es");
@@ -265,7 +274,8 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
             nConfirmationDate.setVisibility(View.VISIBLE);
         } else if (contract.getStatus().equals(Contract.Status.DUPLICATED.name())) {
             tvIconText.setText(getResources().getString(R.string.duplicated_abrev));
-            tvIconText.setTextColor(getResources().getColor(R.color.rose));
+            tvPercentageItem.setBackgroundResource(R.drawable.bg_circle_rose);
+            tvPercentageItemExt.setBackgroundResource(R.drawable.bg_circle_white_rose);
             nStatus.setText(getResources().getString(R.string.duplicated));
             nStatus.setTextColor(getResources().getColor(R.color.rose));
             nConfirmationDate.setVisibility(View.INVISIBLE);

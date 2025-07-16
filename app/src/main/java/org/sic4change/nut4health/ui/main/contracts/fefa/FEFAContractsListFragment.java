@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.paging.LoadState;
 import androidx.paging.PagedList;
 import androidx.paging.PagingData;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -63,6 +64,13 @@ public class FEFAContractsListFragment extends Fragment implements SwipeRefreshL
             goToContractDetailActivity(id, role);
         });
         tvTotalCasesList = view.findViewById(R.id.tvTotalCasesList);
+        FEFAContractsAdapter.addLoadStateListener(loadStates -> {
+            if (loadStates.getRefresh() instanceof LoadState.NotLoading) {
+                int itemCount = FEFAContractsAdapter.getItemCount();
+                tvTotalCasesList.setText(getString(R.string.showing) + " " + itemCount + " " + getString(R.string.diagnosis_show));
+            }
+            return null;
+        });
         initData();
         return view;
     }
@@ -71,11 +79,8 @@ public class FEFAContractsListFragment extends Fragment implements SwipeRefreshL
         mMainViewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
 
         try {
-            mMainViewModel.getIsFiltered().observe(getActivity(), filtered ->{
-                mMainViewModel.getContracts().observe(getActivity(), contracts -> {
-                    showContracts(contracts);
-                    showContractNumber();
-                });
+            mMainViewModel.getContracts().observe(getViewLifecycleOwner(), pagingData -> {
+                FEFAContractsAdapter.submitData(getLifecycle(), pagingData);
             });
         } catch (Exception e) {
             System.out.println("error");

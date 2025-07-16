@@ -53,7 +53,7 @@
                 app:layout_constraintTop_toTopOf="@id/tvPercentageItemExt"
                 app:layout_constraintBottom_toBottomOf="@id/tvPercentageItemExt"
                 app:layout_constraintStart_toStartOf="@id/tvPercentageItemExt"
-                app:layout_constraintEnd_toEndOf="@id/tvPercentageItemExt" />/>
+                app:layout_constraintEnd_toEndOf="@id/tvPercentageItemExt" />
 
             <TextView
                 android:id="@+id/tvIconText"

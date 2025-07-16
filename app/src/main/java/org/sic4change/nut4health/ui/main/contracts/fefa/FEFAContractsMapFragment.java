@@ -127,7 +127,7 @@ public class FEFAContractsMapFragment extends Fragment implements OnMapReadyCall
     }
 
     private void showContracts(List<Contract> contracts) {
-        if (mMap != null) {
+        if (mMap != null && contracts != null && !contracts.isEmpty()) {
             mMap.clear();
             for (Contract contract : contracts) {
                 MarkerOptions markerOptions = new MarkerOptions();

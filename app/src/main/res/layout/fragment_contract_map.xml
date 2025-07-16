@@ -48,13 +48,31 @@
             android:layout_height="wrap_content"
             android:background="@color/white">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                xmlns:app="http://schemas.android.com/apk/res-auto"
+            <View
+                android:id="@+id/tvPercentageItemExt"
+                android:background="@drawable/bg_circle_white_violet"
+                android:layout_width="110dp"
+                android:layout_height="110dp"
+                android:layout_marginStart="@dimen/margin_default"
+                android:layout_marginEnd="@dimen/margin_default"
+                android:layout_marginBottom="@dimen/margin_default"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <View
                 android:id="@+id/tvPercentageItem"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="16dp"/>
+                android:background="@drawable/bg_circle_primary"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginStart="@dimen/margin_default"
+                android:layout_marginTop="@dimen/margin_default"
+                android:layout_marginEnd="@dimen/margin_default"
+                android:layout_marginBottom="@dimen/margin_default"
+                app:layout_constraintTop_toTopOf="@id/tvPercentageItemExt"
+                app:layout_constraintBottom_toBottomOf="@id/tvPercentageItemExt"
+                app:layout_constraintStart_toStartOf="@id/tvPercentageItemExt"
+                app:layout_constraintEnd_toEndOf="@id/tvPercentageItemExt" />
 
             <TextView
                 android:id="@+id/tvIconText"
@@ -64,10 +82,10 @@
                 android:textColor="@color/colorPrimary"
                 android:textSize="30sp"
                 android:textStyle="bold"
-                app:layout_constraintTop_toTopOf="@id/tvPercentageItem"
-                app:layout_constraintBottom_toBottomOf="@id/tvPercentageItem"
-                app:layout_constraintStart_toStartOf="@id/tvPercentageItem"
-                app:layout_constraintEnd_toEndOf="@id/tvPercentageItem" />
+                app:layout_constraintTop_toTopOf="@id/tvPercentageItemExt"
+                app:layout_constraintBottom_toBottomOf="@id/tvPercentageItemExt"
+                app:layout_constraintStart_toStartOf="@id/tvPercentageItemExt"
+                app:layout_constraintEnd_toEndOf="@id/tvPercentageItemExt" />
 
             <TextView
                 android:id="@+id/tvStatus"
@@ -77,9 +95,9 @@
                 android:fontFamily="@font/bariol_bold"
                 android:text="Status"
                 android:textSize="8sp"
-                app:layout_constraintEnd_toEndOf="@+id/tvPercentageItem"
-                app:layout_constraintStart_toStartOf="@+id/tvPercentageItem"
-                app:layout_constraintTop_toBottomOf="@+id/tvPercentageItem" />
+                app:layout_constraintEnd_toEndOf="@+id/tvPercentageItemExt"
+                app:layout_constraintStart_toStartOf="@+id/tvPercentageItemExt"
+                app:layout_constraintTop_toBottomOf="@+id/tvPercentageItemExt" />
 
             <TextView
                 android:id="@+id/tvSex"
@@ -94,8 +112,8 @@
                 android:text=""
                 android:textColor="@color/common_google_signin_btn_text_light_default"
                 android:textSize="12sp"
-                app:layout_constraintStart_toStartOf="@+id/tvPercentageItem"
-                app:layout_constraintEnd_toEndOf="@+id/tvPercentageItem"
+                app:layout_constraintStart_toStartOf="@+id/tvPercentageItemExt"
+                app:layout_constraintEnd_toEndOf="@+id/tvPercentageItemExt"
                 app:layout_constraintTop_toBottomOf="@+id/tvStatus" />
 
             <TextView
@@ -111,8 +129,8 @@
                 android:textColor="@color/common_google_signin_btn_text_light_default"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@+id/tvPercentageItem"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/tvPercentageItemExt"
+                app:layout_constraintTop_toTopOf="@+id/tvPercentageItemExt"
                 app:layout_constraintEnd_toEndOf="parent"/>
 
             <TextView
@@ -131,7 +149,7 @@
                 android:drawableLeft="@drawable/ic_position"
                 android:drawablePadding="2dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/tvPercentageItem"
+                app:layout_constraintStart_toEndOf="@+id/tvPercentageItemExt"
                 app:layout_constraintTop_toBottomOf="@+id/tvNameItem"/>
 
             <TextView
@@ -148,7 +166,7 @@
                 android:text="Date"
                 android:textColor="@color/common_google_signin_btn_text_light_default"
                 android:textSize="12sp"
-                app:layout_constraintStart_toEndOf="@+id/tvPercentageItem"
+                app:layout_constraintStart_toEndOf="@+id/tvPercentageItemExt"
                 app:layout_constraintTop_toBottomOf="@+id/tvLocationItem" />
 
             <TextView
@@ -166,7 +184,7 @@
                 android:textColor="@color/common_google_signin_btn_text_light_default"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/tvPercentageItem"
+                app:layout_constraintStart_toEndOf="@+id/tvPercentageItemExt"
                 app:layout_constraintTop_toBottomOf="@+id/tvDateItem" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
