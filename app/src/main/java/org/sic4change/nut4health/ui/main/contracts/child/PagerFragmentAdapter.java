@@ -25,7 +25,7 @@ public class PagerFragmentAdapter  extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position) {
         switch (position) {
-            case 0: return new ContractsListFragment(role);
+            case 0: return new ContractsListFragment(role, patient);
             case 1: return new ContractsMapFragment(role, patient);
             default: return null;
         }

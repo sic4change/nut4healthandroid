@@ -17,10 +17,12 @@ public class ContractsAdapter extends PagingDataAdapter<Contract, ContractViewHo
     private ItemAction mItemOnClickAction;
 
     Context context;
+    String patient = "";
 
-    public ContractsAdapter(Context context) {
+    public ContractsAdapter(Context context, String patient) {
         super(DIFF_CALLBACK);
         this.context = context;
+        this.patient = patient;
     }
 
     public interface ItemAction {
@@ -35,7 +37,7 @@ public class ContractsAdapter extends PagingDataAdapter<Contract, ContractViewHo
     @Override
     public ContractViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(context).inflate(R.layout.item_contract, parent, false);
-        return new ContractViewHolder(itemView, context);
+        return new ContractViewHolder(itemView, context, patient);
     }
 
     @Override

@@ -40,10 +40,11 @@ public class ContractsListFragment extends Fragment implements SwipeRefreshLayou
     private TextView tvTotalCasesList;
 
     private String role= "";
+    private String patient = "" ;
 
-    public ContractsListFragment(String role) {
-        // Required empty public constructor
+    public ContractsListFragment(String role, String patient) {
         this.role = role;
+        this.patient = patient;
     }
 
 
@@ -57,7 +58,7 @@ public class ContractsListFragment extends Fragment implements SwipeRefreshLayou
         swipe_container.setOnRefreshListener(this);
         ivEmptyContracts = view.findViewById(R.id.ivEmptyContracts);
         rvContracts = view.findViewById(R.id.rvContracts);
-        contractsAdapter = new ContractsAdapter(getActivity().getApplicationContext());
+        contractsAdapter = new ContractsAdapter(getActivity().getApplicationContext(), patient);
         rvContracts.setLayoutManager(new LinearLayoutManager(getActivity()));
         rvContracts.setAdapter(contractsAdapter);
         contractsAdapter.setItemOnClickAction((position, id) -> {

@@ -31,17 +31,21 @@ private TextView nStatus;
 private TextView nDate;
 private TextView nConfirmationDate;
 private TextView tvSex;
+private TextView tvFefaStatus;
 private CardView cvContract;
 private Contract mContract;
 private ContractsAdapter.ItemAction itemAction;
 private Context context;
+private String patient = "" ;
 
-    ContractViewHolder(View itemView, Context context) {
+    ContractViewHolder(View itemView, Context context, String patient) {
         super(itemView);
         this.context = context;
+        this.patient = patient;
         nChildName = itemView.findViewById(R.id.tvNameItem);
         nStatus = itemView.findViewById(R.id.tvStatus);
         tvSex = itemView.findViewById(R.id.tvSex);
+        tvFefaStatus = itemView.findViewById(R.id.tvFefaStatus);
         nChildLocation = itemView.findViewById(R.id.tvLocationItem);
         tvPercentageItem = itemView.findViewById(R.id.tvPercentageItem);
         tvPercentageItemExt = itemView.findViewById(R.id.tvPercentageItemExt);
@@ -57,8 +61,27 @@ private Context context;
 
     void bindTo(int position, Contract contract, final ContractsAdapter.ItemAction itemAction) {
         mContract = contract;
-        nChildName.setText(contract.getChildName() + " " + contract.getChildSurname());
+
         nChildLocation.setText(contract.getChildAddress());
+        if (patient.equals("child")) {
+            tvFefaStatus.setVisibility(View.GONE);
+            tvSex.setVisibility(View.VISIBLE);
+            nChildName.setText(contract.getChildName() + " " + contract.getChildSurname());
+            if (contract.getSex() == null || contract.getSex().equals("")) {
+                tvSex.setVisibility(View.GONE);
+            } else {
+                if (contract.getSex().equals("F")) {
+                    tvSex.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_female_icon, 0, 0, 0);
+                } else {
+                    tvSex.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_male_icon, 0, 0, 0);
+                }
+            }
+        } else {
+            tvFefaStatus.setVisibility(View.VISIBLE);
+            tvSex.setVisibility(View.GONE);
+            nChildName.setText(contract.getChildTutor());
+            tvFefaStatus.setText(contract.getTutorStatus());
+        }
         if (contract.getPercentage() < 50) {
             tvIconText.setText(context.getResources().getString(R.string.normopeso_abrev));
             tvPercentageItem.setBackgroundResource(R.drawable.bg_circle_primary);
@@ -135,16 +158,6 @@ private Context context;
             nConfirmationDate.setVisibility(View.INVISIBLE);
         }
 
-        if (contract.getSex() == null || contract.getSex().equals("")) {
-            tvSex.setVisibility(View.GONE);
-        } else {
-            if (contract.getSex().equals("F")) {
-                tvSex.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_female_icon, 0, 0, 0);
-            } else {
-                tvSex.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_male_icon, 0, 0, 0);
-            }
-            tvSex.setVisibility(View.VISIBLE);
-        }
         Date date = null;
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH);
