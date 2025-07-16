@@ -124,6 +124,7 @@ public class ContractFragment extends Fragment {
         btnFilterContracts.setOnClickListener(v -> {
             showContractFilterMenu();
         });
+        btnFilterContracts.setVisibility(View.GONE); //Por ahora no filtramos
         btnExportContract = view.findViewById(R.id.btnExportContracts);
         btnExportContract.setOnClickListener(v -> {
             exportContract = true;
