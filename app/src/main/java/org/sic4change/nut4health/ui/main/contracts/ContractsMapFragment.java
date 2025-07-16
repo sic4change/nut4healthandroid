@@ -1,4 +1,4 @@
-package org.sic4change.nut4health.ui.main.contracts.child;
+package org.sic4change.nut4health.ui.main.contracts;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -43,8 +43,6 @@ import java.util.Locale;
 import java.util.stream.Collectors;
 
 import static maes.tech.intentanim.CustomIntent.customType;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class ContractsMapFragment extends Fragment implements OnMapReadyCallback {

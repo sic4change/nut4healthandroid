@@ -1,4 +1,4 @@
-package org.sic4change.nut4health.ui.main.contracts.child;
+package org.sic4change.nut4health.ui.main.contracts;
 
 
 import androidx.fragment.app.Fragment;
