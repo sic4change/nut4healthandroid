@@ -182,7 +182,7 @@ public class MainViewModel extends ViewModel {
         this.mRepository.getPoints();
     }
 
-    public LiveData<PagingData<Contract>> getSortedContracts(String sort, String contractType, String name, String surname,
+    /*public LiveData<PagingData<Contract>> getSortedContracts(String sort, String contractType, String name, String surname,
                                                              String tutorName, String tutorStatus,
                                                              String status, long dateStart, long dateEnd,
                                                              int percentageMin, int percentageMax) {
@@ -197,6 +197,22 @@ public class MainViewModel extends ViewModel {
 
         Publisher<PagingData<Contract>> publisher = ReactiveFlowKt.asPublisher(flow, EmptyCoroutineContext.INSTANCE);
         return LiveDataReactiveStreams.fromPublisher(publisher);
+    }*/
+
+    public void getSortedContracts(String sort, String contractType, String name, String surname,
+                                      String tutorName, String tutorStatus, String status,
+                                      long dateStart, long dateEnd, int percentageMin, int percentageMax) {
+
+        Flow<PagingData<Contract>> flow = new Pager<>(
+                new PagingConfig(20),
+                () -> mRepository.getSortedContracts(
+                        sort, contractType, name, surname, tutorName, tutorStatus,
+                        status, dateStart, dateEnd, percentageMin, percentageMax
+                )
+        ).getFlow();
+
+        Publisher<PagingData<Contract>> publisher = ReactiveFlowKt.asPublisher(flow, EmptyCoroutineContext.INSTANCE);
+        contracts = LiveDataReactiveStreams.fromPublisher(publisher);
     }
 
 
