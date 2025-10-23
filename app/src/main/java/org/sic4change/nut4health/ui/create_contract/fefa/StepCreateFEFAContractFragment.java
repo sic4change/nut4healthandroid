@@ -358,6 +358,10 @@ public class StepCreateFEFAContractFragment extends Fragment implements Step, Si
         spChildMinor = v.findViewById(R.id.spChildMinor);
         tvWeeks = v.findViewById(R.id.tvWeeks);
         etWeeks = v.findViewById(R.id.etWeeks);
+        cpp.setCustomMasterCountries("GT,MR");
+        cpp.setCcpDialogShowTitle(false);
+        cpp.setSearchAllowed(false);
+        cpp.setCountryForPhoneCode(222);
         cpp.setOnCountryChangeListener(new CountryCodePicker.OnCountryChangeListener() {
             @Override
             public void onCountrySelected() {

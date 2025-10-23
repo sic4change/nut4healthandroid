@@ -402,6 +402,10 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
         });
 
         etChildLocation = v.findViewById(R.id.etChildLocation);
+        cpp.setCustomMasterCountries("GT,MR");
+        cpp.setCcpDialogShowTitle(false);
+        cpp.setSearchAllowed(false);
+        cpp.setCountryForPhoneCode(222);
         cpp.setOnCountryChangeListener(new CountryCodePicker.OnCountryChangeListener() {
             @Override
             public void onCountrySelected() {
