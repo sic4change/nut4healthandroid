@@ -71,6 +71,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
+import java.text.SimpleDateFormat;
+import java.util.TimeZone;
+
 import static android.app.Activity.RESULT_OK;
 import static maes.tech.intentanim.CustomIntent.customType;
 
@@ -318,45 +323,44 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
         etChildBirthdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int year = calendar.get(Calendar.YEAR);
-                int month = calendar.get(Calendar.MONTH);
-                int day = calendar.get(Calendar.DAY_OF_MONTH);
-
-                DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(),
-                        new DatePickerDialog.OnDateSetListener() {
-                            @Override
-                            public void onDateSet(android.widget.DatePicker datePicker, int year, int month, int day) {
-                                String selectedDate = day + "/" + (month + 1) + "/" + year;
-                                etChildBirthdate.setText(selectedDate);
-                                tvChildBirthdateResult.setVisibility(View.VISIBLE);
-                                tvChildBirthdateResult.setText(Nut4HealthTimeUtil.yearsAndMonthCalculator(selectedDate, getString(R.string.andYear), getString(R.string.month)));
-
-                            }
-                        }, year, month, day);
-
-                datePickerDialog.show();
+                MaterialDatePicker.Builder<Long> builder = MaterialDatePicker.Builder.datePicker();
+                builder.setInputMode(MaterialDatePicker.INPUT_MODE_TEXT);
+                builder.setTitleText("");
+                MaterialDatePicker<Long> datePicker = builder.build();
+                datePicker.show(getChildFragmentManager(), "DATE_PICKER_TAG");
+                datePicker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener<Long>() {
+                    @Override
+                    public void onPositiveButtonClick(Long selection) {
+                        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+                        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+                        String selectedDate = sdf.format(new Date(selection));
+                        etChildBirthdate.setText(selectedDate);
+                        tvChildBirthdateResult.setVisibility(View.VISIBLE);
+                        tvChildBirthdateResult.setText(Nut4HealthTimeUtil.yearsAndMonthCalculator(selectedDate, getString(R.string.andYear), getString(R.string.month)));
+                    }
+                });
             }
         });
 
         etTutorBirthdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int year = calendar.get(Calendar.YEAR);
-                int month = calendar.get(Calendar.MONTH);
-                int day = calendar.get(Calendar.DAY_OF_MONTH);
-
-                DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(),
-                        new DatePickerDialog.OnDateSetListener() {
-                            @Override
-                            public void onDateSet(android.widget.DatePicker datePicker, int year, int month, int day) {
-                                String selectedDate = day + "/" + (month + 1) + "/" + year;
-                                etTutorBirthdate.setText(selectedDate);
-                                tvTutorBirthdateResult.setVisibility(View.VISIBLE);
-                                tvTutorBirthdateResult.setText(Nut4HealthTimeUtil.yearsAndMonthCalculator(selectedDate, getString(R.string.andYear), getString(R.string.month)));
-                            }
-                        }, year, month, day);
-
-                datePickerDialog.show();
+                MaterialDatePicker.Builder<Long> builder = MaterialDatePicker.Builder.datePicker();
+                builder.setInputMode(MaterialDatePicker.INPUT_MODE_TEXT);
+                builder.setTitleText("");
+                MaterialDatePicker<Long> datePicker = builder.build();
+                datePicker.show(getChildFragmentManager(), "DATE_PICKER_TAG");
+                datePicker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener<Long>() {
+                    @Override
+                    public void onPositiveButtonClick(Long selection) {
+                        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+                        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+                        String selectedDate = sdf.format(new Date(selection));
+                        etTutorBirthdate.setText(selectedDate);
+                        tvTutorBirthdateResult.setVisibility(View.VISIBLE);
+                        tvTutorBirthdateResult.setText(Nut4HealthTimeUtil.yearsAndMonthCalculator(selectedDate, getString(R.string.andYear), getString(R.string.month)));
+                    }
+                });
             }
         });
 
