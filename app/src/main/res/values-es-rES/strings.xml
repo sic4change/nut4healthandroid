@@ -106,9 +106,9 @@
     <string name="tutor_child">Nombre de la madre</string>
     <string name="check_verification">FEFA autoriza la recolección de datos personales</string>
     <string name="check_verification_fefa">Autoriza/o la toma de datos</string>
-    <string name="dni">Documento identificación del niña/o</string>
-    <string name="dni_tutor">Documento identificación de la madre</string>
-    <string name="dni_fefa">Documento identificación de la FEFA</string>
+    <string name="dni">DPI del niña/o</string>
+    <string name="dni_tutor">DPI de la madre</string>
+    <string name="dni_fefa">DPI de la FEFA</string>
     <string name="contact_phone">Teléfono de contacto</string>
     <string name="medical_point">Servicio de Salud</string>
     <string name="location">Ubicación</string>
