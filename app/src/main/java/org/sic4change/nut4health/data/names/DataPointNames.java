@@ -32,7 +32,10 @@ public final class DataPointNames {
      */
     public static final String COL_PHONECODE = "phonecode";
 
-
+    /**
+     * Column country for Point
+     */
+    public static final String COL_COUNTRY = "country";
 
 
 }

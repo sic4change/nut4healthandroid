@@ -64,6 +64,7 @@ public class User {
     @ColumnInfo(name = DataUserNames.COL_CREATION_DATE)
     private String creationDate;
 
+
     public static final String EMPTY_EMAIL = "anonymous@anonymous.com";
 
     public static final User userEmpty = new User(EMPTY_EMAIL, "", "", "", "", "", "", "", 0, "", "");
@@ -262,5 +263,6 @@ public class User {
     public void setCurrentCity(String currentCity) {
         this.currentCity = currentCity;
     }
+
 
 }

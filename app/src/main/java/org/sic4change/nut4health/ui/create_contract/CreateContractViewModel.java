@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -84,46 +85,49 @@ public class CreateContractViewModel extends ViewModel {
         return mUser;
     }
 
-    public LiveData<List<Point>> getPoints(String pointDefaultId) {
-        MutableLiveData<List<Point>> activePoints = new MutableLiveData<>();
-        try {
-            if (pointDefaultId == null || pointDefaultId.isEmpty() || mPoints.getValue() == null) {
-                return mPoints;
-            } else {
-                Point pointDefault = mPoints.getValue().stream()
+    public LiveData<List<Point>> getPoints(String pointDefaultId, String country) {
+        MediatorLiveData<List<Point>> result = new MediatorLiveData<>();
+        result.addSource(mPoints, allPoints -> {
+            try {
+                if (allPoints == null || allPoints.isEmpty()) {
+                    result.setValue(new ArrayList<>());
+                    return;
+                }
+
+                List<Point> filtered = allPoints.stream()
+                        .filter(Point::getActive)
+                        .filter(point -> country == null || country.isEmpty()
+                                || country.equals(point.getCountry()))
+                        .collect(Collectors.toList());
+
+                Point pointDefault = allPoints.stream()
                         .filter(point -> point.getPointId().equals(pointDefaultId))
                         .findFirst()
                         .orElse(null);
 
-                if (pointDefault == null) {
-                    return mPoints;
-                }
-
-                List<Point> filteredPoints = mPoints.getValue().stream()
-                        .filter(Point::getActive)
-                        .collect(Collectors.toList());
-
-                List<PointFormatted> pointsFormatted = new ArrayList<>();
-                for (Point point : filteredPoints) {
-                    int count = 0;
-                    for (String namePart : point.getFullName().split(",")) {
-                        if (pointDefault.getFullName().replace(" ", "").contains(namePart.replace(" ", ""))) {
-                            count++;
+                if (pointDefault != null) {
+                    List<PointFormatted> pointsFormatted = new ArrayList<>();
+                    for (Point point : filtered) {
+                        int count = 0;
+                        for (String namePart : point.getFullName().split(",")) {
+                            if (pointDefault.getFullName().replace(" ", "").contains(namePart.replace(" ", ""))) {
+                                count++;
+                            }
                         }
+                        pointsFormatted.add(new PointFormatted(point.getPointId(), point.getActive(), point.getFullName(), point.getPhoneCode(), count));
                     }
-                    pointsFormatted.add(new PointFormatted(point.getPointId(), point.getActive(), point.getFullName(), point.getPhoneCode(), count));
+                    Collections.sort(pointsFormatted, Comparator.comparingInt(PointFormatted::getOrder).reversed());
+                    filtered = pointsFormatted.stream()
+                            .map(pf -> new Point(pf.getPointId(), pf.getActive(), pf.getFullName(), pf.getPhoneCode()))
+                            .collect(Collectors.toList());
                 }
-                Collections.sort(pointsFormatted, Comparator.comparingInt(PointFormatted::getOrder).reversed());
 
-                List<Point> sortedAndFilteredPoints = pointsFormatted.stream()
-                        .map(pf -> new Point(pf.getPointId(), pf.getActive(), pf.getFullName(), pf.getPhoneCode()))
-                        .collect(Collectors.toList());
-                activePoints.setValue(sortedAndFilteredPoints);
+                result.setValue(filtered);
+            } catch (Exception e) {
+                result.setValue(allPoints);
             }
-        } catch (Exception e) {
-            return mPoints;
-        }
-        return activePoints;
+        });
+        return result;
     }
 
     public LiveData<Contract> getContract() {

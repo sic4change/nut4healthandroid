@@ -243,7 +243,7 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
             }
             if (user.getPoint() != null) {
                 try {
-                    mCreateContractViewModel.getPoints(user.getPoint()).observe(getActivity(), points -> {
+                    mCreateContractViewModel.getPoints(user.getPoint(), user.getCountry()).observe(getActivity(), points -> {
                         if (points != null) {
                             spPoint.setTitle(getString(R.string.select_medical));
                             spPoint.setPositiveButton(getString(R.string.ok));

@@ -28,15 +28,23 @@ public class Point {
     @ColumnInfo(name = DataPointNames.COL_PHONECODE)
     private String phoneCode;
 
+    @ColumnInfo(name = DataPointNames.COL_COUNTRY)
+    private String country;
+
     public Point() {
-        this("", false, "", "");
+        this("", false, "", "", "");
     }
 
     public Point(@NonNull String pointId, @NonNull boolean active, @NonNull String fullName, @NonNull String phoneCode) {
+        this(pointId, active, fullName, phoneCode, "");
+    }
+
+    public Point(@NonNull String pointId, @NonNull boolean active, @NonNull String fullName, @NonNull String phoneCode, String country) {
         this.pointId = pointId;
         this.active = active;
         this.fullName = fullName;
         this.phoneCode = phoneCode;
+        this.country = country;
     }
 
     @NonNull
@@ -73,6 +81,14 @@ public class Point {
 
     public void setPhoneCode(@NonNull String phoneCode) {
         this.phoneCode = phoneCode;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 
     @Override

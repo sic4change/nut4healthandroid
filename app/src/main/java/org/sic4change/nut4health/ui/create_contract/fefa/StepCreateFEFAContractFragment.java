@@ -226,7 +226,7 @@ public class StepCreateFEFAContractFragment extends Fragment implements Step, Si
             }
             if (user.getPoint() != null) {
                 try {
-                    mCreateFEFAContractViewModel.getPoints(user.getPoint()).observe(getActivity(), points -> {
+                    mCreateFEFAContractViewModel.getPoints(user.getPoint(), user.getCountry()).observe(getActivity(), points -> {
                         if (points != null) {
                             spPoint.setTitle(getString(R.string.select_medical));
                             spPoint.setPositiveButton(getString(R.string.ok));
