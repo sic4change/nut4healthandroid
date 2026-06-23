@@ -87,33 +87,64 @@ public class DetailContractViewModel extends ViewModel {
     }
 
     public String getStatus() {
-        if (imc != 0) {
-            if (arm_circumference_medical < 11.5) {
-                return "Aguda Severa";
-            } else if ((arm_circumference_medical >= 11.5 && arm_circumference_medical <= 12.5)) {
-                if ((imc == -3.0)) {
+        if (mContract.getValue().getTutorStatus() != null && !mContract.getValue().getTutorStatus().equals("")) {
+            if (imc != 0) {
+                if (arm_circumference_medical < 18.0) {
                     return "Aguda Severa";
+                } else if ((arm_circumference_medical >= 18.0 && arm_circumference_medical <= 21.0)) {
+                    if ((imc == -3.0)) {
+                        return "Aguda Severa";
+                    } else {
+                        return "Aguda Moderada";
+                    }
                 } else {
-                    return "Aguda Moderada";
+                    if ((imc == -3.0)) {
+                        return "Aguda Severa";
+                    } else if (imc == -2.0) {
+                        return "Aguda Moderada";
+                    } else {
+                        return "Normopeso";
+                    }
                 }
             } else {
-                if ((imc == -3.0)) {
+                if (arm_circumference_medical < 18.0) {
                     return "Aguda Severa";
-                } else if (imc == -2.0) {
+                } else if ((arm_circumference_medical >= 18.0 && arm_circumference_medical <= 21.0)) {
                     return "Aguda Moderada";
                 } else {
                     return "Normopeso";
                 }
             }
         } else {
-            if (arm_circumference_medical < 11.5) {
-                return "Aguda Severa";
-            } else if (arm_circumference_medical >= 11.5 && arm_circumference_medical <= 12.5) {
-                return "Aguda Moderada";
+            if (imc != 0) {
+                if (arm_circumference_medical < 11.5) {
+                    return "Aguda Severa";
+                } else if ((arm_circumference_medical >= 11.5 && arm_circumference_medical <= 12.5)) {
+                    if ((imc == -3.0)) {
+                        return "Aguda Severa";
+                    } else {
+                        return "Aguda Moderada";
+                    }
+                } else {
+                    if ((imc == -3.0)) {
+                        return "Aguda Severa";
+                    } else if (imc == -2.0) {
+                        return "Aguda Moderada";
+                    } else {
+                        return "Normopeso";
+                    }
+                }
             } else {
-                return "Normopeso";
+                if (arm_circumference_medical < 11.5) {
+                    return "Aguda Severa";
+                } else if (arm_circumference_medical >= 11.5 && arm_circumference_medical <= 12.5) {
+                    return "Aguda Moderada";
+                } else {
+                    return "Normopeso";
+                }
             }
         }
+
     }
 
     public double checkMalnutritionByWeightAndHeight(List<MalnutritionChildTable> table) {
@@ -150,8 +181,8 @@ public class DetailContractViewModel extends ViewModel {
         return imc;
     }
 
-    public void validateDiagnosis(String id) {
-        mRepository.validateDiagnosis(id, getArmCircumferenceMedical(), getHeight(), getWeight());
+    public void validateDiagnosis(String id, int percentage) {
+        mRepository.validateDiagnosis(id, percentage, getArmCircumferenceMedical(), getHeight(), getWeight());
     }
 
 }

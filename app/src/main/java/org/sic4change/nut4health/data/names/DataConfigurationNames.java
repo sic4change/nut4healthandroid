@@ -15,7 +15,7 @@ public final class DataConfigurationNames {
     /**
      * Column id for Configuration
      */
-    public static final String COL_ID = "id";
+    public static final String COL_ID = "configurationId";
 
     /**
      * Column money for Configuration

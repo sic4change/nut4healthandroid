@@ -29,7 +29,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.work.Constraints;
 import androidx.work.NetworkType;
 import androidx.work.PeriodicWorkRequest;
@@ -46,8 +46,6 @@ import org.sic4change.nut4health.ui.main.contracts.ContractsListFragment;
 import org.sic4change.nut4health.ui.main.contracts.ContractsMapFragment;
 import org.sic4change.nut4health.ui.main.create_contract.CreateContractFragment;
 import org.sic4change.nut4health.ui.main.notifications.NotificationFragment;
-import org.sic4change.nut4health.ui.main.payments.PaymentFragment;
-import org.sic4change.nut4health.ui.main.ranking.RankingFragment;
 import org.sic4change.nut4health.ui.profile.ProfileActivity;
 import org.sic4change.nut4health.ui.main.report.ReportFragment;
 import org.sic4change.nut4health.utils.location.Nut4HealthSingleShotLocationProvider;
@@ -66,7 +64,6 @@ import static maes.tech.intentanim.CustomIntent.customType;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
         EmptyFragment.OnFragmentInteractionListener, CreateContractFragment.OnFragmentInteractionListener,
         ContractsListFragment.OnFragmentInteractionListener, ContractsMapFragment.OnFragmentInteractionListener,
-        RankingFragment.OnFragmentInteractionListener, PaymentFragment.OnFragmentInteractionListener,
         ReportFragment.OnFragmentInteractionListener, NotificationFragment.OnFragmentInteractionListener {
 
     private boolean doubleBackToExitPressedOnce = false;
@@ -96,24 +93,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         initView();
         MainViewModelFactory mainViewModelFactory = MainViewModelFactory.createFactory(this);
-        mMainViewModel = ViewModelProviders.of(this, mainViewModelFactory).get(MainViewModel.class);
+        mMainViewModel = new ViewModelProvider(this, mainViewModelFactory).get(MainViewModel.class);
+        mMainViewModel.init(this);
         mMainViewModel.getCurrentUser().observe(this, user -> {
             if (user != null) {
                 tvDrawerEmail.setText(user.getEmail());
                 tvDrawerUsername.setText(user.getUsername());
                 tvDrawerRole.setText(user.getRole());
-                if (!user.getRole().equals("Agente Salud")) {
-                    tvDrawerPoints.setVisibility(View.GONE);
-                    navigationView.getMenu().findItem(R.id.nav_ranking).setVisible(false);
-                    navigationView.getMenu().findItem(R.id.nav_paids).setVisible(false);
-                    //navigationView.getMenu().findItem(R.id.nav_near).setVisible(true);
-                } else {
-                    tvDrawerPoints.setText(user.getPoints() + " " + getString(R.string.points));
-                    tvDrawerPoints.setVisibility(View.VISIBLE);
-                    navigationView.getMenu().findItem(R.id.nav_ranking).setVisible(true);
-                    navigationView.getMenu().findItem(R.id.nav_paids).setVisible(true);
-                    //navigationView.getMenu().findItem(R.id.nav_near).setVisible(false);
-                }
                 Glide.with(getApplicationContext())
                         .load(user.getPhoto())
                         .into(ivUser);
@@ -121,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     mMainViewModel.updateUser(user.getEmail());
                     created = true;
                 }
-                mMainViewModel.getNotifications(user, Nut4HealthTimeUtil.convertCreationDateToTimeMilis(user.getCreationDate()));
+                mMainViewModel.getNotifications(user, Nut4HealthTimeUtil.convertDateToTimeMilis(user.getCreationDate()));
                 if (!subscribedToTopics) {
                     if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 101);
@@ -133,15 +119,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startFirebaseUploadWorker();
             }
         });
-//        mMainViewModel.getNotifications().observe(this, notifications -> {
-//            int notificationNoRead = mMainViewModel.getNotificationsNoRead();
-//            if (notificationNoRead > 0) {
-//                tvNotifications.setText(mMainViewModel.getNotificationsNoRead() + "");
-//                tvNotifications.setVisibility(View.VISIBLE);
-//            } else {
-//                tvNotifications.setVisibility(View.GONE);
-//            }
-//        });
         Fragment fragment = new CreateContractFragment();
         fragmentManager.beginTransaction()
                 .replace(R.id.lyMainContent, fragment)
@@ -196,16 +173,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         tvDrawerRole = navigationView.getHeaderView(0).findViewById(R.id.tvDrawerRole);
         ivUser = navigationView.getHeaderView(0).findViewById(R.id.ivUser);
         tvDrawerPoints = navigationView.getHeaderView(0).findViewById(R.id.tvPoints);
-        this.navigationView.setCheckedItem(R.id.nav_ranking);
 
-//        tvNotifications = (TextView) navigationView.getMenu().findItem(R.id.nav_notifications).getActionView();
-//        tvNotifications.setTextColor(getResources().getColor(R.color.colorAccent));
-//        tvNotifications.setGravity(Gravity.CENTER_VERTICAL);
-//        tvNotifications.setTypeface(null, Typeface.BOLD);
     }
 
     @Override
     public void onBackPressed() {
+        super.onBackPressed();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
@@ -253,31 +226,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     fragment = new CreateContractFragment();
                     setTitle(R.string.capture);
                 } else if (id == R.id.nav_contracts) {
-                    fragment = new ContractFragment();
+                    fragment = new ContractFragment("child");
                     setTitle(R.string.contracts);
                 }
-//                else if (id == R.id.nav_near) {
-//                    mMainViewModel.removeAllNearContracts();
-//                    fragment = new NearFragment();
-//                    setTitle(R.string.map_diagnostics);
-//                }
-                else if (id == R.id.nav_ranking) {
-                    fragment = new RankingFragment();
-                    setTitle(R.string.ranking);
-                } else if (id == R.id.nav_paids) {
-                    fragment = new PaymentFragment();
-                    setTitle(R.string.payments);
+                else if (id == R.id.nav_fefa_contracts) {
+                    fragment = new ContractFragment("fefa");
+                    setTitle(R.string.contracts_fefa);
                 }
-//                else if (id == R.id.nav_notifications) {
-//                    fragment = new NotificationFragment();
-//                    setTitle(R.string.notifications);
-//                }
                 else if (id == R.id.nav_report) {
                     fragment = new ReportFragment();
                     setTitle(R.string.report);
-                } else if (id == R.id.nav_help) {
-                    fragment = new EmptyFragment();
-                    setTitle(getString(R.string.help));
                 }
                 fragmentManager.beginTransaction()
                         .replace(R.id.lyMainContent, fragment)

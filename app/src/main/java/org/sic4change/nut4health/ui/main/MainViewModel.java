@@ -1,18 +1,27 @@
 package org.sic4change.nut4health.ui.main;
 
 
+import android.app.Activity;
 import android.content.Context;
 
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.LiveDataReactiveStreams;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.paging.PagedList;
+import androidx.paging.Pager;
+import androidx.paging.PagingConfig;
+import androidx.paging.PagingData;
+
 
 import com.google.android.gms.maps.model.LatLng;
 
+import org.reactivestreams.Publisher;
 import org.sic4change.nut4health.data.DataRepository;
 import org.sic4change.nut4health.data.entities.Configuration;
 import org.sic4change.nut4health.data.entities.Contract;
+import org.sic4change.nut4health.data.entities.MalnutritionChildTable;
 import org.sic4change.nut4health.data.entities.Near;
 import org.sic4change.nut4health.data.entities.Notification;
 import org.sic4change.nut4health.data.entities.Payment;
@@ -20,14 +29,24 @@ import org.sic4change.nut4health.data.entities.Ranking;
 import org.sic4change.nut4health.data.entities.Report;
 import org.sic4change.nut4health.data.entities.User;
 
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
+import kotlin.coroutines.EmptyCoroutineContext;
+import kotlinx.coroutines.flow.Flow;
+import kotlinx.coroutines.reactive.ReactiveFlowKt;
+
 public class MainViewModel extends ViewModel {
 
 
     private Context mContext;
+
+    private Activity mActivity;
     private final DataRepository mRepository;
     private final LiveData<User> mUser;
     private final LiveData<Configuration> mConfiguration;
-    private LiveData<PagedList<Contract>> mContracts;
+    public LiveData<PagingData<Contract>> contracts;
     private LiveData<PagedList<Near>> mNear;
     private LiveData<PagedList<Ranking>> mRanking;
     private LiveData<PagedList<Payment>> mPayments;
@@ -36,6 +55,8 @@ public class MainViewModel extends ViewModel {
 
     private String name = "";
     private String surname = "";
+    private String tutorName = "";
+    private String tutorStatus = "";
     private String status = Contract.Status.EMPTY.name();
     private long dateStart = 0;
     private long dateEnd = 0;
@@ -49,6 +70,8 @@ public class MainViewModel extends ViewModel {
     private long dateStartPayment = 0;
     private long dateEndPayment = 0;
 
+    private User user;
+
     private LatLng currentPosition = new LatLng(0.0, 0.0);
     public static final double RADIUS_NEAR = 30.0;
 
@@ -56,24 +79,79 @@ public class MainViewModel extends ViewModel {
         this.mContext = context;
         this.mRepository = repository;
 
+        Flow<PagingData<Contract>> flow = new Pager<>(
+                new PagingConfig(20),
+                () -> mRepository.getSortedContracts(
+                        "DATE", "", name, surname, tutorName, tutorStatus,
+                        status, dateStart, dateEnd, percentageMin, percentageMax
+                )
+        ).getFlow();
+
+        Publisher<PagingData<Contract>> publisher = ReactiveFlowKt.asPublisher(flow, EmptyCoroutineContext.INSTANCE);
+
+        contracts = LiveDataReactiveStreams.fromPublisher(publisher);
+
         mUser = this.mRepository.getCurrentUser();
         mConfiguration = this.mRepository.getCurrentConfiguration();
+    }
 
-        mUser.observeForever( user -> {
+    public void initContracts(String email, String role) {
+        mRepository.getContracts(email, role);
+
+        Flow<PagingData<Contract>> flow = new Pager<>(
+                new PagingConfig(20),
+                () -> mRepository.getSortedContracts(
+                        "DATE", "", name, surname, tutorName, tutorStatus,
+                        status, dateStart, dateEnd, percentageMin, percentageMax
+                )
+        ).getFlow();
+
+        Publisher<PagingData<Contract>> publisher = ReactiveFlowKt.asPublisher(flow, EmptyCoroutineContext.INSTANCE);
+        contracts = LiveDataReactiveStreams.fromPublisher(publisher);
+
+        mNear = mRepository.getSortedNearContracts(
+                "DATE", "", name, surname, tutorName, tutorStatus,
+                status, dateStart, dateEnd, percentageMin, percentageMax
+        );
+    }
+
+
+    public void initRanking() {
+        this.mRepository.getRanking();
+        mRanking = this.mRepository.getSortedRanking("POINTS", usernameRanking);
+    }
+
+    public void initPayments(String email) {
+        this.mRepository.getPayments(email);
+        mPayments = this.mRepository.getSortedPayments("DATE", statusPayment, dateStartPayment, dateEndPayment);
+    }
+
+    public LiveData<PagingData<Contract>> getContracts() {
+        return contracts;
+    }
+
+    public LiveData<List<Contract>> getAllContractsForExport() {
+        return mRepository.getAllContractsForExport();
+    }
+
+
+    public void init(Activity activity) {
+        mUser.observe((LifecycleOwner) activity, user -> {
             if (user != null) {
-                this.mRepository.getContracts(user.getEmail(), user.getRole());
-                this.mRepository.getRanking();
-                this.mRepository.getPayments(user.getEmail());
+                setUser(user);
+                initRanking();
+                initPayments(user.getEmail());
                 this.mRepository.getMalnutritionChildValues();
             }
         });
-        mContracts = this.mRepository.getSortedContracts("DATE", name, surname, status, dateStart, dateEnd, percentageMin, percentageMax);
 
-        mNear = this.mRepository.getSortedNearContracts("DATE", name, surname, status, dateStart, dateEnd, percentageMin, percentageMax);
-        mRanking = this.mRepository.getSortedRanking("POINTS", usernameRanking);
-        mPayments = this.mRepository.getSortedPayments("DATE", statusPayment, dateStartPayment, dateEndPayment);
+
         mNotifications = this.mRepository.getSortedNotifications();
         isFiltered.setValue(false);
+    }
+
+    public LiveData<List<Contract>> getAllContracts() {
+        return mRepository.getAllContracts();
     }
 
     public LatLng getCurrentPosition() {
@@ -100,27 +178,32 @@ public class MainViewModel extends ViewModel {
         this.mRepository.updateCurrentLocation(email, country, state, city);
     }
 
-    public void getContracts(String email, String role) {
-        this.mRepository.getContracts(email, role);
-    }
-
     public void getPoints() {
         this.mRepository.getPoints();
     }
 
-    public void getSortedContracts(String sort, String name, String surname, String status, long dateStart, long dataEnd,
-                                   int percentageMin, int percentageMax) {
-        mContracts = this.mRepository.getSortedContracts(sort, name, surname, status, dateStart, dataEnd,
-                percentageMin, percentageMax);
+
+    public void getSortedContracts(String sort, String contractType, String name, String surname,
+                                      String tutorName, String tutorStatus, String status,
+                                      long dateStart, long dateEnd, int percentageMin, int percentageMax) {
+
+        Flow<PagingData<Contract>> flow = new Pager<>(
+                new PagingConfig(20),
+                () -> mRepository.getSortedContracts(
+                        sort, contractType, name, surname, tutorName, tutorStatus,
+                        status, dateStart, dateEnd, percentageMin, percentageMax
+                )
+        ).getFlow();
+
+        Publisher<PagingData<Contract>> publisher = ReactiveFlowKt.asPublisher(flow, EmptyCoroutineContext.INSTANCE);
+        contracts = LiveDataReactiveStreams.fromPublisher(publisher);
     }
+
 
     public void getSortedRanking(String sort, String username) {
         mRanking = this.mRepository.getSortedRanking(sort, username);
     }
 
-    public LiveData<PagedList<Contract>> getContracts() {
-        return mContracts;
-    }
 
     public LiveData<PagedList<Near>> getNearContracts() {
         return mNear;
@@ -160,6 +243,22 @@ public class MainViewModel extends ViewModel {
 
     public void setSurname(String surname) {
         this.surname = surname;
+    }
+
+    public String getTutorName() {
+        return tutorName;
+    }
+
+    public void setTutorName(String tutorName) {
+        this.tutorName = tutorName;
+    }
+
+    public void setTutorStatus(String tutorStatus) {
+        this.tutorStatus = tutorStatus;
+    }
+
+    public String getTutorStatus() {
+        return tutorStatus;
     }
 
     public String getStatus() {
@@ -293,9 +392,13 @@ public class MainViewModel extends ViewModel {
         this.mRepository.retrieveNearContracts(latitude, longitude, RADIUS_NEAR);
     }
 
-    public void getSortedNearContracts(String sort, String name, String surname, String status, long dateStart, long dataEnd,
+    public void getSortedNearContracts(String sort, String contractType, String name, String surname,
+                                       String tutorName, String tutorStatus,
+                                       String status, long dateStart, long dataEnd,
                                    int percentageMin, int percentageMax) {
-        mNear = this.mRepository.getSortedNearContracts(sort, name, surname, status, dateStart, dataEnd,
+        mNear = this.mRepository.getSortedNearContracts(sort, contractType, name, surname,
+                tutorName, tutorStatus,
+                status, dateStart, dataEnd,
                 percentageMin, percentageMax);
     }
 
@@ -311,4 +414,11 @@ public class MainViewModel extends ViewModel {
         this.mRepository.subscribeToNotificationTopic(city);
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 }

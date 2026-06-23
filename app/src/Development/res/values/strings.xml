@@ -78,7 +78,11 @@
     <string name="diagnosis_show">diagnosis</string>
 
     <!--Create Contract-->
-    <string name="createContract">Create diagnosis</string>
+    <string name="createDiagnosis">Create diagnosis</string>
+    <string name="createContract">Create child diagnosis</string>
+    <string name="createFEFAContract">Create FEFA diagnosis</string>
+    <string name="profile_child">Child profile</string>
+    <string name="profile_fefa">FEFA profile</string>
     <string name="next_step">Next</string>
     <string name="back_step">Back</string>
     <string name="complete_step"></string>
@@ -91,13 +95,20 @@
     <string name="error_fingerprint_data">You must enter child fingerprint</string>
     <string name="error_not_gps_position">You must activate geolocalization</string>
     <string name="child_data">Information</string>
-    <string name="name">Child Name</string>
-    <string name="surname">Child Surname</string>
-    <string name="sex">Child Sex</string>
+    <string name="name">Child\'s first name</string>
+    <string name="surname">Child\'s surname</string>
+    <string name="sex">Sex</string>
     <string name="brothers">Older siblings of the child</string>
-    <string name="tutor">Mother or father of the child</string>
-    <string name="check_verification">Mother, father or tutor authorizes the data collection of the minor</string>
+    <string name="child_birthdate">Child\'s birthdate</string>
+    <string name="tutor_birthdate">Mother\'s date of birth</string>
+    <string name="tutor_birthdate_completed">Birthdate of the mother, father, or tutor</string>
+    <string name="tutor">Full name</string>
+    <string name="tutor_child">Nombre de la FEFA</string>
+    <string name="check_verification">FEFA authorizes the data collection of the minor</string>
+    <string name="check_verification_fefa">Authorize the data collection</string>
     <string name="dni">Identification document of the child</string>
+    <string name="dni_tutor">Identification document of the mother, father, or tutor</string>
+    <string name="dni_fefa">Mother\'s identification document</string>
     <string name="contact_phone">Contact phone</string>
     <string name="medical_point">Health Service</string>
     <string name="location">Location</string>
@@ -112,8 +123,9 @@
     <string name="check_phone_number">Verify that the contact person number is valid/correct. To be sure, call this contact, or call yourself from the number itself / from the contact number</string>
 
     <!--Main menu-->
-    <string name="contracts">Diagnostics history</string>
-    <string name="ranking">Ranking</string>
+    <string name="contracts">Diagnostics child</string>
+    <string name="contracts_child">Diagnostics child</string>
+    <string name="contracts_fefa">Diagnostics FEFA</string>
     <string name="payments">Payments</string>
     <string name="report">Report</string>
     <string name="notifications">Notifications</string>
@@ -170,9 +182,12 @@
     <string name="near_me">Near me</string>
 
     <!--Status-->
-    <string name="derived">Derived</string>
-    <string name="registered">Registered</string>
+    <string name="not_refered">Not Refered</string>
+    <string name="refered">Refered</string>
     <string name="admitted">Admitted</string>
+    <string name="refered_not_validated">Refered not validated</string>
+    <string name="duplicated">Duplicated</string>
+    <string name="refered_absent">Refered absent</string>
 
     <!--Check messages-->
     <string name="diagnosis_duplicated_7">Diagnosis created above. You must wait 7 days to be re-diagnosed</string>
@@ -767,7 +782,6 @@
     <string name="moderate_acute_malnutrition_abrev">MAM</string>
     <string name="severe_acute_malnutrition_abrev">SAM</string>
     <string name="duplicated_abrev">DUP</string>
-    <string name="duplicated">Duplicated</string>
 
     <string name="normopeso_full">Normal Weight (NW)</string>
     <string name="moderate_acute_malnutrition_full">Moderate Acute Malnutrition (MAM)</string>
@@ -790,5 +804,25 @@
     <string name="locatoin_health_service">Location Health Service</string>
     <string name="status">Status</string>
     <string name="call">Call</string>
+
+    <string-array name="array_fefa_options">
+        <item>Pregnant</item>
+        <item>Infant</item>
+        <item>Pregnant and Infant</item>
+    </string-array>
+
+    <string name="month">months</string>
+    <string name="andYear">years and</string>
+
+    <string name="error_pb_6">The Brachial Perimeter is only valid for children aged 6 to 59 months, take the mother\'s brachial perimeter</string>
+    <string name="error_pb_59">The Brachial Perimeter is only valid for children aged 6 to 59 months</string>
+
+    <string name="weeks">Number of weeks</string>
+    <string name="childMinor">Child under 6 months of age</string>
+
+    <string-array name="childMinor_options">
+        <item>Yes</item>
+        <item>No</item>
+    </string-array>
 
 </resources>

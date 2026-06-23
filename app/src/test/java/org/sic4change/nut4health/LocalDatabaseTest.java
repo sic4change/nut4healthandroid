@@ -73,7 +73,7 @@ public class LocalDatabaseTest {
 
     @Test
     public void deleteEmptyUser() throws Exception {
-        User user = new User("empty@emtpy.com", "empty");
+        User user = new User("anonymous@anonymous.com", "empty");
         nut4HealtDao.insert(user);
         nut4HealtDao.deleteEmptyUser();
         User userDb = getValue(nut4HealtDao.getCurrentUser());

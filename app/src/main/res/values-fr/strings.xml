@@ -75,7 +75,10 @@
     <string name="map">Carte</string>
 
     <!--Create Contract-->
-    <string name="createContract">Créer un diagnostique</string>
+    <string name="createContract">Créer un diagnostic pour un enfant</string>
+    <string name="createFEFAContract">Créer un diagnostic pour un FEFA</string>
+    <string name="profile_child">Diagnostic enfant</string>
+    <string name="profile_fefa">Diagnostic FEFA</string>
     <string name="next_step">Suivant</string>
     <string name="back_step">Précédent</string>
     <string name="complete_step"></string>
@@ -88,13 +91,14 @@
     <string name="error_fingerprint_data">Vous devez entrer l\'empreinte digitale de l\'enfant</string>
     <string name="error_not_gps_position">Vous devez activer la localisation sur votre appareil</string>
     <string name="child_data">INFORMATIONS DE L\'ENFANT</string>
-    <string name="name">Nom de l\'enfant</string>
-    <string name="surname">Noms de famille de l\'enfant</string>
-    <string name="sex">Sexe de l\'enfant</string>
+    <string name="name">Nom</string>
+    <string name="surname">Noms de famille</string>
+    <string name="sex">Sexe</string>
     <string name="brothers">Frères et sœurs aînés de l\'enfant</string>
-    <string name="tutor">Mère ou père de l\'enfant</string>
-    <string name="check_verification">Mère, père ou le tuteur autorisant la collecte des informations de l\'enfant</string>
-    <string name="dni">Pièce d\'identité mère ou père</string>
+    <string name="child_birthdate">Âge de l’enfant</string>
+    <string name="check_verification">FEFA autorisant la collecte des informations personelles</string>
+    <string name="check_verification_fefa">Autorise la collecte de données</string>
+    <string name="dni">Piece d\'identité de l\'enfant</string>
     <string name="contact_phone">Téléphone de contact</string>
     <string name="medical_point">Service de santé</string>
     <string name="location">Emplacement</string>
@@ -110,8 +114,10 @@
     <string name="check_phone_number">Veuillez vérifier que le numéro de la personne à contacter est valide/correct. Pour être sûr, appeler ce contact ou faites-vous appeler depuis "celui-ci" / ce téléphone de contact.</string>
 
     <!--Main menu-->
-    <string name="contracts">Historique des diagnostiques</string>
-    <string name="ranking">Classement</string>
+    <string name="createDiagnosis">Créer un diagnostic</string>
+    <string name="contracts">Diagnostiques Enfants</string>
+    <string name="contracts_fefa">Diagnostiques FEFA</string>
+    <string name="contracts_child">Diagnostiques Enfants</string>
     <string name="payments">Paiements</string>
     <string name="report">Rapport</string>
     <string name="notifications">Notifications</string>
@@ -168,9 +174,12 @@
     <string name="near_me">Près de moi</string>
 
     <!--Status-->
-    <string name="derived">Dérivée</string>
-    <string name="registered">Inscrit</string>
+    <string name="not_refered">Non Référé</string>
+    <string name="refered">Referido</string>
     <string name="admitted">Admis</string>
+    <string name="refered_not_validated">Référé non validé</string>
+    <string name="duplicated">Doublon</string>
+    <string name="refered_absent">Refered absent</string>
 
     <!--Check messages-->
     <string name="diagnosis_duplicated_7">Diagnostic créé ci-dessus. Vous devez attendre 7 jours pour être re-diagnostiqué</string>
@@ -763,7 +772,6 @@
     <string name="moderate_acute_malnutrition_abrev">MAM</string>
     <string name="severe_acute_malnutrition_abrev">SAM</string>
     <string name="duplicated_abrev">DUP</string>
-    <string name="duplicated">Dupliqué</string>
 
     <string name="normopeso_full">Poids Normal (NW)</string>
     <string name="moderate_acute_malnutrition_full">Malnutrition aiguë modérée (MAM)</string>
@@ -786,5 +794,32 @@
     <string name="locatoin_health_service">Emplacement des services de santé</string>
     <string name="status">État</string>
     <string name="call">Téléphoner à</string>
+
+    <string-array name="array_fefa_options">
+        <item>Enceinte</item>
+        <item>Allaitante</item>
+        <item>Enceinte et allaitante</item>
+    </string-array>
+
+    <string name="month">mois</string>
+    <string name="andYear">ans et</string>
+
+    <string name="error_pb_6">La circonférence du bras n\'est valable que pour les enfants de 6 à 59 mois, prenez la circonférence du bras de la mère</string>
+    <string name="error_pb_59">La circonférence du bras n\'est valable que pour les enfants de 6 à 59 mois</string>
+
+    <string name="weeks">Nombre de semaines</string>
+    <string name="childMinor">Enfant de moins de 6 mois</string>
+
+    <string-array name="childMinor_options">
+        <item>Oui</item>
+        <item>Non</item>
+    </string-array>
+
+    <string name="tutor">Nom de FEFA</string>
+    <string name="tutor_child">Nom de la mère</string>
+    <string name="tutor_birthdate">Âge FEFA</string>
+    <string name="tutor_birthdate_completed">Âge de la mère</string>
+    <string name="dni_tutor">Document d\'identité de la mère, du pere ou du tuteur</string>
+    <string name="dni_fefa">Document d\'identité de FEFA</string>
 
 </resources>

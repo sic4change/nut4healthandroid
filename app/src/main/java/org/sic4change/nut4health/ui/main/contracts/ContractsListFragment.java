@@ -11,22 +11,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.paging.PagedList;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.paging.LoadState;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import org.sic4change.nut4health.R;
-import org.sic4change.nut4health.data.entities.Contract;
 import org.sic4change.nut4health.ui.contract_detail.ContractDetailActivity;
 import org.sic4change.nut4health.ui.main.MainViewModel;
 
 import static maes.tech.intentanim.CustomIntent.customType;
+
 
 
 public class ContractsListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
@@ -41,10 +38,11 @@ public class ContractsListFragment extends Fragment implements SwipeRefreshLayou
     private TextView tvTotalCasesList;
 
     private String role= "";
+    private String patient = "" ;
 
-    public ContractsListFragment(String role) {
-        // Required empty public constructor
+    public ContractsListFragment(String role, String patient) {
         this.role = role;
+        this.patient = patient;
     }
 
 
@@ -58,59 +56,35 @@ public class ContractsListFragment extends Fragment implements SwipeRefreshLayou
         swipe_container.setOnRefreshListener(this);
         ivEmptyContracts = view.findViewById(R.id.ivEmptyContracts);
         rvContracts = view.findViewById(R.id.rvContracts);
-        contractsAdapter = new ContractsAdapter(getActivity().getApplicationContext());
+        contractsAdapter = new ContractsAdapter(getActivity().getApplicationContext(), patient);
         rvContracts.setLayoutManager(new LinearLayoutManager(getActivity()));
         rvContracts.setAdapter(contractsAdapter);
         contractsAdapter.setItemOnClickAction((position, id) -> {
             goToContractDetailActivity(id, role);
         });
         tvTotalCasesList = view.findViewById(R.id.tvTotalCasesList);
+        contractsAdapter.addLoadStateListener(loadStates -> {
+            if (loadStates.getRefresh() instanceof LoadState.NotLoading) {
+                int itemCount = contractsAdapter.getItemCount();
+                tvTotalCasesList.setText(getString(R.string.showing) + " " + itemCount + " " + getString(R.string.diagnosis_show));
+            }
+            return null;
+        });
         initData();
         return view;
     }
 
     private void initData() {
-        mMainViewModel = ViewModelProviders.of(getActivity()).get(MainViewModel.class);
-
-        mMainViewModel.getContracts().observe(getActivity(), contracts -> {
-            showContracts(contracts);
-            showContractNumber(contracts);
-        });
+        mMainViewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
 
         try {
-            mMainViewModel.getIsFiltered().observe(getActivity(), filtered ->{
-                mMainViewModel.getContracts().observe(getActivity(), contracts -> {
-                    showContracts(contracts);
-                    showContractNumber(contracts);
-                });
+            mMainViewModel.getContracts().observe(getViewLifecycleOwner(), pagingData -> {
+                contractsAdapter.submitData(getLifecycle(), pagingData);
             });
         } catch (Exception e) {
             System.out.println("error");
         }
 
-    }
-
-    private void showContractNumber(PagedList<Contract> contracts) {
-        try {
-            tvTotalCasesList.setText(getString(R.string.showing) + " " + contracts.size() + " " + getString(R.string.diagnosis_show));
-        } catch (Exception e) {
-            System.out.println("null contracts");
-        }
-    }
-
-    private void showContracts(PagedList<Contract> contracts) {
-        if (contractsAdapter != null) {
-            contractsAdapter.submitList(contracts);
-            contractsAdapter.notifyDataSetChanged();
-            if (contracts.size() > 0) {
-                ivEmptyContracts.setVisibility(View.GONE);
-            } else {
-                ivEmptyContracts.setVisibility(View.VISIBLE);
-            }
-            if (swipe_container != null && swipe_container.isRefreshing()) {
-                swipe_container.setRefreshing(false);
-            }
-        }
     }
 
     @Override

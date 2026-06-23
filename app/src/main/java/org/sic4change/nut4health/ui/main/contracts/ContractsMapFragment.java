@@ -17,12 +17,10 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.paging.PagedList;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.github.marlonlom.utilities.timeago.TimeAgo;
 import com.github.marlonlom.utilities.timeago.TimeAgoMessages;
-import com.github.pavlospt.CircleView;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -38,8 +36,11 @@ import org.sic4change.nut4health.ui.contract_detail.ContractDetailActivity;
 import org.sic4change.nut4health.ui.main.MainViewModel;
 import org.sic4change.nut4health.utils.location.Nut4HealthSingleShotLocationProvider;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 import static maes.tech.intentanim.CustomIntent.customType;
 
@@ -55,9 +56,12 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
     private CardView cvContract;
     private TextView nStatus;
     private TextView tvSex;
+    private TextView tvFefaStatus;
     private TextView nChildName;
     private TextView nChildLocation;
-    private CircleView nPercentage;
+    private View tvPercentageItem;
+    private View tvPercentageItemExt;
+    private TextView tvIconText;
     private TextView nDate;
     private TextView nConfirmationDate;
 
@@ -65,10 +69,12 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
 
     private String id;
 
-    private String role= "";
+    private String role = "";
+    private String patient = "" ;
 
-    public ContractsMapFragment(String role) {
+    public ContractsMapFragment(String role, String patient) {
         this.role = role;
+        this.patient = patient;
     }
 
     @Override
@@ -78,9 +84,12 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
         cvContract.setOnClickListener(v -> goToContractDetailActivity(id, role));
         nStatus = view.findViewById(R.id.tvStatus);
         tvSex = view.findViewById(R.id.tvSex);
+        tvFefaStatus = view.findViewById(R.id.tvFefaStatus);
         nChildName = view.findViewById(R.id.tvNameItem);
         nChildLocation = view.findViewById(R.id.tvLocationItem);
-        nPercentage = view.findViewById(R.id.tvPercentageItem);
+        tvPercentageItem = view.findViewById(R.id.tvPercentageItem);
+        tvPercentageItemExt = view.findViewById(R.id.tvPercentageItemExt);
+        tvIconText = view.findViewById(R.id.tvIconText);
         nDate = view.findViewById(R.id.tvDateItem);
         nConfirmationDate = view.findViewById(R.id.tvDateConfirmationItem);
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
@@ -98,16 +107,11 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
 
 
     private void initData() {
-        mMainViewModel = ViewModelProviders.of(getActivity()).get(MainViewModel.class);
-
-        mMainViewModel.getContracts().observe(getActivity(), contracts -> {
-            showContracts(contracts);
-            showContractsNumber(contracts);
-        });
+        mMainViewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
 
         try {
             mMainViewModel.getIsFiltered().observe(getActivity(), filtered ->{
-                mMainViewModel.getContracts().observe(getActivity(), contracts -> {
+                mMainViewModel.getAllContracts().observe(getActivity(), contracts -> {
                     showContracts(contracts);
                     showContractsNumber(contracts);
                 });
@@ -117,18 +121,36 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
         }
     }
 
-    private void showContractsNumber(PagedList<Contract> contracts) {
-        try {
-            tvTotalCasesMap.setText(getString(R.string.showing) + " " + contracts.size() + " " + getString(R.string.diagnosis_show));
-        } catch (Exception e) {
-            System.out.println("null contracts");
+    private void showContractsNumber(List<Contract> contracts) {
+        if (contracts != null) {
+            List<Contract> filteredContracts = new ArrayList<>();
+            if (patient.equals("child")) {
+                filteredContracts = contracts.stream()
+                        .filter(contract -> contract.getTutorStatus() != null && contract.getTutorStatus().isEmpty())
+                        .collect(Collectors.toList());
+            } else {
+                filteredContracts = contracts.stream()
+                        .filter(contract -> contract.getTutorStatus() != null && !contract.getTutorStatus().isEmpty())
+                        .collect(Collectors.toList());
+            }
+            tvTotalCasesMap.setText(getString(R.string.showing) + " " + filteredContracts.size() + " " + getString(R.string.diagnosis_show));
         }
     }
 
-    private void showContracts(PagedList<Contract> contracts) {
-        if (mMap != null) {
+    private void showContracts(List<Contract> contracts) {
+        if (mMap != null && contracts != null && !contracts.isEmpty()) {
+            List<Contract> filteredContracts = new ArrayList<>();
+            if (patient.equals("child")) {
+                filteredContracts = contracts.stream()
+                        .filter(contract -> contract.getTutorStatus() != null && contract.getTutorStatus().isEmpty())
+                        .collect(Collectors.toList());
+            } else {
+                filteredContracts = contracts.stream()
+                        .filter(contract -> contract.getTutorStatus() != null && !contract.getTutorStatus().isEmpty())
+                        .collect(Collectors.toList());
+            }
             mMap.clear();
-            for (Contract contract : contracts) {
+            for (Contract contract : filteredContracts) {
                 MarkerOptions markerOptions = new MarkerOptions();
                 markerOptions.position(new LatLng(contract.getLatitude(), contract.getLongitude()));
                 if (contract.getPercentage() < 50) {
@@ -140,8 +162,12 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
                 }
                 if (contract.getStatus().equals(Contract.Status.ADMITTED.name())) {
                     markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET));
+                } else if (contract.getStatus().equals(Contract.Status.REFERED_NOT_VALIDATED.name())) {
+                    markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
                 } else if (contract.getStatus().equals(Contract.Status.DUPLICATED.name())) {
                     markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE));
+                } else if (contract.getStatus().equals(Contract.Status.REFERED_ABSENT.name())) {
+                    markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
                 }
                 Marker marker = mMap.addMarker(markerOptions);
                 marker.setTag(contract);
@@ -190,37 +216,58 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
         });
         mMap.setOnMapClickListener(latLng -> cvContract.setVisibility(View.GONE));
         mMap.setOnMapLongClickListener(latLng -> cvContract.setVisibility(View.GONE));
-        showContracts(mMainViewModel.getContracts().getValue());
+        if (mMainViewModel.getContracts().getValue() != null) {
+            showContracts(mMainViewModel.getAllContracts().getValue());
+        }
     }
 
     private void showContractInformation(Contract contract) {
-        nChildName.setText(contract.getChildName() + " " + contract.getChildSurname());
+        if (patient.equals("child")) {
+            tvFefaStatus.setVisibility(View.GONE);
+            tvSex.setVisibility(View.VISIBLE);
+            nChildName.setText(contract.getChildName() + " " + contract.getChildSurname());
+            if (contract.getSex() == null || contract.getSex().equals("")) {
+                tvSex.setVisibility(View.GONE);
+            } else {
+                if (contract.getSex().equals("F")) {
+                    tvSex.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_female_icon, 0, 0, 0);
+                } else {
+                    tvSex.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_male_icon, 0, 0, 0);
+                }
+            }
+        } else {
+            tvFefaStatus.setVisibility(View.VISIBLE);
+            tvSex.setVisibility(View.GONE);
+            nChildName.setText(contract.getChildTutor());
+            tvFefaStatus.setText(contract.getTutorStatus());
+        }
         nChildLocation.setText(contract.getChildAddress());
+        tvIconText.setTextColor(getResources().getColor(R.color.white));
         if (contract.getPercentage() < 50) {
-            nPercentage.setTitleText(getResources().getString(R.string.normopeso_abrev));
-            nPercentage.setFillColor(getResources().getColor(R.color.colorPrimaryDark));
-            nPercentage.setStrokeColor(getResources().getColor(R.color.colorPrimaryDark));
+            tvPercentageItem.setBackgroundResource(R.drawable.bg_circle_primary);
+            tvPercentageItemExt.setBackgroundResource(R.drawable.bg_circle_white_primary);
+            tvIconText.setText(getResources().getString(R.string.normopeso_abrev));
             nStatus.setText(getResources().getString(R.string.normopeso));
             nStatus.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
             nConfirmationDate.setVisibility(View.INVISIBLE);
         } else if (contract.getPercentage() == 50) {
-            nPercentage.setTitleText(getResources().getString(R.string.moderate_acute_malnutrition_abrev));
-            nPercentage.setFillColor(getResources().getColor(R.color.orange));
-            nPercentage.setStrokeColor(getResources().getColor(R.color.orange));
+            tvIconText.setText(getResources().getString(R.string.moderate_acute_malnutrition_abrev));
+            tvPercentageItem.setBackgroundResource(R.drawable.bg_circle_yellow);
+            tvPercentageItemExt.setBackgroundResource(R.drawable.bg_circle_white_yellow);
             nStatus.setText(getResources().getString(R.string.moderate_acute_malnutrition));
             nStatus.setTextColor(getResources().getColor(R.color.orange));
             nConfirmationDate.setVisibility(View.INVISIBLE);
         } else {
-            nPercentage.setTitleText(getResources().getString(R.string.severe_acute_malnutrition_abrev));
-            nPercentage.setFillColor(getResources().getColor(R.color.ms_errorColor));
-            nPercentage.setStrokeColor(getResources().getColor(R.color.ms_errorColor));
+            tvIconText.setText(getResources().getString(R.string.severe_acute_malnutrition_abrev));
+            tvPercentageItem.setBackgroundResource(R.drawable.bg_circle_red);
+            tvPercentageItemExt.setBackgroundResource(R.drawable.bg_circle_white_red);
             nStatus.setText(getResources().getString(R.string.severe_acute_malnutrition));
-            nStatus.setTextColor(getResources().getColor(R.color.ms_errorColor));
+            nStatus.setTextColor(getResources().getColor(R.color.error));
             nConfirmationDate.setVisibility(View.INVISIBLE);
         }
         if (contract.getStatus().equals(Contract.Status.ADMITTED.name())) {
-            nPercentage.setFillColor(getResources().getColor(R.color.violet));
-            nPercentage.setStrokeColor(getResources().getColor(R.color.violet));
+            tvPercentageItem.setBackgroundResource(R.drawable.bg_circle_violet);
+            tvPercentageItemExt.setBackgroundResource(R.drawable.bg_circle_white_violet);
             try {
                 Date date = new Date(contract.getMedicalDate());
                 Locale LocaleBylanguageTag = Locale.forLanguageTag("es");
@@ -233,24 +280,43 @@ public class ContractsMapFragment extends Fragment implements OnMapReadyCallback
             nStatus.setText(getResources().getString(R.string.admitted));
             nStatus.setTextColor(getResources().getColor(R.color.violet));
             nConfirmationDate.setVisibility(View.VISIBLE);
+        } else if (contract.getStatus().equals(Contract.Status.REFERED_NOT_VALIDATED.name())) {
+            tvPercentageItem.setBackgroundResource(R.drawable.bg_circle_primary);
+            tvPercentageItemExt.setBackgroundResource(R.drawable.bg_circle_white_primary);
+            try {
+                Date date = new Date(contract.getMedicalDate());
+                Locale LocaleBylanguageTag = Locale.forLanguageTag("es");
+                TimeAgoMessages messages = new TimeAgoMessages.Builder().withLocale(LocaleBylanguageTag).build();
+                String text = TimeAgo.using(date.getTime(), messages);
+                nConfirmationDate.setText(text);
+            } catch (Exception e) {
+                nConfirmationDate.setText("");
+            }
+            nStatus.setText(getResources().getString(R.string.refered_not_validated));
+            nStatus.setTextColor(getResources().getColor(R.color.colorPrimary));
+            nConfirmationDate.setVisibility(View.VISIBLE);
+        } else if (contract.getStatus().equals(Contract.Status.REFERED_ABSENT.name())) {
+            tvPercentageItem.setBackgroundResource(R.drawable.bg_circle_red);
+            tvPercentageItemExt.setBackgroundResource(R.drawable.bg_circle_white_red);
+            try {
+                Date date = new Date(contract.getMedicalDate());
+                Locale LocaleBylanguageTag = Locale.forLanguageTag("es");
+                TimeAgoMessages messages = new TimeAgoMessages.Builder().withLocale(LocaleBylanguageTag).build();
+                String text = TimeAgo.using(date.getTime(), messages);
+                nConfirmationDate.setText(text);
+            } catch (Exception e) {
+                nConfirmationDate.setText("");
+            }
+            nStatus.setText(getResources().getString(R.string.refered_absent));
+            nStatus.setTextColor(getResources().getColor(R.color.error));
+            nConfirmationDate.setVisibility(View.VISIBLE);
         } else if (contract.getStatus().equals(Contract.Status.DUPLICATED.name())) {
-            nPercentage.setTitleText(getResources().getString(R.string.duplicated_abrev));
-            nPercentage.setFillColor(getResources().getColor(R.color.rose));
-            nPercentage.setStrokeColor(getResources().getColor(R.color.rose));
+            tvIconText.setText(getResources().getString(R.string.duplicated_abrev));
+            tvPercentageItem.setBackgroundResource(R.drawable.bg_circle_rose);
+            tvPercentageItemExt.setBackgroundResource(R.drawable.bg_circle_white_rose);
             nStatus.setText(getResources().getString(R.string.duplicated));
             nStatus.setTextColor(getResources().getColor(R.color.rose));
             nConfirmationDate.setVisibility(View.INVISIBLE);
-        }
-
-        if (contract.getSex() == null || contract.getSex().equals("")) {
-            tvSex.setVisibility(View.GONE);
-        } else {
-            if (contract.getSex().equals("F")) {
-                tvSex.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_female_icon, 0, 0, 0);
-            } else {
-                tvSex.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_male_icon, 0, 0, 0);
-            }
-            tvSex.setVisibility(View.VISIBLE);
         }
 
         Date date = new Date(contract.getCreationDate());

@@ -5,37 +5,53 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/scrollView"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         tools:context=".ui.contract_detail.ContractDetailActivity">
-        
-        <com.github.pavlospt.CircleView
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/ivIcon"
+
+        <View
+            android:id="@+id/tvPercentageDetailExt"
+            android:background="@drawable/bg_circle_white_violet"
+            android:layout_width="110dp"
+            android:layout_height="110dp"
+            android:layout_marginStart="@dimen/margin_default"
+            android:layout_marginEnd="@dimen/margin_default"
+            android:layout_marginBottom="@dimen/margin_default"
+            android:layout_marginTop="@dimen/margin_top_layout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <View
+            android:id="@+id/tvPercentageDetail"
+            android:background="@drawable/bg_circle_primary"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:layout_marginStart="@dimen/margin_card"
-            android:layout_marginLeft="@dimen/margin_card"
+            android:layout_marginStart="@dimen/margin_default"
             android:layout_marginTop="@dimen/margin_default"
-            android:layout_marginEnd="@dimen/margin_card"
-            android:layout_marginRight="@dimen/margin_card"
+            android:layout_marginEnd="@dimen/margin_default"
             android:layout_marginBottom="@dimen/margin_default"
-            app:cv_backgroundColorValue="@color/white"
-            app:cv_fillColor="@color/white"
-            app:cv_fillRadius="0.9"
-            app:cv_strokeColorValue="@color/ms_errorColor"
-            app:cv_strokeWidthSize="5"
-            app:cv_subtitleColor="@color/colorAccent"
-            app:cv_subtitleSize="0dp"
-            app:cv_titleColor="@color/white"
-            app:cv_titleSize="30dp"
-            app:cv_titleText="50%"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@id/tvPercentageDetailExt"
+            app:layout_constraintBottom_toBottomOf="@id/tvPercentageDetailExt"
+            app:layout_constraintStart_toStartOf="@id/tvPercentageDetailExt"
+            app:layout_constraintEnd_toEndOf="@id/tvPercentageDetailExt" />
+
+        <TextView
+            android:id="@+id/tvIconText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="50%"
+            android:textColor="@color/white"
+            android:background="@color/full_transparent"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="@id/tvPercentageDetailExt"
+            app:layout_constraintBottom_toBottomOf="@id/tvPercentageDetailExt"
+            app:layout_constraintStart_toStartOf="@id/tvPercentageDetailExt"
+            app:layout_constraintEnd_toEndOf="@id/tvPercentageDetailExt" />
 
         <TextView
             android:id="@+id/tvStatus"
@@ -46,10 +62,10 @@
             android:fontFamily="@font/bariol_bold"
             android:textSize="18sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@+id/ivIcon"
-            app:layout_constraintStart_toStartOf="@+id/ivIcon"
-            app:layout_constraintTop_toBottomOf="@+id/ivIcon"
-            android:layout_margin="@dimen/margin_default"/>
+            app:layout_constraintEnd_toEndOf="@+id/tvPercentageDetailExt"
+            app:layout_constraintStart_toStartOf="@+id/tvPercentageDetailExt"
+            app:layout_constraintTop_toBottomOf="@+id/tvPercentageDetailExt"
+            android:layout_marginTop="4dp"/>
 
         <TextView
             android:id="@+id/tvSex"
@@ -174,6 +190,81 @@
                     android:focusable="false"/>
 
                 <TextView
+                    android:id="@+id/tvChildBirthdate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:textColor="@color/colorPrimary"
+                    android:fontFamily="@font/bariol_bold"
+                    android:text="@string/child_birthdate"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/etSurname" />
+
+                <EditText
+                    android:id="@+id/etChildBirthdate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:layout_marginRight="@dimen/margin_medium"
+                    android:layout_marginBottom="@dimen/margin_medium"
+                    android:fontFamily="@font/bariol_regular"
+                    android:editable="false"
+                    android:enabled="false"
+                    android:inputType="textPersonName"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvChildBirthdate"
+                    android:focusable="false"/>
+
+                <TextView
+                    android:id="@+id/tvChildBirthdateResult"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:textColor="@color/colorPrimary"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/etChildBirthdate" />
+
+                <TextView
+                    android:id="@+id/tvChildDNI"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:textColor="@color/colorPrimary"
+                    android:fontFamily="@font/bariol_bold"
+                    android:text="@string/dni"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvChildBirthdateResult" />
+
+                <EditText
+                    android:id="@+id/etChildDNI"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:layout_marginRight="@dimen/margin_medium"
+                    android:layout_marginBottom="@dimen/margin_medium"
+                    android:fontFamily="@font/bariol_regular"
+                    android:editable="false"
+                    android:enabled="false"
+                    android:inputType="textPersonName"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvChildDNI"
+                    android:focusable="false"/>
+
+                <TextView
                     android:id="@+id/tvTutor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -182,9 +273,9 @@
                     android:layout_marginTop="@dimen/margin_medium"
                     android:textColor="@color/colorPrimary"
                     android:fontFamily="@font/bariol_bold"
-                    android:text="@string/tutor"
+                    android:text="@string/tutor_child"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/etSurname" />
+                    app:layout_constraintTop_toBottomOf="@+id/etChildDNI" />
 
                 <EditText
                     android:id="@+id/etTutor"
@@ -206,6 +297,177 @@
                     android:focusable="false"/>
 
                 <TextView
+                    android:id="@+id/tvTutorBirthdate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:textColor="@color/colorPrimary"
+                    android:fontFamily="@font/bariol_bold"
+                    android:text="@string/tutor_birthdate_completed"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/etTutor" />
+
+                <EditText
+                    android:id="@+id/etTutorBirthdate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:layout_marginRight="@dimen/margin_medium"
+                    android:layout_marginBottom="@dimen/margin_medium"
+                    android:fontFamily="@font/bariol_regular"
+                    android:editable="false"
+                    android:enabled="false"
+                    android:inputType="textPersonName"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvTutorBirthdate"
+                    android:focusable="false"/>
+
+                <TextView
+                    android:id="@+id/tvTutorBirthdateResult"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:textColor="@color/colorPrimary"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/etTutorBirthdate" />
+
+                <TextView
+                    android:id="@+id/tvTutorDNI"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:textColor="@color/colorPrimary"
+                    android:fontFamily="@font/bariol_bold"
+                    android:text="@string/dni_tutor"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvTutorBirthdateResult" />
+
+                <EditText
+                    android:id="@+id/etTutorDNI"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:layout_marginRight="@dimen/margin_medium"
+                    android:layout_marginBottom="@dimen/margin_medium"
+                    android:fontFamily="@font/bariol_regular"
+                    android:editable="false"
+                    android:enabled="false"
+                    android:inputType="textPersonName"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvTutorDNI"
+                    android:focusable="false"/>
+
+                <TextView
+                    android:id="@+id/tvTutorStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:textColor="@color/colorPrimary"
+                    android:fontFamily="@font/bariol_bold"
+                    android:text="@string/status"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/etTutorDNI" />
+
+                <EditText
+                    android:id="@+id/etTutorStatus"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:layout_marginRight="@dimen/margin_medium"
+                    android:layout_marginBottom="@dimen/margin_medium"
+                    android:fontFamily="@font/bariol_regular"
+                    android:editable="false"
+                    android:enabled="false"
+                    android:inputType="textPersonName"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvTutorStatus"
+                    android:focusable="false"/>
+
+                <TextView
+                    android:id="@+id/tvWeeks"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:textColor="@color/colorPrimary"
+                    android:fontFamily="@font/bariol_bold"
+                    android:text="@string/weeks"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/etTutorStatus" />
+
+                <EditText
+                    android:id="@+id/etWeeks"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:layout_marginRight="@dimen/margin_medium"
+                    android:layout_marginBottom="@dimen/margin_medium"
+                    android:fontFamily="@font/bariol_regular"
+                    android:editable="false"
+                    android:enabled="false"
+                    android:inputType="textPersonName"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvWeeks"
+                    android:focusable="false"/>
+
+                <TextView
+                    android:id="@+id/tvChildMinor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:textColor="@color/colorPrimary"
+                    android:fontFamily="@font/bariol_bold"
+                    android:text="@string/childMinor"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/etWeeks" />
+
+                <EditText
+                    android:id="@+id/etChildMinor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:layout_marginRight="@dimen/margin_medium"
+                    android:layout_marginBottom="@dimen/margin_medium"
+                    android:fontFamily="@font/bariol_regular"
+                    android:editable="false"
+                    android:enabled="false"
+                    android:inputType="textPersonName"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvChildMinor"
+                    android:focusable="false"/>
+
+                <TextView
                     android:id="@+id/tvLocation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -216,7 +478,7 @@
                     android:textColor="@color/colorPrimary"
                     android:text="@string/location"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/etTutor" />
+                    app:layout_constraintTop_toBottomOf="@+id/etChildMinor" />
 
                 <EditText
                     android:id="@+id/etLocation"
@@ -416,8 +678,8 @@
                     seek:maxValue ="28.0"
                     seek:intervalValue="0.1"
                     seek:retainLength ="5"
-                    seek:rulerColor="@color/ms_black"
-                    seek:textColor ="@color/ms_black"
+                    seek:rulerColor="@color/quantum_black_100"
+                    seek:textColor ="@color/quantum_black_100"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvCm" />

@@ -16,7 +16,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.data.entities.User;
@@ -35,7 +35,6 @@ public class CreateAccountActivity extends AppCompatActivity {
 
     private CreateAccountViewModel mCreateAccountViewModel;
 
-    private ImageView btnBack;
     private EditText etEmail;
     private EditText etUsername;
     private EditText etPassword;
@@ -53,7 +52,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         initView();
         enableView();
         CreateAccountViewModelFactory createAccountViewModelFactory = CreateAccountViewModelFactory.createFactory(this);
-        mCreateAccountViewModel = ViewModelProviders.of(this, createAccountViewModelFactory).get(CreateAccountViewModel.class);
+        mCreateAccountViewModel = new ViewModelProvider(this, createAccountViewModelFactory).get(CreateAccountViewModel.class);
         mCreateAccountViewModel.getUser().observe(this, this::hasUser);
     }
 
@@ -70,7 +69,6 @@ public class CreateAccountActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
         }
-        btnBack = findViewById(R.id.btnBack);
         etEmail = findViewById(R.id.etEmail);
         etUsername = findViewById(R.id.etUsername);
         etPassword = findViewById(R.id.etPassword);
@@ -155,7 +153,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         if ((!etEmail.getText().toString().isEmpty()) && (!etUsername.getText().toString().isEmpty()) &&
                 (!etPassword.getText().toString().isEmpty()) && (!etRepeatPassword.getText().toString().isEmpty())) {
             if (user != null) {
-                if (user.isEmptyUser()) {
+                if (user.getEmail().contains("@anonymous.com")) {
                     Nut4HealthVibrator.vibrateError(getApplicationContext());
                     Nut4HealthSnackbar.showError(getApplicationContext(), findViewById(R.id.lyCreateAccount), getResources().getString(R.string.user_exist));
                 } else {
@@ -202,7 +200,7 @@ public class CreateAccountActivity extends AppCompatActivity {
     }
 
     public void showDialogTermsAndConditions(View view) {
-        String url = "https://www.sic4change.org/politica-de-privacidad";
+        String url = "https://www.sic4change.org/politica-privacidad";
         Intent i = new Intent(Intent.ACTION_VIEW);
         i.setData(Uri.parse(url));
         startActivity(i);

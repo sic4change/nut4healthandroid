@@ -24,6 +24,7 @@ import androidx.core.view.ViewCompat;
 
 import org.sic4change.nut4health.R;
 
+
 public class SimpleRulerViewer extends View implements
         GestureDetector.OnGestureListener {
     /**

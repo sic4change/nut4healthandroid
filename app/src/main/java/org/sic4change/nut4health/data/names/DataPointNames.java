@@ -18,6 +18,11 @@ public final class DataPointNames {
     public static final String COL_POINTID = "pointId";
 
     /**
+     * Column active for Point
+     */
+    public static final String COL_ACTIVE = "active";
+
+    /**
      * Column fullName for Point
      */
     public static final String COL_FULLNAME = "fullname";
@@ -27,7 +32,10 @@ public final class DataPointNames {
      */
     public static final String COL_PHONECODE = "phonecode";
 
-
+    /**
+     * Column country for Point
+     */
+    public static final String COL_COUNTRY = "country";
 
 
 }

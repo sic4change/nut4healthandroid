@@ -1,30 +1,20 @@
 package org.sic4change.nut4health.ui.create_contract;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Build;
-import android.os.Environment;
+import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
-import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
-import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-import androidx.room.ColumnInfo;
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
 
-import com.machinezoo.sourceafis.FingerprintTemplate;
-
-import org.apache.commons.collections4.Predicate;
 import org.joda.time.DateTime;
 import org.joda.time.Minutes;
 import org.joda.time.Seconds;
@@ -33,8 +23,6 @@ import org.sic4change.nut4health.data.entities.Contract;
 import org.sic4change.nut4health.data.entities.MalnutritionChildTable;
 import org.sic4change.nut4health.data.entities.Point;
 import org.sic4change.nut4health.data.entities.User;
-import org.sic4change.nut4health.data.names.DataPointNames;
-import org.sic4change.nut4health.utils.fingerprint.AndroidBmpUtil;
 import org.sic4change.nut4health.utils.location.Nut4HealthSingleShotLocationProvider;
 
 public class CreateContractViewModel extends ViewModel {
@@ -57,11 +45,16 @@ public class CreateContractViewModel extends ViewModel {
     private String childBrothers;
     private String sex = "H";
     private String childDNI;
+    private String childBirthdate;
     private String code;
     private String childTutor;
+    private String tutorDNI;
+    private String tutorStatus;
+    private int weeks;
+    private boolean childMinor;
+    private String tutorBirthdate;
     private String childLocation;
     private String childPhoneContact;
-
     private String phoneCode = "+34";
     private boolean verification = false;
     private String point;
@@ -92,39 +85,49 @@ public class CreateContractViewModel extends ViewModel {
         return mUser;
     }
 
-    public LiveData<List<Point>> getPoints(String pointDefaultId) {
-        try {
-            if (pointDefaultId == null || pointDefaultId.isEmpty() || mPoints.getValue() == null) {
-                return mPoints;
-            } else {
-                Point pointDefault = null;
-                for (Point point : mPoints.getValue()) {
-                    if (point.getPointId().equals(pointDefaultId)) {
-                        pointDefault = point;
-                        break;
-                    }
+    public LiveData<List<Point>> getPoints(String pointDefaultId, String country) {
+        MediatorLiveData<List<Point>> result = new MediatorLiveData<>();
+        result.addSource(mPoints, allPoints -> {
+            try {
+                if (allPoints == null || allPoints.isEmpty()) {
+                    result.setValue(new ArrayList<>());
+                    return;
                 }
-                List<PointFormatted> points = new ArrayList<PointFormatted>();
-                for (Point i : mPoints.getValue()) {
-                    int count = 0;
-                    for (String j : i.getFullName().split(",")) {
-                        if (pointDefault.getFullName().replace(" ", "").contains(j.replace(" ", ""))) {
-                            count++;
-                        }
-                    }
-                    points.add(new PointFormatted(i.getPointId(), i.getFullName(), i.getPhoneCode(), count));
-                }
-                mPoints.getValue().clear();
-                Collections.sort(points, Comparator.comparingInt(PointFormatted::getOrder).reversed());
-                for (PointFormatted k : points) {
-                    mPoints.getValue().add(new Point(k.getPointId(), k.getFullName(), k.getPhoneCode()));
-                }
-                return mPoints;
-            }
-        } catch (Exception e) {
-            return mPoints;
-        }
 
+                List<Point> filtered = allPoints.stream()
+                        .filter(Point::getActive)
+                        .filter(point -> country == null || country.isEmpty()
+                                || country.equals(point.getCountry()))
+                        .collect(Collectors.toList());
+
+                Point pointDefault = allPoints.stream()
+                        .filter(point -> point.getPointId().equals(pointDefaultId))
+                        .findFirst()
+                        .orElse(null);
+
+                if (pointDefault != null) {
+                    List<PointFormatted> pointsFormatted = new ArrayList<>();
+                    for (Point point : filtered) {
+                        int count = 0;
+                        for (String namePart : point.getFullName().split(",")) {
+                            if (pointDefault.getFullName().replace(" ", "").contains(namePart.replace(" ", ""))) {
+                                count++;
+                            }
+                        }
+                        pointsFormatted.add(new PointFormatted(point.getPointId(), point.getActive(), point.getFullName(), point.getPhoneCode(), count));
+                    }
+                    Collections.sort(pointsFormatted, Comparator.comparingInt(PointFormatted::getOrder).reversed());
+                    filtered = pointsFormatted.stream()
+                            .map(pf -> new Point(pf.getPointId(), pf.getActive(), pf.getFullName(), pf.getPhoneCode()))
+                            .collect(Collectors.toList());
+                }
+
+                result.setValue(filtered);
+            } catch (Exception e) {
+                result.setValue(allPoints);
+            }
+        });
+        return result;
     }
 
     public LiveData<Contract> getContract() {
@@ -132,8 +135,10 @@ public class CreateContractViewModel extends ViewModel {
     }
 
     public void createContract(String id, String role, String screener, float latitude, float longitude,
-                               Uri photo, String childName, String childSurname, String sex,
-                               String childDNI, int childBrothers, String childTutor, String childAddress,
+                               Uri photo, String childName, String childSurname, String sex, String childBirthdate,
+                               String childDNI, int childBrothers, String childTutor, String tutorStatus,
+                               int weeks, boolean childMinor,
+                               String tutorBirthdate, String tutorDNI, String childAddress,
                                String childPhoneContact, String point, String pointFullName,
                                int percentage, double arm_circumference, double height, double weight) {
         String code = childPhoneContact + "-" + childBrothers;
@@ -147,9 +152,9 @@ public class CreateContractViewModel extends ViewModel {
 
 
         mRepository.createContract(id, role, screener, latitude, longitude, photo, childName,
-                childSurname, sex, childDNI, childBrothers, code, childTutor, childAddress, phone, point,
-                pointFullName, percentage, arm_circumference, height, weight,"",
-                minutes + seconds);
+                childSurname, sex, childBirthdate, childDNI, childBrothers, code, childTutor, tutorStatus,
+                weeks, childMinor, tutorBirthdate, tutorDNI, childAddress, phone, point, pointFullName,
+                percentage, arm_circumference, height, weight,"", minutes + seconds);
 
     }
 
@@ -223,7 +228,6 @@ public class CreateContractViewModel extends ViewModel {
         } else {
             this.sex = "M";
         }
-
     }
 
     public String getChildDNI() {
@@ -234,12 +238,60 @@ public class CreateContractViewModel extends ViewModel {
         this.childDNI = childDNI;
     }
 
+    public String getChildBirthdate() {
+        return childBirthdate;
+    }
+
+    public void setChildBirthdate(String childBirthdate) {
+        this.childBirthdate = childBirthdate;
+    }
+
     public String getChildTutor() {
         return childTutor;
     }
 
     public void setChildTutor(String childTutor) {
         this.childTutor = childTutor;
+    }
+
+    public String getTutorDNI() {
+        return tutorDNI;
+    }
+
+    public void setTutorDNI(String tutorDNI) {
+        this.tutorDNI = tutorDNI;
+    }
+
+    public String getTutorStatus() {
+        return tutorStatus;
+    }
+
+    public void setTutorStatus(String tutorStatus) {
+        this.tutorStatus = tutorStatus;
+    }
+
+    public int getWeeks() {
+        return weeks;
+    }
+
+    public void setWeeks(int weeks) {
+        this.weeks = weeks;
+    }
+
+    public boolean getChildMinor() {
+        return childMinor;
+    }
+
+    public void setChildMinor(boolean childMinor) {
+        this.childMinor = childMinor;
+    }
+
+    public String getTutorBirthdate() {
+        return tutorBirthdate;
+    }
+
+    public void setTutorBirthdate(String tutorBirthdate) {
+        this.tutorBirthdate = tutorBirthdate;
     }
 
     public String getChildLocation() {
@@ -361,11 +413,11 @@ public class CreateContractViewModel extends ViewModel {
         return null;
     }
 
-    public String getStatus() {
+    public String getChildStatus() {
         if (imc != 0) {
             if (arm_circumference < 11.5) {
                 return "Aguda Severa";
-            } else if ((arm_circumference >= 11.5 && arm_circumference <= 12.5)) {
+            } else if ((arm_circumference >= 11.5 && arm_circumference < 12.5)) {
                 if ((imc == -3.0)) {
                     return "Aguda Severa";
                 } else {
@@ -383,7 +435,37 @@ public class CreateContractViewModel extends ViewModel {
         } else {
             if (arm_circumference < 11.5) {
                 return "Aguda Severa";
-            } else if (arm_circumference >= 11.5 && arm_circumference <= 12.5) {
+            } else if (arm_circumference >= 11.5 && arm_circumference < 12.5) {
+                return "Aguda Moderada";
+            } else {
+                return "Normopeso";
+            }
+        }
+    }
+
+    public String getFEFAStatus() {
+        if (imc != 0) {
+            if (arm_circumference < 18.0) {
+                return "Aguda Severa";
+            } else if ((arm_circumference >= 18.0 && arm_circumference < 21.0)) {
+                if ((imc == -3.0)) {
+                    return "Aguda Severa";
+                } else {
+                    return "Aguda Moderada";
+                }
+            } else {
+                if ((imc == -3.0)) {
+                    return "Aguda Severa";
+                } else if (imc == -2.0) {
+                    return "Aguda Moderada";
+                } else {
+                    return "Normopeso";
+                }
+            }
+        } else {
+            if (arm_circumference < 18.0) {
+                return "Aguda Severa";
+            } else if (arm_circumference >= 18.0 && arm_circumference < 21.0) {
                 return "Aguda Moderada";
             } else {
                 return "Normopeso";
@@ -425,63 +507,4 @@ public class CreateContractViewModel extends ViewModel {
         return imc;
     }
 }
-
-
-
-class PointFormatted {
-
-    private String pointId;
-    private String fullName;
-    private String phoneCode;
-    private int order;
-
-    PointFormatted() {
-        this("", "", "", 0);
-    }
-
-    PointFormatted(@NonNull String pointId, String fullName, String phoneCode, int order) {
-        this.pointId = pointId;
-        this.fullName = fullName;
-        this.phoneCode = phoneCode;
-        this.order = order;
-    }
-
-    public String getPointId() {
-        return pointId;
-    }
-
-    public void setPointId(String pointId) {
-        this.pointId = pointId;
-    }
-
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-
-    public String getPhoneCode() {
-        return phoneCode;
-    }
-
-    public void setPhoneCode(String phoneCode) {
-        this.phoneCode = phoneCode;
-    }
-
-    public int getOrder() {
-        return order;
-    }
-
-    public void setOrder(int order) {
-        this.order = order;
-    }
-
-    public String toString() {
-        return this.fullName;
-    }
-
-}
-
 

@@ -58,6 +58,16 @@ public final class DataContractNames {
     public static final String COL_CHILD_SEX = "child_sex";
 
     /**
+     * Column child birthdate for contract
+     */
+    public static final String COL_CHILD_BIRTHDATE = "child_birthdate";
+
+    /**
+     * Column birthdate in miliseconds for contract
+     */
+    public static final String COL_CHILD_BIRTHDATE_MILISECONDS = "child_birthdate_mili";
+
+    /**
      * Column child dni for contract
      */
     public static final String COL_CHILD_DNI = "child_dni";
@@ -76,6 +86,36 @@ public final class DataContractNames {
      * Column child tutor for contract
      */
     public static final String COL_CHILD_TUTOR = "child_tutor";
+
+    /**
+     * Column tutor status for contract
+     */
+    public static final String COL_TUTOR_STATUS = "tutor_status";
+
+    /**
+     * Column tutor weeks for contract
+     */
+    public static final String COL_TUTOR_WEEKS = "tutor_weeks";
+
+    /**
+     * Column tutor child minor for contract
+     */
+    public static final String COL_TUTOR_CHILD_MINOR = "tutor_child_minor";
+
+    /**
+     * Column tutor birthdate for contract
+     */
+    public static final String COL_TUTOR_BIRTHDATE = "tutor_birthdate";
+
+    /**
+     * Column tutor birthdate in miliseconds for contract
+     */
+    public static final String COL_TUTOR_BIRTHDATE_MILISECONDS = "tutor_birthdate_mili";
+
+    /**
+     * Column tutor dni for contract
+     */
+    public static final String COL_TUTOR_DNI = "tutor_dni";
 
     /**
      * Column child address for contract

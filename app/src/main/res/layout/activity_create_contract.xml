@@ -5,6 +5,8 @@
     android:id="@+id/stepperLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginBottom="@dimen/margin_layout"
+    android:layout_marginTop="@dimen/margin_layout"
     app:ms_backButtonText="@string/back_step"
     app:ms_completeButtonText="@string/complete_step"
     app:ms_nextButtonText="@string/next_step"

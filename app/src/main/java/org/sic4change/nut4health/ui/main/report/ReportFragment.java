@@ -1,8 +1,6 @@
 package org.sic4change.nut4health.ui.main.report;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -14,14 +12,15 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
-import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeSuccessDialog;
 
 import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.data.entities.Report;
 import org.sic4change.nut4health.ui.main.MainViewModel;
 import org.sic4change.nut4health.utils.Nut4HealthKeyboard;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 
 public class ReportFragment extends Fragment {
@@ -69,7 +68,7 @@ public class ReportFragment extends Fragment {
             etReport.setClickable(false);
             btnSendReport.setEnabled(false);
             btnSendReport.setClickable(false);
-            mMainViewModel = ViewModelProviders.of(getActivity()).get(MainViewModel.class);
+            mMainViewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
             Report report = new Report(etReport.getText().toString());
             mMainViewModel.sendReport(report);
             new CountDownTimer(EXIT_DELAY_MILISECONDS, VERIFICATION_TICK_MILISECONDS) {
@@ -79,33 +78,21 @@ public class ReportFragment extends Fragment {
                 }
 
                 public void onFinish() {
-                    new AwesomeSuccessDialog(getActivity())
-                            .setTitle(getResources().getString(R.string.reportSend))
-                            .setMessage(getResources().getString(R.string.reportSendDescription))
-                            .setPositiveButtonText(getResources().getString(R.string.ok))
-                            .setPositiveButtonClick(() -> {
+                    new SweetAlertDialog(getActivity(), SweetAlertDialog.SUCCESS_TYPE)
+                            .setTitleText(getResources().getString(R.string.reportSend))
+                            .setContentText(getResources().getString(R.string.reportSendDescription))
+                            .setConfirmText(getResources().getString(R.string.ok))
+                            .setConfirmClickListener(sweetAlertDialog -> {
                                 etReport.setEnabled(true);
                                 etReport.setClickable(true);
                                 etReport.setText("");
                                 btnSendReport.setEnabled(true);
                                 btnSendReport.setClickable(true);
-                                cancel();
+                                sweetAlertDialog.dismissWithAnimation();
+
                             })
                             .show();
-//                    new AlertDialog.Builder(getContext())
-//                            .setTitle(R.string.reportSend)
-//                            .setMessage(R.string.reportSendDescription)
-//                            .setCancelable(false)
-//                            .setPositiveButton(R.string.ok, (dialog, which) -> {
-//                                etReport.setEnabled(true);
-//                                etReport.setClickable(true);
-//                                etReport.setText("");
-//                                btnSendReport.setEnabled(true);
-//                                btnSendReport.setClickable(true);
-//                                cancel();
-//                            })
-//                            .setIcon(R.mipmap.ic_launcher)
-//                            .show();
+
                 }
             }.start();
 

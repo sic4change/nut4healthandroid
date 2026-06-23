@@ -78,7 +78,11 @@
     <string name="diagnosis_show">diagnósticos</string>
 
     <!--Create Contract-->
-    <string name="createContract">Crear diagnóstico</string>
+    <string name="createDiagnosis">Crear diagnósitico</string>
+    <string name="createContract">Crear diagnósitico niño/a</string>
+    <string name="createFEFAContract">Crear diagnósitico FEFA</string>
+    <string name="profile_child">Perfil niño/a</string>
+    <string name="profile_fefa">Perfil FEFA</string>
     <string name="next_step">Siguiente</string>
     <string name="back_step">Anterior</string>
     <string name="complete_step"></string>
@@ -91,13 +95,20 @@
     <string name="error_fingerprint_data">Debes introducir la huella dactilar del niña/o</string>
     <string name="error_not_gps_position">Debes activar la localización en tu dispositivo</string>
     <string name="child_data">DATOS DEL MENOR</string>
-    <string name="name">Nombre del niña/o</string>
-    <string name="surname">Apellidos del niña/o</string>
-    <string name="sex">Sexo del niña/o</string>
-    <string name="brothers">Hermanos/as mayores del niño/a</string>
-    <string name="tutor">Madre o padre del niña/o</string>
-    <string name="check_verification">Madre, padre o tutor autoriza la toma de datos del menor</string>
-    <string name="dni">Documento identificación del niña/o</string>
+    <string name="name">Nombre del niño/a</string>
+    <string name="surname">Apellidos del niño/a</string>
+    <string name="sex">Sexo</string>
+    <string name="brothers">Hermanos/as mayores del niño/a</string>g>
+    <string name="child_birthdate">Edad del niño/a</string>
+    <string name="tutor_birthdate">Edad de la FEFA</string>
+    <string name="tutor_birthdate_completed">Edad de la madre</string>
+    <string name="tutor">Nombre de la FEFA</string>
+    <string name="tutor_child">Nombre de la madre</string>
+    <string name="check_verification">FEFA autoriza la recolección de datos personales</string>
+    <string name="check_verification_fefa">Autoriza/o la toma de datos</string>
+    <string name="dni">DPI del niña/o</string>
+    <string name="dni_tutor">DPI de la madre</string>
+    <string name="dni_fefa">DPI de la FEFA</string>
     <string name="contact_phone">Teléfono de contacto</string>
     <string name="medical_point">Servicio de Salud</string>
     <string name="location">Ubicación</string>
@@ -112,8 +123,9 @@
     <string name="check_phone_number">Verifique que el número de la persona de contacto sea válido/correcto. Para estar seguro, llame a este contacto, o hágase llamar desde el numero de contacto.</string>
 
     <!--Main menu-->
-    <string name="contracts">Histórico de Diagnósticos</string>
-    <string name="ranking">Ranking</string>
+    <string name="contracts">Diagnósticos niños/as</string>
+    <string name="contracts_fefa">Diagnósticos FEFA</string>
+    <string name="contracts_child">Diagnósticos niños/as</string>
     <string name="payments">Pagos</string>
     <string name="report">Reportar</string>
     <string name="notifications">Notificationes</string>
@@ -170,9 +182,12 @@
     <string name="near_me">Cerca de mí</string>
 
     <!--Status-->
-    <string name="derived">Derivado</string>
-    <string name="registered">Registrado</string>
+    <string name="not_refered">No Referido</string>
+    <string name="refered">Referido</string>
     <string name="admitted">Admitido</string>
+    <string name="refered_not_validated">Referido no validado</string>
+    <string name="duplicated">Duplicado</string>
+    <string name="refered_absent">Derivado no asistido</string>
 
     <!--Check messages-->
     <string name="diagnosis_duplicated_7">Diagnóstico creado anteriormente. Debe esperar 7 días para volver a diagnosticarlo</string>
@@ -765,7 +780,7 @@
     <string name="moderate_acute_malnutrition_abrev">MAM</string>
     <string name="severe_acute_malnutrition_abrev">SAM</string>
     <string name="duplicated_abrev">DUP</string>
-    <string name="duplicated">Duplicado</string>
+
 
     <string name="normopeso_full">Normopeso (NW)</string>
     <string name="moderate_acute_malnutrition_full">Desnutrición Aguda Moderada (MAM)</string>
@@ -788,5 +803,25 @@
     <string name="locatoin_health_service">Localización Servicio Salud</string>
     <string name="status">Estado</string>
     <string name="call">Llamar</string>
+
+    <string-array name="array_fefa_options">
+        <item>Embarazada</item>
+        <item>Lactante</item>
+        <item>Embarazada y lactante</item>
+    </string-array>
+
+    <string name="month">meses</string>
+    <string name="andYear">años y</string>
+
+    <string name="error_pb_6">El Perímetro Braquial solo es válido para niños/as de 6 a 59 meses de edad, tomar perímetro braquial de la madre</string>
+    <string name="error_pb_59">El Perímetro Braquial solo es válido para niños/as de 6 a 59 meses de edad</string>
+
+    <string name="weeks">Número de semanas</string>
+    <string name="childMinor">Hijo/a menor de 6 meses de edad</string>
+
+    <string-array name="childMinor_options">
+        <item>Sí</item>
+        <item>No</item>
+    </string-array>
 
 </resources>

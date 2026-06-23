@@ -16,16 +16,17 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.github.marlonlom.utilities.timeago.TimeAgo;
 import com.github.marlonlom.utilities.timeago.TimeAgoMessages;
-import com.github.pavlospt.CircleView;
 
 import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.data.entities.Contract;
 import org.sic4change.nut4health.data.entities.MalnutritionChildTable;
+import org.sic4change.nut4health.ui.create_account.CreateAccountViewModel;
 import org.sic4change.nut4health.utils.ruler_picker.SimpleRulerViewer;
+import org.sic4change.nut4health.utils.time.Nut4HealthTimeUtil;
 
 
 import java.text.DecimalFormat;
@@ -36,11 +37,16 @@ import java.util.Locale;
 
 import static maes.tech.intentanim.CustomIntent.customType;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class ContractDetailActivity extends AppCompatActivity implements SimpleRulerViewer.OnValueChangeListener {
 
     private DetailContractViewModel mDetailContractViewModel;
 
+    private View tvPercentageItem;
+    private View tvPercentageItemExt;
     private TextView tvPercentage;
+    private int percentage;
     private TextView tvCm;
     private View rulerBackground;
     private SimpleRulerViewer ruler;
@@ -56,11 +62,14 @@ public class ContractDetailActivity extends AppCompatActivity implements SimpleR
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contract_detail);
         this.activity = this;
+        percentage = 0;
+        tvPercentageItem = findViewById(R.id.tvPercentageDetail);
+        tvPercentageItemExt = findViewById(R.id.tvPercentageDetailExt);
         tvPercentage = findViewById(R.id.tvPercentage);
         tvCm = findViewById(R.id.tvCm);
         rulerBackground = findViewById(R.id.rulerBackground);
         ruler = findViewById(R.id.ruler);
-        ruler.setSelectedValue(28.0f);
+        //ruler.setSelectedValue(28.0f);
         rulerBackground.setBackgroundColor(getResources().getColor(R.color.colorAccent));
         tvPercentage.setText(getResources().getString(R.string.normopeso_full));
         tvPercentage.setTextColor(getResources().getColor(R.color.colorAccent));
@@ -124,7 +133,7 @@ public class ContractDetailActivity extends AppCompatActivity implements SimpleR
         btnValidate = findViewById(R.id.btnValidate);
         ruler.setOnValueChangeListener(this);
         ContractDetailViewModelFactory contractDetailViewModelFactory = ContractDetailViewModelFactory.createFactory(this, getIntent().getStringExtra("CONTRACT_ID"));
-        mDetailContractViewModel = ViewModelProviders.of(this, contractDetailViewModelFactory).get(DetailContractViewModel.class);
+        mDetailContractViewModel = new ViewModelProvider(this, contractDetailViewModelFactory).get(DetailContractViewModel.class);
         mDetailContractViewModel.setRole(getIntent().getStringExtra("ROLE"));
         mDetailContractViewModel.getContract().observe(this, new Observer<Contract>() {
             @Override
@@ -136,12 +145,31 @@ public class ContractDetailActivity extends AppCompatActivity implements SimpleR
 
     private void showContractDetail(Contract contract, String role) {
         if (contract != null) {
-            CircleView ivIcon = findViewById(R.id.ivIcon);
+            View tvPercentageItem = findViewById(R.id.tvPercentageDetail);
+            View tvPercentageItemExt = findViewById(R.id.tvPercentageDetailExt);
+            TextView tvIconText = findViewById(R.id.tvIconText);
             TextView tvStatus = findViewById(R.id.tvStatus);
             TextView tvSex = findViewById(R.id.tvSex);
+            TextView tvName = findViewById(R.id.tvName);
             EditText etName = findViewById(R.id.etName);
+            TextView tvSurname = findViewById(R.id.tvSurname);
             EditText etSurname = findViewById(R.id.etSurname);
+            TextView tvChildBirthdate = findViewById(R.id.tvChildBirthdate);
+            EditText etChildBirthdate = findViewById(R.id.etChildBirthdate);
+            TextView tvChildDNI = findViewById(R.id.tvChildDNI);
+            EditText etChildDNI = findViewById(R.id.etChildDNI);
+            TextView tvChildBirthdateResult = findViewById(R.id.tvChildBirthdateResult);
             EditText etTutor = findViewById(R.id.etTutor);
+            EditText etTutorBirthdate = findViewById(R.id.etTutorBirthdate);
+            TextView tvTutorBirthdateResult = findViewById(R.id.tvTutorBirthdateResult);
+            TextView tvTutorDNI = findViewById(R.id.tvTutorDNI);
+            EditText etTutorDNI = findViewById(R.id.etTutorDNI);
+            EditText etTutorStatus = findViewById(R.id.etTutorStatus);
+            TextView tvTutorStatus = findViewById(R.id.tvTutorStatus);
+            EditText etWeeks = findViewById(R.id.etWeeks);
+            TextView tvWeeks = findViewById(R.id.tvWeeks);
+            EditText etChildMinor = findViewById(R.id.etChildMinor);
+            TextView tvChildMinor = findViewById(R.id.tvChildMinor);
             EditText etLocation = findViewById(R.id.etLocation);
             EditText spPoint = findViewById(R.id.spPoint);
             EditText etPhoneContact = findViewById(R.id.etPhoneContact);
@@ -151,35 +179,164 @@ public class ContractDetailActivity extends AppCompatActivity implements SimpleR
             TextView etConfirmationDate = findViewById(R.id.etConfirmationDate);
             TextView tvConfirmationDate = findViewById(R.id.tvConfirmationDate);
 
-            etName.setText(contract.getChildName());
-            etSurname.setText(contract.getChildSurname());
+            rulerBackground = findViewById(R.id.rulerBackground);
+            ruler = findViewById(R.id.ruler);
+            ruler.setSelectedValue((float) contract.getArm_circumference());
+            tvCm = findViewById(R.id.tvCm);
+            tvCm.setText(contract.getArm_circumference() + " cm");
+            tvPercentage = findViewById(R.id.tvPercentage);
+            mDetailContractViewModel.setArmCircumferenceMedical(Double.parseDouble(tvCm.getText().toString().replace(",", ".").replace(" cm", "")));
+
+            if (contract.getTutorStatus() != null && !contract.getTutorStatus().equals("")) {
+                ruler.setMaxValue(50.0f);
+                if (contract.getArm_circumference() < 18.0) {
+                    tvPercentageItem.setBackgroundResource(R.drawable.bg_circle_red);
+                    tvPercentageItemExt.setBackgroundResource(R.drawable.bg_circle_white_red);
+                    tvPercentage.setText(getResources().getString(R.string.severe_acute_malnutrition_full));
+                    tvPercentage.setTextColor(getResources().getColor(R.color.error));
+                    rulerBackground.setBackgroundColor(getResources().getColor(R.color.error));
+                    tvCm.setTextColor(getResources().getColor(R.color.error));
+                } else if (contract.getArm_circumference() >= 18.0 && contract.getArm_circumference() <= 21.0) {
+                    tvPercentageItem.setBackgroundResource(R.drawable.bg_circle_yellow);
+                    tvPercentageItemExt.setBackgroundResource(R.drawable.bg_circle_white_yellow);
+                    tvPercentage.setText(getResources().getString(R.string.moderate_acute_malnutrition_full));
+                    tvPercentage.setTextColor(getResources().getColor(R.color.orange));
+                    rulerBackground.setBackgroundColor(getResources().getColor(R.color.orange));
+                    tvCm.setTextColor(getResources().getColor(R.color.orange));
+                } else {
+                    tvPercentageItem.setBackgroundResource(R.drawable.bg_circle_green);
+                    tvPercentageItemExt.setBackgroundResource(R.drawable.bg_circle_white_green);
+                    tvPercentage.setText(getResources().getString(R.string.normopeso_full));
+                    tvPercentage.setTextColor(getResources().getColor(R.color.colorAccent));
+                    rulerBackground.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+                    tvCm.setTextColor(getResources().getColor(R.color.colorAccent));
+                }
+            } else {
+                if (contract.getArm_circumference() < 11.5) {
+                    tvPercentageItem.setBackgroundResource(R.drawable.bg_circle_red);
+                    tvPercentageItemExt.setBackgroundResource(R.drawable.bg_circle_white_red);
+                    tvPercentage.setText(getResources().getString(R.string.severe_acute_malnutrition_full));
+                    tvPercentage.setTextColor(getResources().getColor(R.color.error));
+                    rulerBackground.setBackgroundColor(getResources().getColor(R.color.error));
+                    tvCm.setTextColor(getResources().getColor(R.color.error));
+                } else if (contract.getArm_circumference() >= 11.5 && contract.getArm_circumference() <= 12.5) {
+                    tvPercentageItem.setBackgroundResource(R.drawable.bg_circle_yellow);
+                    tvPercentageItemExt.setBackgroundResource(R.drawable.bg_circle_white_yellow);
+                    tvPercentage.setText(getResources().getString(R.string.moderate_acute_malnutrition_full));
+                    tvPercentage.setTextColor(getResources().getColor(R.color.orange));
+                    rulerBackground.setBackgroundColor(getResources().getColor(R.color.orange));
+                    tvCm.setTextColor(getResources().getColor(R.color.orange));
+                } else {
+                    tvPercentageItem.setBackgroundResource(R.drawable.bg_circle_green);
+                    tvPercentageItemExt.setBackgroundResource(R.drawable.bg_circle_white_green);
+                    tvPercentage.setText(getResources().getString(R.string.normopeso_full));
+                    tvPercentage.setTextColor(getResources().getColor(R.color.colorAccent));
+                    rulerBackground.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+                    tvCm.setTextColor(getResources().getColor(R.color.colorAccent));
+                }
+            }
+
+            mDetailContractViewModel.getStatus();
+            paintStatusChanges();
+
+            if (contract.getChildName() != null && !contract.getChildName().equals("")) {
+                etName.setText(contract.getChildName());
+            } else {
+                tvName.setVisibility(View.GONE);
+                etName.setVisibility(View.GONE);
+            }
+            if (contract.getChildSurname() != null && !contract.getChildSurname().equals("")) {
+                etSurname.setText(contract.getChildSurname());
+            } else {
+                tvSurname.setVisibility(View.GONE);
+                etSurname.setVisibility(View.GONE);
+            }
+            if (contract.getChildBirthdate() != null && !contract.getChildBirthdate().equals("") && !contract.getChildBirthdate().equals("1/1/1970")) {
+                etChildBirthdate.setText(contract.getChildBirthdate());
+                tvChildBirthdateResult.setText(Nut4HealthTimeUtil.yearsAndMonthCalculator(contract.getChildBirthdate(), getString(R.string.andYear), getString(R.string.month)));
+            } else {
+                tvChildBirthdate.setVisibility(View.GONE);
+                etChildBirthdate.setVisibility(View.GONE);
+            }
+            if (contract.getChildDNI() != null && !contract.getChildDNI().equals("")) {
+                etChildDNI.setText(contract.getChildDNI());
+            } else {
+                etChildDNI.setVisibility(View.GONE);
+                tvChildDNI.setVisibility(View.GONE);
+            }
             etTutor.setText(contract.getChildTutor());
+            etTutorBirthdate.setText(contract.getTutorBirthdate());
+            if (contract.getTutorDNI() != null && !contract.getTutorDNI().equals("")) {
+                etTutorDNI.setText(contract.getTutorDNI());
+            } else {
+                etTutorDNI.setVisibility(View.GONE);
+                tvTutorDNI.setVisibility(View.GONE);
+            }
+            tvTutorBirthdateResult.setText(Nut4HealthTimeUtil.yearsAndMonthCalculator(contract.getTutorBirthdate(), getString(R.string.andYear), getString(R.string.month)));
+            if (contract.getTutorStatus() != null && !contract.getTutorStatus().equals("")) {
+                etTutorStatus.setText(contract.getTutorStatus());
+                if (contract.getTutorStatus().equals(getResources().getStringArray(R.array.array_fefa_options)[0] + "")) {
+                    etWeeks.setText(contract.getWeeks() + "");
+                    tvWeeks.setVisibility(View.VISIBLE);
+                    etWeeks.setVisibility(View.VISIBLE);
+                    tvChildMinor.setVisibility(View.GONE);
+                    etChildMinor.setVisibility(View.GONE);
+                } else if (contract.getTutorStatus().equals(getResources().getStringArray(R.array.array_fefa_options)[1] + "")) {
+                    if (contract.getChildMinor()) {
+                        etChildMinor.setText(getResources().getStringArray(R.array.childMinor_options)[0]);
+                    } else {
+                        etChildMinor.setText(getResources().getStringArray(R.array.childMinor_options)[1]);
+                    }
+                    tvChildMinor.setVisibility(View.VISIBLE);
+                    etChildMinor.setVisibility(View.VISIBLE);
+                    tvWeeks.setVisibility(View.GONE);
+                    etWeeks.setVisibility(View.GONE);
+                } else if (contract.getTutorStatus().equals(getResources().getStringArray(R.array.array_fefa_options)[2] + "")) {
+                    tvWeeks.setVisibility(View.VISIBLE);
+                    etWeeks.setVisibility(View.VISIBLE);
+                    etWeeks.setText(contract.getWeeks() + "");
+                    tvChildMinor.setVisibility(View.VISIBLE);
+                    etChildMinor.setVisibility(View.VISIBLE);
+                    if (contract.getChildMinor()) {
+                        etChildMinor.setText(getResources().getStringArray(R.array.childMinor_options)[0]);
+                    } else {
+                        etChildMinor.setText(getResources().getStringArray(R.array.childMinor_options)[1]);
+                    }
+                }
+            } else {
+                tvTutorStatus.setVisibility(View.GONE);
+                etTutorStatus.setVisibility(View.GONE);
+                tvWeeks.setVisibility(View.GONE);
+                etWeeks.setVisibility(View.GONE);
+                tvChildMinor.setVisibility(View.GONE);
+                etChildMinor.setVisibility(View.GONE);
+            }
             etLocation.setText(contract.getChildAddress());
             etPhoneContact.setText(contract.getChildPhoneContract());
             spPoint.setText(contract.getPointFullName());
-            ivIcon.setTitleText(contract.getPercentage() + "%");
+            tvIconText.setText(contract.getPercentage() + "%");
             if (contract.getPercentage() < 50) {
-                ivIcon.setTitleText(getResources().getString(R.string.normopeso_abrev));
-                ivIcon.setFillColor(getResources().getColor(R.color.colorPrimaryDark));
-                ivIcon.setStrokeColor(getResources().getColor(R.color.colorPrimaryDark));
+                tvIconText.setText(getResources().getString(R.string.normopeso_abrev));
+                tvPercentageItem.setBackgroundResource(R.drawable.bg_circle_primary);
+                tvPercentageItemExt.setBackgroundResource(R.drawable.bg_circle_white_primary);
                 tvStatus.setText(getResources().getString(R.string.normopeso));
                 tvStatus.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
             } else if (contract.getPercentage() == 50) {
-                ivIcon.setTitleText(getResources().getString(R.string.moderate_acute_malnutrition_abrev));
-                ivIcon.setFillColor(getResources().getColor(R.color.orange));
-                ivIcon.setStrokeColor(getResources().getColor(R.color.orange));
+                tvIconText.setText(getResources().getString(R.string.moderate_acute_malnutrition_abrev));
+                tvPercentageItem.setBackgroundResource(R.drawable.bg_circle_yellow);
+                tvPercentageItemExt.setBackgroundResource(R.drawable.bg_circle_white_yellow);
                 tvStatus.setText(getResources().getString(R.string.moderate_acute_malnutrition));
                 tvStatus.setTextColor(getResources().getColor(R.color.orange));
             } else {
-                ivIcon.setTitleText(getResources().getString(R.string.severe_acute_malnutrition_abrev));
-                ivIcon.setFillColor(getResources().getColor(R.color.ms_errorColor));
-                ivIcon.setStrokeColor(getResources().getColor(R.color.ms_errorColor));
+                tvIconText.setText(getResources().getString(R.string.severe_acute_malnutrition_abrev));
+                tvPercentageItem.setBackgroundResource(R.drawable.bg_circle_red);
+                tvPercentageItemExt.setBackgroundResource(R.drawable.bg_circle_white_red);
                 tvStatus.setText(getResources().getString(R.string.severe_acute_malnutrition));
-                tvStatus.setTextColor(getResources().getColor(R.color.ms_errorColor));
+                tvStatus.setTextColor(getResources().getColor(R.color.error));
             }
             if (contract.getStatus().equals(Contract.Status.ADMITTED.name())) {
-                ivIcon.setFillColor(getResources().getColor(R.color.violet));
-                ivIcon.setStrokeColor(getResources().getColor(R.color.violet));
+                tvPercentageItem.setBackgroundResource(R.drawable.bg_circle_violet);
+                tvPercentageItemExt.setBackgroundResource(R.drawable.bg_circle_white_violet);
                 tvStatus.setText(getResources().getString(R.string.admitted));
                 tvStatus.setTextColor(getResources().getColor(R.color.violet));
                 etConfirmationDate.setVisibility(View.VISIBLE);
@@ -193,14 +350,46 @@ public class ContractDetailActivity extends AppCompatActivity implements SimpleR
                 } catch (Exception e) {
                     System.out.println("error parsing confirmation date");
                 }
+            } else if (contract.getStatus().equals(Contract.Status.REFERED_NOT_VALIDATED.name())) {
+                tvPercentageItem.setBackgroundResource(R.drawable.bg_circle_primary);
+                tvPercentageItemExt.setBackgroundResource(R.drawable.bg_circle_white_primary);
+                tvStatus.setText(getResources().getString(R.string.refered_not_validated));
+                tvStatus.setTextColor(getResources().getColor(R.color.colorPrimary));
+                etConfirmationDate.setVisibility(View.VISIBLE);
+                tvConfirmationDate.setVisibility(View.VISIBLE);
+                try {
+                    Date date = new Date(contract.getMedicalDate());
+                    Locale LocaleBylanguageTag = Locale.forLanguageTag("es");
+                    TimeAgoMessages messages = new TimeAgoMessages.Builder().withLocale(LocaleBylanguageTag).build();
+                    String text = TimeAgo.using(date.getTime(), messages);
+                    etConfirmationDate.setText(text);
+                } catch (Exception e) {
+                    System.out.println("error parsing confirmation date");
+                }
+            } else if (contract.getStatus().equals(Contract.Status.REFERED_ABSENT.name())) {
+                tvPercentageItem.setBackgroundResource(R.drawable.bg_circle_red);
+                tvPercentageItemExt.setBackgroundResource(R.drawable.bg_circle_white_red);
+                tvStatus.setText(getResources().getString(R.string.refered_absent));
+                tvStatus.setTextColor(getResources().getColor(R.color.error));
+                etConfirmationDate.setVisibility(View.VISIBLE);
+                tvConfirmationDate.setVisibility(View.VISIBLE);
+                try {
+                    Date date = new Date(contract.getMedicalDate());
+                    Locale LocaleBylanguageTag = Locale.forLanguageTag("es");
+                    TimeAgoMessages messages = new TimeAgoMessages.Builder().withLocale(LocaleBylanguageTag).build();
+                    String text = TimeAgo.using(date.getTime(), messages);
+                    etConfirmationDate.setText(text);
+                } catch (Exception e) {
+                    System.out.println("error parsing confirmation date");
+                }
             } else if (contract.getStatus().equals(Contract.Status.DUPLICATED.name())) {
-                ivIcon.setTitleText(getResources().getString(R.string.duplicated_abrev));
-                ivIcon.setFillColor(getResources().getColor(R.color.rose));
-                ivIcon.setStrokeColor(getResources().getColor(R.color.rose));
+                tvIconText.setText(getResources().getString(R.string.duplicated_abrev));
+                tvPercentageItem.setBackgroundResource(R.drawable.bg_circle_rose);
+                tvPercentageItemExt.setBackgroundResource(R.drawable.bg_circle_white_rose);
                 tvStatus.setText(getResources().getString(R.string.duplicated));
                 tvStatus.setTextColor(getResources().getColor(R.color.rose));
             }
-            if (contract.getStatus().equals("DIAGNOSIS") && role.equals("Servicio Salud")) {
+            if (contract.getStatus().equals(Contract.Status.REFERED.name()) && role.equals("Servicio Salud")) {
                 btnConfirm.setEnabled(true);
                 btnConfirm.setClickable(true);
                 btnConfirm.setVisibility(View.VISIBLE);
@@ -209,10 +398,10 @@ public class ContractDetailActivity extends AppCompatActivity implements SimpleR
                 btnConfirm.setEnabled(false);
                 btnConfirm.setClickable(false);
                 btnConfirm.setVisibility(View.INVISIBLE);
-                btnConfirm.setBackgroundColor(this.getResources().getColor(R.color.ms_material_grey_400));
+                btnConfirm.setBackgroundColor(this.getResources().getColor(R.color.frutorial_title));
             }
 
-            if (contract.getSex() == null || contract.getSex().equals("")) {
+            if ((contract.getTutorStatus() != null && !contract.getTutorStatus().equals("")) || contract.getSex() == null || contract.getSex().equals("")) {
                 tvSex.setVisibility(View.GONE);
             } else {
                 if (contract.getSex().equals("F")) {
@@ -267,7 +456,7 @@ public class ContractDetailActivity extends AppCompatActivity implements SimpleR
     private void showDialogConfirmDiagnosisSecondQuestion(String id) {
         new AlertDialog.Builder(this)
                 .setTitle(R.string.confirm_diagnosis_second_question)
-                .setPositiveButton(R.string.ok, (dialog, which) -> mDetailContractViewModel.validateDiagnosis(id))
+                .setPositiveButton(R.string.ok, (dialog, which) -> mDetailContractViewModel.validateDiagnosis(id, percentage))
                 .setIcon(R.mipmap.icon)
                 .show();
     }
@@ -297,12 +486,21 @@ public class ContractDetailActivity extends AppCompatActivity implements SimpleR
 
     private void paintStatusChanges() {
         if (mDetailContractViewModel.getStatus().equals("Aguda Severa")) {
+            percentage = 100;
+            tvPercentageItem.setBackgroundResource(R.drawable.bg_circle_red);
+            tvPercentageItemExt.setBackgroundResource(R.drawable.bg_circle_white_red);
             tvPercentage.setText(getResources().getString(R.string.severe_acute_malnutrition_full));
             tvPercentage.setTextColor(getResources().getColor(R.color.error));
         } else if (mDetailContractViewModel.getStatus().equals("Aguda Moderada")) {
+            percentage = 50;
+            tvPercentageItem.setBackgroundResource(R.drawable.bg_circle_yellow);
+            tvPercentageItemExt.setBackgroundResource(R.drawable.bg_circle_white_yellow);
             tvPercentage.setText(getResources().getString(R.string.moderate_acute_malnutrition_full));
             tvPercentage.setTextColor(getResources().getColor(R.color.orange));
         } else {
+            percentage = 0;
+            tvPercentageItem.setBackgroundResource(R.drawable.bg_circle_green);
+            tvPercentageItemExt.setBackgroundResource(R.drawable.bg_circle_white_green);
             tvPercentage.setText(getResources().getString(R.string.normopeso_full));
             tvPercentage.setTextColor(getResources().getColor(R.color.colorAccent));
         }
@@ -313,16 +511,54 @@ public class ContractDetailActivity extends AppCompatActivity implements SimpleR
         mDetailContractViewModel.setArmCircumferenceMedical(value);
         DecimalFormat df = new DecimalFormat("#.0");
         tvCm.setText(df.format(value) + " cm");
-        if (value < 11.5) {
-            rulerBackground.setBackgroundColor(getResources().getColor(R.color.error));
-            tvCm.setTextColor(getResources().getColor(R.color.error));
-        } else if (value >= 11.5 && value <= 12.5) {
-            rulerBackground.setBackgroundColor(getResources().getColor(R.color.orange));
-            tvCm.setTextColor(getResources().getColor(R.color.orange));
+        if (mDetailContractViewModel.getContract().getValue().getTutorStatus() != null && !mDetailContractViewModel.getContract().getValue().equals("")) {
+            if (value < 18.0) {
+                tvPercentageItem.setBackgroundResource(R.drawable.bg_circle_red);
+                tvPercentageItemExt.setBackgroundResource(R.drawable.bg_circle_white_red);
+                tvPercentage.setText(getResources().getString(R.string.severe_acute_malnutrition_full));
+                tvPercentage.setTextColor(getResources().getColor(R.color.error));
+                rulerBackground.setBackgroundColor(getResources().getColor(R.color.error));
+                tvCm.setTextColor(getResources().getColor(R.color.error));
+            } else if (value >= 18.0 && value <= 21.0) {
+                tvPercentageItem.setBackgroundResource(R.drawable.bg_circle_yellow);
+                tvPercentageItemExt.setBackgroundResource(R.drawable.bg_circle_white_yellow);
+                tvPercentage.setText(getResources().getString(R.string.moderate_acute_malnutrition_full));
+                tvPercentage.setTextColor(getResources().getColor(R.color.orange));
+                rulerBackground.setBackgroundColor(getResources().getColor(R.color.orange));
+                tvCm.setTextColor(getResources().getColor(R.color.orange));
+            } else {
+                tvPercentageItem.setBackgroundResource(R.drawable.bg_circle_green);
+                tvPercentageItemExt.setBackgroundResource(R.drawable.bg_circle_white_green);
+                tvPercentage.setText(getResources().getString(R.string.normopeso_full));
+                tvPercentage.setTextColor(getResources().getColor(R.color.colorAccent));
+                rulerBackground.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+                tvCm.setTextColor(getResources().getColor(R.color.colorAccent));
+            }
         } else {
-            rulerBackground.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-            tvCm.setTextColor(getResources().getColor(R.color.colorAccent));
+            if (value < 11.5) {
+                tvPercentageItem.setBackgroundResource(R.drawable.bg_circle_red);
+                tvPercentageItemExt.setBackgroundResource(R.drawable.bg_circle_white_red);
+                tvPercentage.setText(getResources().getString(R.string.severe_acute_malnutrition_full));
+                tvPercentage.setTextColor(getResources().getColor(R.color.error));
+                rulerBackground.setBackgroundColor(getResources().getColor(R.color.error));
+                tvCm.setTextColor(getResources().getColor(R.color.error));
+            } else if (value >= 11.5 && value <= 12.5) {
+                tvPercentageItem.setBackgroundResource(R.drawable.bg_circle_yellow);
+                tvPercentageItemExt.setBackgroundResource(R.drawable.bg_circle_white_yellow);
+                tvPercentage.setText(getResources().getString(R.string.moderate_acute_malnutrition_full));
+                tvPercentage.setTextColor(getResources().getColor(R.color.orange));
+                rulerBackground.setBackgroundColor(getResources().getColor(R.color.orange));
+                tvCm.setTextColor(getResources().getColor(R.color.orange));
+            } else {
+                tvPercentage.setText(getResources().getString(R.string.normopeso_full));
+                tvPercentageItem.setBackgroundResource(R.drawable.bg_circle_green);
+                tvPercentageItemExt.setBackgroundResource(R.drawable.bg_circle_white_green);
+                tvPercentage.setTextColor(getResources().getColor(R.color.colorAccent));
+                rulerBackground.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+                tvCm.setTextColor(getResources().getColor(R.color.colorAccent));
+            }
         }
+
         mDetailContractViewModel.getStatus();
         paintStatusChanges();
     }

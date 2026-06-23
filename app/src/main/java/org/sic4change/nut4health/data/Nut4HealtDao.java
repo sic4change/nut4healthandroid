@@ -3,12 +3,14 @@ package org.sic4change.nut4health.data;
 
 import androidx.lifecycle.LiveData;
 import androidx.paging.DataSource;
+import androidx.paging.PagingSource;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.RawQuery;
+import androidx.sqlite.db.SimpleSQLiteQuery;
 import androidx.sqlite.db.SupportSQLiteQuery;
 
 import org.sic4change.nut4health.data.entities.Configuration;
@@ -30,7 +32,7 @@ public interface Nut4HealtDao {
      * Returns a current user.
      *
      */
-    @Query("SELECT * FROM user WHERE email != 'empty@emtpy.com' LIMIT 1")
+    @Query("SELECT * FROM user WHERE email != 'anonymous@anonymous.com' LIMIT 1")
     LiveData<User> getCurrentUser();
 
     /**
@@ -76,7 +78,7 @@ public interface Nut4HealtDao {
     /**
      * Delete all user
      */
-    @Query("DELETE FROM user WHERE email == 'empty@emtpy.com'")
+    @Query("DELETE FROM user WHERE email == 'anonymous@anonymous.com'")
     void deleteEmptyUser();
 
     /**
@@ -139,7 +141,13 @@ public interface Nut4HealtDao {
      * @return
      */
     @RawQuery(observedEntities = Contract.class)
-    DataSource.Factory<Integer, Contract> getUserContracts(SupportSQLiteQuery query);
+    PagingSource<Integer, Contract> getUserContracts(SimpleSQLiteQuery query);
+
+    @Query("SELECT * FROM contract")
+    LiveData<List<Contract>> getAllContractsForExport();
+
+    @Query("SELECT * FROM contract")
+    LiveData<List<Contract>> getAllContracts();
 
     /**
      * Get a contract based on the contract id

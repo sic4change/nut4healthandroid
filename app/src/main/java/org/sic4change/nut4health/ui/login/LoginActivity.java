@@ -17,11 +17,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.data.entities.User;
 import org.sic4change.nut4health.ui.create_account.CreateAccountActivity;
+import org.sic4change.nut4health.ui.create_account.CreateAccountViewModel;
 import org.sic4change.nut4health.ui.main.MainActivity;
 import org.sic4change.nut4health.utils.Nut4HealthKeyboard;
 import org.sic4change.nut4health.utils.Nut4HealthVibrator;
@@ -32,8 +33,7 @@ import org.sic4change.nut4health.utils.view.Nut4HealthSnackbar;
 
 import static maes.tech.intentanim.CustomIntent.customType;
 
-import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeInfoDialog;
-import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeSuccessDialog;
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -57,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
         initView();
         enableView();
         LoginViewModelFactory loginViewModelFactory = LoginViewModelFactory.createFactory(this);
-        mLoginViewModel = ViewModelProviders.of(this, loginViewModelFactory).get(LoginViewModel.class);
+        mLoginViewModel = new ViewModelProvider(this, loginViewModelFactory).get(LoginViewModel.class);
         mLoginViewModel.getUser().observe(this, this::hasUser);
     }
 
@@ -90,7 +90,7 @@ public class LoginActivity extends AppCompatActivity {
         if ((!etEmail.getText().toString().isEmpty()) &&
                 (!etPassword.getText().toString().isEmpty())) {
             if (user != null) {
-                if (user.isEmptyUser()) {
+                if (user.getEmail().contains("@anonymous.com")) {
                     Nut4HealthVibrator.vibrateError(getApplicationContext());
                     Nut4HealthSnackbar.showError(getApplicationContext(), findViewById(R.id.lyLogin), getResources().getString(R.string.incorrect_user_or_password));
                 } else {
@@ -183,21 +183,26 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void showToastChangePassword() {
-        new AwesomeInfoDialog(this)
-                .setTitle(getResources().getString(R.string.app_name))
-                .setMessage(getResources().getString(R.string.sent_instructions_to_change_password))
-                .setPositiveButtonText(getResources().getString(R.string.ok))
-                .setPositiveButtonClick(() -> {
+        final LoginActivity context = this;
+        new SweetAlertDialog(this)
+                .setConfirmButtonBackgroundColor(getResources().getColor(R.color.colorPrimary))
+                .setTitleText(getResources().getString(R.string.app_name))
+                .setContentText(getResources().getString(R.string.sent_instructions_to_change_password))
+                .setConfirmText(getResources().getString(R.string.ok))
+                .setConfirmClickListener(dialog -> {
+                    dialog.dismissWithAnimation();
                     mLoginViewModel.resetPassword(etEmail.getText().toString());
-                    new AwesomeSuccessDialog(this)
-                            .setTitle(getResources().getString(R.string.app_name))
-                            .setMessage(getResources().getString(R.string.sent_instructions_to_change_password_ok))
-                            .setPositiveButtonText(getResources().getString(R.string.ok))
-                            .setPositiveButtonClick(() -> {
-
+                    new SweetAlertDialog(context, SweetAlertDialog.SUCCESS_TYPE)
+                            .setConfirmButtonBackgroundColor(getResources().getColor(R.color.colorPrimary))
+                            .setTitleText(getResources().getString(R.string.app_name))
+                            .setContentText(getResources().getString(R.string.sent_instructions_to_change_password_ok))
+                            .setConfirmText(getResources().getString(R.string.ok))
+                            .setConfirmClickListener(sweetAlertDialog -> {
+                                sweetAlertDialog.dismissWithAnimation();
                             })
                             .show();
-                }).show();
+                })
+                .show();
     }
 
     public void goToCreateAccount(View view) {
@@ -208,7 +213,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void showDialogTermsAndConditions(View view) {
-        String url = "https://www.sic4change.org/politica-de-privacidad";
+        String url = "https://www.sic4change.org/politica-privacidad";
         Intent i = new Intent(Intent.ACTION_VIEW);
         i.setData(Uri.parse(url));
         startActivity(i);

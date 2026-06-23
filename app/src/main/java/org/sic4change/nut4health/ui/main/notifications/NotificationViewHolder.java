@@ -45,7 +45,7 @@ private Context context;
         tvTitle.setText(mNotification.getText());
         try {
             if (notification.getRead().contains(userId)) {
-                tvTitle.setTextColor(context.getResources().getColor(R.color.common_google_signin_btn_text_light_default));
+                tvTitle.setTextColor(context.getResources().getColor(R.color.frutorial_title));
             } else {
                 tvTitle.setTextColor(context.getResources().getColor(R.color.colorAccent));
             }

@@ -12,13 +12,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
-import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeErrorDialog;
-import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeSuccessDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
@@ -28,7 +27,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.data.entities.Contract;
-import org.sic4change.nut4health.ui.create_contract.CreateContractActivity;
+import org.sic4change.nut4health.ui.create_contract.child.CreateContractActivity;
 import org.sic4change.nut4health.ui.main.MainViewModel;
 import org.sic4change.nut4health.utils.Nut4HealthKeyboard;
 
@@ -38,6 +37,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Calendar;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import ru.slybeaver.slycalendarview.SlyCalendarDialog;
 
 import static maes.tech.intentanim.CustomIntent.customType;
@@ -62,9 +62,10 @@ public class ContractFragment extends Fragment {
 
     private MainViewModel mMainViewModel;
     private boolean exportContract = false;
+    private String patient;
 
-    public ContractFragment() {
-        // Required empty public constructor
+    public ContractFragment(String patient) {
+        this.patient = patient;
     }
 
     @Override
@@ -84,12 +85,16 @@ public class ContractFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_contract, container, false);
         TabLayout tabLayout = view.findViewById(R.id.tab_layout);
+        tabLayout.setTabTextColors(ContextCompat.getColorStateList(getActivity(), R.color.white));
+        tabLayout.setSelectedTabIndicatorColor(ContextCompat.getColor(getActivity(), R.color.colorAccent));
         tabLayout.addTab(tabLayout.newTab().setText(R.string.list));
         tabLayout.addTab(tabLayout.newTab().setText(R.string.map));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         final ViewPager viewPager = view.findViewById(R.id.pager);
         final PagerFragmentAdapter adapter = new PagerFragmentAdapter
-                (getActivity().getSupportFragmentManager(), tabLayout.getTabCount(), mMainViewModel.getCurrentUser().getValue().getRole());
+                (getActivity().getSupportFragmentManager(),
+                        tabLayout.getTabCount(), mMainViewModel.getCurrentUser().getValue().getRole(),
+                        patient);
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new
                 TabLayout.TabLayoutOnPageChangeListener(tabLayout));
@@ -108,13 +113,18 @@ public class ContractFragment extends Fragment {
             }
         });
         btnCreateContract = view.findViewById(R.id.btnCreateContract);
+        btnCreateContract.setBackgroundTintList(ContextCompat.getColorStateList(getActivity(), R.color.colorPrimaryDark));
+        btnCreateContract.setColorFilter(ContextCompat.getColor(getActivity(), R.color.white));
         btnCreateContract.setOnClickListener(v -> {
             goToCreateContractActivity();
         });
         btnFilterContracts = view.findViewById(R.id.btnFilterContracts);
+        btnFilterContracts.setBackgroundTintList(ContextCompat.getColorStateList(getActivity(), R.color.colorPrimaryDark));
+        btnFilterContracts.setColorFilter(ContextCompat.getColor(getActivity(), R.color.white));
         btnFilterContracts.setOnClickListener(v -> {
             showContractFilterMenu();
         });
+        btnFilterContracts.setVisibility(View.GONE); //Por ahora no filtramos
         btnExportContract = view.findViewById(R.id.btnExportContracts);
         btnExportContract.setOnClickListener(v -> {
             exportContract = true;
@@ -174,7 +184,7 @@ public class ContractFragment extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
                     case 0:
-                        ivStatus.setBackgroundColor(getResources().getColor(R.color.ms_black));
+                        ivStatus.setBackgroundColor(getResources().getColor(R.color.black));
                         break;
                     case 1:
                         ivStatus.setBackgroundColor(getResources().getColor(R.color.violet));
@@ -189,7 +199,7 @@ public class ContractFragment extends Fragment {
                         ivStatus.setBackgroundColor(getResources().getColor(R.color.orange));
                         break;
                     case 5:
-                        ivStatus.setBackgroundColor(getResources().getColor(R.color.ms_errorColor));
+                        ivStatus.setBackgroundColor(getResources().getColor(R.color.error));
                         break;
                     default:
                         ivStatus.setBackgroundColor(getResources().getColor(R.color.rose));
@@ -202,18 +212,13 @@ public class ContractFragment extends Fragment {
 
             }
         });
-        mMainViewModel = ViewModelProviders.of(getActivity()).get(MainViewModel.class);
 
         return view;
     }
 
     private void initData() {
-        mMainViewModel = ViewModelProviders.of(getActivity()).get(MainViewModel.class);
-        mMainViewModel.getCurrentUser().observe(getActivity(), user -> {
-            if (user != null) {
-                mMainViewModel.getContracts(user.getEmail(), user.getRole());
-            }
-        });
+        mMainViewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
+        mMainViewModel.initContracts(mMainViewModel.getUser().getEmail(), mMainViewModel.getUser().getRole());
         mMainViewModel.getIsFiltered().observe(getActivity(), filtered -> {
             try {
                 if (filtered) {
@@ -226,6 +231,10 @@ public class ContractFragment extends Fragment {
             }
 
         });
+        mMainViewModel.getSortedContracts("DATE", patient, mMainViewModel.getName(),
+                mMainViewModel.getSurname(), mMainViewModel.getTutorName(), mMainViewModel.getTutorStatus(),
+                mMainViewModel.getStatus(), mMainViewModel.getDateStart(), mMainViewModel.getDateEnd(),
+                mMainViewModel.getPercentageMin(), mMainViewModel.getPercentageMax());
     }
 
     private void goToCreateContractActivity() {
@@ -244,7 +253,7 @@ public class ContractFragment extends Fragment {
     }
 
     private void exportContractsToExcel() {
-            mMainViewModel.getContracts().observe(getActivity(), contracts -> {
+            mMainViewModel.getAllContractsForExport().observe(getActivity(), contracts -> {
                 if (exportContract) {
                     Workbook workbook = new XSSFWorkbook();
                     Sheet sheet = workbook.createSheet(getString(R.string.contracts));
@@ -309,24 +318,27 @@ public class ContractFragment extends Fragment {
     }
 
     public void showDialogExportContractsResult() {
-        new AwesomeSuccessDialog(getActivity())
-                .setTitle(getResources().getString(R.string.app_name))
-                .setMessage(getResources().getString(R.string.contracts_exported_ok))
-                .setPositiveButtonText(getResources().getString(R.string.ok))
-                .setPositiveButtonClick(() -> {
+        new SweetAlertDialog(getActivity())
+                .setTitleText(getResources().getString(R.string.app_name))
+                .setContentText(getResources().getString(R.string.contracts_exported_ok))
+                .setConfirmText(getResources().getString(R.string.ok))
+                .setConfirmClickListener(sweetAlertDialog -> {
+                    sweetAlertDialog.dismissWithAnimation();
                     openFile();
                 })
                 .show();
     }
 
     public void showDialogErrorExportContractsResult() {
-        new AwesomeErrorDialog(getActivity())
-                .setTitle(getResources().getString(R.string.app_name))
-                .setMessage(getResources().getString(R.string.contracts_exported_error))
-                .setButtonText(getResources().getString(R.string.ok))
-                .setErrorButtonClick(() -> {
+        new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE)
+                .setTitleText(getResources().getString(R.string.app_name))
+                .setContentText(getResources().getString(R.string.contracts_exported_error))
+                .setConfirmText(getResources().getString(R.string.ok))
+                .setCancelClickListener(sweetAlertDialog -> {
+                    sweetAlertDialog.dismissWithAnimation();
 
-                }).show();
+                })
+                .show();
     }
 
     private void openFile() {
@@ -352,13 +364,16 @@ public class ContractFragment extends Fragment {
         mMainViewModel.setDateStart(timeRangeMax);
         mMainViewModel.setPercentageMax(100);
         mMainViewModel.setPercentageMin(0);
-        mMainViewModel.getSortedContracts("DATE", mMainViewModel.getName(), mMainViewModel.getSurname(), mMainViewModel.getStatus(),
-                mMainViewModel.getDateStart(), mMainViewModel.getDateEnd(), mMainViewModel.getPercentageMin(), mMainViewModel.getPercentageMax());
+        mMainViewModel.getSortedContracts("DATE", patient, mMainViewModel.getName(),
+                mMainViewModel.getSurname(), mMainViewModel.getTutorName(), mMainViewModel.getTutorStatus(),
+                mMainViewModel.getStatus(), mMainViewModel.getDateStart(), mMainViewModel.getDateEnd(),
+                mMainViewModel.getPercentageMin(), mMainViewModel.getPercentageMax());
         lyFilter.setVisibility(View.GONE);
         mMainViewModel.setIsFiltered(false);
     }
 
     private void filterContracts() {
+        //Aqui hay que mirar si son los nombres del child o de la fefa
         mMainViewModel.setName(etName.getText().toString());
         mMainViewModel.setSurname(etSurname.getText().toString());
         switch (spStatus.getSelectedItemPosition()) {
@@ -412,8 +427,10 @@ public class ContractFragment extends Fragment {
         } else {
             mMainViewModel.setDateStart(timeRangeMax);
         }
-        mMainViewModel.getSortedContracts("DATE", mMainViewModel.getName(), mMainViewModel.getSurname(), mMainViewModel.getStatus(),
-                mMainViewModel.getDateStart(), mMainViewModel.getDateEnd(), mMainViewModel.getPercentageMin(), mMainViewModel.getPercentageMax());
+        mMainViewModel.getSortedContracts("DATE", patient, mMainViewModel.getName(),
+                mMainViewModel.getSurname(), mMainViewModel.getTutorName(), mMainViewModel.getTutorStatus(),
+                mMainViewModel.getStatus(), mMainViewModel.getDateStart(), mMainViewModel.getDateEnd(),
+                mMainViewModel.getPercentageMin(), mMainViewModel.getPercentageMax());
         mMainViewModel.getContracts().observe(getActivity(), contracts -> mMainViewModel.setIsFiltered(true));
     }
 

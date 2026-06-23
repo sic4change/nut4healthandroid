@@ -56,7 +56,7 @@ public class PaymentFirebase {
 
     @Ignore
     public PaymentFirebase(@NonNull String id, String creationDate, @NonNull String screener, String quantity, @NonNull String type, @NonNull String status) {
-        this(id, creationDate, Nut4HealthTimeUtil.convertCreationDateToTimeMilis(creationDate) + "", screener, quantity, type, status, "");
+        this(id, creationDate, Nut4HealthTimeUtil.convertDateToTimeMilis(creationDate) + "", screener, quantity, type, status, "");
     }
 
     public PaymentFirebase(@NonNull String id, String creationDate, String creationDateMiliseconds, @NonNull String screener, String quantity, @NonNull String type, @NonNull String status, String contractId) {

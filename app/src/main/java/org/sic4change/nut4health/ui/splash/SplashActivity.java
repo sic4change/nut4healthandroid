@@ -9,7 +9,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.ui.login.LoginActivity;
@@ -38,7 +38,8 @@ public class SplashActivity extends AppCompatActivity {
         }
         this.activity = this;
         SplashViewModelFactory splashViewModelFactory = SplashViewModelFactory.createFactory(this);
-        mSplashViewModel = ViewModelProviders.of(this, splashViewModelFactory).get(SplashViewModel.class);
+        mSplashViewModel = new ViewModelProvider(this, splashViewModelFactory).get(SplashViewModel.class);
+
         mSplashViewModel.getCurrentUser().observe(this, user -> {
             if (mSplashViewModel != null) {
                 mSplashViewModel.saveSelection(1);
@@ -61,6 +62,7 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         //Disable back pressed
+        super.onBackPressed();
     }
 
     public void goToMainActivity() {

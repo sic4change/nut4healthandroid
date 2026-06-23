@@ -6,21 +6,23 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.paging.PagedListAdapter;
 import androidx.recyclerview.widget.DiffUtil;
+import androidx.paging.PagingDataAdapter;
 
 import org.sic4change.nut4health.R;
 import org.sic4change.nut4health.data.entities.Contract;
 
-public class ContractsAdapter extends PagedListAdapter<Contract, ContractViewHolder> {
+public class ContractsAdapter extends PagingDataAdapter<Contract, ContractViewHolder> {
 
     private ItemAction mItemOnClickAction;
 
     Context context;
+    String patient = "";
 
-    public ContractsAdapter(Context context) {
+    public ContractsAdapter(Context context, String patient) {
         super(DIFF_CALLBACK);
         this.context = context;
+        this.patient = patient;
     }
 
     public interface ItemAction {
@@ -35,7 +37,7 @@ public class ContractsAdapter extends PagedListAdapter<Contract, ContractViewHol
     @Override
     public ContractViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(context).inflate(R.layout.item_contract, parent, false);
-        return new ContractViewHolder(itemView, context);
+        return new ContractViewHolder(itemView, context, patient);
     }
 
     @Override

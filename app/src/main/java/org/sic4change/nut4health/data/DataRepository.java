@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.paging.LivePagedListBuilder;
 import androidx.paging.PagedList;
+import androidx.paging.PagingSource;
 import androidx.sqlite.db.SimpleSQLiteQuery;
 
 import java.math.BigDecimal;
@@ -27,6 +28,7 @@ import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.gson.Gson;
 
 import org.greenrobot.eventbus.EventBus;
 import org.imperiumlabs.geofirestore.GeoFirestore;
@@ -57,7 +59,9 @@ import org.sic4change.nut4health.utils.time.Nut4HealthTimeUtil;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -291,7 +295,6 @@ public class DataRepository {
                 if ((task != null) && (task.getResult() != null) && (task.getResult().getUser() != null)) {
                     Log.d(TAG, "Create user correct with firebase auth");
                     User user = new User(email, username, role);
-                    user.setActive(true);
                     FirebaseFirestore db = FirebaseFirestore.getInstance();
                     CollectionReference userRef = db.collection(DataUserNames.TABLE_FIREBASE_NAME);
                     Query query = userRef.whereEqualTo(DataUserNames.COL_USERNAME, username).limit(1);
@@ -546,8 +549,9 @@ public class DataRepository {
      * @param percentage
      */
     public void createContract(String id, String role, String email, double latitude, double longitude, Uri photo,
-                               String childName, String childSurname, String sex, String childDNI,
-                               int childBrothers, String code, String childTutor, String childAddress,
+                               String childName, String childSurname, String sex, String childBirthdate, String childDNI,
+                               int childBrothers, String code, String childTutor, String tutorStatus,
+                               int weeks, boolean childMinor, String tutorBirthdate, String tutorDNI, String childAddress,
                                String childPhoneContact, String point, String pointFullName, int percentage,
                                double arm_circumference, double height, double weight, String fingerprint,
                                String duration) {
@@ -555,20 +559,23 @@ public class DataRepository {
         CollectionReference contractRef = db.collection(DataContractNames.TABLE_FIREBASE_NAME);
         String status;
         if (percentage > 49) {
-            status = Contract.Status.DERIVED.name();
+            status = Contract.Status.REFERED.name();
         } else {
-            status = Contract.Status.REGISTERED.name();
+            status = Contract.Status.NOT_REFERED.name();
         }
 
-       Contract contract = new Contract("", latitude, longitude, "", childName,
-                childSurname, sex, childDNI, childBrothers, code, childTutor, childAddress, childPhoneContact, point,
-                pointFullName,  "", status, "", percentage,
+        Contract contract = new Contract("", latitude, longitude, "", childName,
+                childSurname, sex, childBirthdate, childDNI, childBrothers, code, childTutor,
+                tutorStatus, weeks, childMinor, tutorBirthdate, tutorDNI, childAddress, childPhoneContact, point,
+                pointFullName, "", status, "", percentage,
                 new BigDecimal(arm_circumference).setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue(),
                 height, weight, duration);
 
         String newId = id + "_" + new Date().getTime();
         contract.setId(newId);
         contract.setCreationDate(new Date().toString());
+        contract.setChildBirthdateMiliseconds(Nut4HealthTimeUtil.convertDateSimpleToTimeMilis(childBirthdate));
+        contract.setTutorBirthdateMiliseconds(Nut4HealthTimeUtil.convertDateSimpleToTimeMilis(tutorBirthdate));
         contract.setCreationDateMiliseconds(new Date().getTime());
         if (fingerprint != null && fingerprint != "") {
             contract.setFingerprint(fingerprint);
@@ -589,7 +596,7 @@ public class DataRepository {
                                 boolean olderThan30 = new Date().before(new Date((eventStartDate + day30)));
                                 boolean olderThan7 = new Date().before(new Date((eventStartDate + day7)));
                                 if (contractIt.getCode().equals(contract.getCode())) {
-                                    if (contractIt.getStatus().equals(Contract.Status.REGISTERED.name())) {
+                                    if (contractIt.getStatus().equals(Contract.Status.NOT_REFERED.name())) {
                                         // Lo añade como duplicado y lo hago esperar 7 días para registrar a ese menor
                                         if (olderThan7) {
                                             contract.setScreener(email);
@@ -659,7 +666,7 @@ public class DataRepository {
                             for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
                                 Contract contractIt = document.toObject(Contract.class);
                                 if (contractIt.getCode().equals(contract.getCode())) {
-                                    if (contractIt.getStatus().equals(Contract.Status.REGISTERED.name())) {
+                                    if (contractIt.getStatus().equals(Contract.Status.NOT_REFERED.name())) {
                                         contractIt.setArm_circumference_medical(arm_circumference);
                                         contractIt.setHeight(height);
                                         contractIt.setWeight(weight);
@@ -670,8 +677,16 @@ public class DataRepository {
                                         contractIt.setChildName(childName);
                                         contractIt.setChildSurname(childSurname);
                                         contractIt.setSex(sex);
+                                        contractIt.setChildBirthdate(childBirthdate);
+                                        contractIt.setChildBirthdateMiliseconds(Nut4HealthTimeUtil.convertDateSimpleToTimeMilis(childBirthdate));
                                         contractIt.setChildDNI(childDNI);
                                         contractIt.setChildTutor(childTutor);
+                                        contractIt.setTutorStatus(tutorStatus);
+                                        contractIt.setWeeks(weeks);
+                                        contractIt.setChildMinor(childMinor);
+                                        contractIt.setTutorBirthdate(tutorBirthdate);
+                                        contractIt.setTutorBirthdateMiliseconds(Nut4HealthTimeUtil.convertDateSimpleToTimeMilis(tutorBirthdate));
+                                        contractIt.setTutorDNI(tutorDNI);
                                         contractIt.setChildAddress(childAddress);
                                         contractIt.setChildPhoneContract(childPhoneContact);
                                         contractIt.setArm_circumference_medical(arm_circumference);
@@ -679,7 +694,7 @@ public class DataRepository {
                                         contractIt.setWeight(weight);
                                         contractIt.setPercentage(percentage);
                                         contractIt.setMedical(email);
-                                        if (contractIt.getStatus().equals(Contract.Status.DERIVED.name())) {
+                                        if (contractIt.getStatus().equals(Contract.Status.REFERED.name())) {
                                             if (count != 0) {
                                                 contractIt.setStatus(Contract.Status.DUPLICATED.name());
                                             } else {
@@ -755,57 +770,68 @@ public class DataRepository {
         Query query;
         if (role.equals("Agente Salud")) {
             query = contractRef.whereEqualTo(DataContractNames.COL_SCREENER, email);
-            query.addSnapshotListener(mIoExecutor, (queryDocumentSnapshots, e) -> {
-                try {
-                    if ((queryDocumentSnapshots != null) && (queryDocumentSnapshots.getDocuments() != null)
-                            && (queryDocumentSnapshots.getDocuments().size() > 0)) {
-                        for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
-                            Contract contract = document.toObject(Contract.class);
-                            if (contract.getId() != null && !contract.getId().isEmpty()) {
-                                nut4HealtDao.insert(contract);
-                            }
+            query.get().addOnCompleteListener(mIoExecutor, task -> {
+                if (task.isSuccessful() && task.getResult() != null && !task.getResult().isEmpty()) {
+                    System.out.println("Aqui Get contracts: " + task.getResult().getDocuments().size());
+                    for (DocumentSnapshot document : task.getResult().getDocuments()) {
+                        Contract contract = document.toObject(Contract.class);
+                        if (contract.getId() != null && !contract.getId().isEmpty()) {
+                            nut4HealtDao.insert(contract);
                         }
-                    } else {
-                        nut4HealtDao.deleteAllContract();
-                        Log.d(TAG, "Get contracts: " + "empty");
                     }
-                } catch (Exception error) {
-                    Log.d(TAG, "Get contracts: " + "empty");
+                } else {
+                    nut4HealtDao.deleteAllContract();
+                    System.out.println("Aqui clean contracts: ");
                 }
+            }).addOnFailureListener(e -> {
+                Log.d(TAG, "Get contracts: error", e);
             });
         } else {
             CollectionReference userRef = db.collection(DataUserNames.TABLE_FIREBASE_NAME);
             query = userRef.whereEqualTo(DataUserNames.COL_EMAIL, email).limit(1);
-            query.addSnapshotListener(mIoExecutor, (queryDocumentSnapshots, e) -> {
-                try {
-                    if ((queryDocumentSnapshots != null) && (queryDocumentSnapshots.getDocuments() != null)
-                            && (queryDocumentSnapshots.getDocuments().size() > 0)) {
-                        User user = queryDocumentSnapshots.getDocuments().get(0).toObject(User.class);
-                        Query queryContracts = contractRef.whereEqualTo(DataContractNames.COL_POINT, user.getPoint());
-                        queryContracts.addSnapshotListener(mIoExecutor, (queryDocumentSnapshots2, e2) -> {
-                            try {
-                                if ((queryDocumentSnapshots2 != null) && (queryDocumentSnapshots2.getDocuments() != null)
-                                        && (queryDocumentSnapshots2.getDocuments().size() > 0)) {
-                                    for (DocumentSnapshot document : queryDocumentSnapshots2.getDocuments()) {
-                                        Contract contract = document.toObject(Contract.class);
-                                        if (contract.getId() != null && !contract.getId().isEmpty()) {
-                                            nut4HealtDao.insert(contract);
-                                        }
-                                    }
-                                } else {
-                                    nut4HealtDao.deleteAllContract();
-                                    Log.d(TAG, "Get contracts: " + "empty");
+            query.get().addOnCompleteListener(mIoExecutor, task -> {
+                if (task.isSuccessful() && task.getResult() != null && !task.getResult().isEmpty()) {
+                    User user = task.getResult().getDocuments().get(0).toObject(User.class);
+                    Query queryContracts = contractRef.whereEqualTo(DataContractNames.COL_POINT, user.getPoint());
+                    queryContracts.get().addOnCompleteListener(mIoExecutor, taskContracts -> {
+                        if (taskContracts.isSuccessful() && taskContracts.getResult() != null && !taskContracts.getResult().isEmpty()) {
+                            Log.d(TAG, "Aqui Get contracts: " + taskContracts.getResult().getDocuments().size());
+                            /*for (DocumentSnapshot document : taskContracts.getResult().getDocuments()) {
+                                Contract contract = document.toObject(Contract.class);
+                                if (contract.getId() != null && !contract.getId().isEmpty()) {
+                                    nut4HealtDao.insert(contract);
                                 }
-                            } catch (Exception error) {
-                                Log.d(TAG, "Get contracts: " + "empty");
+                            }*/
+                            for (DocumentSnapshot document : task.getResult().getDocuments()) {
+                                try {
+                                    // Corregimos solo si creationDate no es String
+                                    Object rawCreationDate = document.get("creationDate");
+                                    if (rawCreationDate instanceof com.google.firebase.Timestamp) {
+                                        com.google.firebase.Timestamp ts = (com.google.firebase.Timestamp) rawCreationDate;
+                                        Map<String, Object> data = new HashMap<>(document.getData());
+                                        data.put("creationDate", ts.toDate().toString()); // o tu formato deseado
+                                        Contract contract = new Gson().fromJson(new Gson().toJson(data), Contract.class);
+                                        nut4HealtDao.insert(contract);
+                                    } else {
+                                        Contract contract = document.toObject(Contract.class);
+                                        nut4HealtDao.insert(contract);
+                                    }
+                                } catch (Exception e) {
+                                    Log.e(TAG, "Error deserializing contract: " + e.getMessage());
+                                }
                             }
-                        });
-                    } else {
-                        Log.d(TAG, "Get user from firebase: " + "empty");
-                    }
-                } catch (Exception error) {
-                    Log.d(TAG, "Get user: " + "empty");
+                        } else {
+                            nut4HealtDao.deleteAllContract();
+                            System.out.println("Aqui clean contracts: ");
+                        }
+                    }).addOnFailureListener(e -> {
+                        Log.d(TAG, "Get contracts: error", e);
+                    });
+                } else {
+                    Log.d(TAG, "Get user from firebase: empty");
                 }
+            }).addOnFailureListener(e -> {
+                Log.d(TAG, "Get user: error", e);
             });
         }
 
@@ -823,13 +849,21 @@ public class DataRepository {
      * @param percentageMax
      * @return
      */
-    public LiveData<PagedList<Contract>> getSortedContracts(String sort, String name, String surname,
-                                                            String status, long dateStart, long dateEnd,
-                                                            int percentageMin, int percentageMax) {
-        SimpleSQLiteQuery query = SortUtils.getFilterContracts(sort, name, surname, status, dateStart, dateEnd,
+    public PagingSource<Integer, Contract> getSortedContracts(String sort, String contractType, String name, String surname,
+                                                              String tutorName, String tutorStatus,
+                                                              String status, long dateStart, long dateEnd,
+                                                              int percentageMin, int percentageMax) {
+        SimpleSQLiteQuery query = SortUtils.getFilterContracts(sort, contractType, name, surname, tutorName, tutorStatus, status, dateStart, dateEnd,
                 percentageMin, percentageMax);
-        LiveData<PagedList<Contract>> contracts = new LivePagedListBuilder<>(nut4HealtDao.getUserContracts(query), PAGE_SIZE).build();
-        return contracts;
+        return nut4HealtDao.getUserContracts(query);
+    }
+
+    public LiveData<List<Contract>> getAllContractsForExport() {
+        return nut4HealtDao.getAllContractsForExport();
+    }
+
+    public LiveData<List<Contract>> getAllContracts() {
+        return nut4HealtDao.getAllContracts();
     }
 
     /**
@@ -1019,9 +1053,9 @@ public class DataRepository {
                         && (queryDocumentSnapshots.getDocuments().size() > 0)) {
                     for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
                         Notification notification = document.toObject(Notification.class);
-                        notification.setCreationDateMiliseconds(Nut4HealthTimeUtil.convertCreationDateToTimeMilis(notification.getCreationDate()));
+                        notification.setCreationDateMiliseconds(Nut4HealthTimeUtil.convertDateToTimeMilis(notification.getCreationDate()));
                         if (((notification.getId() != null) && (!notification.getId().equals("")))
-                        && (Nut4HealthTimeUtil.convertCreationDateToTimeMilis(notification.getCreationDate()) > creationDate)) {
+                        && (Nut4HealthTimeUtil.convertDateToTimeMilis(notification.getCreationDate()) > creationDate)) {
                             nut4HealtDao.insert(notification);
                         }
                     }
@@ -1039,9 +1073,9 @@ public class DataRepository {
                         && (queryDocumentSnapshots.getDocuments().size() > 0)) {
                     for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
                         Notification notification = document.toObject(Notification.class);
-                        notification.setCreationDateMiliseconds(Nut4HealthTimeUtil.convertCreationDateToTimeMilis(notification.getCreationDate()));
+                        notification.setCreationDateMiliseconds(Nut4HealthTimeUtil.convertDateToTimeMilis(notification.getCreationDate()));
                         if (((notification.getId() != null) && (!notification.getId().equals("")))
-                                && (Nut4HealthTimeUtil.convertCreationDateToTimeMilis(notification.getCreationDate()) > creationDate)) {
+                                && (Nut4HealthTimeUtil.convertDateToTimeMilis(notification.getCreationDate()) > creationDate)) {
                             nut4HealtDao.insert(notification);
                         }
                     }
@@ -1059,9 +1093,9 @@ public class DataRepository {
                         && (queryDocumentSnapshots.getDocuments().size() > 0)) {
                     for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
                         Notification notification = document.toObject(Notification.class);
-                        notification.setCreationDateMiliseconds(Nut4HealthTimeUtil.convertCreationDateToTimeMilis(notification.getCreationDate()));
+                        notification.setCreationDateMiliseconds(Nut4HealthTimeUtil.convertDateToTimeMilis(notification.getCreationDate()));
                         if (((notification.getId() != null) && (!notification.getId().equals("")))
-                                && (Nut4HealthTimeUtil.convertCreationDateToTimeMilis(notification.getCreationDate()) > creationDate)) {
+                                && (Nut4HealthTimeUtil.convertDateToTimeMilis(notification.getCreationDate()) > creationDate)) {
                             nut4HealtDao.insert(notification);
                         }
                     }
@@ -1079,9 +1113,9 @@ public class DataRepository {
                         && (queryDocumentSnapshots.getDocuments().size() > 0)) {
                     for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
                         Notification notification = document.toObject(Notification.class);
-                        notification.setCreationDateMiliseconds(Nut4HealthTimeUtil.convertCreationDateToTimeMilis(notification.getCreationDate()));
+                        notification.setCreationDateMiliseconds(Nut4HealthTimeUtil.convertDateToTimeMilis(notification.getCreationDate()));
                         if (((notification.getId() != null) && (!notification.getId().equals("")))
-                                && (Nut4HealthTimeUtil.convertCreationDateToTimeMilis(notification.getCreationDate()) > creationDate)) {
+                                && (Nut4HealthTimeUtil.convertDateToTimeMilis(notification.getCreationDate()) > creationDate)) {
                             nut4HealtDao.insert(notification);
                         }
                     }
@@ -1099,9 +1133,9 @@ public class DataRepository {
                         && (queryDocumentSnapshots.getDocuments().size() > 0)) {
                     for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
                         Notification notification = document.toObject(Notification.class);
-                        notification.setCreationDateMiliseconds(Nut4HealthTimeUtil.convertCreationDateToTimeMilis(notification.getCreationDate()));
+                        notification.setCreationDateMiliseconds(Nut4HealthTimeUtil.convertDateToTimeMilis(notification.getCreationDate()));
                         if (((notification.getId() != null) && (!notification.getId().equals("")))
-                                && (Nut4HealthTimeUtil.convertCreationDateToTimeMilis(notification.getCreationDate()) > creationDate)) {
+                                && (Nut4HealthTimeUtil.convertDateToTimeMilis(notification.getCreationDate()) > creationDate)) {
                             nut4HealtDao.insert(notification);
                         }
                     }
@@ -1119,9 +1153,9 @@ public class DataRepository {
                         && (queryDocumentSnapshots.getDocuments().size() > 0)) {
                     for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
                         Notification notification = document.toObject(Notification.class);
-                        notification.setCreationDateMiliseconds(Nut4HealthTimeUtil.convertCreationDateToTimeMilis(notification.getCreationDate()));
+                        notification.setCreationDateMiliseconds(Nut4HealthTimeUtil.convertDateToTimeMilis(notification.getCreationDate()));
                         if (((notification.getId() != null) && (!notification.getId().equals("")))
-                                && (Nut4HealthTimeUtil.convertCreationDateToTimeMilis(notification.getCreationDate()) > creationDate)) {
+                                && (Nut4HealthTimeUtil.convertDateToTimeMilis(notification.getCreationDate()) > creationDate)) {
                             nut4HealtDao.insert(notification);
                         }
                     }
@@ -1243,10 +1277,13 @@ public class DataRepository {
      * @param percentageMax
      * @return
      */
-    public LiveData<PagedList<Near>> getSortedNearContracts(String sort, String name, String surname,
+    public LiveData<PagedList<Near>> getSortedNearContracts(String sort, String contractType, String name, String surname,
+                                                            String tutorName, String tutorStatus,
                                                             String status, long dateStart, long dateEnd,
                                                             int percentageMin, int percentageMax) {
-        SimpleSQLiteQuery query = SortUtils.getFilterNearContracts(sort, name, surname, status, dateStart, dateEnd,
+        SimpleSQLiteQuery query = SortUtils.getFilterNearContracts(sort, contractType, name, surname,
+                tutorName, tutorStatus,
+                status, dateStart, dateEnd,
                 percentageMin, percentageMax);
         return new LivePagedListBuilder<>(nut4HealtDao.getNearContracts(query), PAGE_SIZE).build();
     }
@@ -1276,7 +1313,9 @@ public class DataRepository {
                     }
                     for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
                         Point point = document.toObject(Point.class);
-                        nut4HealtDao.insert(point);
+                        if (point.getActive() && !point.getFullName().isEmpty()) {
+                            nut4HealtDao.insert(point);
+                        }
                     }
                 } else {
                     nut4HealtDao.deleteAllPoint();
@@ -1309,7 +1348,7 @@ public class DataRepository {
      * Method to validate diagnosis
      * @param contractId
      */
-    public void validateDiagnosis(String contractId, Double arm_circunference_medical, double height, double weight) {
+    public void validateDiagnosis(String contractId, int percentage, Double arm_circunference_medical, double height, double weight) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference contractRef = db.collection(DataContractNames.TABLE_FIREBASE_NAME);
         Query query = contractRef.whereEqualTo(DataContractNames.COL_CONTRACT_ID, contractId).limit(1);
@@ -1321,15 +1360,22 @@ public class DataRepository {
                     contract.setArm_circumference_medical(arm_circunference_medical);
                     contract.setHeight(height);
                     contract.setWeight(weight);
-                    contract.setStatus("FINISH");
-                    queryDocumentSnapshots.getDocuments().get(0).getReference().update("status", "FINISH");
+                    if (percentage > 49) {
+                        contract.setStatus(Contract.Status.ADMITTED.name());
+                        queryDocumentSnapshots.getDocuments().get(0).getReference().update("status", Contract.Status.ADMITTED.name());
+                        nut4HealtDao.updateContractStatus(contractId, Contract.Status.ADMITTED.name());
+                    } else {
+                        contract.setStatus(Contract.Status.REFERED_NOT_VALIDATED.name());
+                        queryDocumentSnapshots.getDocuments().get(0).getReference().update("status", Contract.Status.REFERED_NOT_VALIDATED.name());
+                        nut4HealtDao.updateContractStatus(contractId, Contract.Status.REFERED_NOT_VALIDATED.name());
+                    }
                     queryDocumentSnapshots.getDocuments().get(0).getReference().update("arm_circumference_medical", arm_circunference_medical);
                     queryDocumentSnapshots.getDocuments().get(0).getReference().update("height", height);
                     queryDocumentSnapshots.getDocuments().get(0).getReference().update("weight", weight);
                     nut4HealtDao.updateArmCircunferenceMedical(contractId, arm_circunference_medical);
                     nut4HealtDao.updateHeight(contractId, height);
                     nut4HealtDao.updateWeight(contractId, weight);
-                    nut4HealtDao.updateContractStatus(contractId, "FINISH");
+
                     nut4HealtDao.updateMedicalDate(contractId, new Date().toString());
                     listenerQuery.remove();
                 } else {
@@ -1386,65 +1432,6 @@ public class DataRepository {
             return null;
         }
     }
-
-   /* public LiveData<Double> checkDesnutritionByHeightAndWeight(double height, double weight) {
-        SimpleSQLiteQuery query = SortUtils.getChildMalnutritionTable();
-        try {
-            mIoExecutor.submit(() -> {
-                LiveData<PagedList<MalnutritionChildTable>> table = new LivePagedListBuilder<>(nut4HealtDao.getCurrentMalnutritionChildTable(query), PAGE_SIZE).build();
-                if (table != null) {
-                    for (MalnutritionChildTable value : table.getValue()) {
-                        System.out.println("Aqui " + value);
-                        if (Double.parseDouble(value.getCm()) >= (height - 0.1)) {
-                            try {
-                                if (weight >= Double.parseDouble(value.getMinusone())) {
-                                    return 0.0;
-                                } else if (weight >= Double.parseDouble(value.getMinustwo())) {
-                                    return -1.0;
-                                } else if (weight >= Double.parseDouble(value.getMinusthree())) {
-                                    return -1.5;
-                                } else {
-                                    return -3.0;
-                                }
-                            } catch (Exception e) {
-                                if (height == 100) {
-                                    MalnutritionChildTable malNutritionChldTable = new MalnutritionChildTable(
-                                            "X3fX5g2Fd9lpy0OVYkgA",
-                                            "100",
-                                            "14.2",
-                                            "13.6",
-                                            "12.1",
-                                            "13.1",
-                                            "15.4"
-                                    );
-                                    if (weight >= Double.parseDouble(malNutritionChldTable.getMinusone())) {
-                                        return 0.0;
-                                    } else if (weight >= Double.parseDouble(malNutritionChldTable.getMinustwo())) {
-                                        return -1.0;
-                                    } else if (weight >= Double.parseDouble(malNutritionChldTable.getMinusthree())) {
-                                        return -1.5;
-                                    } else {
-                                        return -3.0;
-                                    }
-                                }
-                            }
-                        }
-
-                    }
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }*/
-
-    /**
-     * Method to get malnutrition child values from local bd
-     * @return
-     */
-    /*public LiveData<List<MalnutritionChildTable>> getSortedMalnutritionChildValues() {
-        return nut4HealtDao.getMalnutritionChildTable();
-    }*/
+    
 
 }
