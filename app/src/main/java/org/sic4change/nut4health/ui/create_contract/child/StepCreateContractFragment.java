@@ -26,6 +26,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -397,6 +398,9 @@ public class StepCreateContractFragment extends Fragment implements Step, Simple
         etChildContactPhone = v.findViewById(R.id.etContactPhone);
         cpp = v.findViewById(R.id.ccp);
         cbVerification = v.findViewById(R.id.cbVerification);
+
+        ScrollView contactPhoneScrollView = v.findViewById(R.id.scrollView);
+        Nut4HealthKeyboard.keepViewAboveKeyboard(v, contactPhoneScrollView, etChildContactPhone);
 
         ssSex.setOnSelectedChangeListener(new StickySwitch.OnSelectedChangeListener() {
             @Override

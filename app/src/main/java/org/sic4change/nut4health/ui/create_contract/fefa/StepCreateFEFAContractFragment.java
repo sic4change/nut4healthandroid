@@ -29,6 +29,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -353,6 +354,8 @@ public class StepCreateFEFAContractFragment extends Fragment implements Step, Si
             }
         });
         etChildContactPhone = v.findViewById(R.id.etContactPhone);
+        ScrollView contactPhoneScrollView = v.findViewById(R.id.scrollView);
+        Nut4HealthKeyboard.keepViewAboveKeyboard(v, contactPhoneScrollView, etChildContactPhone);
         etTutorDNI = v.findViewById(R.id.etTutorDNI);
         tvTutorBirthdateResult = v.findViewById(R.id.tvTutorBirthdateResult);
         cpp = v.findViewById(R.id.ccp);
