@@ -6,6 +6,12 @@ plugins {
     id 'com.google.firebase.crashlytics'
 }
 
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file('local.properties')
+if (localPropertiesFile.exists()) {
+    localProperties.load(new FileInputStream(localPropertiesFile))
+}
+
 android {
     namespace 'org.sic4change.nut4health'
     compileSdkVersion 36
@@ -14,8 +20,8 @@ android {
         applicationId "org.sic4change.nut4health"
         minSdkVersion 26
         targetSdkVersion 36
-        versionCode 38
-        versionName "1.32"
+        versionCode 39
+        versionName "1.33"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
@@ -30,10 +36,25 @@ android {
         }
     }
 
+    signingConfigs {
+        release {
+            def keystorePath = localProperties.getProperty('NUT4HEALTH_KEYSTORE_PATH')
+            if (keystorePath != null) {
+                storeFile file(keystorePath)
+                storePassword localProperties.getProperty('NUT4HEALTH_KEYSTORE_PASSWORD')
+                keyAlias localProperties.getProperty('NUT4HEALTH_KEY_ALIAS')
+                keyPassword localProperties.getProperty('NUT4HEALTH_KEY_PASSWORD')
+            }
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            if (localProperties.getProperty('NUT4HEALTH_KEYSTORE_PATH') != null) {
+                signingConfig signingConfigs.release
+            }
         }
     }
 
