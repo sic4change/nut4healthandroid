@@ -80,9 +80,9 @@
     <!--Create Contract-->
     <string name="createDiagnosis">Crear diagnósitico</string>
     <string name="createContract">Crear diagnósitico niño/a</string>
-    <string name="createFEFAContract">Crear diagnósitico FEFA</string>
+    <string name="createFEFAContract">Crear diagnósitico MEL</string>
     <string name="profile_child">Perfil niño/a</string>
-    <string name="profile_fefa">Perfil FEFA</string>
+    <string name="profile_fefa">Perfil MEL</string>
     <string name="next_step">Siguiente</string>
     <string name="back_step">Anterior</string>
     <string name="complete_step"></string>
@@ -100,15 +100,15 @@
     <string name="sex">Sexo</string>
     <string name="brothers">Hermanos/as mayores del niño/a</string>g>
     <string name="child_birthdate">Edad del niño/a</string>
-    <string name="tutor_birthdate">Edad de la FEFA</string>
+    <string name="tutor_birthdate">Edad de la MEL</string>
     <string name="tutor_birthdate_completed">Edad de la madre</string>
-    <string name="tutor">Nombre de la FEFA</string>
+    <string name="tutor">Nombre de la MEL</string>
     <string name="tutor_child">Nombre de la madre</string>
-    <string name="check_verification">FEFA autoriza la recolección de datos personales</string>
+    <string name="check_verification">Madre, padre o tutor autoriza la recolección de datos personales</string>
     <string name="check_verification_fefa">Autoriza/o la toma de datos</string>
     <string name="dni">DPI del niña/o</string>
     <string name="dni_tutor">DPI de la madre</string>
-    <string name="dni_fefa">DPI de la FEFA</string>
+    <string name="dni_fefa">DPI de la MEL</string>
     <string name="contact_phone">Teléfono de contacto</string>
     <string name="medical_point">Servicio de Salud</string>
     <string name="location">Ubicación</string>
@@ -124,7 +124,7 @@
 
     <!--Main menu-->
     <string name="contracts">Diagnósticos niños/as</string>
-    <string name="contracts_fefa">Diagnósticos FEFA</string>
+    <string name="contracts_fefa">Diagnósticos MEL</string>
     <string name="contracts_child">Diagnósticos niños/as</string>
     <string name="payments">Pagos</string>
     <string name="report">Reportar</string>

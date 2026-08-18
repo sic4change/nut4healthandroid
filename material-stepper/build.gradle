@@ -3,7 +3,7 @@ apply plugin: 'com.android.library'
 android {
     namespace 'com.stepstone.stepper'
 
-    compileSdkVersion 35
+    compileSdkVersion 36
     buildToolsVersion "35.0.0"
 
     defaultConfig {
